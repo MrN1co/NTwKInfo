@@ -2,6 +2,7 @@ from flask import Flask
 from modules.auth import auth_bp
 from modules.main import main_bp
 import os
+from flask_sqlalchemy import SQLAlchemy
 
 def create_app():
     
@@ -14,6 +15,12 @@ def create_app():
     # Register blueprints
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
+    
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+        'DATABASE_URL',
+        'sqlite:///{}'.format(os.path.join(os.path.dirname(__file__), 'app.db'))
+    )
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     return app
 

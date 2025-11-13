@@ -1,6 +1,10 @@
 # Core Flask framework
 Flask>=2.3.0
 
+# Database ORM for safe SQL queries (prevents SQL injection)
+Flask-SQLAlchemy>=3.0.0
+SQLAlchemy>=2.0.0
+
 # Environment variables management
 python-dotenv>=1.0.0
 
