@@ -1,0 +1,499 @@
+/* ========== RESET ========== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #ffffff;   /* białe tło */
+  color: #262626;
+}
+
+/* ========== TOPBAR ========== */
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 56px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e2dc;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 0.02em;
+}
+
+.logo span {
+  font-weight: 400;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 22px;
+  font-size: 0.95rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #595959;
+}
+
+.nav-links a.active {
+  color: #111111;
+  font-weight: 600;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 0.85rem;
+  color: #7a7a7a;
+}
+
+.btn-login {
+  padding: 8px 24px;
+  border-radius: 999px;
+  border: none;
+  background: #828c4a; /* oliwkowy jak z makiety */
+  color: #ffffff;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+/* ========== STRONA ========== */
+
+.page {
+  max-width: 1200px;
+  margin: 28px auto 40px;
+  padding: 0 40px;
+}
+
+/* ========== SEARCH BAR ========== */
+
+.search-row {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.search-row input {
+  flex: 1;
+  border-radius: 999px;
+  border: none;
+  padding: 12px 22px;
+  font-size: 0.9rem;
+  background: #ebebeb;
+  outline: none;
+}
+
+.search-row button {
+  border-radius: 999px;
+  border: none;
+  padding: 12px 26px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background: #111111;
+  color: #fdfdfd;
+}
+
+/* ========== DUŻE KAFLE ========== */
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+/* wspólny styl wszystkich kart */
+.card {
+  background: #ebebeb; /* jasnoszary jak w makiecie */
+  border-radius: 22px;
+  padding: 20px 24px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+/* --- aktualna pogoda --- */
+
+.card-current {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 28px 32px;
+  min-height: 230px; 
+}
+
+/* serduszko w prawym górnym rogu */
+
+.favorite-btn {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid #c9c6bf;
+  background: #f4f2ee;
+  color: #b7b0a5;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.favorite-btn.active {
+  background: #f0c3aa;
+  color: #a34d2a;
+  border-color: #dba88a;
+}
+
+/* NAZWA LOKALIZACJI – większa niż wcześniej */
+.current-city {
+  font-size: 1.4rem; /* większa nazwa miasta */
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+/* DATA WYBRANEGO DNIA */
+.current-date {
+  font-size: 0.95rem;
+  color: #7a7a7a;
+  margin-bottom: 12px;
+}
+
+.current-main-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+
+.current-temp {
+  font-size: 3.8rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.current-desc {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.current-extra {
+  font-size: 0.8rem;
+  color: #6f6f6f;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+
+.current-right img {
+  width: 130px;       /* większa ikona */
+  height: 130px;
+  object-fit: contain;
+  margin-right: 20px; /* odsunięcie od krawędzi */
+}
+
+/* --- kafel wykresu --- */
+
+/* ========== KAFEL WYKRESU ========== */
+
+.card-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* wyśrodkuj pionowo */
+  padding: 18px 20px;
+  min-height: 280px;       /* zapewnia miejsce do pionowego centrowania */
+}
+
+/* Ukryj tytuł wykresu */
+#chartTitle {
+  display: none;
+}
+
+/* nagłówek nad wykresem */
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.chart-title {
+  font-size: 0.9rem;           /* mały tytuł */
+  font-weight: 600;
+}
+
+.chart-day {
+  font-size: 0.78rem;          /* jeszcze mniejszy podpis dnia */
+  color: #7a7a7a;
+}
+
+/* obszar z obrazkiem wykresu */
+
+.chart-body {
+  position: relative;
+  border-radius: 18px;
+  background: #e6e3dd;          /* delikatne tło pod wykresem */
+  padding: 10px 14px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 250px;            /* minimalna wysokość dla wyśrodkowania w pionie */
+}
+
+#chartImg {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 200px;           /* żeby wykres nie zajmował całego kafla */
+  object-fit: contain;         /* zachowuje proporcje */
+}
+
+/* strzałki nawigacji */
+
+.chart-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  display: none;  /* Ukryte - nawigacja poprzez kliknięcie dni */
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.85rem;          /* mniejszy znaczek */
+  color: #444444;
+}
+
+.chart-nav-left {
+  left: 8px;
+}
+
+.chart-nav-right {
+  right: 8px;
+}
+
+.chart-nav:active {
+  transform: translateY(-50%) scale(0.96);
+}
+
+
+/* ========== KAFEL Z PROGNOZĄ ========== */
+
+.card-forecast {
+  margin-top: 10px;
+}
+
+/* 7 kart w jednym rzędzie na desktopie i tablecie */
+.forecast-strip {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 12px;
+}
+
+/* pojedyncza karta dnia */
+.day-card {
+  background: #ffffff;            /* JAŚNIUTKI SZARY */
+  border-radius: 18px;
+  padding: 14px 10px 12px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #4b4b4b;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.day-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.day-card.active {
+  background: #828c4a;  /* oliwkowy */
+  color: #ffffff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+}
+
+.day-card .day-name {
+  margin-bottom: 6px;
+}
+
+.day-card img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 4px;
+}
+
+.day-card .temps {
+  font-size: 0.78rem;
+}
+
+/* ========== ULUBIONE MIASTA ========== */
+
+.card-favorites {
+  margin-top: 24px;
+}
+
+.favorites-title {
+  font-size: 0.95rem;
+  margin: 0 0 10px;
+}
+
+.favorites-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fav-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #f7f6f3;
+  font-size: 0.85rem;
+}
+
+.fav-name {
+  color: #4b4b4b;
+}
+
+.fav-temp {
+  justify-self: end;
+}
+
+/* ========== FOOTER ========== */
+
+.footer {
+  padding: 18px 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #8a8a8a;
+  background: #ffffff;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.day-card.disabled {
+  /* Nie zacieniamy ani nie blokujemy hover — tylko zmieniamy kursor na pomoc */
+  cursor: help;
+}
+
+/* Wyłącz efekt hover dla zablokowanych dni (żeby nie wyglądały jak klikalne) */
+.day-card.disabled:hover {
+  transform: none;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+}
+
+.footer-icon {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ========== RESPONSYWNOŚĆ ========== */
+/* Tablet 800–1279 */
+
+@media (max-width: 1279px) and (min-width: 800px) {
+  .page {
+    max-width: 900px;
+    padding: 0 24px;
+  }
+
+  .topbar {
+    padding: 16px 24px;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .card-chart img {
+    max-height: 220px;
+  }
+}
+
+/* Mobile 1–799 */
+
+@media (max-width: 799px) {
+  .topbar {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  .topbar-left {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  /* jak w makiecie: na mobile tylko logo + przycisk,
+     bez menu tekstowego */
+  .nav-links {
+    display: none;
+  }
+
+  .page {
+    padding: 0 16px;
+    margin-top: 16px;
+  }
+
+  /* na mobile duże kafle jeden pod drugim */
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* prognoza 7 dni jako pionowa lista (jak w makiecie) */
+  .forecast-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .card-favorites {
+    margin-bottom: 24px;
+  }
+
+  .card-chart img {
+    max-height: 200px;
+  }
+
+  .footer {
+    padding: 14px 16px;
+  }
+}

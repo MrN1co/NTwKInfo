@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>NTWKInfo – Pogoda</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/weather_styles.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="logo">NTWK<span>Info</span></div>
+    <nav class="nav-links">
+      <a href="#">Wiadomości</a>
+      <a href="#">Ekonomia</a>
+      <a href="#" class="active">Pogoda</a>
+      <a href="#">O nas</a>
+    </nav>
+  </div>
+
+  <div class="topbar-right">
+    <div class="topbar-date" id="todayLabel"></div>
+
+    {# przycisk zależny od zalogowania (tylko jeśli current_user istnieje) #}
+    {% if current_user is defined and current_user.is_authenticated %}
+      <button class="btn-login">
+        Witaj, {{ current_user.username or 'użytkowniku' }}
+      </button>
+    {% else %}
+      <a href="/login" class="btn-login">Zaloguj się</a>
+    {% endif %}
+  </div>
+</header>
+
+<main class="page">
+  <!-- pasek wyszukiwania -->
+  <section class="search-row">
+    <input id="cityInput" type="text" placeholder="Wpisz miasto">
+    <button id="searchBtn">Szukaj</button>
+  </section>
+
+  <!-- duże kafle: aktualna pogoda + miejsce na wykres -->
+  <section class="cards-grid">
+    <!-- aktualna pogoda -->
+    <div class="card card-current">
+      <button
+        class="favorite-btn"
+        id="favoriteBtn"
+        data-logged-in="{% if current_user is defined and current_user.is_authenticated %}1{% else %}0{% endif %}"
+        aria-label="Dodaj do ulubionych"
+      >
+        ♥
+      </button>
+
+      <div class="current-city" id="cityName">Kraków</div>
+      <div class="current-date" id="currentDate">Dziś</div>
+
+      <div class="current-main-row">
+        <div class="current-left">
+          <div class="current-temp" id="currentTemp">--°C</div>
+          <div class="current-desc" id="currentDesc">---</div>
+          <div class="current-extra">
+            <div id="currentPressure">Ciśnienie: -- hPa</div>
+            <div id="currentPrecip">Opady: -- mm</div>
+          </div>
+        </div>
+        <div class="current-right">
+          <img id="currentIcon" alt="Ikona pogody">
+        </div>
+      </div>
+    </div>
+
+    <!-- kafel na wykres (na razie placeholder) -->
+    <div class="card card-chart">
+        <img id="chartImg" alt="Wykres temperatury i opadów">
+    </div>
+  </section>
+
+  <!-- pasek 7-dniowej prognozy -->
+  <section class="card card-forecast">
+    <div class="forecast-strip" id="forecastStrip">
+      <!-- wypełnia JS -->
+    </div>
+  </section>
+
+  {# Ulubione miasta – tylko jeśli current_user istnieje i jest zalogowany #}
+  {% if current_user is defined and current_user.is_authenticated %}
+  <section class="card card-favorites" id="favoritesSection">
+    <h2 class="favorites-title">Ulubione miasta</h2>
+    <div class="favorites-list" id="favoritesList">
+      <div class="fav-row">
+        <span class="fav-name">Brak zapisanych ulubionych lokalizacji</span>
+        <span class="fav-temp"></span>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+</main>
+
+<footer class="footer">
+  <div class="footer-left">
+    <div class="footer-icon">👤</div>
+    <span>NTWKInfo</span>
+  </div>
+  <div class="footer-right">
+    <span>2025</span>
+    <span>All rights reserved</span>
+  </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/weather_icons.js') }}"></script>
+<script src="{{ url_for('static', filename='js/weather_app.js') }}"></script>
+</body>
+</html>

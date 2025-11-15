@@ -1,7 +1,13 @@
+import os
+from dotenv import load_dotenv
+
+# Załaduj zmienne środowiskowe PRZED importowaniem modulów
+load_dotenv()
+
 from flask import Flask
 from modules.auth import auth_bp
 from modules.main import main_bp
-import os
+from modules.weather_app import weather_bp
 from flask_sqlalchemy import SQLAlchemy
 
 def create_app():
@@ -15,6 +21,7 @@ def create_app():
     # Register blueprints
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(weather_bp)
     
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
         'DATABASE_URL',
