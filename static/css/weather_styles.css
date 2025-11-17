@@ -8,7 +8,8 @@
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* Use the same font as the global stylesheet so header/footer match */
+  font-family: var(--font-body);
   background: #ffffff;   /* białe tło */
   color: #262626;
 }
@@ -392,41 +393,8 @@ body {
 }
 
 /* ========== FOOTER ========== */
-
-.footer {
-  padding: 18px 56px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.8rem;
-  color: #8a8a8a;
-  background: #ffffff;
-}
-
-.footer-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.day-card.disabled {
-  /* Nie zacieniamy ani nie blokujemy hover — tylko zmieniamy kursor na pomoc */
-  cursor: help;
-}
-
-/* Wyłącz efekt hover dla zablokowanych dni (żeby nie wyglądały jak klikalne) */
-.day-card.disabled:hover {
-  transform: none;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
-}
-
-.footer-icon {
-  width: 26px;
-  height: 26px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+/* Stopka korzysta z globalnych styli `style.css` —
+   lokalne reguły usunięto, żeby wygląd był zgodny z `base.html`. */
 
 /* ========== RESPONSYWNOŚĆ ========== */
 /* Tablet 800–1279 */
