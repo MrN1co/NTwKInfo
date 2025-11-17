@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}NTWKInfo - Bądź na czasie{% endblock %}
+
+{% block head %}
+  {# Additional head elements (fonts are included in base.html) #}
+{% endblock %}
+
+{% block content %}
+  <main class="main-content container-padding">
+    <section class="content-grid">
+      <div class="left-column">
+        <section class="main-article-carousel">
+          <div class="carousel-container">
+            <article class="carousel-slide active">
+              <div class="main-article__header"><span>28 stycznia, 07:31, poniedziałek</span></div>
+              <h1 class="main-article__title">43-latka miała stłuczkę — Policja wydała komunikat</h1>
+              <div class="main-article__image-container">
+                <div class="image-placeholder">Zdjęcie wiadomości 1</div>
+                <div class="main-article__caption">Kobieta miała stłuczkę i trafiła na 27 lat do sądu rodzinnego. Policja wydała komunikat.</div>
+              </div>
+            </article>
+            <article class="carousel-slide">
+              <div class="main-article__header"><span>28 stycznia, 08:15, poniedziałek</span></div>
+              <h1 class="main-article__title">Nowy system edukacji w Polsce – rewolucja w szkołach</h1>
+              <div class="main-article__image-container">
+                <div class="image-placeholder">Zdjęcie wiadomości 2</div>
+                <div class="main-article__caption">Ministerstwo zapowiada zmiany w sposobie oceniania i większy nacisk na praktyczne umiejętności.</div>
+              </div>
+            </article>
+            <article class="carousel-slide">
+              <div class="main-article__header"><span>28 stycznia, 09:00, poniedziałek</span></div>
+              <h1 class="main-article__title">Zima wraca do Polski – IMGW ostrzega przed oblodzeniem</h1>
+              <div class="main-article__image-container">
+                <div class="image-placeholder">Zdjęcie wiadomości 3</div>
+                <div class="main-article__caption">Na południu kraju prognozowane są intensywne opady śniegu i śliskie drogi.</div>
+              </div>
+            </article>
+            <button class="carousel-button prev">‹</button>
+            <button class="carousel-button next">›</button>
+          </div>
+        </section>
+      </div>
+      <div class="right-column">
+        <section class="weather-box">
+          <div>
+            <div class="weather-box__city">Kraków</div>
+            <div class="weather-box__temp">24°C</div>
+            <div class="weather-box__details"><span>Zachmurzenie</span><span> Od 18°C do 25°C</span></div>
+          </div>
+          <div class="weather-box__icon">🌧️</div>
+        </section>
+        <section class="exchange-rates">
+          <h2 class="exchange-rates__title">Aktualne kursy walut:</h2>
+          <div class="exchange-rates__table">
+            <div class="exchange-rates__header">
+              <span class="cell">Waluta</span><span class="cell">Kupno</span><span class="cell">Sprzedaż</span>
+            </div>
+            <div class="rate-list">
+              <div class="rate-item"><span class="cell">USD</span><span class="cell">4.10</span><span class="cell">4.25</span></div>
+              <div class="rate-item"><span class="cell">EUR</span><span class="cell">4.45</span><span class="cell">4.60</span></div>
+              <div class="rate-item"><span class="cell">GBP</span><span class="cell">5.20</span><span class="cell">5.35</span></div>
+              <div class="rate-item"><span class="cell">CHF</span><span class="cell">4.65</span><span class="cell">4.80</span></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/script-carousel.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/script-auth.js') }}"></script>
+{% endblock %}
