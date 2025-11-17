@@ -1,79 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Flask App{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    {% block head %}{% endblock %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NTWKInfo - Bądź na czasie</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
 </head>
+<!-- --- MODAL LOGOWANIA / REJESTRACJI --- -->
+<div id="authOverlay" class="auth-overlay hidden"></div>
+
+<div id="authModal" class="auth-modal hidden">
+
+  <!-- LOGOWANIE -->
+  <div id="loginForm" class="auth-box">
+    <button class="auth-close">×</button>
+    <h2>Zaloguj się</h2>
+    <p class="auth-switch">Nie masz konta?
+      <a href="#" id="showRegister">Zarejestruj się</a>
+    </p>
+
+    <label>Adres email</label>
+    <input type="email" placeholder="Podaj email">
+
+    <label>Hasło</label>
+    <input type="password" placeholder="Wpisz hasło">
+
+    <button class="auth-submit">Potwierdź ↗</button>
+  </div>
+
+  <!-- REJESTRACJA -->
+  <div id="registerForm" class="auth-box hidden">
+    <button class="auth-close">×</button>
+    <h2>Zarejestruj się</h2>
+    <p class="auth-switch">Masz konto?
+      <a href="#" id="showLogin">Zaloguj się</a>
+    </p>
+
+    <label>Adres email</label>
+    <input type="email" placeholder="Podaj email">
+
+    <label>Hasło</label>
+    <input type="password" placeholder="Wpisz hasło">
+
+    <label>Powtórz hasło</label>
+    <input type="password" placeholder="Powtórz hasło">
+
+    <button class="auth-submit">Potwierdź ↗</button>
+  </div>
+
+</div>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url_for('main.index') }}">Flask App</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
-                    </li>
-                    {% if session.user_id %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.dashboard') }}">Dashboard</a>
-                    </li>
-                    {% endif %}
-                </ul>
-                <ul class="navbar-nav">
-                    {% if session.user_id %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                            {{ session.user_id }}
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Logout</a></li>
-                        </ul>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('auth.register') }}">Register</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </nav>
+    
+  <header class="header">
+    <div class="header__top-bar container-padding">
+      <div class="header__logo">NTWKInfo</div>
+      <nav class="header__nav">
+        <a href="index.html" class="active">Strona główna</a>
+        <a href="wiadomosci.html">Wiadomości</a>
+        <a href="pogoda.html">Pogoda</a>
+        <a href="ekonomia.html">Ekonomia</a>
+      </nav>
+      <div class="header__meta">
+        <span>28 stycznia, poniedziałek</span>
+        <span>Europejski Dzień Ochrony Danych Osobowych</span>
+      </div>
+      <button class="header__cta-button">Zaloguj się</button>
+    </div>
+  </header>
 
-    <main class="container mt-4">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+  <main class="main-content container-padding">
+    <!-- 🔧 Tutaj każda sekcja może wstawić własną zawartość -->
+  </main>
 
-        {% block content %}{% endblock %}
-    </main>
-
-    <footer class="bg-light mt-5 py-4">
-        <div class="container text-center">
-            <p>&copy; 2025 Flask App. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    {% block scripts %}{% endblock %}
+<footer class="footer container-padding"><span>NTWKInfo 2025 © Wszystkie prawa zastrzeżone</span></footer>
+ <script src="{{ url_for('static', filename='js/script-auth.js') }}"></script>
 </body>
 </html>
