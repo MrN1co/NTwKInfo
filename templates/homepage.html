@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NTWKInfo - Bądź na czasie</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<!-- --- MODAL LOGOWANIA / REJESTRACJI --- -->
+<div id="authOverlay" class="auth-overlay hidden"></div>
+
+<div id="authModal" class="auth-modal hidden">
+
+  <!-- LOGOWANIE -->
+  <div id="loginForm" class="auth-box">
+    <button class="auth-close">×</button>
+    <h2>Zaloguj się</h2>
+    <p class="auth-switch">Nie masz konta?
+      <a href="#" id="showRegister">Zarejestruj się</a>
+    </p>
+
+    <label>Adres email</label>
+    <input type="email" placeholder="Podaj email">
+
+    <label>Hasło</label>
+    <input type="password" placeholder="Wpisz hasło">
+
+    <button class="auth-submit">Potwierdź ↗</button>
+  </div>
+
+  <!-- REJESTRACJA -->
+  <div id="registerForm" class="auth-box hidden">
+    <button class="auth-close">×</button>
+    <h2>Zarejestruj się</h2>
+    <p class="auth-switch">Masz konto?
+      <a href="#" id="showLogin">Zaloguj się</a>
+    </p>
+
+    <label>Adres email</label>
+    <input type="email" placeholder="Podaj email">
+
+    <label>Hasło</label>
+    <input type="password" placeholder="Wpisz hasło">
+
+    <label>Powtórz hasło</label>
+    <input type="password" placeholder="Powtórz hasło">
+
+    <button class="auth-submit">Potwierdź ↗</button>
+  </div>
+
+</div>
+
+<body>
+  <header class="header">
+    <div class="header__top-bar container-padding">
+      <div class="header__logo">NTWKInfo</div>
+      <nav class="header__nav">
+        <a href="index.html" class="active">Strona główna</a>
+        <a href="wiadomosci.html">Wiadomości</a>
+        <a href="pogoda.html">Pogoda</a>
+        <a href="ekonomia.html">Ekonomia</a>
+      </nav>
+      <div class="header__meta">
+        <span>28 stycznia, poniedziałek</span>
+        <span>Europejski Dzień Ochrony Danych Osobowych</span>
+      </div>
+      <button class="header__cta-button">Zaloguj się</button>
+    </div>
+  </header>
+  <main class="main-content container-padding">
+    <section class="content-grid">
+      <div class="left-column">
+        <section class="main-article-carousel">
+          <div class="carousel-container">
+            <article class="carousel-slide active">
+              <div class="main-article__header"><span>28 stycznia, 07:31, poniedziałek</span></div>
+              <h1 class="main-article__title">43-latka miała stłuczkę — Policja wydała komunikat</h1>
+              <div class="main-article__image-container">
+                <div class="image-placeholder">Zdjęcie wiadomości 1</div>
+                <div class="main-article__caption">Kobieta miała stłuczkę i trafiła na 27 lat do sądu rodzinnego. Policja wydała komunikat.</div>
+              </div>
+            </article>
+            <article class="carousel-slide">
+              <div class="main-article__header"><span>28 stycznia, 08:15, poniedziałek</span></div>
+              <h1 class="main-article__title">Nowy system edukacji w Polsce – rewolucja w szkołach</h1>
+              <div class="main-article__image-container">
+                <div class="image-placeholder">Zdjęcie wiadomości 2</div>
+                <div class="main-article__caption">Ministerstwo zapowiada zmiany w sposobie oceniania i większy nacisk na praktyczne umiejętności.</div>
+              </div>
+            </article>
+            <article class="carousel-slide">
+              <div class="main-article__header"><span>28 stycznia, 09:00, poniedziałek</span></div>
+              <h1 class="main-article__title">Zima wraca do Polski – IMGW ostrzega przed oblodzeniem</h1>
+              <div class="main-article__image-container">
+                <div class="image-placeholder">Zdjęcie wiadomości 3</div>
+                <div class="main-article__caption">Na południu kraju prognozowane są intensywne opady śniegu i śliskie drogi.</div>
+              </div>
+            </article>
+            <button class="carousel-button prev">‹</button>
+            <button class="carousel-button next">›</button>
+          </div>
+        </section>
+      </div>
+      <div class="right-column">
+        <section class="weather-box">
+          <div>
+            <div class="weather-box__city">Kraków</div>
+            <div class="weather-box__temp">24°C</div>
+            <div class="weather-box__details"><span>Zachmurzenie</span><span> Od 18°C do 25°C</span></div>
+          </div>
+          <div class="weather-box__icon">🌧️</div>
+        </section>
+        <section class="exchange-rates">
+          <h2 class="exchange-rates__title">Aktualne kursy walut:</h2>
+          <div class="exchange-rates__table">
+            <div class="exchange-rates__header">
+              <span class="cell">Waluta</span><span class="cell">Kupno</span><span class="cell">Sprzedaż</span>
+            </div>
+            <div class="rate-list">
+              <div class="rate-item"><span class="cell">USD</span><span class="cell">4.10</span><span class="cell">4.25</span></div>
+              <div class="rate-item"><span class="cell">EUR</span><span class="cell">4.45</span><span class="cell">4.60</span></div>
+              <div class="rate-item"><span class="cell">GBP</span><span class="cell">5.20</span><span class="cell">5.35</span></div>
+              <div class="rate-item"><span class="cell">CHF</span><span class="cell">4.65</span><span class="cell">4.80</span></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+  <footer class="footer container-padding"><span>NTWKInfo 2025 © Wszystkie prawa zastrzeżone</span></footer>
+  <script src="script-carousel.js"></script>
+  <script src="script-auth.js"></script>
+
+</body>
+</html>
