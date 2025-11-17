@@ -56,10 +56,10 @@
     <div class="header__top-bar container-padding">
       <div class="header__logo">NTWKInfo</div>
       <nav class="header__nav">
-        <a href="index.html" class="active">Strona główna</a>
-        <a href="wiadomosci.html">Wiadomości</a>
-        <a href="pogoda.html">Pogoda</a>
-        <a href="ekonomia.html">Ekonomia</a>
+        <a href="{{ url_for('main.index') }}" class="{% if request.path == '/' %}active{% endif %}">Strona główna</a>
+        <a href="{{ url_for('main.news') }}" class="{% if request.path == '/wiadomosci' %}active{% endif %}">Wiadomości</a>
+        <a href="{{ url_for('main.weather') }}" class="{% if request.path == '/pogoda' %}active{% endif %}">Pogoda</a>
+        <a href="{{ url_for('main.economy') }}" class="{% if request.path == '/ekonomia' %}active{% endif %}">Ekonomia</a>
       </nav>
       <div class="header__meta">
         <span>28 stycznia, poniedziałek</span>
