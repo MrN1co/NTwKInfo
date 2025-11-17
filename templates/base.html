@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NTWKInfo - Bądź na czasie</title>
+  <title>{% block title %}NTWKInfo - Bądź na czasie{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
 </head>
@@ -70,10 +70,23 @@
   </header>
 
   <main class="main-content container-padding">
-    <!-- 🔧 Tutaj każda sekcja może wstawić własną zawartość -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
   </main>
 
 <footer class="footer container-padding"><span>NTWKInfo 2025 © Wszystkie prawa zastrzeżone</span></footer>
+</script>
  <script src="{{ url_for('static', filename='js/script-auth.js') }}"></script>
+ {% block scripts %}{% endblock %}
 </body>
 </html>

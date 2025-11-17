@@ -1,74 +1,12 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NTWKInfo - Bądź na czasie</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-</head>
+{% extends 'base.html' %}
 
-<!-- --- MODAL LOGOWANIA / REJESTRACJI --- -->
-<div id="authOverlay" class="auth-overlay hidden"></div>
+{% block title %}NTWKInfo - Bądź na czasie{% endblock %}
 
-<div id="authModal" class="auth-modal hidden">
+{% block head %}
+  {# Additional head elements (fonts are included in base.html) #}
+{% endblock %}
 
-  <!-- LOGOWANIE -->
-  <div id="loginForm" class="auth-box">
-    <button class="auth-close">×</button>
-    <h2>Zaloguj się</h2>
-    <p class="auth-switch">Nie masz konta?
-      <a href="#" id="showRegister">Zarejestruj się</a>
-    </p>
-
-    <label>Adres email</label>
-    <input type="email" placeholder="Podaj email">
-
-    <label>Hasło</label>
-    <input type="password" placeholder="Wpisz hasło">
-
-    <button class="auth-submit">Potwierdź ↗</button>
-  </div>
-
-  <!-- REJESTRACJA -->
-  <div id="registerForm" class="auth-box hidden">
-    <button class="auth-close">×</button>
-    <h2>Zarejestruj się</h2>
-    <p class="auth-switch">Masz konto?
-      <a href="#" id="showLogin">Zaloguj się</a>
-    </p>
-
-    <label>Adres email</label>
-    <input type="email" placeholder="Podaj email">
-
-    <label>Hasło</label>
-    <input type="password" placeholder="Wpisz hasło">
-
-    <label>Powtórz hasło</label>
-    <input type="password" placeholder="Powtórz hasło">
-
-    <button class="auth-submit">Potwierdź ↗</button>
-  </div>
-
-</div>
-
-<body>
-  <header class="header">
-    <div class="header__top-bar container-padding">
-      <div class="header__logo">NTWKInfo</div>
-      <nav class="header__nav">
-        <a href="{{ url_for('main.index') }}" class="{% if request.path == '/' %}active{% endif %}">Strona główna</a>
-        <a href="{{ url_for('main.news') }}" class="{% if request.path == '/wiadomosci' %}active{% endif %}">Wiadomości</a>
-        <a href="{{ url_for('main.weather') }}" class="{% if request.path == '/pogoda' %}active{% endif %}">Pogoda</a>
-        <a href="{{ url_for('main.economy') }}" class="{% if request.path == '/ekonomia' %}active{% endif %}">Ekonomia</a>
-      </nav>
-      <div class="header__meta">
-        <span>28 stycznia, poniedziałek</span>
-        <span>Europejski Dzień Ochrony Danych Osobowych</span>
-      </div>
-      <button class="header__cta-button">Zaloguj się</button>
-    </div>
-  </header>
+{% block content %}
   <main class="main-content container-padding">
     <section class="content-grid">
       <div class="left-column">
@@ -129,10 +67,9 @@
       </div>
     </section>
   </main>
-  <footer class="footer container-padding"><span>NTWKInfo 2025 © Wszystkie prawa zastrzeżone</span></footer>
+{% endblock %}
+
+{% block scripts %}
   <script src="{{ url_for('static', filename='js/script-carousel.js') }}"></script>
   <script src="{{ url_for('static', filename='js/script-auth.js') }}"></script>
-
-</body>
-
-</html>
+{% endblock %}
