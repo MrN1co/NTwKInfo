@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiadomości - Kryminalki.pl</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/news.css') }}">
+    <style>
+        .news-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .news-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+        
+        .news-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .news-image {
+            flex-shrink: 0;
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        .news-image-placeholder {
+            flex-shrink: 0;
+            width: 200px;
+            height: 150px;
+            background: #ddd;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+        }
+        
+        .news-content {
+            flex: 1;
+        }
+        
+        .news-title {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+            line-height: 1.4;
+        }
+        
+        .news-link {
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .news-link:hover {
+            color: #0066cc;
+            text-decoration: underline;
+        }
+        
+        .news-meta {
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="news-container">
+        <h1>Wiadomości z Kryminalki.pl</h1>
+        
+        {% if updated_at %}
+        <p class="info">
+            <span class="update-time">Ostatnia aktualizacja: {{ updated_at }} (Warszawa)</span>
+        </p>
+        {% endif %}
+        
+        {% if news_list %}
+            {% for item in news_list %}
+            <div class="news-item">
+                {% if item.image %}
+                    <img src="{{ item.image }}" alt="{{ item.title }}" class="news-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="news-image-placeholder" style="display: none;">Brak obrazka</div>
+                {% else %}
+                    <div class="news-image-placeholder">Brak obrazka</div>
+                {% endif %}
+                
+                <div class="news-content">
+                    <h2 class="news-title">
+                        <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer" class="news-link">
+                            {{ item.title }}
+                        </a>
+                    </h2>
+                    <div class="news-meta">
+                        <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">Czytaj więcej →</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="error">Brak dostępnych wiadomości. Spróbuj odświeżyć stronę.</p>
+        {% endif %}
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

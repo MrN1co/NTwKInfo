@@ -1,0 +1,4 @@
+/* Main stylesheet for NTwKInfo application */
+/* Tu importujemy style z innych plików */
+@import 'main.css';
+@import 'news.css';

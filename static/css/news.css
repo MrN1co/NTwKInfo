@@ -1,0 +1,20 @@
+/* tekst błędu */
+.error {
+    color: red;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #ffe6e6;
+    border: 1px solid red;
+}
+/*to co się wyświetla nad tabelą z wynikami*/
+.info {
+    color: #333;
+    font-style: italic;
+    margin: 10px 0;
+}
+
+.update-time {
+    color: #666;
+    font-size: 0.9em;
+    margin-left: 10px;
+}

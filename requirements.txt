@@ -1,6 +1,6 @@
 # Core Flask framework
 Flask>=2.3.0
-
+requests
 # Database ORM for safe SQL queries (prevents SQL injection)
 Flask-SQLAlchemy>=3.0.0
 SQLAlchemy>=2.0.0
@@ -39,3 +39,15 @@ gunicorn>=21.0.0
 # Testing dependencies (for development)
 pytest>=7.0.0
 pytest-flask>=1.2.0
+
+#------------------------------------------------|
+#Moduł wiadomości i sportu:
+# Zmienne środowiskowe
+python-dotenv
+#scraping
+beautifulsoup4
+# Parser HTML dla BeautifulSoup
+lxml
+# Strefa czasowa
+pytz
+#------------------------------------------------|

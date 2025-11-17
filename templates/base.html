@@ -20,13 +20,19 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('tables.show_tables') }}">Tables</a>
+                    </li>
+                    {# Zakomentowane do czasu włączenia auth
                     {% if session.user_id %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('main.dashboard') }}">Dashboard</a>
                     </li>
                     {% endif %}
+                    #}
                 </ul>
                 <ul class="navbar-nav">
+                    {# Zakomentowane do czasu włączenia auth
                     {% if session.user_id %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
@@ -46,6 +52,7 @@
                         <a class="nav-link" href="{{ url_for('auth.register') }}">Register</a>
                     </li>
                     {% endif %}
+                    #}
                 </ul>
             </div>
         </div>
