@@ -1,0 +1,754 @@
+{
+  "type": "Ekstraklasa",
+  "updated_at": "13:18:58",
+  "standings": [
+    {
+      "position": "1",
+      "team_name": "Górnik Zabrze",
+      "played_games": "13",
+      "points": "26",
+      "won": "8",
+      "draw": "2",
+      "lost": "3",
+      "goals": "21-11"
+    },
+    {
+      "position": "2",
+      "team_name": "Jagiellonia Białystok",
+      "played_games": "12",
+      "points": "24",
+      "won": "7",
+      "draw": "3",
+      "lost": "2",
+      "goals": "24-15"
+    },
+    {
+      "position": "3",
+      "team_name": "Wisła Płock",
+      "played_games": "12",
+      "points": "22",
+      "won": "6",
+      "draw": "4",
+      "lost": "2",
+      "goals": "16-9"
+    },
+    {
+      "position": "4",
+      "team_name": "Cracovia",
+      "played_games": "12",
+      "points": "21",
+      "won": "6",
+      "draw": "3",
+      "lost": "3",
+      "goals": "21-14"
+    },
+    {
+      "position": "5",
+      "team_name": "Lech Poznań",
+      "played_games": "12",
+      "points": "20",
+      "won": "5",
+      "draw": "5",
+      "lost": "2",
+      "goals": "20-18"
+    },
+    {
+      "position": "6",
+      "team_name": "Korona Kielce",
+      "played_games": "13",
+      "points": "19",
+      "won": "5",
+      "draw": "4",
+      "lost": "4",
+      "goals": "16-12"
+    },
+    {
+      "position": "7",
+      "team_name": "Zagłębie Lubin",
+      "played_games": "12",
+      "points": "17",
+      "won": "4",
+      "draw": "5",
+      "lost": "3",
+      "goals": "25-18"
+    },
+    {
+      "position": "8",
+      "team_name": "Raków Częstochowa",
+      "played_games": "12",
+      "points": "17",
+      "won": "5",
+      "draw": "2",
+      "lost": "5",
+      "goals": "14-16"
+    },
+    {
+      "position": "9",
+      "team_name": "Pogoń Szczecin",
+      "played_games": "13",
+      "points": "17",
+      "won": "5",
+      "draw": "2",
+      "lost": "6",
+      "goals": "20-23"
+    },
+    {
+      "position": "10",
+      "team_name": "Legia Warszawa",
+      "played_games": "12",
+      "points": "16",
+      "won": "4",
+      "draw": "4",
+      "lost": "4",
+      "goals": "14-12"
+    },
+    {
+      "position": "11",
+      "team_name": "Radomiak Radom",
+      "played_games": "13",
+      "points": "16",
+      "won": "4",
+      "draw": "4",
+      "lost": "5",
+      "goals": "23-23"
+    },
+    {
+      "position": "12",
+      "team_name": "Widzew Łódź",
+      "played_games": "13",
+      "points": "16",
+      "won": "5",
+      "draw": "1",
+      "lost": "7",
+      "goals": "20-20"
+    },
+    {
+      "position": "13",
+      "team_name": "Arka Gdynia",
+      "played_games": "13",
+      "points": "15",
+      "won": "4",
+      "draw": "3",
+      "lost": "6",
+      "goals": "9-20"
+    },
+    {
+      "position": "14",
+      "team_name": "Motor Lublin",
+      "played_games": "12",
+      "points": "14",
+      "won": "3",
+      "draw": "5",
+      "lost": "4",
+      "goals": "16-21"
+    },
+    {
+      "position": "15",
+      "team_name": "GKS Katowice",
+      "played_games": "13",
+      "points": "14",
+      "won": "4",
+      "draw": "2",
+      "lost": "7",
+      "goals": "17-24"
+    },
+    {
+      "position": "16",
+      "team_name": "Lechia Gdańsk",
+      "played_games": "13",
+      "points": "10",
+      "won": "4",
+      "draw": "3",
+      "lost": "6",
+      "goals": "22-29"
+    },
+    {
+      "position": "17",
+      "team_name": "Bruk-Bet Termalica Nieciecza",
+      "played_games": "13",
+      "points": "10",
+      "won": "2",
+      "draw": "4",
+      "lost": "7",
+      "goals": "17-25"
+    },
+    {
+      "position": "18",
+      "team_name": "Piast Gliwice",
+      "played_games": "11",
+      "points": "7",
+      "won": "1",
+      "draw": "4",
+      "lost": "6",
+      "goals": "10-15"
+    }
+  ],
+  "error": null,
+  "EKS": {
+    "type": "EKS",
+    "competition_name": "PKO BP Ekstraklasa",
+    "area": "Polska",
+    "updated_at": "18.11.2025   00:25:26",
+    "standings": [
+      {
+        "position": "1",
+        "team_name": "Górnik Zabrze",
+        "played_games": "15",
+        "points": "29",
+        "won": "9",
+        "draw": "2",
+        "lost": "4",
+        "goals": "26-14"
+      },
+      {
+        "position": "2",
+        "team_name": "Jagiellonia Białystok",
+        "played_games": "14",
+        "points": "27",
+        "won": "8",
+        "draw": "3",
+        "lost": "3",
+        "goals": "27-18"
+      },
+      {
+        "position": "3",
+        "team_name": "Wisła Płock",
+        "played_games": "14",
+        "points": "26",
+        "won": "7",
+        "draw": "5",
+        "lost": "2",
+        "goals": "19-10"
+      },
+      {
+        "position": "4",
+        "team_name": "Raków Częstochowa",
+        "played_games": "14",
+        "points": "23",
+        "won": "7",
+        "draw": "2",
+        "lost": "5",
+        "goals": "20-18"
+      },
+      {
+        "position": "5",
+        "team_name": "Radomiak Radom",
+        "played_games": "15",
+        "points": "22",
+        "won": "6",
+        "draw": "4",
+        "lost": "5",
+        "goals": "28-24"
+      },
+      {
+        "position": "6",
+        "team_name": "Cracovia",
+        "played_games": "14",
+        "points": "22",
+        "won": "6",
+        "draw": "4",
+        "lost": "4",
+        "goals": "21-17"
+      },
+      {
+        "position": "7",
+        "team_name": "Zagłębie Lubin",
+        "played_games": "14",
+        "points": "21",
+        "won": "5",
+        "draw": "6",
+        "lost": "3",
+        "goals": "27-18"
+      },
+      {
+        "position": "8",
+        "team_name": "Lech Poznań",
+        "played_games": "14",
+        "points": "21",
+        "won": "5",
+        "draw": "6",
+        "lost": "3",
+        "goals": "23-23"
+      },
+      {
+        "position": "9",
+        "team_name": "Korona Kielce",
+        "played_games": "15",
+        "points": "20",
+        "won": "5",
+        "draw": "5",
+        "lost": "5",
+        "goals": "17-16"
+      },
+      {
+        "position": "10",
+        "team_name": "Arka Gdynia",
+        "played_games": "15",
+        "points": "18",
+        "won": "5",
+        "draw": "3",
+        "lost": "7",
+        "goals": "13-26"
+      },
+      {
+        "position": "11",
+        "team_name": "Legia Warszawa",
+        "played_games": "14",
+        "points": "17",
+        "won": "4",
+        "draw": "5",
+        "lost": "5",
+        "goals": "16-15"
+      },
+      {
+        "position": "12",
+        "team_name": "Widzew Łódź",
+        "played_games": "15",
+        "points": "17",
+        "won": "5",
+        "draw": "2",
+        "lost": "8",
+        "goals": "22-23"
+      },
+      {
+        "position": "13",
+        "team_name": "GKS Katowice",
+        "played_games": "15",
+        "points": "17",
+        "won": "5",
+        "draw": "2",
+        "lost": "8",
+        "goals": "21-27"
+      },
+      {
+        "position": "14",
+        "team_name": "Pogoń Szczecin",
+        "played_games": "15",
+        "points": "17",
+        "won": "5",
+        "draw": "2",
+        "lost": "8",
+        "goals": "21-27"
+      },
+      {
+        "position": "15",
+        "team_name": "Motor Lublin",
+        "played_games": "14",
+        "points": "16",
+        "won": "3",
+        "draw": "7",
+        "lost": "4",
+        "goals": "19-24"
+      },
+      {
+        "position": "16",
+        "team_name": "Lechia Gdańsk",
+        "played_games": "15",
+        "points": "13",
+        "won": "5",
+        "draw": "3",
+        "lost": "7",
+        "goals": "25-32"
+      },
+      {
+        "position": "17",
+        "team_name": "Bruk-Bet Termalica Nieciecza",
+        "played_games": "15",
+        "points": "13",
+        "won": "3",
+        "draw": "4",
+        "lost": "8",
+        "goals": "19-29"
+      },
+      {
+        "position": "18",
+        "team_name": "Piast Gliwice",
+        "played_games": "13",
+        "points": "11",
+        "won": "2",
+        "draw": "5",
+        "lost": "6",
+        "goals": "13-16"
+      }
+    ],
+    "error": null
+  },
+  "PL1": {
+    "type": "PL1",
+    "competition_name": "Betclic I Liga",
+    "area": "Polska",
+    "updated_at": "18.11.2025   00:24:20",
+    "standings": [
+      {
+        "position": "1",
+        "team_name": "Wisła Kraków",
+        "played_games": "16",
+        "points": "38",
+        "won": "12",
+        "draw": "2",
+        "lost": "2",
+        "goals": "44-14"
+      },
+      {
+        "position": "2",
+        "team_name": "Pogoń Grodzisk Mazowiecki",
+        "played_games": "16",
+        "points": "31",
+        "won": "9",
+        "draw": "4",
+        "lost": "3",
+        "goals": "34-23"
+      },
+      {
+        "position": "3",
+        "team_name": "Chrobry Głogów",
+        "played_games": "16",
+        "points": "28",
+        "won": "8",
+        "draw": "4",
+        "lost": "4",
+        "goals": "23-14"
+      },
+      {
+        "position": "4",
+        "team_name": "Polonia Bytom",
+        "played_games": "16",
+        "points": "27",
+        "won": "8",
+        "draw": "3",
+        "lost": "5",
+        "goals": "25-18"
+      },
+      {
+        "position": "5",
+        "team_name": "Śląsk Wrocław",
+        "played_games": "16",
+        "points": "27",
+        "won": "8",
+        "draw": "3",
+        "lost": "5",
+        "goals": "28-25"
+      },
+      {
+        "position": "6",
+        "team_name": "Ruch Chorzów",
+        "played_games": "16",
+        "points": "24",
+        "won": "6",
+        "draw": "6",
+        "lost": "4",
+        "goals": "25-24"
+      },
+      {
+        "position": "7",
+        "team_name": "Stal Rzeszów",
+        "played_games": "16",
+        "points": "24",
+        "won": "7",
+        "draw": "3",
+        "lost": "6",
+        "goals": "26-27"
+      },
+      {
+        "position": "8",
+        "team_name": "Wieczysta Kraków",
+        "played_games": "16",
+        "points": "23",
+        "won": "6",
+        "draw": "5",
+        "lost": "5",
+        "goals": "33-25"
+      },
+      {
+        "position": "9",
+        "team_name": "Polonia Warszawa",
+        "played_games": "16",
+        "points": "23",
+        "won": "6",
+        "draw": "5",
+        "lost": "5",
+        "goals": "25-26"
+      },
+      {
+        "position": "10",
+        "team_name": "Odra Opole",
+        "played_games": "16",
+        "points": "22",
+        "won": "5",
+        "draw": "7",
+        "lost": "4",
+        "goals": "18-18"
+      },
+      {
+        "position": "11",
+        "team_name": "Pogoń Siedlce",
+        "played_games": "16",
+        "points": "21",
+        "won": "5",
+        "draw": "6",
+        "lost": "5",
+        "goals": "21-17"
+      },
+      {
+        "position": "12",
+        "team_name": "ŁKS Łódź",
+        "played_games": "16",
+        "points": "21",
+        "won": "6",
+        "draw": "3",
+        "lost": "7",
+        "goals": "24-26"
+      },
+      {
+        "position": "13",
+        "team_name": "Miedź Legnica",
+        "played_games": "16",
+        "points": "21",
+        "won": "6",
+        "draw": "3",
+        "lost": "7",
+        "goals": "24-33"
+      },
+      {
+        "position": "14",
+        "team_name": "Puszcza Niepołomice",
+        "played_games": "16",
+        "points": "18",
+        "won": "3",
+        "draw": "9",
+        "lost": "4",
+        "goals": "18-18"
+      },
+      {
+        "position": "15",
+        "team_name": "Stal Mielec",
+        "played_games": "16",
+        "points": "13",
+        "won": "3",
+        "draw": "4",
+        "lost": "9",
+        "goals": "19-31"
+      },
+      {
+        "position": "16",
+        "team_name": "GKS Tychy",
+        "played_games": "16",
+        "points": "12",
+        "won": "3",
+        "draw": "3",
+        "lost": "10",
+        "goals": "22-34"
+      },
+      {
+        "position": "17",
+        "team_name": "Górnik Łęczna",
+        "played_games": "16",
+        "points": "10",
+        "won": "1",
+        "draw": "7",
+        "lost": "8",
+        "goals": "19-33"
+      },
+      {
+        "position": "18",
+        "team_name": "Znicz Pruszków",
+        "played_games": "16",
+        "points": "10",
+        "won": "3",
+        "draw": "1",
+        "lost": "12",
+        "goals": "16-38"
+      }
+    ],
+    "error": null
+  },
+  "PL2": {
+    "type": "PL2",
+    "competition_name": "Betclic II Liga",
+    "area": "Polska",
+    "updated_at": "18.11.2025   00:24:20",
+    "standings": [
+      {
+        "position": "1",
+        "team_name": "Unia Skierniewice",
+        "played_games": "17",
+        "points": "35",
+        "won": "11",
+        "draw": "2",
+        "lost": "4",
+        "goals": "34-19"
+      },
+      {
+        "position": "2",
+        "team_name": "Warta Poznań",
+        "played_games": "17",
+        "points": "35",
+        "won": "10",
+        "draw": "5",
+        "lost": "2",
+        "goals": "31-19"
+      },
+      {
+        "position": "3",
+        "team_name": "Olimpia Grudziądz",
+        "played_games": "17",
+        "points": "33",
+        "won": "9",
+        "draw": "6",
+        "lost": "2",
+        "goals": "34-22"
+      },
+      {
+        "position": "4",
+        "team_name": "Podhale Nowy Targ",
+        "played_games": "17",
+        "points": "29",
+        "won": "7",
+        "draw": "8",
+        "lost": "2",
+        "goals": "18-13"
+      },
+      {
+        "position": "5",
+        "team_name": "Świt Szczecin",
+        "played_games": "17",
+        "points": "26",
+        "won": "7",
+        "draw": "5",
+        "lost": "5",
+        "goals": "31-29"
+      },
+      {
+        "position": "6",
+        "team_name": "Stal Stalowa Wola",
+        "played_games": "17",
+        "points": "25",
+        "won": "6",
+        "draw": "7",
+        "lost": "4",
+        "goals": "35-26"
+      },
+      {
+        "position": "7",
+        "team_name": "Śląsk II Wrocław",
+        "played_games": "17",
+        "points": "23",
+        "won": "6",
+        "draw": "5",
+        "lost": "6",
+        "goals": "32-27"
+      },
+      {
+        "position": "8",
+        "team_name": "Sandecja Nowy Sącz",
+        "played_games": "16",
+        "points": "23",
+        "won": "6",
+        "draw": "5",
+        "lost": "5",
+        "goals": "24-25"
+      },
+      {
+        "position": "9",
+        "team_name": "Zagłębie Sosnowiec",
+        "played_games": "16",
+        "points": "23",
+        "won": "6",
+        "draw": "5",
+        "lost": "5",
+        "goals": "20-22"
+      },
+      {
+        "position": "10",
+        "team_name": "Resovia",
+        "played_games": "17",
+        "points": "22",
+        "won": "5",
+        "draw": "7",
+        "lost": "5",
+        "goals": "22-22"
+      },
+      {
+        "position": "11",
+        "team_name": "Chojniczanka Chojnice",
+        "played_games": "17",
+        "points": "21",
+        "won": "5",
+        "draw": "6",
+        "lost": "6",
+        "goals": "28-28"
+      },
+      {
+        "position": "12",
+        "team_name": "Podbeskidzie Bielsko-Biała",
+        "played_games": "17",
+        "points": "21",
+        "won": "6",
+        "draw": "3",
+        "lost": "8",
+        "goals": "25-30"
+      },
+      {
+        "position": "13",
+        "team_name": "Rekord Bielsko-Biała",
+        "played_games": "17",
+        "points": "20",
+        "won": "5",
+        "draw": "5",
+        "lost": "7",
+        "goals": "24-31"
+      },
+      {
+        "position": "14",
+        "team_name": "Sokół Kleczew",
+        "played_games": "16",
+        "points": "19",
+        "won": "5",
+        "draw": "4",
+        "lost": "7",
+        "goals": "31-29"
+      },
+      {
+        "position": "15",
+        "team_name": "Hutnik Kraków",
+        "played_games": "17",
+        "points": "18",
+        "won": "4",
+        "draw": "6",
+        "lost": "7",
+        "goals": "26-28"
+      },
+      {
+        "position": "16",
+        "team_name": "KKS 1925 Kalisz",
+        "played_games": "17",
+        "points": "18",
+        "won": "4",
+        "draw": "6",
+        "lost": "7",
+        "goals": "18-23"
+      },
+      {
+        "position": "17",
+        "team_name": "ŁKS II Łódź",
+        "played_games": "16",
+        "points": "8",
+        "won": "1",
+        "draw": "5",
+        "lost": "10",
+        "goals": "14-32"
+      },
+      {
+        "position": "18",
+        "team_name": "GKS Jastrzębie (Jastrzębie Zdrój)",
+        "played_games": "17",
+        "points": "6",
+        "won": "0",
+        "draw": "6",
+        "lost": "11",
+        "goals": "15-37"
+      }
+    ],
+    "error": null
+  }
+}
