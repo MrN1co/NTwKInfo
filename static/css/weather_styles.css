@@ -79,7 +79,7 @@ body {
 
 .page {
   max-width: 1200px;
-  margin: 28px auto 40px;
+  margin: 15px auto 10px;
   padding: 0 40px;
 }
 
@@ -88,7 +88,7 @@ body {
 .search-row {
   display: flex;
   gap: 18px;
-  margin-bottom: 24px;
+  margin-bottom: 15px;
 }
 
 .search-row input {
@@ -117,7 +117,7 @@ body {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: 16px;
-  margin-bottom: 18px;
+  margin-bottom: 15px;
 }
 
 /* wspólny styl wszystkich kart */
@@ -309,7 +309,7 @@ body {
 /* ========== KAFEL Z PROGNOZĄ ========== */
 
 .card-forecast {
-  margin-top: 10px;
+  margin-top: 0px;
 }
 
 /* 7 kart w jednym rzędzie na desktopie i tablecie */
