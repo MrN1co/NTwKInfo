@@ -8,9 +8,9 @@ def index():
     return render_template('homepage.html')
 
 
-@main_bp.route('/wiadomosci')
+@main_bp.route('/news')
 def news():
-    return render_template('base.html')
+    return render_template('news/news_base.html')
 
 
 @main_bp.route('/ekonomia')
