@@ -12,5 +12,7 @@
     <a href="{{ url_for('tables.tables') }}" class="top-btn">Tabele</a>
 </div>
 
+{% block news_content %}
 <iframe id="main-iframe" src="{{ iframe_src }}"></iframe>
+{% endblock %}
 {% endblock %}
