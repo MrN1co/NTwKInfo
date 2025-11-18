@@ -1,0 +1,700 @@
+{
+  "standings": [
+    {
+      "position": 1,
+      "team": {
+        "id": 5,
+        "name": "FC Bayern München",
+        "shortName": "Bayern",
+        "tla": "FCB",
+        "crest": "https://crests.football-data.org/5.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 4,
+      "draw": 0,
+      "lost": 0,
+      "points": 12,
+      "goalsFor": 14,
+      "goalsAgainst": 3,
+      "goalDifference": 11
+    },
+    {
+      "position": 2,
+      "team": {
+        "id": 57,
+        "name": "Arsenal FC",
+        "shortName": "Arsenal",
+        "tla": "ARS",
+        "crest": "https://crests.football-data.org/57.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 4,
+      "draw": 0,
+      "lost": 0,
+      "points": 12,
+      "goalsFor": 11,
+      "goalsAgainst": 0,
+      "goalDifference": 11
+    },
+    {
+      "position": 3,
+      "team": {
+        "id": 108,
+        "name": "FC Internazionale Milano",
+        "shortName": "Inter",
+        "tla": "INT",
+        "crest": "https://crests.football-data.org/108.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 4,
+      "draw": 0,
+      "lost": 0,
+      "points": 12,
+      "goalsFor": 11,
+      "goalsAgainst": 1,
+      "goalDifference": 10
+    },
+    {
+      "position": 4,
+      "team": {
+        "id": 65,
+        "name": "Manchester City FC",
+        "shortName": "Man City",
+        "tla": "MCI",
+        "crest": "https://crests.football-data.org/65.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 3,
+      "draw": 1,
+      "lost": 0,
+      "points": 10,
+      "goalsFor": 10,
+      "goalsAgainst": 3,
+      "goalDifference": 7
+    },
+    {
+      "position": 5,
+      "team": {
+        "id": 524,
+        "name": "Paris Saint-Germain FC",
+        "shortName": "PSG",
+        "tla": "PSG",
+        "crest": "https://crests.football-data.org/524.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 3,
+      "draw": 0,
+      "lost": 1,
+      "points": 9,
+      "goalsFor": 14,
+      "goalsAgainst": 5,
+      "goalDifference": 9
+    },
+    {
+      "position": 6,
+      "team": {
+        "id": 67,
+        "name": "Newcastle United FC",
+        "shortName": "Newcastle",
+        "tla": "NEW",
+        "crest": "https://crests.football-data.org/67.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 3,
+      "draw": 0,
+      "lost": 1,
+      "points": 9,
+      "goalsFor": 10,
+      "goalsAgainst": 2,
+      "goalDifference": 8
+    },
+    {
+      "position": 7,
+      "team": {
+        "id": 86,
+        "name": "Real Madrid CF",
+        "shortName": "Real Madrid",
+        "tla": "RMA",
+        "crest": "https://crests.football-data.org/86.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 3,
+      "draw": 0,
+      "lost": 1,
+      "points": 9,
+      "goalsFor": 8,
+      "goalsAgainst": 2,
+      "goalDifference": 6
+    },
+    {
+      "position": 8,
+      "team": {
+        "id": 64,
+        "name": "Liverpool FC",
+        "shortName": "Liverpool",
+        "tla": "LIV",
+        "crest": "https://crests.football-data.org/64.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 3,
+      "draw": 0,
+      "lost": 1,
+      "points": 9,
+      "goalsFor": 9,
+      "goalsAgainst": 4,
+      "goalDifference": 5
+    },
+    {
+      "position": 9,
+      "team": {
+        "id": 610,
+        "name": "Galatasaray SK",
+        "shortName": "Galatasaray",
+        "tla": "GAL",
+        "crest": "https://crests.football-data.org/610.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 3,
+      "draw": 0,
+      "lost": 1,
+      "points": 9,
+      "goalsFor": 8,
+      "goalsAgainst": 6,
+      "goalDifference": 2
+    },
+    {
+      "position": 10,
+      "team": {
+        "id": 73,
+        "name": "Tottenham Hotspur FC",
+        "shortName": "Tottenham",
+        "tla": "TOT",
+        "crest": "https://crests.football-data.org/73.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 2,
+      "draw": 2,
+      "lost": 0,
+      "points": 8,
+      "goalsFor": 7,
+      "goalsAgainst": 2,
+      "goalDifference": 5
+    },
+    {
+      "position": 11,
+      "team": {
+        "id": 81,
+        "name": "FC Barcelona",
+        "shortName": "Barça",
+        "tla": "FCB",
+        "crest": "https://crests.football-data.org/81.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 2,
+      "draw": 1,
+      "lost": 1,
+      "points": 7,
+      "goalsFor": 12,
+      "goalsAgainst": 7,
+      "goalDifference": 5
+    },
+    {
+      "position": 12,
+      "team": {
+        "id": 61,
+        "name": "Chelsea FC",
+        "shortName": "Chelsea",
+        "tla": "CHE",
+        "crest": "https://crests.football-data.org/61.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 2,
+      "draw": 1,
+      "lost": 1,
+      "points": 7,
+      "goalsFor": 9,
+      "goalsAgainst": 6,
+      "goalDifference": 3
+    },
+    {
+      "position": 13,
+      "team": {
+        "id": 498,
+        "name": "Sporting Clube de Portugal",
+        "shortName": "Sporting CP",
+        "tla": "SPO",
+        "crest": "https://crests.football-data.org/498.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 2,
+      "draw": 1,
+      "lost": 1,
+      "points": 7,
+      "goalsFor": 8,
+      "goalsAgainst": 5,
+      "goalDifference": 3
+    },
+    {
+      "position": 14,
+      "team": {
+        "id": 4,
+        "name": "Borussia Dortmund",
+        "shortName": "Dortmund",
+        "tla": "BVB",
+        "crest": "https://crests.football-data.org/4.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 2,
+      "draw": 1,
+      "lost": 1,
+      "points": 7,
+      "goalsFor": 13,
+      "goalsAgainst": 11,
+      "goalDifference": 2
+    },
+    {
+      "position": 15,
+      "team": {
+        "id": 102,
+        "name": "Atalanta BC",
+        "shortName": "Atalanta",
+        "tla": "ATA",
+        "crest": "https://crests.football-data.org/102.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 2,
+      "draw": 1,
+      "lost": 1,
+      "points": 7,
+      "goalsFor": 3,
+      "goalsAgainst": 5,
+      "goalDifference": -2
+    },
+    {
+      "position": 16,
+      "team": {
+        "id": 611,
+        "name": "Qarabağ Ağdam FK",
+        "shortName": "Qarabağ Ağdam",
+        "tla": "QAR",
+        "crest": "https://crests.football-data.org/611.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 2,
+      "draw": 1,
+      "lost": 1,
+      "points": 7,
+      "goalsFor": 8,
+      "goalsAgainst": 7,
+      "goalDifference": 1
+    },
+    {
+      "position": 17,
+      "team": {
+        "id": 78,
+        "name": "Club Atlético de Madrid",
+        "shortName": "Atleti",
+        "tla": "ATL",
+        "crest": "https://crests.football-data.org/78.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 2,
+      "draw": 0,
+      "lost": 2,
+      "points": 6,
+      "goalsFor": 10,
+      "goalsAgainst": 9,
+      "goalDifference": 1
+    },
+    {
+      "position": 18,
+      "team": {
+        "id": 674,
+        "name": "PSV",
+        "shortName": "PSV",
+        "tla": "PSV",
+        "crest": "https://crests.football-data.org/674.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 1,
+      "draw": 2,
+      "lost": 1,
+      "points": 5,
+      "goalsFor": 9,
+      "goalsAgainst": 7,
+      "goalDifference": 2
+    },
+    {
+      "position": 19,
+      "team": {
+        "id": 548,
+        "name": "AS Monaco FC",
+        "shortName": "Monaco",
+        "tla": "ASM",
+        "crest": "https://crests.football-data.org/548.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 1,
+      "draw": 2,
+      "lost": 1,
+      "points": 5,
+      "goalsFor": 4,
+      "goalsAgainst": 6,
+      "goalDifference": -2
+    },
+    {
+      "position": 20,
+      "team": {
+        "id": 11034,
+        "name": "Paphos FC",
+        "shortName": "Paphos FC",
+        "tla": "AEP",
+        "crest": "https://crests.football-data.org/11034.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 1,
+      "draw": 2,
+      "lost": 1,
+      "points": 5,
+      "goalsFor": 2,
+      "goalsAgainst": 5,
+      "goalDifference": -3
+    },
+    {
+      "position": 21,
+      "team": {
+        "id": 3,
+        "name": "Bayer 04 Leverkusen",
+        "shortName": "Leverkusen",
+        "tla": "B04",
+        "crest": "https://crests.football-data.org/3.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 1,
+      "draw": 2,
+      "lost": 1,
+      "points": 5,
+      "goalsFor": 6,
+      "goalsAgainst": 10,
+      "goalDifference": -4
+    },
+    {
+      "position": 22,
+      "team": {
+        "id": 851,
+        "name": "Club Brugge KV",
+        "shortName": "Club Brugge",
+        "tla": "CLU",
+        "crest": "https://crests.football-data.org/851.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 1,
+      "draw": 1,
+      "lost": 2,
+      "points": 4,
+      "goalsFor": 8,
+      "goalsAgainst": 10,
+      "goalDifference": -2
+    },
+    {
+      "position": 23,
+      "team": {
+        "id": 19,
+        "name": "Eintracht Frankfurt",
+        "shortName": "Frankfurt",
+        "tla": "SGE",
+        "crest": "https://crests.football-data.org/19.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 1,
+      "draw": 1,
+      "lost": 2,
+      "points": 4,
+      "goalsFor": 7,
+      "goalsAgainst": 11,
+      "goalDifference": -4
+    },
+    {
+      "position": 24,
+      "team": {
+        "id": 113,
+        "name": "SSC Napoli",
+        "shortName": "Napoli",
+        "tla": "NAP",
+        "crest": "https://crests.football-data.org/113.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 1,
+      "draw": 1,
+      "lost": 2,
+      "points": 4,
+      "goalsFor": 4,
+      "goalsAgainst": 9,
+      "goalDifference": -5
+    },
+    {
+      "position": 25,
+      "team": {
+        "id": 516,
+        "name": "Olympique de Marseille",
+        "shortName": "Marseille",
+        "tla": "MAR",
+        "crest": "https://crests.football-data.org/516.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 1,
+      "draw": 0,
+      "lost": 3,
+      "points": 3,
+      "goalsFor": 6,
+      "goalsAgainst": 5,
+      "goalDifference": 1
+    },
+    {
+      "position": 26,
+      "team": {
+        "id": 109,
+        "name": "Juventus FC",
+        "shortName": "Juventus",
+        "tla": "JUV",
+        "crest": "https://crests.football-data.org/109.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 0,
+      "draw": 3,
+      "lost": 1,
+      "points": 3,
+      "goalsFor": 7,
+      "goalsAgainst": 8,
+      "goalDifference": -1
+    },
+    {
+      "position": 27,
+      "team": {
+        "id": 77,
+        "name": "Athletic Club",
+        "shortName": "Athletic",
+        "tla": "ATH",
+        "crest": "https://crests.football-data.org/77.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 1,
+      "draw": 0,
+      "lost": 3,
+      "points": 3,
+      "goalsFor": 4,
+      "goalsAgainst": 9,
+      "goalDifference": -5
+    },
+    {
+      "position": 28,
+      "team": {
+        "id": 3929,
+        "name": "Royale Union Saint-Gilloise",
+        "shortName": "Union SG",
+        "tla": "USG",
+        "crest": "https://crests.football-data.org/3929.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 1,
+      "draw": 0,
+      "lost": 3,
+      "points": 3,
+      "goalsFor": 4,
+      "goalsAgainst": 12,
+      "goalDifference": -8
+    },
+    {
+      "position": 29,
+      "team": {
+        "id": 5721,
+        "name": "FK Bodø/Glimt",
+        "shortName": "Bodø/Glimt",
+        "tla": "FK",
+        "crest": "https://crests.football-data.org/5721.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 0,
+      "draw": 2,
+      "lost": 2,
+      "points": 2,
+      "goalsFor": 5,
+      "goalsAgainst": 8,
+      "goalDifference": -3
+    },
+    {
+      "position": 30,
+      "team": {
+        "id": 930,
+        "name": "SK Slavia Praha",
+        "shortName": "Slavia Praha",
+        "tla": "SLP",
+        "crest": "https://crests.football-data.org/930.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 0,
+      "draw": 2,
+      "lost": 2,
+      "points": 2,
+      "goalsFor": 2,
+      "goalsAgainst": 8,
+      "goalDifference": -6
+    },
+    {
+      "position": 31,
+      "team": {
+        "id": 654,
+        "name": "PAE Olympiakos SFP",
+        "shortName": "Olympiakos",
+        "tla": "OLY",
+        "crest": "https://crests.football-data.org/654.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 0,
+      "draw": 2,
+      "lost": 2,
+      "points": 2,
+      "goalsFor": 2,
+      "goalsAgainst": 9,
+      "goalDifference": -7
+    },
+    {
+      "position": 32,
+      "team": {
+        "id": 94,
+        "name": "Villarreal CF",
+        "shortName": "Villarreal",
+        "tla": "VIL",
+        "crest": "https://crests.football-data.org/94.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 0,
+      "draw": 1,
+      "lost": 3,
+      "points": 1,
+      "goalsFor": 2,
+      "goalsAgainst": 6,
+      "goalDifference": -4
+    },
+    {
+      "position": 33,
+      "team": {
+        "id": 1876,
+        "name": "FC København",
+        "shortName": "København",
+        "tla": "KOB",
+        "crest": "https://crests.football-data.org/1876.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 0,
+      "draw": 1,
+      "lost": 3,
+      "points": 1,
+      "goalsFor": 4,
+      "goalsAgainst": 12,
+      "goalDifference": -8
+    },
+    {
+      "position": 34,
+      "team": {
+        "id": 10601,
+        "name": "FK Kairat",
+        "shortName": "FK Kairat",
+        "tla": "KAI",
+        "crest": "https://crests.football-data.org/10601.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 0,
+      "draw": 1,
+      "lost": 3,
+      "points": 1,
+      "goalsFor": 2,
+      "goalsAgainst": 11,
+      "goalDifference": -9
+    },
+    {
+      "position": 35,
+      "team": {
+        "id": 1903,
+        "name": "Sport Lisboa e Benfica",
+        "shortName": "SL Benfica",
+        "tla": "BEN",
+        "crest": "https://crests.football-data.org/1903.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 0,
+      "draw": 0,
+      "lost": 4,
+      "points": 0,
+      "goalsFor": 2,
+      "goalsAgainst": 8,
+      "goalDifference": -6
+    },
+    {
+      "position": 36,
+      "team": {
+        "id": 678,
+        "name": "AFC Ajax",
+        "shortName": "Ajax",
+        "tla": "AJA",
+        "crest": "https://crests.football-data.org/678.png"
+      },
+      "playedGames": 4,
+      "form": null,
+      "won": 0,
+      "draw": 0,
+      "lost": 4,
+      "points": 0,
+      "goalsFor": 1,
+      "goalsAgainst": 14,
+      "goalDifference": -13
+    }
+  ],
+  "competition_name": "UEFA Champions League",
+  "competition_emblem": "https://crests.football-data.org/CL.png",
+  "season_info": {
+    "id": 2454,
+    "startDate": "2025-09-16",
+    "endDate": "2026-05-30",
+    "currentMatchday": 5,
+    "winner": null
+  },
+  "available_seasons": [],
+  "error": null,
+  "updated_at": "18.11.2025   00:49:16"
+}

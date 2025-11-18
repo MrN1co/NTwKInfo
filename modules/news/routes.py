@@ -61,15 +61,19 @@ def localize_competition_name(name, area):
     
     Args:
         name (str): Oryginalna nazwa ligi
-        area (str): Region/kraj
+        area (str): Region/kraj (JUŻ PRZETŁUMACZONY w COMPETITIONS.JSON)
         
     Returns:
         str: Zlokalizowana nazwa w formacie "Nazwa (Region)"
     """
     translated_name = LEAGUE_NAME_TRANSLATIONS.get(name, name)
-    translated_area = AREA_TRANSLATIONS.get(area, area)
     
-    return f"{translated_name} ({translated_area})" if translated_area else translated_name
+    # NIE tłumaczymy area - w COMPETITIONS.JSON już są polskie nazwy!
+    # Sprawdź czy nazwa już nie zawiera nawiasu z regionem
+    if f"({area})" in translated_name:
+        return translated_name
+    
+    return f"{translated_name} ({area})" if area else translated_name
 
 
 def load_from_json(filepath, default=None):
@@ -155,7 +159,7 @@ def news():
     Trasa wyświetlająca wiadomości z kryminalki.pl
     """
     # Wczytaj wiadomości z JSON
-    news_path = 'data/news/news/kryminalki.json'
+    news_path = 'data/news/kryminalki/kryminalki.json'
     news_data = load_from_json(news_path, {'news': [], 'updated_at': None})
     
     # Jeśli brak danych w JSON, pobierz świeże (fallback)
@@ -186,7 +190,7 @@ def tables():
         - competition: kod ligi/sportu
         - season: sezon (rok np. '2025' lub 'current' dla kompatybilności)
     """
-    selected_competition = request.args.get('competition', 'PL')
+    selected_competition = request.args.get('competition', 'EKS')
     selected_season = request.args.get('season', '2025')
     
     football_competitions = get_available_competitions()
@@ -202,12 +206,17 @@ def tables():
     polish_leagues_config = load_from_json('data/news/90minut/ekstraklasa_config.json', {})
     polish_leagues = polish_leagues_config.get('leagues', [])
     
-    all_competitions = localized_football + [
+    # Wyciągamy Ligę Mistrzów z localized_football
+    champions_league = next((c for c in localized_football if c.get('code') == 'CL'), None)
+    other_football = [c for c in localized_football if c.get('code') != 'CL']
+    
+    # Kolejność: Ekstraklasa, I Liga, II Liga, Liga Mistrzów, pozostałe
+    all_competitions = polish_leagues + ([champions_league] if champions_league else []) + other_football + [
         {'code': 'ATP', 'name': 'ATP - Tenis Mężczyzn', 'area': 'Tennis', 'is_tennis': True},
         {'code': 'WTA', 'name': 'WTA - Tenis Kobiet', 'area': 'Tennis', 'is_tennis': True},
         {'code': 'NBA', 'name': 'NBA - Koszykówka', 'area': 'USA', 'is_nba': True},
         {'code': 'MLS', 'name': 'MLS - Major League Soccer', 'area': 'USA', 'is_mls': True}
-    ] + polish_leagues
+    ]
     
     data = {
         'all_competitions': all_competitions,
@@ -370,17 +379,37 @@ def tables():
         
     else:
         # Liga piłkarska z football-data API
-        current_data = load_from_json('data/news/football-data/current_seasons.json', {})
+        # KAŻDA LIGA MA TERAZ OSOBNY JSON!
+        league_json_path = f'data/news/football-data/{selected_competition}_standings.json'
+        current_league = load_from_json(league_json_path, {})
+        
         historical_data = load_from_json('data/news/football-data/historical_seasons.json', {})
         
-        current_league = current_data.get(selected_competition, {})
+        # Pobierz info o lidze z COMPETITIONS.JSON aby uzyskać dostępne sezony
+        competitions = get_available_competitions()
+        comp_info = next((c for c in competitions if c.get('code') == selected_competition), None)
+        
+        # Przygotuj dostępne sezony z COMPETITIONS.JSON
+        available_seasons = []
+        if comp_info:
+            max_seasons = comp_info.get('seasons', 3)
+            start_year = int(comp_info.get('startDate', '2025')[:4])
+            # Generuj listę sezonów wstecz
+            for i in range(max_seasons):
+                year = start_year - i
+                available_seasons.append({
+                    'year': str(year),
+                    'label': f"{year}/{year+1}",
+                    'winner': ''
+                })
         
         current_season_year = None
-        if current_league and current_league.get('season_info'):
-            current_season_year = current_league['season_info']['startDate'][:4]
+        if current_league and current_league.get('season_info') and current_league['season_info']:
+            current_season_year = current_league['season_info'].get('startDate', '')[:4]
         
         # Wybierz odpowiedni sezon
-        if selected_season == 'current' or selected_season == current_season_year:
+        if selected_season == 'current' or selected_season == current_season_year or not current_season_year:
+            # Używamy danych z osobnego pliku ligi
             football_data = current_league
             
             # Fallback do danych historycznych jeśli brak aktualnych
@@ -395,10 +424,6 @@ def tables():
         
         # Jeśli nadal brak danych, sprawdź czy liga w ogóle istnieje w konfigu
         if not football_data or not football_data.get('standings'):
-            # Pobierz info o lidze z COMPETITIONS.JSON (nie wywołuje API!)
-            competitions = get_available_competitions()
-            comp_info = next((c for c in competitions if c.get('code') == selected_competition), None)
-            
             if comp_info:
                 # Mamy informacje o lidze, ale brak danych z API
                 football_data = {
@@ -406,9 +431,9 @@ def tables():
                     'competition_name': comp_info.get('name', selected_competition),
                     'competition_emblem': comp_info.get('emblem', ''),
                     'season_info': None,
-                    'available_seasons': [],
+                    'available_seasons': available_seasons,
                     'updated_at': None,
-                    'error': football_data.get('error') or 'Dane dla tej ligi będą wkrótce dostępne. Daemon scrapuje ligi rotacyjnie.'
+                    'error': football_data.get('error') if football_data else 'Dane dla tej ligi będą wkrótce dostępne. Daemon scrapuje ligi rotacyjnie.'
                 }
             else:
                 # Liga nie istnieje w konfigu
@@ -421,6 +446,10 @@ def tables():
                     'updated_at': None,
                     'error': 'Liga nie została znaleziona w konfiguracji'
                 }
+        
+        # Dodaj available_seasons jeśli brak w football_data
+        if not football_data.get('available_seasons'):
+            football_data['available_seasons'] = available_seasons
         
         data.update({
             'is_football': True,

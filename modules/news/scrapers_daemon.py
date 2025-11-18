@@ -72,9 +72,16 @@ def load_espn_config():
 
 
 def save_to_json(filepath, data):
-    """Zapisuje dane do pliku JSON"""
+    """Zapisuje dane do pliku JSON - NIE nadpisuje przy błędzie BEZ danych"""
+    # Sprawdź czy są jakieś dane do zapisania
+    has_data = bool(data.get('standings') or data.get('rankings') or data.get('data'))
+    
+    # Jeśli są dane, zapisuj (nawet jeśli jest też error)
+    # Jeśli NIE MA danych I jest błąd, NIE nadpisuj
+    if not has_data and data.get('error'):
+        return  # Nie nadpisuj pustego pliku z samym błędem
+    
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
-
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
@@ -196,9 +203,9 @@ def update_polish_league(league_config):
 
 def update_football_league(league_code, season='current'):
     """Aktualizuje dane dla lig football-data.org, zachowując poprzednie dane przy błędzie"""
-    current_seasons_path = os.path.join(BASE_DIR, 'data', 'news', 'football-data', 'current_seasons.json')
-    current_data = load_from_json(current_seasons_path, {})
-    existing = current_data.get(league_code, {}).copy()
+    # KAŻDA LIGA MA OSOBNY JSON aby nie nadpisywały się nawzajem!
+    league_json_path = os.path.join(BASE_DIR, 'data', 'news', 'football-data', f'{league_code}_standings.json')
+    existing = load_from_json(league_json_path, {})
 
     try:
         # WAŻNE: skip_competition_info=True aby zaoszczędzić połowę API calls!
@@ -217,7 +224,7 @@ def update_football_league(league_code, season='current'):
     if success:
         football_data['updated_at'] = get_warsaw_time()
         football_data['error'] = football_data.get('error')
-        current_data[league_code] = football_data
+        save_to_json(league_json_path, football_data)
     else:
         merged = existing if existing else {}
         merged['competition_name'] = football_data.get('competition_name', merged.get('competition_name', league_code))
@@ -230,9 +237,8 @@ def update_football_league(league_code, season='current'):
         else:
             merged.setdefault('standings', [])
         merged['error'] = football_data.get('error') or merged.get('error') or 'Brak danych z football-data.org'
-        current_data[league_code] = merged
-
-    save_to_json(current_seasons_path, current_data)
+        save_to_json(league_json_path, merged)
+    
     return success
 
 
@@ -296,7 +302,11 @@ def run_initial_scrape():
     except Exception as exc:
         print(f"[{get_warsaw_time()}] Ostrzeżenie: błąd startowy MLS: {exc}")
 
+    # NIE scrapujemy football-data przy starcie - daemon od razu zacznie rotację!
+    # Dodanie scrapowania tutaj powodowało podwójne zapytania (start + daemon)
+    
     summary = ', '.join([f"{key}:{'OK' if value else 'WARN'}" for key, value in results.items()])
+    print(f"[{get_warsaw_time()}] Jednorazowe scrapowanie zakończone -> {summary}")
 
 
 # ============================================================================
@@ -385,7 +395,7 @@ def polish_leagues_daemon():
 def football_leagues_daemon():
     """
     Daemon scrapujący 10 lig piłkarskich (rotacyjnie)
-    Scrapuje co 7 sekund, każda liga co 70 sekund (10 lig x 7s = 70s)
+    ZWIĘKSZONY interwał: co 15 sekund (każda liga co 150s = 2.5min) aby nie wyczerpać API
     """
 
     # 9 najważniejszych lig europejskich + Brazylia
@@ -399,10 +409,11 @@ def football_leagues_daemon():
         'PPL',  # Primeira Liga (Portugalia)
         'BSA',  # Brasileirão (Brazylia)
         'CL',   # Liga Mistrzów
-        'EC'    # Mistrzostwa Europy
+        'ELC'   # Championship (Anglia)
     ]
     
-    interval = 7  # 7 sekund między ligami, każda liga co 70 sekund
+    # ZWIĘKSZONY interwał z 7s na 15s (każda liga co 150s zamiast 70s)
+    interval = 15
 
     league_index = 0
 
@@ -411,16 +422,11 @@ def football_leagues_daemon():
             league_code = LEAGUES[league_index]
 
             success = update_football_league(league_code)
-            if success:
-                continue
-            else:
-                print(f"[{get_warsaw_time()}] Ostrzeżenie: utrzymano poprzednie dane {league_code}")
 
             league_index = (league_index + 1) % len(LEAGUES)
             time.sleep(interval)
 
         except Exception as e:
-            print(f"[{get_warsaw_time()}] Błąd Football daemon: {e}")
             league_index = (league_index + 1) % len(LEAGUES)
             time.sleep(interval)
 
@@ -438,11 +444,7 @@ def nba_daemon(interval):
     nba_path = os.path.join(BASE_DIR, 'data', 'news', 'ESPN-API', 'nba_standings.json')
     
     while True:
-        success = update_espn_league('NBA', get_nba_standings, nba_path)
-        if success:
-            continue
-        else:
-            print(f"[{get_warsaw_time()}] Ostrzeżenie: utrzymano poprzednie dane NBA")
+        update_espn_league('NBA', get_nba_standings, nba_path)
         time.sleep(interval)
 
 
@@ -458,11 +460,7 @@ def mls_daemon(interval):
     mls_path = os.path.join(BASE_DIR, 'data', 'news', 'ESPN-API', 'mls_standings.json')
     
     while True:
-        success = update_espn_league('MLS', get_mls_standings, mls_path)
-        if success:
-            continue
-        else:
-            print(f"[{get_warsaw_time()}] Ostrzeżenie: utrzymano poprzednie dane MLS")
+        update_espn_league('MLS', get_mls_standings, mls_path)
         time.sleep(interval)
 
 
@@ -475,22 +473,34 @@ def kryminalki_news_daemon(interval):
     Args:
         interval: interwał w sekundach między scrapowaniem
     """
-    news_path = os.path.join(BASE_DIR, 'data', 'news', 'kryminalki.json')
+    news_path = os.path.join(BASE_DIR, 'data', 'news', 'kryminalki', 'kryminalki.json')
+    archive_path = os.path.join(BASE_DIR, 'data', 'news', 'kryminalki', 'kryminalki_archiwum.json')
     
     while True:
         try:
             news_list = get_kryminalki_news(limit=15)
             
             if news_list:
+                # Wczytaj stare dane do archiwum (na przyszłość)
+                old_data = load_from_json(news_path, {})
+                if old_data.get('news'):
+                    # Zapisz stare wiadomości do archiwum
+                    archive_data = load_from_json(archive_path, {'archived_news': []})
+                    # Dodaj stare wiadomości na początek archiwum (najnowsze najpierw)
+                    archive_data.setdefault('archived_news', [])
+                    archive_data['archived_news'] = old_data['news'] + archive_data['archived_news']
+                    # Ogranicz archiwum do 100 wiadomości
+                    archive_data['archived_news'] = archive_data['archived_news'][:100]
+                    save_to_json(archive_path, archive_data)
+                
+                # Zapisz nowe wiadomości
                 news_data = {
                     'news': news_list,
                     'updated_at': get_warsaw_time()
                 }
                 save_to_json(news_path, news_data)
-            else:
-                print(f"[{get_warsaw_time()}] Ostrzeżenie: nie pobrano nowych wiadomości z Kryminalki.pl")
         except Exception as e:
-            print(f"[{get_warsaw_time()}] Błąd podczas scrapowania wiadomości: {e}")
+            pass
         
         time.sleep(interval)
 
