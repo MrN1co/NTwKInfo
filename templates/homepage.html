@@ -12,30 +12,39 @@
       <div class="left-column">
         <section class="main-article-carousel">
           <div class="carousel-container">
-            <article class="carousel-slide active">
-              <div class="main-article__header"><span>28 stycznia, 07:31, poniedziałek</span></div>
-              <h1 class="main-article__title">43-latka miała stłuczkę — Policja wydała komunikat</h1>
-              <div class="main-article__image-container">
-                <div class="image-placeholder">Zdjęcie wiadomości 1</div>
-                <div class="main-article__caption">Kobieta miała stłuczkę i trafiła na 27 lat do sądu rodzinnego. Policja wydała komunikat.</div>
+            {% if news_list %}
+              {% for item in news_list %}
+              <article class="carousel-slide {% if loop.first %}active{% endif %}">
+                <div class="main-article__header"><span>{{ item.published or item.date or '' }}</span></div>
+                <h1 class="main-article__title"><a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">{{ item.title }}</a></h1>
+                <div class="main-article__image-container">
+                <div class="image-placeholder">
+                  {% if item.image %}
+                    <img src="{{ item.image }}" 
+                        alt="{{ item.title }}" 
+                        class="image-placeholder"
+                        onerror="this.style.display='none'; this.parentElement.textContent='Brak zdjęcia';">
+                  {% else %}
+                    Brak zdjęcia
+                  {% endif %}
+                </div>
+                
+                <div class="main-article__caption">
+                  {{ item.summary or item.excerpt or '' }}
+                </div>
               </div>
-            </article>
-            <article class="carousel-slide">
-              <div class="main-article__header"><span>28 stycznia, 08:15, poniedziałek</span></div>
-              <h1 class="main-article__title">Nowy system edukacji w Polsce – rewolucja w szkołach</h1>
-              <div class="main-article__image-container">
-                <div class="image-placeholder">Zdjęcie wiadomości 2</div>
-                <div class="main-article__caption">Ministerstwo zapowiada zmiany w sposobie oceniania i większy nacisk na praktyczne umiejętności.</div>
-              </div>
-            </article>
-            <article class="carousel-slide">
-              <div class="main-article__header"><span>28 stycznia, 09:00, poniedziałek</span></div>
-              <h1 class="main-article__title">Zima wraca do Polski – IMGW ostrzega przed oblodzeniem</h1>
-              <div class="main-article__image-container">
-                <div class="image-placeholder">Zdjęcie wiadomości 3</div>
-                <div class="main-article__caption">Na południu kraju prognozowane są intensywne opady śniegu i śliskie drogi.</div>
-              </div>
-            </article>
+              </article>
+              {% endfor %}
+            {% else %}
+              <article class="carousel-slide active">
+                <div class="main-article__header"><span>brak aktualnych wiadomości</span></div>
+                <h1 class="main-article__title">Brak wiadomości</h1>
+                <div class="main-article__image-container">
+                  <div class="image-placeholder">Brak zdjęcia</div>
+                  <div class="main-article__caption">Spróbuj odświeżyć stronę później.</div>
+                </div>
+              </article>
+            {% endif %}
             <button class="carousel-button prev">‹</button>
             <button class="carousel-button next">›</button>
           </div>
