@@ -15,7 +15,7 @@
             {% if news_list %}
               {% for item in news_list %}
               <article class="carousel-slide {% if loop.first %}active{% endif %}">
-                <div class="main-article__header"><span>{{ updated_at or item.date or '' }}</span></div>
+                <div class="main-article__header"><span>{{ item.published or item.date or '' }}</span></div>
                 <h1 class="main-article__title"><a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">{{ item.title }}</a></h1>
                 <div class="main-article__image-container">
                 <div class="image-placeholder">
