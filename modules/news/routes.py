@@ -68,12 +68,10 @@ def localize_competition_name(name, area):
     """
     translated_name = LEAGUE_NAME_TRANSLATIONS.get(name, name)
     
-    # NIE tłumaczymy area - w COMPETITIONS.JSON już są polskie nazwy!
-    # Sprawdź czy nazwa już nie zawiera nawiasu z regionem
     if f"({area})" in translated_name:
         return translated_name
     
-    return f"{translated_name} ({area})" if area else translated_name
+    return f"{translated_name}" if area else translated_name
 
 
 def load_from_json(filepath, default=None):
@@ -212,8 +210,8 @@ def tables():
     
     # Kolejność: Ekstraklasa, I Liga, II Liga, Liga Mistrzów, pozostałe
     all_competitions = polish_leagues + ([champions_league] if champions_league else []) + other_football + [
-        {'code': 'ATP', 'name': 'ATP - Tenis Mężczyzn', 'area': 'Tennis', 'is_tennis': True},
-        {'code': 'WTA', 'name': 'WTA - Tenis Kobiet', 'area': 'Tennis', 'is_tennis': True},
+        {'code': 'ATP', 'name': 'ATP - Tenis Mężczyzn', 'area': 'Tenis', 'is_tennis': True},
+        {'code': 'WTA', 'name': 'WTA - Tenis Kobiet', 'area': 'Tenis', 'is_tennis': True},
         {'code': 'NBA', 'name': 'NBA - Koszykówka', 'area': 'USA', 'is_nba': True},
         {'code': 'MLS', 'name': 'MLS - Major League Soccer', 'area': 'USA', 'is_mls': True}
     ]
