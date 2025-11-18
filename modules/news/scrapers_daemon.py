@@ -22,7 +22,8 @@ from modules.news.collectors import (
     get_second_league_table,
     get_nba_standings,
     get_mls_standings,
-    get_kryminalki_news
+    get_kryminalki_news,
+    get_minut_news
 )
 
 
@@ -504,7 +505,42 @@ def kryminalki_news_daemon(interval):
         
         time.sleep(interval)
 
-
+def minut_news_daemon(interval):
+    """
+    Daemon scrapujący wiadomości z 90minut.pl
+    Args:
+        interval: interwał w sekundach między scrapowaniem
+    """
+    news_path = os.path.join(BASE_DIR, 'data', 'news', 'minut', 'minut.json')
+    archive_path = os.path.join(BASE_DIR, 'data', 'news', 'minut', 'minut_archiwum.json')
+    
+    while True:
+        try:
+            news_list = get_minut_news(limit=15)
+            
+            if news_list:
+                # Wczytaj stare dane do archiwum (na przyszłość)
+                old_data = load_from_json(news_path, {})
+                if old_data.get('news'):
+                    # Zapisz stare wiadomości do archiwum
+                    archive_data = load_from_json(archive_path, {'archived_news': []})
+                    # Dodaj stare wiadomości na początek archiwum (najnowsze najpierw)
+                    archive_data.setdefault('archived_news', [])
+                    archive_data['archived_news'] = old_data['news'] + archive_data['archived_news']
+                    # Ogranicz archiwum do 100 wiadomości
+                    archive_data['archived_news'] = archive_data['archived_news'][:100]
+                    save_to_json(archive_path, archive_data)
+                
+                # Zapisz nowe wiadomości
+                news_data = {
+                    'news': news_list,
+                    'updated_at': get_warsaw_time()
+                }
+                save_to_json(news_path, news_data)
+        except Exception as e:
+            pass
+        
+        time.sleep(interval)
 # ============================================================================
 # FUNKCJA STARTOWA - URUCHAMIA WSZYSTKIE DAEMONY
 # ============================================================================
@@ -536,7 +572,8 @@ def start_all_daemons():
         threading.Thread(target=football_leagues_daemon, daemon=True, name="Football-Daemon"),
         threading.Thread(target=nba_daemon, args=(nba_interval,), daemon=True, name="NBA-Daemon"),
         threading.Thread(target=mls_daemon, args=(mls_interval,), daemon=True, name="MLS-Daemon"),
-        threading.Thread(target=kryminalki_news_daemon, args=(news_interval,), daemon=True, name="Kryminalki-News-Daemon")
+        threading.Thread(target=kryminalki_news_daemon, args=(news_interval,), daemon=True, name="Kryminalki-News-Daemon"),
+        threading.Thread(target=minut_news_daemon, args=(news_interval,), daemon=True, name="Minut-News-Daemon"),
     ]
 
     for thread in threads:
