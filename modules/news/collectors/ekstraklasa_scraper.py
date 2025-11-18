@@ -68,7 +68,7 @@ def get_90minut_table(url):
                                         'goals': bramki
                                     })
                             except:
-                                continue
+                                print(f"[Błąd: {e}")
                     
                     if dane_ligi:
                         break

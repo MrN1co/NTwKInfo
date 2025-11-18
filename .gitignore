@@ -1,6 +1,7 @@
 .sqlite3
 .db
 .vscode/
+data/news/
 # domyślne:
 # Byte-compiled / optimized / DLL files
 __pycache__/
