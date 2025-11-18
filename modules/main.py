@@ -1,11 +1,14 @@
 from flask import Blueprint, render_template, session, request, flash, redirect, url_for
 from modules.auth import login_required
+from modules.news.collectors import get_kryminalki_news
 
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
 def index():
-    return render_template('homepage.html')
+    
+    news_list = get_kryminalki_news(limit=3)
+    return render_template('homepage.html', news_list=news_list)
 
 
 @main_bp.route('/news')
