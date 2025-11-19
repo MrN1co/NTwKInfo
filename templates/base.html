@@ -61,10 +61,6 @@
         <a href="{{ url_for('main.weather') }}" class="{% if request.path == '/pogoda' %}active{% endif %}">Pogoda</a>
         <a href="{{ url_for('main.economy') }}" class="{% if request.path == '/ekonomia' %}active{% endif %}">Ekonomia</a>
       </nav>
-      <div class="header__meta">
-        <span>28 stycznia, poniedziałek</span>
-        <span>Europejski Dzień Ochrony Danych Osobowych</span>
-      </div>
       <button class="header__cta-button">Zaloguj się</button>
     </div>
   </header>
