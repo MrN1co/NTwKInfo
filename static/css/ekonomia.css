@@ -12,13 +12,13 @@ html, body {
     overflow-x: hidden; 
 }
 
-.navbar-nav .nav-link {
+/* .navbar-nav .nav-link {
     font-weight: 500;
-}
+} */
 
-.navbar-nav .nav-link:hover {
+/* .navbar-nav .nav-link:hover {
     text-decoration: underline;
-}
+} */
 
 /* currency layout adjustments */
 .currency-row {
@@ -313,12 +313,12 @@ html, body {
     font-family: 'Crimson Text', serif;
 }
 
-.navbar, 
+/* .navbar, 
 .navbar .navbar-brand, 
 .navbar .nav-link, 
 .navbar .navbar-toggler {
     font-family: 'DM Sans', sans-serif;
-}
+} */
 
 /* --- MAŁE KAFELKI WALUT NA DOLE --- */
 .all-currencies-grid {
