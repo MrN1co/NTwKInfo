@@ -1,12 +1,7 @@
-import os
-from dotenv import load_dotenv
-
-# Załaduj zmienne środowiskowe PRZED importowaniem modulów
-load_dotenv()
-
 from flask import Flask
 from modules.auth import auth_bp
 from modules.main import main_bp
+import os
 from modules.weather_app import weather_bp
 from flask_sqlalchemy import SQLAlchemy
 
