@@ -8,7 +8,7 @@ main_bp = Blueprint('main', __name__)
 @main_bp.route('/')
 def index():
     news_list = get_kryminalki_news(limit=3)
-    return render_template('main/index.html')
+    return render_template('main/index.html', news_list=news_list)
 
 
 @main_bp.route('/news')
