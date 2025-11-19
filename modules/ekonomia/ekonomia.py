@@ -66,7 +66,7 @@ def ekonomia():
 
     # Render template to string so we can inject a small CSS override that
     # ensures vertical scrolling works correctly on wide viewports.
-    html = render_template('ekonomia/index.html',
+    html = render_template('ekonomia/exchange.html',
                            kurs_walut=kurs_walut,
                            wykres_waluty=wykres_waluty,
                            wykres_zlota=wykres_zlota,
