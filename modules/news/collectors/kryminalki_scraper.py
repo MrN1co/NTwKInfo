@@ -5,6 +5,7 @@ Pobiera najnowsze artykuły ze strony głównej
 
 import requests
 from bs4 import BeautifulSoup
+from datetime import datetime, timedelta
 
 
 def get_kryminalki_news(limit=10):
@@ -82,6 +83,39 @@ def get_kryminalki_news(limit=10):
                         date = date_part.strip()
             else:
                 title = title_text
+            
+            # Jeśli nie ma daty na miniaturce, wejdź na stronę artykułu
+            if not date:
+                try:
+                    article_response = requests.get(link, headers=headers, timeout=10)
+                    if article_response.status_code == 200:
+                        article_soup = BeautifulSoup(article_response.content, 'html.parser')
+                        
+                        # Szukamy daty w <span class="fal fa-calendar-alt">
+                        date_span = article_soup.find('span', class_='fal fa-calendar-alt')
+                        if date_span and date_span.parent:
+                            date_text = date_span.parent.get_text(strip=True)
+                            
+                            # Obsługa "dzisiaj" i "wczoraj"
+                            if 'dzisiaj' in date_text.lower():
+                                today = datetime.now()
+                                # Wyciągnij godzinę jeśli jest
+                                time_part = date_text.split('dzisiaj')[-1].strip()
+                                if time_part:
+                                    date = f"{today.strftime('%d.%m.%Y')} {time_part}"
+                                else:
+                                    date = today.strftime('%d.%m.%Y %H:%M')
+                            elif 'wczoraj' in date_text.lower():
+                                yesterday = datetime.now() - timedelta(days=1)
+                                time_part = date_text.split('wczoraj')[-1].strip()
+                                if time_part:
+                                    date = f"{yesterday.strftime('%d.%m.%Y')} {time_part}"
+                                else:
+                                    date = yesterday.strftime('%d.%m.%Y %H:%M')
+                            else:
+                                date = date_text
+                except Exception as e:
+                    print(f"Błąd pobierania daty z artykułu {link}: {e}")
             
             # Pomijamy duplikaty
             if any(n['link'] == link for n in news_list):
