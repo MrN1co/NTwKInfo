@@ -45,3 +45,61 @@
 .top-btn:hover {
     background-color: var(--color-secondary);
 }
+
+/* Iframe używany w news_base - zajmuje dostępną wysokość i jest przewijalny */
+#main-iframe {
+    width: 100%;
+    /* Odejmujemy przybliżoną wysokość nagłówka + przycisków aby iframe mieścił się na ekranie */
+    height: calc(100vh - 200px);
+    border: none;
+    display: block;
+    overflow: auto;
+}
+
+@media (max-width: 799px) {
+    /* Na urządzeniach mobilnych zostawiamy większą wysokość (mniejsze nagłówki) */
+    #main-iframe {
+        height: calc(100vh - 160px);
+    }
+}
+
+/* Jeśli globalne style na dużych ekranach ustawiają overflow:hidden na body,
+   wymuszamy, aby iframe był pozycjonowany względem viewportu i miał własny scroll. */
+@media (min-width: 1280px) {
+    #main-iframe {
+        position: fixed !important;
+        top: 160px !important;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: calc(100vh - 160px) !important;
+        border: none;
+        z-index: 5;
+        overflow: auto !important;
+        background: white;
+    }
+
+    /* Przytrzymaj przyciski na górze nad iframe */
+    .top-buttons {
+        position: relative;
+        z-index: 10;
+    }
+}
+
+/* --- Bezpieczny override: przywróć przewijanie dokumentu na stronach news --- */
+@media (min-width: 1280px) {
+    html, body {
+        height: auto !important;
+        overflow: auto !important;
+    }
+
+    body {
+        display: block !important;
+    }
+
+    .main-content {
+        height: auto !important;
+        overflow: auto !important;
+    }
+}
