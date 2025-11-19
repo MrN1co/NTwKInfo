@@ -1,0 +1,4259 @@
+{
+  "count": 183,
+  "filters": {
+
+  },
+  "competitions": [
+    {
+      "id": 2176,
+      "area": {
+        "id": 2001,
+        "name": "Africa",
+        "code": "AFR",
+        "flag": null
+      },
+      "name": "Africa Cup",
+      "code": "AC",
+      "type": "CUP",
+      "emblem": "https://crests.football-data.org/ac.png",
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2385,
+        "startDate": "2025-12-21",
+        "endDate": "2026-01-18",
+        "currentMatchday": 1,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 2,
+      "lastUpdated": "2024-01-13T11:34:43Z"
+    },
+    {
+      "id": 2006,
+      "area": {
+        "id": 2001,
+        "name": "Africa",
+        "code": "AFR",
+        "flag": null
+      },
+      "name": "WC Qualification CAF",
+      "code": "QCAF",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 1609,
+        "startDate": "2023-11-15",
+        "endDate": "2025-10-13",
+        "currentMatchday": 10,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2022-03-13T18:51:44Z"
+    },
+    {
+      "id": 2166,
+      "area": {
+        "id": 2001,
+        "name": "Africa",
+        "code": "AFR",
+        "flag": null
+      },
+      "name": "AFC Champions League",
+      "code": "ACL",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 1559,
+        "startDate": "2022-04-06",
+        "endDate": "2023-05-05",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2023-02-26T12:57:33Z"
+    },
+    {
+      "id": 2023,
+      "area": {
+        "id": 2011,
+        "name": "Argentina",
+        "code": "ARG",
+        "flag": "https://crests.football-data.org/ar.svg"
+      },
+      "name": "Primera B Nacional",
+      "code": "PBN",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 716,
+        "startDate": "2021-03-13",
+        "endDate": "2021-12-26",
+        "currentMatchday": 17,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 5,
+      "lastUpdated": "2023-08-01T08:40:24Z"
+    },
+    {
+      "id": 2024,
+      "area": {
+        "id": 2011,
+        "name": "Argentina",
+        "code": "ARG",
+        "flag": "https://crests.football-data.org/ar.svg"
+      },
+      "name": "Liga Profesional",
+      "code": "ASL",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/LPDF.svg",
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 2394,
+        "startDate": "2025-07-13",
+        "endDate": "2025-11-16",
+        "currentMatchday": 13,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-09-13T16:34:03Z"
+    },
+    {
+      "id": 2025,
+      "area": {
+        "id": 2011,
+        "name": "Argentina",
+        "code": "ARG",
+        "flag": "https://crests.football-data.org/ar.svg"
+      },
+      "name": "Supercopa Argentina",
+      "code": "SCA",
+      "type": "SUPER_CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 430,
+        "startDate": "2019-04-04",
+        "endDate": "2019-04-04",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 2,
+      "lastUpdated": "2025-08-12T08:59:23Z"
+    },
+    {
+      "id": 2149,
+      "area": {
+        "id": 2011,
+        "name": "Argentina",
+        "code": "ARG",
+        "flag": "https://crests.football-data.org/ar.svg"
+      },
+      "name": "Copa Liga Profesional",
+      "code": "CDLP",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 717,
+        "startDate": "2021-02-12",
+        "endDate": "2021-05-30",
+        "currentMatchday": 13,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 2,
+      "lastUpdated": "2025-08-12T08:58:54Z"
+    },
+    {
+      "id": 2147,
+      "area": {
+        "id": 2014,
+        "name": "Asia",
+        "code": "ASI",
+        "flag": null
+      },
+      "name": "WC Qualification AFC",
+      "code": "QAFC",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 1616,
+        "startDate": "2023-10-12",
+        "endDate": "2024-06-11",
+        "currentMatchday": 6,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2021-11-11T10:31:11Z"
+    },
+    {
+      "id": 2008,
+      "area": {
+        "id": 2015,
+        "name": "Australia",
+        "code": "AUS",
+        "flag": null
+      },
+      "name": "A League",
+      "code": "AAL",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/a-league.png",
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 2450,
+        "startDate": "2025-10-01",
+        "endDate": "2026-06-01",
+        "currentMatchday": 1,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-09-13T16:55:10Z"
+    },
+    {
+      "id": 2026,
+      "area": {
+        "id": 2015,
+        "name": "Australia",
+        "code": "AUS",
+        "flag": null
+      },
+      "name": "FFA Cup",
+      "code": "FFAC",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 592,
+        "startDate": "2020-02-19",
+        "endDate": "2020-10-28",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2025-08-12T09:00:14Z"
+    },
+    {
+      "id": 2020,
+      "area": {
+        "id": 2016,
+        "name": "Austria",
+        "code": "AUT",
+        "flag": "https://crests.football-data.org/816.svg"
+      },
+      "name": "Erste Liga",
+      "code": "AEL",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2428,
+        "startDate": "2025-08-01",
+        "endDate": "2026-06-24",
+        "currentMatchday": 10,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 7,
+      "lastUpdated": "2023-08-22T20:41:17Z"
+    },
+    {
+      "id": 2012,
+      "area": {
+        "id": 2016,
+        "name": "Austria",
+        "code": "AUT",
+        "flag": "https://crests.football-data.org/816.svg"
+      },
+      "name": "Bundesliga",
+      "code": "ABL",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/abl.png",
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2426,
+        "startDate": "2025-08-01",
+        "endDate": "2026-03-07",
+        "currentMatchday": 10,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-10-05T15:45:54Z"
+    },
+    {
+      "id": 2022,
+      "area": {
+        "id": 2016,
+        "name": "Austria",
+        "code": "AUT",
+        "flag": "https://crests.football-data.org/816.svg"
+      },
+      "name": "Playoffs 1/2",
+      "code": "APL",
+      "type": "PLAYOFFS",
+      "emblem": null,
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 24,
+        "startDate": "2018-05-31",
+        "endDate": "2018-06-03",
+        "currentMatchday": null,
+        "winner": {
+          "id": 2022,
+          "name": "spusu SKN St. Pölten",
+          "shortName": "St. Pölten",
+          "tla": "STP",
+          "crest": "https://crests.football-data.org/2022.png",
+          "address": "Bimbo Binder Promenade 9 Sankt Pölten 3100",
+          "website": "http://www.skn-stpoelten.at",
+          "founded": 2000,
+          "clubColors": "Yellow / Blue",
+          "venue": "NV Arena",
+          "lastUpdated": "2023-08-23T08:41:01Z"
+        }
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2018-08-23T15:47:33Z"
+    },
+    {
+      "id": 2027,
+      "area": {
+        "id": 2016,
+        "name": "Austria",
+        "code": "AUT",
+        "flag": "https://crests.football-data.org/816.svg"
+      },
+      "name": "ÖFB Cup",
+      "code": null,
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 627,
+        "startDate": "2020-08-28",
+        "endDate": "2021-05-01",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-03-04T16:50:00Z"
+    },
+    {
+      "id": 2028,
+      "area": {
+        "id": 2023,
+        "name": "Belgium",
+        "code": "BEL",
+        "flag": "https://crests.football-data.org/805.svg"
+      },
+      "name": "Coupe de Belgique",
+      "code": "CB",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2458,
+        "startDate": "2025-09-05",
+        "endDate": "2026-05-30",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 7,
+      "lastUpdated": "2023-11-15T10:48:56Z"
+    },
+    {
+      "id": 2033,
+      "area": {
+        "id": 2023,
+        "name": "Belgium",
+        "code": "BEL",
+        "flag": "https://crests.football-data.org/805.svg"
+      },
+      "name": "Division 1B",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 610,
+        "startDate": "2020-08-21",
+        "endDate": "2021-05-31",
+        "currentMatchday": 28,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:26:53Z"
+    },
+    {
+      "id": 2009,
+      "area": {
+        "id": 2023,
+        "name": "Belgium",
+        "code": "BEL",
+        "flag": "https://crests.football-data.org/805.svg"
+      },
+      "name": "Jupiler Pro League",
+      "code": "BJL",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/bjl.png",
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 2411,
+        "startDate": "2025-07-25",
+        "endDate": "2026-03-21",
+        "currentMatchday": 11,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-10-05T15:44:54Z"
+    },
+    {
+      "id": 2010,
+      "area": {
+        "id": 2023,
+        "name": "Belgium",
+        "code": "BEL",
+        "flag": "https://crests.football-data.org/805.svg"
+      },
+      "name": "Supercoupe de Belgique",
+      "code": "SDB",
+      "type": "SUPER_CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2401,
+        "startDate": "2025-07-20",
+        "endDate": "2025-07-20",
+        "currentMatchday": 0,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 8,
+      "lastUpdated": "2024-06-07T11:02:11Z"
+    },
+    {
+      "id": 2032,
+      "area": {
+        "id": 2023,
+        "name": "Belgium",
+        "code": "BEL",
+        "flag": "https://crests.football-data.org/805.svg"
+      },
+      "name": "Playoffs",
+      "code": "BJPP",
+      "type": "PLAYOFFS",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2261,
+        "startDate": "2024-03-29",
+        "endDate": "2024-05-25",
+        "currentMatchday": 10,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2024-07-30T11:21:28Z"
+    },
+    {
+      "id": 2034,
+      "area": {
+        "id": 2028,
+        "name": "Bolivia",
+        "code": "BOL",
+        "flag": null
+      },
+      "name": "LFPB",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 718,
+        "startDate": "2021-03-09",
+        "endDate": "2022-01-01",
+        "currentMatchday": 30,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T00:00:14Z"
+    },
+    {
+      "id": 2035,
+      "area": {
+        "id": 2030,
+        "name": "Bosnia and Herzegovina",
+        "code": "BIH",
+        "flag": "https://crests.football-data.org/bosnia.svg"
+      },
+      "name": "Premier Liga",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 598,
+        "startDate": "2020-08-01",
+        "endDate": "2021-05-30",
+        "currentMatchday": 30,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T00:00:15Z"
+    },
+    {
+      "id": 2037,
+      "area": {
+        "id": 2032,
+        "name": "Brazil",
+        "code": "BRA",
+        "flag": "https://crests.football-data.org/764.svg"
+      },
+      "name": "Copa do Brasil",
+      "code": "CDB",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2384,
+        "startDate": "2025-02-18",
+        "endDate": "2025-11-28",
+        "currentMatchday": 2,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 7,
+      "lastUpdated": "2024-07-30T11:22:05Z"
+    },
+    {
+      "id": 2038,
+      "area": {
+        "id": 2032,
+        "name": "Brazil",
+        "code": "BRA",
+        "flag": "https://crests.football-data.org/764.svg"
+      },
+      "name": "Série D",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 595,
+        "startDate": "2020-05-17",
+        "endDate": "2020-11-22",
+        "currentMatchday": 13,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2021-04-17T11:26:37Z"
+    },
+    {
+      "id": 2036,
+      "area": {
+        "id": 2032,
+        "name": "Brazil",
+        "code": "BRA",
+        "flag": "https://crests.football-data.org/764.svg"
+      },
+      "name": "Série C",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 594,
+        "startDate": "2020-05-02",
+        "endDate": "2020-10-31",
+        "currentMatchday": 13,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2021-04-17T11:26:43Z"
+    },
+    {
+      "id": 2029,
+      "area": {
+        "id": 2032,
+        "name": "Brazil",
+        "code": "BRA",
+        "flag": "https://crests.football-data.org/764.svg"
+      },
+      "name": "Campeonato Brasileiro Série B",
+      "code": "BSB",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/bsa.png",
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2372,
+        "startDate": "2025-04-04",
+        "endDate": "2025-11-22",
+        "currentMatchday": 33,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 8,
+      "lastUpdated": "2024-10-05T15:47:09Z"
+    },
+    {
+      "id": 2013,
+      "area": {
+        "id": 2032,
+        "name": "Brazil",
+        "code": "BRA",
+        "flag": "https://crests.football-data.org/764.svg"
+      },
+      "name": "Campeonato Brasileiro Série A",
+      "code": "BSA",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/bsa.png",
+      "plan": "TIER_ONE",
+      "currentSeason": {
+        "id": 2371,
+        "startDate": "2025-03-29",
+        "endDate": "2025-12-21",
+        "currentMatchday": 29,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-09-13T16:55:53Z"
+    },
+    {
+      "id": 2039,
+      "area": {
+        "id": 2035,
+        "name": "Bulgaria",
+        "code": "BGR",
+        "flag": "https://crests.football-data.org/817.svg"
+      },
+      "name": "Kupa na Bulgarija",
+      "code": null,
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 639,
+        "startDate": "2020-09-08",
+        "endDate": "2021-05-30",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:26:33Z"
+    },
+    {
+      "id": 2040,
+      "area": {
+        "id": 2035,
+        "name": "Bulgaria",
+        "code": "BGR",
+        "flag": "https://crests.football-data.org/817.svg"
+      },
+      "name": "A PFG",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 611,
+        "startDate": "2020-08-08",
+        "endDate": "2021-05-30",
+        "currentMatchday": 26,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-26T10:22:24Z"
+    },
+    {
+      "id": 2041,
+      "area": {
+        "id": 2040,
+        "name": "Canada",
+        "code": "CAN",
+        "flag": null
+      },
+      "name": "Canadian Championship",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 558,
+        "startDate": "2020-06-16",
+        "endDate": "2020-09-24",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2021-04-17T11:26:28Z"
+    },
+    {
+      "id": 2043,
+      "area": {
+        "id": 2045,
+        "name": "Chile",
+        "code": "CHL",
+        "flag": null
+      },
+      "name": "Supercopa de Chile",
+      "code": null,
+      "type": "SUPER_CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 435,
+        "startDate": "2019-03-23",
+        "endDate": "2019-03-23",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2019-03-24T20:10:07Z"
+    },
+    {
+      "id": 2048,
+      "area": {
+        "id": 2045,
+        "name": "Chile",
+        "code": "CHL",
+        "flag": null
+      },
+      "name": "Primera División",
+      "code": "CPD",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/cpd.png",
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2373,
+        "startDate": "2025-02-15",
+        "endDate": "2025-12-07",
+        "currentMatchday": 24,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-10-05T15:48:56Z"
+    },
+    {
+      "id": 2042,
+      "area": {
+        "id": 2045,
+        "name": "Chile",
+        "code": "CHL",
+        "flag": null
+      },
+      "name": "Playoffs 1/2",
+      "code": null,
+      "type": "PLAYOFFS",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 44,
+        "startDate": "2017-11-25",
+        "endDate": "2017-12-21",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2018-06-05T00:01:23Z"
+    },
+    {
+      "id": 2044,
+      "area": {
+        "id": 2046,
+        "name": "China PR",
+        "code": "CHN",
+        "flag": null
+      },
+      "name": "Chinese Super League",
+      "code": "CSL",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2383,
+        "startDate": "2025-02-22",
+        "endDate": "2025-11-22",
+        "currentMatchday": 27,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 8,
+      "lastUpdated": "2021-05-04T18:20:22Z"
+    },
+    {
+      "id": 2045,
+      "area": {
+        "id": 2049,
+        "name": "Colombia",
+        "code": "COL",
+        "flag": null
+      },
+      "name": "Liga Postobón",
+      "code": "CLP",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/clp.png",
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2379,
+        "startDate": "2025-01-24",
+        "endDate": "2025-11-09",
+        "currentMatchday": 20,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 8,
+      "lastUpdated": "2024-05-08T14:09:59Z"
+    },
+    {
+      "id": 2046,
+      "area": {
+        "id": 2049,
+        "name": "Colombia",
+        "code": "COL",
+        "flag": null
+      },
+      "name": "Superliga de Colombia",
+      "code": null,
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 438,
+        "startDate": "2019-01-24",
+        "endDate": "2019-01-27",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 2,
+      "lastUpdated": "2018-06-05T00:02:32Z"
+    },
+    {
+      "id": 2047,
+      "area": {
+        "id": 2058,
+        "name": "Croatia",
+        "code": "HRV",
+        "flag": "https://crests.football-data.org/799.svg"
+      },
+      "name": "Prva Liga",
+      "code": "PRVA",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 621,
+        "startDate": "2020-08-15",
+        "endDate": "2021-05-30",
+        "currentMatchday": 36,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:34:15Z"
+    },
+    {
+      "id": 2049,
+      "area": {
+        "id": 2062,
+        "name": "Czech Republic",
+        "code": "CZE",
+        "flag": "https://crests.football-data.org/798.svg"
+      },
+      "name": "Synot Liga",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 612,
+        "startDate": "2020-08-22",
+        "endDate": "2021-05-30",
+        "currentMatchday": 34,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:26:23Z"
+    },
+    {
+      "id": 2051,
+      "area": {
+        "id": 2065,
+        "name": "Denmark",
+        "code": "DNK",
+        "flag": "https://crests.football-data.org/782.svg"
+      },
+      "name": "DBU Pokalen",
+      "code": null,
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 640,
+        "startDate": "2020-09-01",
+        "endDate": "2021-05-13",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:26:18Z"
+    },
+    {
+      "id": 2050,
+      "area": {
+        "id": 2065,
+        "name": "Denmark",
+        "code": "DNK",
+        "flag": "https://crests.football-data.org/782.svg"
+      },
+      "name": "Superliga",
+      "code": "DSU",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2391,
+        "startDate": "2025-07-18",
+        "endDate": "2026-02-22",
+        "currentMatchday": 12,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-10-05T15:49:31Z"
+    },
+    {
+      "id": 2141,
+      "area": {
+        "id": 2065,
+        "name": "Denmark",
+        "code": "DNK",
+        "flag": "https://crests.football-data.org/782.svg"
+      },
+      "name": "Euro League - Playoff",
+      "code": "DELP",
+      "type": "PLAYOFFS",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 1386,
+        "startDate": "2020-07-11",
+        "endDate": "2020-07-29",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2024-07-30T14:52:57Z"
+    },
+    {
+      "id": 2052,
+      "area": {
+        "id": 2069,
+        "name": "Ecuador",
+        "code": "ECU",
+        "flag": null
+      },
+      "name": "Copa Pilsener Serie A",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 720,
+        "startDate": "2021-02-19",
+        "endDate": "2021-12-05",
+        "currentMatchday": 15,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:26:13Z"
+    },
+    {
+      "id": 2139,
+      "area": {
+        "id": 2072,
+        "name": "England",
+        "code": "ENG",
+        "flag": "https://crests.football-data.org/770.svg"
+      },
+      "name": "Football League Cup",
+      "code": "FLC",
+      "type": "CUP",
+      "emblem": "https://crests.football-data.org/carabao.png",
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2419,
+        "startDate": "2025-08-05",
+        "endDate": "2026-03-22",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 66,
+      "lastUpdated": "2024-08-27T18:42:28Z"
+    },
+    {
+      "id": 2056,
+      "area": {
+        "id": 2072,
+        "name": "England",
+        "code": "ENG",
+        "flag": "https://crests.football-data.org/770.svg"
+      },
+      "name": "FA Community Shield",
+      "code": "COM",
+      "type": "SUPER_CUP",
+      "emblem": "https://crests.football-data.org/com.png",
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2389,
+        "startDate": "2025-08-09",
+        "endDate": "2025-08-09",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 102,
+      "lastUpdated": "2024-05-08T14:12:07Z"
+    },
+    {
+      "id": 2055,
+      "area": {
+        "id": 2072,
+        "name": "England",
+        "code": "ENG",
+        "flag": "https://crests.football-data.org/770.svg"
+      },
+      "name": "FA Cup",
+      "code": "FAC",
+      "type": "CUP",
+      "emblem": "https://crests.football-data.org/fa_cup.png",
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 2461,
+        "startDate": "2025-11-01",
+        "endDate": "2026-05-30",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 145,
+      "lastUpdated": "2024-11-28T10:50:41Z"
+    },
+    {
+      "id": 2053,
+      "area": {
+        "id": 2072,
+        "name": "England",
+        "code": "ENG",
+        "flag": "https://crests.football-data.org/770.svg"
+      },
+      "name": "National League",
+      "code": "ENL",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/enl.png",
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2444,
+        "startDate": "2025-08-09",
+        "endDate": "2026-12-30",
+        "currentMatchday": 15,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 8,
+      "lastUpdated": "2024-05-08T14:11:34Z"
+    },
+    {
+      "id": 2054,
+      "area": {
+        "id": 2072,
+        "name": "England",
+        "code": "ENG",
+        "flag": "https://crests.football-data.org/770.svg"
+      },
+      "name": "League Two",
+      "code": "EL2",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/el2.png",
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2418,
+        "startDate": "2025-08-02",
+        "endDate": "2026-05-02",
+        "currentMatchday": 13,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-09-13T16:50:49Z"
+    },
+    {
+      "id": 2030,
+      "area": {
+        "id": 2072,
+        "name": "England",
+        "code": "ENG",
+        "flag": "https://crests.football-data.org/770.svg"
+      },
+      "name": "League One",
+      "code": "EL1",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/el1.png",
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 2417,
+        "startDate": "2025-08-01",
+        "endDate": "2026-12-29",
+        "currentMatchday": 13,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 17,
+      "lastUpdated": "2024-09-13T16:51:03Z"
+    },
+    {
+      "id": 2016,
+      "area": {
+        "id": 2072,
+        "name": "England",
+        "code": "ENG",
+        "flag": "https://crests.football-data.org/770.svg"
+      },
+      "name": "Championship",
+      "code": "ELC",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/ELC.png",
+      "plan": "TIER_ONE",
+      "currentSeason": {
+        "id": 2416,
+        "startDate": "2025-08-08",
+        "endDate": "2026-12-29",
+        "currentMatchday": 10,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-09-13T16:51:18Z"
+    },
+    {
+      "id": 2021,
+      "area": {
+        "id": 2072,
+        "name": "England",
+        "code": "ENG",
+        "flag": "https://crests.football-data.org/770.svg"
+      },
+      "name": "Premier League",
+      "code": "PL",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/PL.png",
+      "plan": "TIER_ONE",
+      "currentSeason": {
+        "id": 2403,
+        "startDate": "2025-08-15",
+        "endDate": "2026-05-24",
+        "currentMatchday": 8,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 127,
+      "lastUpdated": "2024-09-13T16:51:24Z"
+    },
+    {
+      "id": 2181,
+      "area": {
+        "id": 2072,
+        "name": "England",
+        "code": "ENG",
+        "flag": "https://crests.football-data.org/770.svg"
+      },
+      "name": "FA Cup - Qualification",
+      "code": "FACQ",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2280,
+        "startDate": "2022-09-02",
+        "endDate": "2023-03-19",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 6,
+      "lastUpdated": "2024-06-20T19:07:10Z"
+    },
+    {
+      "id": 2057,
+      "area": {
+        "id": 2075,
+        "name": "Estonia",
+        "code": "EST",
+        "flag": "https://crests.football-data.org/estonia.svg"
+      },
+      "name": "Meistriliiga",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 686,
+        "startDate": "2021-03-05",
+        "endDate": "2021-11-06",
+        "currentMatchday": 36,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:26:10Z"
+    },
+    {
+      "id": 2186,
+      "area": {
+        "id": 2077,
+        "name": "Europe",
+        "code": "EUR",
+        "flag": "https://crests.football-data.org/EUR.svg"
+      },
+      "name": "UEFA Women's Euro",
+      "code": "ECF",
+      "type": "CUP",
+      "emblem": "https://crests.football-data.org/2186.png",
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 2387,
+        "startDate": "2025-07-02",
+        "endDate": "2025-07-27",
+        "currentMatchday": 3,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 2,
+      "lastUpdated": "2025-06-14T11:36:19Z"
+    },
+    {
+      "id": 2146,
+      "area": {
+        "id": 2077,
+        "name": "Europe",
+        "code": "EUR",
+        "flag": "https://crests.football-data.org/EUR.svg"
+      },
+      "name": "UEFA Europa League",
+      "code": "EL",
+      "type": "CUP",
+      "emblem": "https://crests.football-data.org/EL.png",
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 2455,
+        "startDate": "2025-09-24",
+        "endDate": "2026-05-20",
+        "currentMatchday": 3,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-10-05T16:09:42Z"
+    },
+    {
+      "id": 2001,
+      "area": {
+        "id": 2077,
+        "name": "Europe",
+        "code": "EUR",
+        "flag": "https://crests.football-data.org/EUR.svg"
+      },
+      "name": "UEFA Champions League",
+      "code": "CL",
+      "type": "CUP",
+      "emblem": "https://crests.football-data.org/CL.png",
+      "plan": "TIER_ONE",
+      "currentSeason": {
+        "id": 2454,
+        "startDate": "2025-09-16",
+        "endDate": "2026-05-30",
+        "currentMatchday": 3,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 46,
+      "lastUpdated": "2024-09-13T16:53:48Z"
+    },
+    {
+      "id": 2182,
+      "area": {
+        "id": 2077,
+        "name": "Europe",
+        "code": "EUR",
+        "flag": "https://crests.football-data.org/EUR.svg"
+      },
+      "name": "UEFA Nations League",
+      "code": "UNL",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2354,
+        "startDate": "2024-09-05",
+        "endDate": "2025-06-08",
+        "currentMatchday": 6,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2024-08-29T09:14:43Z"
+    },
+    {
+      "id": 2018,
+      "area": {
+        "id": 2077,
+        "name": "Europe",
+        "code": "EUR",
+        "flag": "https://crests.football-data.org/EUR.svg"
+      },
+      "name": "European Championship",
+      "code": "EC",
+      "type": "CUP",
+      "emblem": "https://crests.football-data.org/ec.png",
+      "plan": "TIER_ONE",
+      "currentSeason": {
+        "id": 1537,
+        "startDate": "2024-06-14",
+        "endDate": "2024-07-14",
+        "currentMatchday": 7,
+        "winner": {
+          "id": 760,
+          "name": "Spain",
+          "shortName": "Spain",
+          "tla": "ESP",
+          "crest": "https://crests.football-data.org/760.svg",
+          "address": "Ramón y Cajal, s/n Las Rozas 28230",
+          "website": "http://www.rfef.es",
+          "founded": 1909,
+          "clubColors": "Red / Blue / Yellow",
+          "venue": "Estadio Alfredo Di Stéfano",
+          "lastUpdated": "2021-05-26T09:46:48Z"
+        }
+      },
+      "numberOfAvailableSeasons": 17,
+      "lastUpdated": "2024-09-13T17:04:30Z"
+    },
+    {
+      "id": 2154,
+      "area": {
+        "id": 2077,
+        "name": "Europe",
+        "code": "EUR",
+        "flag": "https://crests.football-data.org/EUR.svg"
+      },
+      "name": "UEFA Conference League",
+      "code": "UCL",
+      "type": "CUP",
+      "emblem": "https://crests.football-data.org/UCL.png",
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2456,
+        "startDate": "2025-10-02",
+        "endDate": "2026-05-27",
+        "currentMatchday": 2,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 5,
+      "lastUpdated": "2022-03-20T09:22:28Z"
+    },
+    {
+      "id": 2165,
+      "area": {
+        "id": 2077,
+        "name": "Europe",
+        "code": "EUR",
+        "flag": "https://crests.football-data.org/EUR.svg"
+      },
+      "name": "European Championship Qualifiers",
+      "code": "ECQ",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 1538,
+        "startDate": "2023-03-25",
+        "endDate": "2023-11-19",
+        "currentMatchday": 10,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2022-11-08T07:42:47Z"
+    },
+    {
+      "id": 2157,
+      "area": {
+        "id": 2077,
+        "name": "Europe",
+        "code": "EUR",
+        "flag": "https://crests.football-data.org/EUR.svg"
+      },
+      "name": "UEFA Super Cup",
+      "code": "ESC",
+      "type": "CUP",
+      "emblem": "https://crests.football-data.org/esc.png",
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2392,
+        "startDate": "2025-08-13",
+        "endDate": "2025-08-13",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 51,
+      "lastUpdated": "2024-05-08T14:13:53Z"
+    },
+    {
+      "id": 2007,
+      "area": {
+        "id": 2077,
+        "name": "Europe",
+        "code": "EUR",
+        "flag": "https://crests.football-data.org/EUR.svg"
+      },
+      "name": "WC Qualification UEFA",
+      "code": "QUFA",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2378,
+        "startDate": "2025-03-21",
+        "endDate": "2025-11-18",
+        "currentMatchday": 9,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2021-11-11T10:38:13Z"
+    },
+    {
+      "id": 2183,
+      "area": {
+        "id": 2077,
+        "name": "Europe",
+        "code": "EUR",
+        "flag": "https://crests.football-data.org/EUR.svg"
+      },
+      "name": "Europa League Qualification",
+      "code": "ELQ",
+      "type": "CUP",
+      "emblem": null,
+      "plan": null,
+      "currentSeason": {
+        "id": 2453,
+        "startDate": "2025-07-10",
+        "endDate": "2025-08-28",
+        "currentMatchday": 2,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 2,
+      "lastUpdated": "2024-09-01T18:40:44Z"
+    },
+    {
+      "id": 2174,
+      "area": {
+        "id": 2077,
+        "name": "Europe",
+        "code": "EUR",
+        "flag": "https://crests.football-data.org/EUR.svg"
+      },
+      "name": "Champions League Qualification",
+      "code": "CLQ",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 2406,
+        "startDate": "2025-07-08",
+        "endDate": "2025-08-12",
+        "currentMatchday": 2,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 37,
+      "lastUpdated": "2025-08-05T20:27:19Z"
+    },
+    {
+      "id": 2185,
+      "area": {
+        "id": 2077,
+        "name": "Europe",
+        "code": "EUR",
+        "flag": "https://crests.football-data.org/EUR.svg"
+      },
+      "name": "Conference League Qualification",
+      "code": "COLQ",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2452,
+        "startDate": "2025-07-08",
+        "endDate": "2025-08-28",
+        "currentMatchday": 2,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 2,
+      "lastUpdated": "2024-09-01T18:41:55Z"
+    },
+    {
+      "id": 2059,
+      "area": {
+        "id": 2080,
+        "name": "Finland",
+        "code": "FIN",
+        "flag": "https://crests.football-data.org/1976.svg"
+      },
+      "name": "Suomen Cup",
+      "code": null,
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 689,
+        "startDate": "2021-01-24",
+        "endDate": "2021-10-31",
+        "currentMatchday": 3,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:26:05Z"
+    },
+    {
+      "id": 2031,
+      "area": {
+        "id": 2080,
+        "name": "Finland",
+        "code": "FIN",
+        "flag": "https://crests.football-data.org/1976.svg"
+      },
+      "name": "Veikkausliiga",
+      "code": "VEI",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/vei.png",
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2457,
+        "startDate": "2025-09-13",
+        "endDate": "2025-11-09",
+        "currentMatchday": 6,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-10-05T15:48:30Z"
+    },
+    {
+      "id": 2135,
+      "area": {
+        "id": 2081,
+        "name": "France",
+        "code": "FRA",
+        "flag": "https://crests.football-data.org/773.svg"
+      },
+      "name": "Coupe de la Ligue",
+      "code": null,
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 522,
+        "startDate": "2019-08-13",
+        "endDate": "2020-04-04",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2021-04-17T11:26:01Z"
+    },
+    {
+      "id": 2142,
+      "area": {
+        "id": 2081,
+        "name": "France",
+        "code": "FRA",
+        "flag": "https://crests.football-data.org/773.svg"
+      },
+      "name": "Ligue 2",
+      "code": "FL2",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/FL2.png",
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 2421,
+        "startDate": "2025-08-09",
+        "endDate": "2026-05-08",
+        "currentMatchday": 10,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 28,
+      "lastUpdated": "2024-09-13T16:49:33Z"
+    },
+    {
+      "id": 2015,
+      "area": {
+        "id": 2081,
+        "name": "France",
+        "code": "FRA",
+        "flag": "https://crests.football-data.org/773.svg"
+      },
+      "name": "Ligue 1",
+      "code": "FL1",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/FL1.png",
+      "plan": "TIER_ONE",
+      "currentSeason": {
+        "id": 2420,
+        "startDate": "2025-08-17",
+        "endDate": "2026-05-16",
+        "currentMatchday": 8,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 82,
+      "lastUpdated": "2024-09-13T16:49:18Z"
+    },
+    {
+      "id": 2138,
+      "area": {
+        "id": 2081,
+        "name": "France",
+        "code": "FRA",
+        "flag": "https://crests.football-data.org/773.svg"
+      },
+      "name": "Coupe de France",
+      "code": "CDF",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2268,
+        "startDate": "2023-11-17",
+        "endDate": "2024-05-25",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 5,
+      "lastUpdated": "2024-05-25T18:23:46Z"
+    },
+    {
+      "id": 2143,
+      "area": {
+        "id": 2081,
+        "name": "France",
+        "code": "FRA",
+        "flag": "https://crests.football-data.org/773.svg"
+      },
+      "name": "Playoffs 1/2",
+      "code": "FPL",
+      "type": "PLAYOFFS",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 1483,
+        "startDate": "2022-05-17",
+        "endDate": "2022-05-20",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 2,
+      "lastUpdated": "2024-07-30T11:30:34Z"
+    },
+    {
+      "id": 2144,
+      "area": {
+        "id": 2081,
+        "name": "France",
+        "code": "FRA",
+        "flag": "https://crests.football-data.org/773.svg"
+      },
+      "name": "Playoffs 2/3",
+      "code": null,
+      "type": "PLAYOFFS",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 212,
+        "startDate": "2018-05-22",
+        "endDate": "2018-05-27",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2018-09-25T15:07:37Z"
+    },
+    {
+      "id": 2136,
+      "area": {
+        "id": 2081,
+        "name": "France",
+        "code": "FRA",
+        "flag": "https://crests.football-data.org/773.svg"
+      },
+      "name": "Trophée des Champions",
+      "code": null,
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 655,
+        "startDate": "2021-01-01",
+        "endDate": "2021-01-31",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-01-14T17:55:00Z"
+    },
+    {
+      "id": 2011,
+      "area": {
+        "id": 2088,
+        "name": "Germany",
+        "code": "DEU",
+        "flag": "https://crests.football-data.org/759.svg"
+      },
+      "name": "DFB-Pokal",
+      "code": "DFB",
+      "type": "CUP",
+      "emblem": "https://crests.football-data.org/DFB_CUP.png",
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 2402,
+        "startDate": "2025-08-16",
+        "endDate": "2026-05-23",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 70,
+      "lastUpdated": "2024-09-13T17:03:15Z"
+    },
+    {
+      "id": 2129,
+      "area": {
+        "id": 2088,
+        "name": "Germany",
+        "code": "DEU",
+        "flag": "https://crests.football-data.org/759.svg"
+      },
+      "name": "Regionalliga",
+      "code": "REG",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 760,
+        "startDate": "2021-07-15",
+        "endDate": "2022-05-21",
+        "currentMatchday": 38,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 5,
+      "lastUpdated": "2023-05-01T08:21:04Z"
+    },
+    {
+      "id": 2140,
+      "area": {
+        "id": 2088,
+        "name": "Germany",
+        "code": "DEU",
+        "flag": "https://crests.football-data.org/759.svg"
+      },
+      "name": "3. Bundesliga",
+      "code": "BL3",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/BL3.png",
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2432,
+        "startDate": "2025-08-01",
+        "endDate": "2026-05-16",
+        "currentMatchday": 11,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 14,
+      "lastUpdated": "2024-09-13T16:48:45Z"
+    },
+    {
+      "id": 2004,
+      "area": {
+        "id": 2088,
+        "name": "Germany",
+        "code": "DEU",
+        "flag": "https://crests.football-data.org/759.svg"
+      },
+      "name": "2. Bundesliga",
+      "code": "BL2",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/BL2.png",
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 2415,
+        "startDate": "2025-08-01",
+        "endDate": "2026-05-17",
+        "currentMatchday": 9,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 30,
+      "lastUpdated": "2024-09-13T16:48:21Z"
+    },
+    {
+      "id": 2172,
+      "area": {
+        "id": 2088,
+        "name": "Germany",
+        "code": "DEU",
+        "flag": "https://crests.football-data.org/759.svg"
+      },
+      "name": "Regionalliga Nord",
+      "code": "RLN",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2434,
+        "startDate": "2025-07-25",
+        "endDate": "2025-08-20",
+        "currentMatchday": 4,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2024-06-20T19:01:36Z"
+    },
+    {
+      "id": 2002,
+      "area": {
+        "id": 2088,
+        "name": "Germany",
+        "code": "DEU",
+        "flag": "https://crests.football-data.org/759.svg"
+      },
+      "name": "Bundesliga",
+      "code": "BL1",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/BL1.png",
+      "plan": "TIER_ONE",
+      "currentSeason": {
+        "id": 2414,
+        "startDate": "2025-08-22",
+        "endDate": "2026-05-16",
+        "currentMatchday": 7,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 63,
+      "lastUpdated": "2024-09-13T16:48:00Z"
+    },
+    {
+      "id": 2160,
+      "area": {
+        "id": 2088,
+        "name": "Germany",
+        "code": "DEU",
+        "flag": "https://crests.football-data.org/759.svg"
+      },
+      "name": "Regionalliga Südwest",
+      "code": "RSW",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2442,
+        "startDate": "2025-08-01",
+        "endDate": "2026-05-16",
+        "currentMatchday": 13,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2023-07-17T12:44:01Z"
+    },
+    {
+      "id": 2169,
+      "area": {
+        "id": 2088,
+        "name": "Germany",
+        "code": "DEU",
+        "flag": "https://crests.football-data.org/759.svg"
+      },
+      "name": "Regionalliga Nordost",
+      "code": "RNO",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2436,
+        "startDate": "2025-07-26",
+        "endDate": "2026-05-17",
+        "currentMatchday": 12,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2024-06-20T19:01:00Z"
+    },
+    {
+      "id": 2156,
+      "area": {
+        "id": 2088,
+        "name": "Germany",
+        "code": "DEU",
+        "flag": "https://crests.football-data.org/759.svg"
+      },
+      "name": "Relegation",
+      "code": "BLREL",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2386,
+        "startDate": "2025-05-22",
+        "endDate": "2025-05-26",
+        "currentMatchday": 2,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 5,
+      "lastUpdated": "2022-05-19T20:17:34Z"
+    },
+    {
+      "id": 2134,
+      "area": {
+        "id": 2088,
+        "name": "Germany",
+        "code": "DEU",
+        "flag": "https://crests.football-data.org/759.svg"
+      },
+      "name": "DFL Super Cup",
+      "code": "GSC",
+      "type": "SUPER_CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2390,
+        "startDate": "2025-08-16",
+        "endDate": "2025-08-16",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 26,
+      "lastUpdated": "2023-02-27T19:12:59Z"
+    },
+    {
+      "id": 2168,
+      "area": {
+        "id": 2088,
+        "name": "Germany",
+        "code": "DEU",
+        "flag": "https://crests.football-data.org/759.svg"
+      },
+      "name": "Regionalliga West",
+      "code": "RLW",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2439,
+        "startDate": "2025-07-25",
+        "endDate": "2026-05-16",
+        "currentMatchday": 12,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2024-06-20T19:00:50Z"
+    },
+    {
+      "id": 2159,
+      "area": {
+        "id": 2088,
+        "name": "Germany",
+        "code": "DEU",
+        "flag": "https://crests.football-data.org/759.svg"
+      },
+      "name": "Regionalliga Bayern",
+      "code": "RBY",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2437,
+        "startDate": "2025-07-12",
+        "endDate": "2026-05-01",
+        "currentMatchday": 14,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2022-07-20T10:36:06Z"
+    },
+    {
+      "id": 2133,
+      "area": {
+        "id": 2088,
+        "name": "Germany",
+        "code": "DEU",
+        "flag": "https://crests.football-data.org/759.svg"
+      },
+      "name": "Frauen Bundesliga",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 142,
+        "startDate": "2017-09-02",
+        "endDate": "2018-06-03",
+        "currentMatchday": 22,
+        "winner": {
+          "id": 7522,
+          "name": "VfL Wolfsburg",
+          "shortName": null,
+          "tla": null,
+          "crest": null,
+          "address": "null null null",
+          "website": null,
+          "founded": null,
+          "clubColors": null,
+          "venue": null,
+          "lastUpdated": "2018-10-03T20:17:40Z"
+        }
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2018-06-05T00:09:39Z"
+    },
+    {
+      "id": 2131,
+      "area": {
+        "id": 2093,
+        "name": "Greece",
+        "code": "GRC",
+        "flag": "https://crests.football-data.org/775.svg"
+      },
+      "name": "Greek Cup",
+      "code": null,
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 656,
+        "startDate": "2020-11-01",
+        "endDate": "2021-05-30",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:25:53Z"
+    },
+    {
+      "id": 2132,
+      "area": {
+        "id": 2093,
+        "name": "Greece",
+        "code": "GRC",
+        "flag": "https://crests.football-data.org/775.svg"
+      },
+      "name": "Super League",
+      "code": "GSL",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2443,
+        "startDate": "2025-08-23",
+        "endDate": "2026-03-21",
+        "currentMatchday": 7,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-09-13T16:56:36Z"
+    },
+    {
+      "id": 2150,
+      "area": {
+        "id": 2093,
+        "name": "Greece",
+        "code": "GRC",
+        "flag": "https://crests.football-data.org/775.svg"
+      },
+      "name": "Souper Kap Ellados",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 684,
+        "startDate": "2007-10-31",
+        "endDate": "2007-10-31",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2024-06-20T18:59:02Z"
+    },
+    {
+      "id": 2130,
+      "area": {
+        "id": 2106,
+        "name": "Hungary",
+        "code": "HUN",
+        "flag": "https://crests.football-data.org/827.svg"
+      },
+      "name": "Magyar Kupa",
+      "code": null,
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 696,
+        "startDate": "2020-09-16",
+        "endDate": "2021-05-30",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:25:47Z"
+    },
+    {
+      "id": 2128,
+      "area": {
+        "id": 2106,
+        "name": "Hungary",
+        "code": "HUN",
+        "flag": "https://crests.football-data.org/827.svg"
+      },
+      "name": "NB I",
+      "code": "HNB",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2407,
+        "startDate": "2025-07-26",
+        "endDate": "2026-05-16",
+        "currentMatchday": 10,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2021-04-17T00:00:21Z"
+    },
+    {
+      "id": 2127,
+      "area": {
+        "id": 2107,
+        "name": "Iceland",
+        "code": "ISL",
+        "flag": "https://crests.football-data.org/iceland.svg"
+      },
+      "name": "Úrvalsdeild",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 585,
+        "startDate": "2020-04-22",
+        "endDate": "2020-09-26",
+        "currentMatchday": 10,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2021-04-17T11:25:42Z"
+    },
+    {
+      "id": 2126,
+      "area": {
+        "id": 2108,
+        "name": "India",
+        "code": "IND",
+        "flag": null
+      },
+      "name": "I-League",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 676,
+        "startDate": "2021-01-09",
+        "endDate": "2021-05-30",
+        "currentMatchday": 11,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:33:44Z"
+    },
+    {
+      "id": 2161,
+      "area": {
+        "id": 2108,
+        "name": "India",
+        "code": "IND",
+        "flag": null
+      },
+      "name": "Indian Super League",
+      "code": "ISL",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": null,
+      "numberOfAvailableSeasons": 0,
+      "lastUpdated": "2022-07-26T11:21:45Z"
+    },
+    {
+      "id": 2125,
+      "area": {
+        "id": 2113,
+        "name": "Israel",
+        "code": "ISR",
+        "flag": "https://crests.football-data.org/israel.svg"
+      },
+      "name": "Ligat ha'Al",
+      "code": "ILH",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2334,
+        "startDate": "2024-08-24",
+        "endDate": "2025-05-24",
+        "currentMatchday": 26,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 7,
+      "lastUpdated": "2025-10-04T10:22:16Z"
+    },
+    {
+      "id": 2124,
+      "area": {
+        "id": 2114,
+        "name": "Italy",
+        "code": "ITA",
+        "flag": "https://crests.football-data.org/784.svg"
+      },
+      "name": "Supercoppa",
+      "code": "ISC",
+      "type": "SUPER_CUP",
+      "emblem": "https://crests.football-data.org/isc.png",
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2449,
+        "startDate": "2025-12-18",
+        "endDate": "2025-12-18",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 36,
+      "lastUpdated": "2024-01-13T10:55:20Z"
+    },
+    {
+      "id": 2122,
+      "area": {
+        "id": 2114,
+        "name": "Italy",
+        "code": "ITA",
+        "flag": "https://crests.football-data.org/784.svg"
+      },
+      "name": "Coppa Italia",
+      "code": "CIT",
+      "type": "CUP",
+      "emblem": "https://crests.football-data.org/CIT.png",
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2424,
+        "startDate": "2025-08-09",
+        "endDate": "2026-05-18",
+        "currentMatchday": 2,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 10,
+      "lastUpdated": "2022-03-20T09:33:08Z"
+    },
+    {
+      "id": 2123,
+      "area": {
+        "id": 2114,
+        "name": "Italy",
+        "code": "ITA",
+        "flag": "https://crests.football-data.org/784.svg"
+      },
+      "name": "Serie C",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 767,
+        "startDate": "2021-07-23",
+        "endDate": "2022-05-12",
+        "currentMatchday": 38,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 5,
+      "lastUpdated": "2024-01-11T08:29:19Z"
+    },
+    {
+      "id": 2121,
+      "area": {
+        "id": 2114,
+        "name": "Italy",
+        "code": "ITA",
+        "flag": "https://crests.football-data.org/784.svg"
+      },
+      "name": "Serie B",
+      "code": "SB",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/SB.png",
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 2408,
+        "startDate": "2025-08-23",
+        "endDate": "2026-05-09",
+        "currentMatchday": 8,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 21,
+      "lastUpdated": "2024-09-13T16:50:01Z"
+    },
+    {
+      "id": 2158,
+      "area": {
+        "id": 2114,
+        "name": "Italy",
+        "code": "ITA",
+        "flag": "https://crests.football-data.org/784.svg"
+      },
+      "name": "Playoffs 1/2",
+      "code": "IPL",
+      "type": "PLAYOFFS",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2388,
+        "startDate": "2025-05-10",
+        "endDate": "2025-05-17",
+        "currentMatchday": 2,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 2,
+      "lastUpdated": "2024-06-20T19:05:01Z"
+    },
+    {
+      "id": 2019,
+      "area": {
+        "id": 2114,
+        "name": "Italy",
+        "code": "ITA",
+        "flag": "https://crests.football-data.org/784.svg"
+      },
+      "name": "Serie A",
+      "code": "SA",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/SA.png",
+      "plan": "TIER_ONE",
+      "currentSeason": {
+        "id": 2395,
+        "startDate": "2025-08-24",
+        "endDate": "2026-05-24",
+        "currentMatchday": 7,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 94,
+      "lastUpdated": "2024-09-13T16:50:07Z"
+    },
+    {
+      "id": 2162,
+      "area": {
+        "id": 2114,
+        "name": "Italy",
+        "code": "ITA",
+        "flag": "https://crests.football-data.org/784.svg"
+      },
+      "name": "Serie C - Girone A",
+      "code": "ISCA",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2446,
+        "startDate": "2025-08-24",
+        "endDate": "2026-04-26",
+        "currentMatchday": 10,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2022-08-13T13:08:43Z"
+    },
+    {
+      "id": 2163,
+      "area": {
+        "id": 2114,
+        "name": "Italy",
+        "code": "ITA",
+        "flag": "https://crests.football-data.org/784.svg"
+      },
+      "name": "Serie C - Girone B",
+      "code": "ISCB",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2448,
+        "startDate": "2025-08-24",
+        "endDate": "2026-04-26",
+        "currentMatchday": 10,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2022-09-02T09:20:36Z"
+    },
+    {
+      "id": 2164,
+      "area": {
+        "id": 2114,
+        "name": "Italy",
+        "code": "ITA",
+        "flag": "https://crests.football-data.org/784.svg"
+      },
+      "name": "Serie C - Girone C",
+      "code": "ISCC",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2447,
+        "startDate": "2025-08-24",
+        "endDate": "2026-04-26",
+        "currentMatchday": 10,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2022-09-02T09:20:42Z"
+    },
+    {
+      "id": 2118,
+      "area": {
+        "id": 2116,
+        "name": "Japan",
+        "code": "JPN",
+        "flag": "https://crests.football-data.org/JAP.svg"
+      },
+      "name": "J.League Cup",
+      "code": null,
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 581,
+        "startDate": "2020-02-16",
+        "endDate": "2020-10-31",
+        "currentMatchday": 6,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2021-04-17T11:29:34Z"
+    },
+    {
+      "id": 2117,
+      "area": {
+        "id": 2116,
+        "name": "Japan",
+        "code": "JPN",
+        "flag": "https://crests.football-data.org/JAP.svg"
+      },
+      "name": "J. League Division 2",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 694,
+        "startDate": "2021-02-27",
+        "endDate": "2021-12-05",
+        "currentMatchday": 42,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:29:38Z"
+    },
+    {
+      "id": 2119,
+      "area": {
+        "id": 2116,
+        "name": "Japan",
+        "code": "JPN",
+        "flag": "https://crests.football-data.org/JAP.svg"
+      },
+      "name": "J. League",
+      "code": "JJL",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/jjl.png",
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 2368,
+        "startDate": "2025-02-14",
+        "endDate": "2025-12-06",
+        "currentMatchday": 34,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 8,
+      "lastUpdated": "2024-10-05T16:06:36Z"
+    },
+    {
+      "id": 2120,
+      "area": {
+        "id": 2116,
+        "name": "Japan",
+        "code": "JPN",
+        "flag": "https://crests.football-data.org/JAP.svg"
+      },
+      "name": "Super Cup",
+      "code": null,
+      "type": "SUPER_CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 695,
+        "startDate": "2021-02-20",
+        "endDate": "2021-02-23",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-02-20T08:30:26Z"
+    },
+    {
+      "id": 2116,
+      "area": {
+        "id": 2129,
+        "name": "Latvia",
+        "code": "LVA",
+        "flag": "https://crests.football-data.org/latvia.svg"
+      },
+      "name": "Virslīga",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 579,
+        "startDate": "2020-03-13",
+        "endDate": "2020-11-14",
+        "currentMatchday": 36,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2021-04-17T11:29:30Z"
+    },
+    {
+      "id": 2115,
+      "area": {
+        "id": 2135,
+        "name": "Lithuania",
+        "code": "LTU",
+        "flag": "https://crests.football-data.org/1983.svg"
+      },
+      "name": "A Lyga",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 590,
+        "startDate": "2020-03-06",
+        "endDate": "2020-11-07",
+        "currentMatchday": 30,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2021-04-17T11:29:27Z"
+    },
+    {
+      "id": 2114,
+      "area": {
+        "id": 2143,
+        "name": "Malta",
+        "code": "MLT",
+        "flag": "https://crests.football-data.org/malta.svg"
+      },
+      "name": "Premier League",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 633,
+        "startDate": "2020-09-11",
+        "endDate": "2021-05-30",
+        "currentMatchday": 28,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:29:24Z"
+    },
+    {
+      "id": 2111,
+      "area": {
+        "id": 2149,
+        "name": "Mexico",
+        "code": "MEX",
+        "flag": "https://crests.football-data.org/mexico.svg"
+      },
+      "name": "Copa MX",
+      "code": null,
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 479,
+        "startDate": "2019-07-30",
+        "endDate": "2020-04-15",
+        "currentMatchday": 7,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2021-04-17T11:29:21Z"
+    },
+    {
+      "id": 2112,
+      "area": {
+        "id": 2149,
+        "name": "Mexico",
+        "code": "MEX",
+        "flag": "https://crests.football-data.org/mexico.svg"
+      },
+      "name": "SuperCopa MX",
+      "code": "SCMX",
+      "type": "SUPER_CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 1535,
+        "startDate": "2022-06-27",
+        "endDate": "2022-06-27",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2022-11-08T07:21:43Z"
+    },
+    {
+      "id": 2113,
+      "area": {
+        "id": 2149,
+        "name": "Mexico",
+        "code": "MEX",
+        "flag": "https://crests.football-data.org/mexico.svg"
+      },
+      "name": "Liga MX",
+      "code": "LMX",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2409,
+        "startDate": "2025-07-12",
+        "endDate": "2026-04-30",
+        "currentMatchday": 13,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-10-05T16:06:22Z"
+    },
+    {
+      "id": 2109,
+      "area": {
+        "id": 2163,
+        "name": "Netherlands",
+        "code": "NLD",
+        "flag": "https://crests.football-data.org/8601.svg"
+      },
+      "name": "KNVB Beker",
+      "code": "KNV",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2451,
+        "startDate": "2025-09-02",
+        "endDate": "2025-09-02",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2021-04-17T00:00:25Z"
+    },
+    {
+      "id": 2005,
+      "area": {
+        "id": 2163,
+        "name": "Netherlands",
+        "code": "NLD",
+        "flag": "https://crests.football-data.org/8601.svg"
+      },
+      "name": "Eerste Divisie",
+      "code": "DJL",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/djl.png",
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2399,
+        "startDate": "2025-08-08",
+        "endDate": "2026-05-11",
+        "currentMatchday": 12,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-09-13T17:04:05Z"
+    },
+    {
+      "id": 2003,
+      "area": {
+        "id": 2163,
+        "name": "Netherlands",
+        "code": "NLD",
+        "flag": "https://crests.football-data.org/8601.svg"
+      },
+      "name": "Eredivisie",
+      "code": "DED",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/ED.png",
+      "plan": "TIER_ONE",
+      "currentSeason": {
+        "id": 2400,
+        "startDate": "2025-08-08",
+        "endDate": "2026-05-17",
+        "currentMatchday": 9,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 70,
+      "lastUpdated": "2024-09-13T16:34:42Z"
+    },
+    {
+      "id": 2110,
+      "area": {
+        "id": 2163,
+        "name": "Netherlands",
+        "code": "NLD",
+        "flag": "https://crests.football-data.org/8601.svg"
+      },
+      "name": "Johan Cruijff Schaal",
+      "code": "JCS",
+      "type": "SUPER_CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2405,
+        "startDate": "2025-08-03",
+        "endDate": "2025-08-03",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 5,
+      "lastUpdated": "2024-07-24T12:53:23Z"
+    },
+    {
+      "id": 2108,
+      "area": {
+        "id": 2171,
+        "name": "Northern Ireland",
+        "code": "NIR",
+        "flag": "https://crests.football-data.org/829.svg"
+      },
+      "name": "League Cup",
+      "code": null,
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 528,
+        "startDate": "2019-08-10",
+        "endDate": "2020-02-15",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2021-04-17T11:29:13Z"
+    },
+    {
+      "id": 2107,
+      "area": {
+        "id": 2171,
+        "name": "Northern Ireland",
+        "code": "NIR",
+        "flag": "https://crests.football-data.org/829.svg"
+      },
+      "name": "Premiership",
+      "code": "NIP",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2425,
+        "startDate": "2025-08-09",
+        "endDate": "2026-03-20",
+        "currentMatchday": 12,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 7,
+      "lastUpdated": "2022-11-16T12:41:43Z"
+    },
+    {
+      "id": 2106,
+      "area": {
+        "id": 2173,
+        "name": "Norway",
+        "code": "NOR",
+        "flag": "https://crests.football-data.org/813.svg"
+      },
+      "name": "Tippeligaen",
+      "code": "TIP",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2370,
+        "startDate": "2025-03-29",
+        "endDate": "2025-11-30",
+        "currentMatchday": 25,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 8,
+      "lastUpdated": "2024-10-05T16:05:07Z"
+    },
+    {
+      "id": 2105,
+      "area": {
+        "id": 2173,
+        "name": "Norway",
+        "code": "NOR",
+        "flag": "https://crests.football-data.org/813.svg"
+      },
+      "name": "1. divisjon",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 699,
+        "startDate": "2021-04-06",
+        "endDate": "2021-11-06",
+        "currentMatchday": 30,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:29:10Z"
+    },
+    {
+      "id": 2104,
+      "area": {
+        "id": 2173,
+        "name": "Norway",
+        "code": "NOR",
+        "flag": "https://crests.football-data.org/813.svg"
+      },
+      "name": "Playoffs 1/2",
+      "code": null,
+      "type": "PLAYOFFS",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 112,
+        "startDate": "2017-11-29",
+        "endDate": "2017-12-02",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2018-06-05T00:20:23Z"
+    },
+    {
+      "id": 2103,
+      "area": {
+        "id": 2175,
+        "name": "Oceania",
+        "code": "OCE",
+        "flag": null
+      },
+      "name": "WC Qualification OFC",
+      "code": "QOFC",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 111,
+        "startDate": "2015-08-31",
+        "endDate": "2017-09-05",
+        "currentMatchday": 6,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2021-11-09T14:49:43Z"
+    },
+    {
+      "id": 2102,
+      "area": {
+        "id": 2181,
+        "name": "Panama",
+        "code": "PAN",
+        "flag": null
+      },
+      "name": "Liga Panameña de Fútbol",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 701,
+        "startDate": "2021-02-19",
+        "endDate": "2021-11-28",
+        "currentMatchday": 16,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 5,
+      "lastUpdated": "2021-04-17T11:29:07Z"
+    },
+    {
+      "id": 2101,
+      "area": {
+        "id": 2184,
+        "name": "Peru",
+        "code": "PER",
+        "flag": null
+      },
+      "name": "Primera División",
+      "code": "PPD",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/peru.png",
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2381,
+        "startDate": "2025-02-07",
+        "endDate": "2025-11-16",
+        "currentMatchday": 19,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 8,
+      "lastUpdated": "2024-10-05T16:04:43Z"
+    },
+    {
+      "id": 2099,
+      "area": {
+        "id": 2186,
+        "name": "Poland",
+        "code": "POL",
+        "flag": "https://crests.football-data.org/794.svg"
+      },
+      "name": "Superpuchar Polski",
+      "code": null,
+      "type": "SUPER_CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 607,
+        "startDate": "2020-08-09",
+        "endDate": "2020-08-09",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2020-10-10T14:30:08Z"
+    },
+    {
+      "id": 2100,
+      "area": {
+        "id": 2186,
+        "name": "Poland",
+        "code": "POL",
+        "flag": "https://crests.football-data.org/794.svg"
+      },
+      "name": "Puchar Polski",
+      "code": null,
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 643,
+        "startDate": "2020-08-08",
+        "endDate": "2021-05-30",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-15T14:10:05Z"
+    },
+    {
+      "id": 2098,
+      "area": {
+        "id": 2187,
+        "name": "Portugal",
+        "code": "POR",
+        "flag": "https://crests.football-data.org/765.svg"
+      },
+      "name": "Taça de Portugal",
+      "code": "TDP",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2459,
+        "startDate": "2025-09-19",
+        "endDate": "2025-10-19",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 8,
+      "lastUpdated": "2023-11-21T15:45:39Z"
+    },
+    {
+      "id": 2096,
+      "area": {
+        "id": 2187,
+        "name": "Portugal",
+        "code": "POR",
+        "flag": "https://crests.football-data.org/765.svg"
+      },
+      "name": "Liga2 Cabovisão",
+      "code": "PSL",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2438,
+        "startDate": "2025-08-10",
+        "endDate": "2026-12-28",
+        "currentMatchday": 8,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-07-30T11:42:39Z"
+    },
+    {
+      "id": 2017,
+      "area": {
+        "id": 2187,
+        "name": "Portugal",
+        "code": "POR",
+        "flag": "https://crests.football-data.org/765.svg"
+      },
+      "name": "Primeira Liga",
+      "code": "PPL",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/PPL.png",
+      "plan": "TIER_ONE",
+      "currentSeason": {
+        "id": 2433,
+        "startDate": "2025-08-08",
+        "endDate": "2026-05-17",
+        "currentMatchday": 9,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 77,
+      "lastUpdated": "2024-09-13T16:54:08Z"
+    },
+    {
+      "id": 2177,
+      "area": {
+        "id": 2187,
+        "name": "Portugal",
+        "code": "POR",
+        "flag": "https://crests.football-data.org/765.svg"
+      },
+      "name": "Taça da Liga",
+      "code": "TDL",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2435,
+        "startDate": "2025-10-29",
+        "endDate": "2025-10-29",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2023-11-23T12:03:32Z"
+    },
+    {
+      "id": 2097,
+      "area": {
+        "id": 2187,
+        "name": "Portugal",
+        "code": "POR",
+        "flag": "https://crests.football-data.org/765.svg"
+      },
+      "name": "Supertaça Cândido de Oliveira",
+      "code": "SCO",
+      "type": "SUPER_CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2404,
+        "startDate": "2025-08-02",
+        "endDate": "2025-08-02",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 7,
+      "lastUpdated": "2024-07-30T11:32:09Z"
+    },
+    {
+      "id": 2095,
+      "area": {
+        "id": 2192,
+        "name": "Republic of Ireland",
+        "code": "IRL",
+        "flag": "https://crests.football-data.org/806.svg"
+      },
+      "name": "Premier Division",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 574,
+        "startDate": "2020-02-14",
+        "endDate": "2020-10-23",
+        "currentMatchday": 35,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2021-04-17T11:28:53Z"
+    },
+    {
+      "id": 2092,
+      "area": {
+        "id": 2194,
+        "name": "Romania",
+        "code": "ROU",
+        "flag": "https://crests.football-data.org/811.svg"
+      },
+      "name": "Liga II",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 713,
+        "startDate": "2020-08-29",
+        "endDate": "2021-05-30",
+        "currentMatchday": 21,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:28:49Z"
+    },
+    {
+      "id": 2094,
+      "area": {
+        "id": 2194,
+        "name": "Romania",
+        "code": "ROU",
+        "flag": "https://crests.football-data.org/811.svg"
+      },
+      "name": "Liga I",
+      "code": "RL1",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2427,
+        "startDate": "2025-07-11",
+        "endDate": "2026-03-07",
+        "currentMatchday": 13,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2021-04-17T00:00:27Z"
+    },
+    {
+      "id": 2093,
+      "area": {
+        "id": 2194,
+        "name": "Romania",
+        "code": "ROU",
+        "flag": "https://crests.football-data.org/811.svg"
+      },
+      "name": "Supercupa României",
+      "code": null,
+      "type": "SUPER_CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 515,
+        "startDate": "2019-07-13",
+        "endDate": "2019-07-13",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2019-07-07T00:20:01Z"
+    },
+    {
+      "id": 2089,
+      "area": {
+        "id": 2195,
+        "name": "Russia",
+        "code": "RUS",
+        "flag": "https://crests.football-data.org/808.svg"
+      },
+      "name": "Russian Cup",
+      "code": null,
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 646,
+        "startDate": "2020-08-05",
+        "endDate": "2021-05-12",
+        "currentMatchday": 3,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:28:45Z"
+    },
+    {
+      "id": 2088,
+      "area": {
+        "id": 2195,
+        "name": "Russia",
+        "code": "RUS",
+        "flag": "https://crests.football-data.org/808.svg"
+      },
+      "name": "FNL",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 634,
+        "startDate": "2020-08-01",
+        "endDate": "2021-10-03",
+        "currentMatchday": 42,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:32:31Z"
+    },
+    {
+      "id": 2137,
+      "area": {
+        "id": 2195,
+        "name": "Russia",
+        "code": "RUS",
+        "flag": "https://crests.football-data.org/808.svg"
+      },
+      "name": "RFPL",
+      "code": "RFPL",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 2413,
+        "startDate": "2025-07-18",
+        "endDate": "2026-05-17",
+        "currentMatchday": 12,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-10-05T16:08:10Z"
+    },
+    {
+      "id": 2090,
+      "area": {
+        "id": 2195,
+        "name": "Russia",
+        "code": "RUS",
+        "flag": "https://crests.football-data.org/808.svg"
+      },
+      "name": "Playoffs 1/2",
+      "code": null,
+      "type": "PLAYOFFS",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 96,
+        "startDate": "2018-05-17",
+        "endDate": "2018-05-20",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2018-06-05T00:24:32Z"
+    },
+    {
+      "id": 2091,
+      "area": {
+        "id": 2195,
+        "name": "Russia",
+        "code": "RUS",
+        "flag": "https://crests.football-data.org/808.svg"
+      },
+      "name": "Russian Super Cup",
+      "code": null,
+      "type": "SUPER_CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 647,
+        "startDate": "2020-08-07",
+        "endDate": "2020-08-07",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2019-07-07T00:25:01Z"
+    },
+    {
+      "id": 2087,
+      "area": {
+        "id": 2204,
+        "name": "Scotland",
+        "code": "SCO",
+        "flag": "https://crests.football-data.org/814.svg"
+      },
+      "name": "Scottish Cup",
+      "code": null,
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 703,
+        "startDate": "2020-11-28",
+        "endDate": "2021-05-08",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:28:39Z"
+    },
+    {
+      "id": 2085,
+      "area": {
+        "id": 2204,
+        "name": "Scotland",
+        "code": "SCO",
+        "flag": "https://crests.football-data.org/814.svg"
+      },
+      "name": "Championship",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 608,
+        "startDate": "2020-10-17",
+        "endDate": "2021-05-30",
+        "currentMatchday": 27,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:28:42Z"
+    },
+    {
+      "id": 2084,
+      "area": {
+        "id": 2204,
+        "name": "Scotland",
+        "code": "SCO",
+        "flag": "https://crests.football-data.org/814.svg"
+      },
+      "name": "Premier League",
+      "code": "SPL",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/SPL.png",
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 2410,
+        "startDate": "2025-08-02",
+        "endDate": "2026-04-11",
+        "currentMatchday": 10,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 129,
+      "lastUpdated": "2024-09-13T16:38:33Z"
+    },
+    {
+      "id": 2086,
+      "area": {
+        "id": 2204,
+        "name": "Scotland",
+        "code": "SCO",
+        "flag": "https://crests.football-data.org/814.svg"
+      },
+      "name": "Playoffs 2/3",
+      "code": null,
+      "type": "SUPER_CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 92,
+        "startDate": "2018-05-02",
+        "endDate": "2018-05-13",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2018-06-05T00:25:54Z"
+    },
+    {
+      "id": 2173,
+      "area": {
+        "id": 2215,
+        "name": "Slovenia",
+        "code": "SVN",
+        "flag": null
+      },
+      "name": "PrvaLiga",
+      "code": "SPRV",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2422,
+        "startDate": "2025-07-19",
+        "endDate": "2026-05-23",
+        "currentMatchday": 12,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2024-06-20T19:01:44Z"
+    },
+    {
+      "id": 2083,
+      "area": {
+        "id": 2219,
+        "name": "South Africa",
+        "code": "RSA",
+        "flag": null
+      },
+      "name": "ABSA Premiership",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 704,
+        "startDate": "2020-10-24",
+        "endDate": "2021-05-30",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:28:35Z"
+    },
+    {
+      "id": 2080,
+      "area": {
+        "id": 2220,
+        "name": "South America",
+        "code": "SAM",
+        "flag": "https://crests.football-data.org/CLI.svg"
+      },
+      "name": "Copa America",
+      "code": "CA",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 1642,
+        "startDate": "2024-06-20",
+        "endDate": "2024-07-14",
+        "currentMatchday": 3,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-05-25T10:09:19Z"
+    },
+    {
+      "id": 2152,
+      "area": {
+        "id": 2220,
+        "name": "South America",
+        "code": "SAM",
+        "flag": "https://crests.football-data.org/CLI.svg"
+      },
+      "name": "Copa Libertadores",
+      "code": "CLI",
+      "type": "CUP",
+      "emblem": "https://crests.football-data.org/CLI.svg",
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2366,
+        "startDate": "2025-02-05",
+        "endDate": "2025-11-29",
+        "currentMatchday": 6,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 5,
+      "lastUpdated": "2025-02-13T21:08:12Z"
+    },
+    {
+      "id": 2081,
+      "area": {
+        "id": 2220,
+        "name": "South America",
+        "code": "SAM",
+        "flag": "https://crests.football-data.org/CLI.svg"
+      },
+      "name": "Copa Sudamericana",
+      "code": "CS",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2377,
+        "startDate": "2025-03-05",
+        "endDate": "2025-11-22",
+        "currentMatchday": 2,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 6,
+      "lastUpdated": "2024-08-02T10:35:10Z"
+    },
+    {
+      "id": 2082,
+      "area": {
+        "id": 2220,
+        "name": "South America",
+        "code": "SAM",
+        "flag": "https://crests.football-data.org/CLI.svg"
+      },
+      "name": "WC Qualification CONMEBOL",
+      "code": "QCBL",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 1599,
+        "startDate": "2023-09-06",
+        "endDate": "2025-09-06",
+        "currentMatchday": 18,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2021-11-11T10:35:28Z"
+    },
+    {
+      "id": 2079,
+      "area": {
+        "id": 2224,
+        "name": "Spain",
+        "code": "ESP",
+        "flag": "https://crests.football-data.org/760.svg"
+      },
+      "name": "Copa del Rey",
+      "code": "CDR",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2460,
+        "startDate": "2025-09-27",
+        "endDate": "2026-05-31",
+        "currentMatchday": 2,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 120,
+      "lastUpdated": "2021-04-16T00:00:33Z"
+    },
+    {
+      "id": 2077,
+      "area": {
+        "id": 2224,
+        "name": "Spain",
+        "code": "ESP",
+        "flag": "https://crests.football-data.org/760.svg"
+      },
+      "name": "Segunda División",
+      "code": "SD",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/SD.png",
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 2430,
+        "startDate": "2025-08-17",
+        "endDate": "2026-05-31",
+        "currentMatchday": 10,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 14,
+      "lastUpdated": "2024-09-13T16:52:28Z"
+    },
+    {
+      "id": 2014,
+      "area": {
+        "id": 2224,
+        "name": "Spain",
+        "code": "ESP",
+        "flag": "https://crests.football-data.org/760.svg"
+      },
+      "name": "Primera Division",
+      "code": "PD",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/laliga.png",
+      "plan": "TIER_ONE",
+      "currentSeason": {
+        "id": 2429,
+        "startDate": "2025-08-17",
+        "endDate": "2026-05-24",
+        "currentMatchday": 9,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 95,
+      "lastUpdated": "2024-09-13T16:52:33Z"
+    },
+    {
+      "id": 2078,
+      "area": {
+        "id": 2224,
+        "name": "Spain",
+        "code": "ESP",
+        "flag": "https://crests.football-data.org/760.svg"
+      },
+      "name": "Supercopa de España",
+      "code": "SDE",
+      "type": "SUPER_CUP",
+      "emblem": "https://crests.football-data.org/sde.png",
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2374,
+        "startDate": "2025-01-08",
+        "endDate": "2025-01-12",
+        "currentMatchday": 0,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 45,
+      "lastUpdated": "2024-01-13T10:54:15Z"
+    },
+    {
+      "id": 2179,
+      "area": {
+        "id": 2224,
+        "name": "Spain",
+        "code": "ESP",
+        "flag": "https://crests.football-data.org/760.svg"
+      },
+      "name": "La Liga Play-Offs",
+      "code": "LLP",
+      "type": "PLAYOFFS",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2393,
+        "startDate": "2025-06-07",
+        "endDate": "2025-06-21",
+        "currentMatchday": 2,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 2,
+      "lastUpdated": "2024-06-20T19:06:37Z"
+    },
+    {
+      "id": 2074,
+      "area": {
+        "id": 2233,
+        "name": "Sweden",
+        "code": "SWE",
+        "flag": "https://crests.football-data.org/792.svg"
+      },
+      "name": "Superettan",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 710,
+        "startDate": "2021-04-10",
+        "endDate": "2021-11-27",
+        "currentMatchday": 30,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:28:27Z"
+    },
+    {
+      "id": 2073,
+      "area": {
+        "id": 2233,
+        "name": "Sweden",
+        "code": "SWE",
+        "flag": "https://crests.football-data.org/792.svg"
+      },
+      "name": "Allsvenskan",
+      "code": "ALL",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/all.png",
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2365,
+        "startDate": "2025-03-30",
+        "endDate": "2025-11-09",
+        "currentMatchday": 27,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 8,
+      "lastUpdated": "2024-10-05T15:52:25Z"
+    },
+    {
+      "id": 2075,
+      "area": {
+        "id": 2233,
+        "name": "Sweden",
+        "code": "SWE",
+        "flag": "https://crests.football-data.org/792.svg"
+      },
+      "name": "Playoffs 2/3",
+      "code": null,
+      "type": "PLAYOFFS",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 79,
+        "startDate": "2017-11-08",
+        "endDate": "2017-11-11",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2018-06-05T00:28:43Z"
+    },
+    {
+      "id": 2076,
+      "area": {
+        "id": 2233,
+        "name": "Sweden",
+        "code": "SWE",
+        "flag": "https://crests.football-data.org/792.svg"
+      },
+      "name": "Playoffs 1/2",
+      "code": null,
+      "type": "PLAYOFFS",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 80,
+        "startDate": "2017-11-15",
+        "endDate": "2017-11-19",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2018-06-05T00:28:54Z"
+    },
+    {
+      "id": 2151,
+      "area": {
+        "id": 2233,
+        "name": "Sweden",
+        "code": "SWE",
+        "flag": "https://crests.football-data.org/792.svg"
+      },
+      "name": "Svenska Supercupen",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 711,
+        "startDate": "2015-11-08",
+        "endDate": "2015-11-08",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2024-06-20T18:59:10Z"
+    },
+    {
+      "id": 2071,
+      "area": {
+        "id": 2234,
+        "name": "Switzerland",
+        "code": "CHE",
+        "flag": "https://crests.football-data.org/788.svg"
+      },
+      "name": "Schweizer Pokal",
+      "code": null,
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 660,
+        "startDate": "2020-08-28",
+        "endDate": "2021-05-24",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T10:02:19Z"
+    },
+    {
+      "id": 2072,
+      "area": {
+        "id": 2234,
+        "name": "Switzerland",
+        "code": "CHE",
+        "flag": "https://crests.football-data.org/788.svg"
+      },
+      "name": "Super League",
+      "code": "SSL",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2412,
+        "startDate": "2025-07-25",
+        "endDate": "2026-01-31",
+        "currentMatchday": 9,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-10-05T15:52:00Z"
+    },
+    {
+      "id": 2068,
+      "area": {
+        "id": 2247,
+        "name": "Turkey",
+        "code": "TUR",
+        "flag": "https://crests.football-data.org/803.svg"
+      },
+      "name": "1. Lig",
+      "code": "T1L",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2441,
+        "startDate": "2025-08-10",
+        "endDate": "2026-05-02",
+        "currentMatchday": 10,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 8,
+      "lastUpdated": "2022-07-26T09:36:02Z"
+    },
+    {
+      "id": 2070,
+      "area": {
+        "id": 2247,
+        "name": "Turkey",
+        "code": "TUR",
+        "flag": "https://crests.football-data.org/803.svg"
+      },
+      "name": "Süper Lig",
+      "code": "TSL",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2440,
+        "startDate": "2025-08-10",
+        "endDate": "2026-05-17",
+        "currentMatchday": 9,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-10-05T15:51:17Z"
+    },
+    {
+      "id": 2069,
+      "area": {
+        "id": 2247,
+        "name": "Turkey",
+        "code": "TUR",
+        "flag": "https://crests.football-data.org/803.svg"
+      },
+      "name": "TFF Süper Kupa",
+      "code": null,
+      "type": "SUPER_CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 708,
+        "startDate": "2021-01-27",
+        "endDate": "2021-01-27",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2019-08-07T21:11:21Z"
+    },
+    {
+      "id": 2065,
+      "area": {
+        "id": 2253,
+        "name": "Ukraine",
+        "code": "UKR",
+        "flag": "https://crests.football-data.org/790.svg"
+      },
+      "name": "Kubok Ukrainy",
+      "code": null,
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 551,
+        "startDate": "2019-08-07",
+        "endDate": "2020-07-08",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 3,
+      "lastUpdated": "2021-04-06T14:22:39Z"
+    },
+    {
+      "id": 2064,
+      "area": {
+        "id": 2253,
+        "name": "Ukraine",
+        "code": "UKR",
+        "flag": "https://crests.football-data.org/790.svg"
+      },
+      "name": "Premier Liha",
+      "code": "UPL",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/upl.png",
+      "plan": "TIER_THREE",
+      "currentSeason": {
+        "id": 2431,
+        "startDate": "2025-08-02",
+        "endDate": "2026-05-29",
+        "currentMatchday": 9,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-01-13T11:45:52Z"
+    },
+    {
+      "id": 2066,
+      "area": {
+        "id": 2253,
+        "name": "Ukraine",
+        "code": "UKR",
+        "flag": "https://crests.football-data.org/790.svg"
+      },
+      "name": "Playoffs 1/2",
+      "code": null,
+      "type": "PLAYOFFS",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 70,
+        "startDate": "2018-05-23",
+        "endDate": "2018-05-27",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2018-06-02T14:03:07Z"
+    },
+    {
+      "id": 2067,
+      "area": {
+        "id": 2253,
+        "name": "Ukraine",
+        "code": "UKR",
+        "flag": "https://crests.football-data.org/790.svg"
+      },
+      "name": "Superkubok Ukrainy",
+      "code": null,
+      "type": "SUPER_CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 648,
+        "startDate": "2020-08-25",
+        "endDate": "2020-08-25",
+        "currentMatchday": null,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2019-07-28T23:59:39Z"
+    },
+    {
+      "id": 2145,
+      "area": {
+        "id": 2256,
+        "name": "United States",
+        "code": "USA",
+        "flag": "https://crests.football-data.org/usa.svg"
+      },
+      "name": "MLS",
+      "code": "MLS",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/MLS.png",
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 2367,
+        "startDate": "2025-02-22",
+        "endDate": "2025-10-19",
+        "currentMatchday": 34,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 6,
+      "lastUpdated": "2024-09-13T16:52:12Z"
+    },
+    {
+      "id": 2175,
+      "area": {
+        "id": 2256,
+        "name": "United States",
+        "code": "USA",
+        "flag": "https://crests.football-data.org/usa.svg"
+      },
+      "name": "MLS - Playoffs",
+      "code": "MLSP",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2362,
+        "startDate": "2024-10-22",
+        "endDate": "2024-11-04",
+        "currentMatchday": 2,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 2,
+      "lastUpdated": "2024-06-20T19:06:23Z"
+    },
+    {
+      "id": 2063,
+      "area": {
+        "id": 2257,
+        "name": "Uruguay",
+        "code": "URY",
+        "flag": null
+      },
+      "name": "Primera División",
+      "code": "UPD",
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2382,
+        "startDate": "2025-01-31",
+        "endDate": "2025-11-09",
+        "currentMatchday": 14,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 5,
+      "lastUpdated": "2024-06-22T09:43:03Z"
+    },
+    {
+      "id": 2148,
+      "area": {
+        "id": 2257,
+        "name": "Uruguay",
+        "code": "URY",
+        "flag": null
+      },
+      "name": "Supercopa Uruguay",
+      "code": "SUCU",
+      "type": "SUPER_CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 569,
+        "startDate": "2020-02-01",
+        "endDate": "2020-02-01",
+        "currentMatchday": 1,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2024-06-20T18:58:20Z"
+    },
+    {
+      "id": 2062,
+      "area": {
+        "id": 2262,
+        "name": "Venezuela",
+        "code": "VEN",
+        "flag": null
+      },
+      "name": "Primera División",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 722,
+        "startDate": "2021-04-04",
+        "endDate": "2021-11-28",
+        "currentMatchday": 1,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T11:28:17Z"
+    },
+    {
+      "id": 2061,
+      "area": {
+        "id": 2263,
+        "name": "Vietnam",
+        "code": "VIE",
+        "flag": null
+      },
+      "name": "V-League",
+      "code": null,
+      "type": "LEAGUE",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 705,
+        "startDate": "2021-01-24",
+        "endDate": "2021-10-31",
+        "currentMatchday": 13,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 4,
+      "lastUpdated": "2021-04-17T00:00:31Z"
+    },
+    {
+      "id": 2060,
+      "area": {
+        "id": 2264,
+        "name": "Wales",
+        "code": "WAL",
+        "flag": "https://crests.football-data.org/833.svg"
+      },
+      "name": "Welsh Premier League",
+      "code": "WPL",
+      "type": "LEAGUE",
+      "emblem": "https://crests.football-data.org/welsh.png",
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2445,
+        "startDate": "2025-08-08",
+        "endDate": "2026-01-09",
+        "currentMatchday": 14,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 9,
+      "lastUpdated": "2024-06-27T11:52:33Z"
+    },
+    {
+      "id": 2180,
+      "area": {
+        "id": 2267,
+        "name": "World",
+        "code": "INT",
+        "flag": null
+      },
+      "name": "Club Friendlies",
+      "code": "CLF",
+      "type": "PLAYOFFS",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 2278,
+        "startDate": "2024-01-05",
+        "endDate": "2024-08-10",
+        "currentMatchday": 32,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2024-06-20T19:26:54Z"
+    },
+    {
+      "id": 2178,
+      "area": {
+        "id": 2267,
+        "name": "World",
+        "code": "INT",
+        "flag": null
+      },
+      "name": "FIFA Club World Cup",
+      "code": "FCWC",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 2376,
+        "startDate": "2025-06-15",
+        "endDate": "2025-07-13",
+        "currentMatchday": 3,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 22,
+      "lastUpdated": "2025-05-14T13:22:23Z"
+    },
+    {
+      "id": 2000,
+      "area": {
+        "id": 2267,
+        "name": "World",
+        "code": "INT",
+        "flag": null
+      },
+      "name": "FIFA World Cup",
+      "code": "WC",
+      "type": "CUP",
+      "emblem": "https://crests.football-data.org/qatar.png",
+      "plan": "TIER_ONE",
+      "currentSeason": {
+        "id": 2398,
+        "startDate": "2026-06-11",
+        "endDate": "2026-07-19",
+        "currentMatchday": 1,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 23,
+      "lastUpdated": "2024-09-13T17:04:20Z"
+    },
+    {
+      "id": 2153,
+      "area": {
+        "id": 2267,
+        "name": "World",
+        "code": "INT",
+        "flag": null
+      },
+      "name": "Summer Olympics",
+      "code": "OLY",
+      "type": "CUP",
+      "emblem": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Olympic_flag.svg",
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 1655,
+        "startDate": "2024-07-24",
+        "endDate": "2024-08-09",
+        "currentMatchday": 7,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 2,
+      "lastUpdated": "2021-07-21T15:39:38Z"
+    },
+    {
+      "id": 2167,
+      "area": {
+        "id": 2267,
+        "name": "World",
+        "code": "INT",
+        "flag": null
+      },
+      "name": "FIFA Women's World Cup",
+      "code": "WCF",
+      "type": "CUP",
+      "emblem": "https://crests.football-data.org/fwwc.svg",
+      "plan": "TIER_TWO",
+      "currentSeason": {
+        "id": 1563,
+        "startDate": "2023-07-20",
+        "endDate": "2023-08-20",
+        "currentMatchday": 3,
+        "winner": {
+          "id": 6677,
+          "name": "Spain",
+          "shortName": "Spain",
+          "tla": "ESP",
+          "crest": "https://crests.football-data.org/760.svg",
+          "address": "Ramón y Cajal, s/n Las Rozas 28230",
+          "website": "http://www.rfef.es",
+          "founded": 1909,
+          "clubColors": "Red / Blue / Yellow",
+          "venue": "Estadio Nuevo Municipal Las Gaunas",
+          "lastUpdated": "2023-04-05T11:14:25Z"
+        }
+      },
+      "numberOfAvailableSeasons": 1,
+      "lastUpdated": "2025-05-19T12:26:30Z"
+    },
+    {
+      "id": 2155,
+      "area": {
+        "id": 2267,
+        "name": "World",
+        "code": "INT",
+        "flag": null
+      },
+      "name": "WC Qualification CONCACAF",
+      "code": "QCCF",
+      "type": "CUP",
+      "emblem": null,
+      "plan": "TIER_FOUR",
+      "currentSeason": {
+        "id": 1651,
+        "startDate": "2024-03-18",
+        "endDate": "2024-03-26",
+        "currentMatchday": 2,
+        "winner": null
+      },
+      "numberOfAvailableSeasons": 2,
+      "lastUpdated": "2021-11-11T10:39:10Z"
+    }
+  ]
+}

@@ -107,12 +107,12 @@
       "playedGames": 34,
       "form": null,
       "won": 14,
-      "draw": 10,
-      "lost": 10,
-      "points": 52,
-      "goalsFor": 44,
+      "draw": 11,
+      "lost": 9,
+      "points": 53,
+      "goalsFor": 46,
       "goalsAgainst": 30,
-      "goalDifference": 14
+      "goalDifference": 16
     },
     {
       "position": 7,
@@ -372,13 +372,13 @@
       },
       "playedGames": 34,
       "form": null,
-      "won": 3,
-      "draw": 11,
+      "won": 2,
+      "draw": 12,
       "lost": 20,
-      "points": 20,
+      "points": 18,
       "goalsFor": 27,
-      "goalsAgainst": 60,
-      "goalDifference": -33
+      "goalsAgainst": 62,
+      "goalDifference": -35
     }
   ],
   "competition_name": "Campeonato Brasileiro Série A",
@@ -392,5 +392,5 @@
   },
   "available_seasons": [],
   "error": null,
-  "updated_at": "19.11.2025   01:15:54"
+  "updated_at": "19.11.2025   02:01:32"
 }
