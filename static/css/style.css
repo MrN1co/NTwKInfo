@@ -1,3 +1,5 @@
+@import url("ekonomia.css");
+
 /* Main stylesheet for NTwKInfo application */
 /* --- 0. Zmienne Kolorów i Czcionek --- */
 :root {
@@ -858,6 +860,3 @@ h1, h2, h3 {
   cursor: pointer;
   margin-top: 10px;
 }
-
-
-

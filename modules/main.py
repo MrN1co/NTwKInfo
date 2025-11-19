@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, session, request, flash, redirect, url_for
 from modules.auth import login_required
+from modules.ekonomia.ekonomia import ekonomia
 
 main_bp = Blueprint('main', __name__)
 
@@ -15,7 +16,7 @@ def news():
 
 @main_bp.route('/ekonomia')
 def economy():
-    return render_template('base.html')
+    return ekonomia()
 
 
 @main_bp.route('/pogoda')
