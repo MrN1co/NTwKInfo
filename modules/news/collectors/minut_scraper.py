@@ -1,11 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 
 def get_minut_news(limit=10):
     """
     Pobiera najnowsze informacje z 90minut.pl (prosta, defensywna implementacja).
-    Zwraca listę słowników z kluczami: 'title', 'link', 'image' (może być None).
+    Zwraca listę słowników z kluczami: 'title', 'link', 'image', 'date', 'tags'.
     """
     url = 'http://www.90minut.pl'
     headers = {
@@ -47,10 +48,15 @@ def get_minut_news(limit=10):
             if img and img.has_attr('src'):
                 image_url = img['src']
 
+            # Używamy aktualnego czasu jako daty - 90minut nie udostępnia dat na liście
+            date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
             news_list.append({
                 'title': title,
                 'link': link,
-                'image': image_url
+                'image': image_url,
+                'date': date,
+                'tags': ['sport']
             })
 
         return news_list

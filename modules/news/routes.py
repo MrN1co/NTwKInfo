@@ -156,30 +156,44 @@ def find_stat(stats, name, attr='value', default=None):
 @tables_bp.route('/news')
 def news():
     """
-    Trasa wyświetlająca wiadomości z kryminalki.pl
+    Trasa wyświetlająca połączone wiadomości z wszystkich źródeł (kryminalki, 90minut, przegladsportowy)
+    Obsługuje filtrowanie po tagach przez query parameter ?tags=sport,kryminalne
     """
-    # Wczytaj wiadomości z JSON
-    news_path = 'data/news/kryminalki/kryminalki.json'
-    news_data = load_from_json(news_path, {'news': [], 'updated_at': None})
+    # Pobierz tagi z query parameters
+    tags_param = request.args.get('tags', '')
+    selected_tags = [t.strip() for t in tags_param.split(',') if t.strip()] if tags_param else []
     
-    # Jeśli brak danych w JSON, pobierz świeże (fallback)
-    if not news_data.get('news'):
-        try:
-            fresh_news = get_kryminalki_news(limit=15)
-            if fresh_news:
-                news_data = {
-                    'news': fresh_news,
-                    'updated_at': get_warsaw_time()
-                }
-                # Zapisz do JSON
-                save_to_json(news_path, news_data)
-        except Exception as e:
-            print(f"Błąd pobierania wiadomości: {e}")
-            news_data = {'news': [], 'updated_at': None}
+    # Wczytaj wiadomości z wszystkich źródeł
+    kryminalki_path = 'data/news/kryminalki/kryminalki.json'
+    minut_path = 'data/news/minut/minut.json'
+    przegladsportowy_path = 'data/news/przegladsportowy/przegladsportowy.json'
+    
+    kryminalki_data = load_from_json(kryminalki_path, {'news': []})
+    minut_data = load_from_json(minut_path, {'news': []})
+    przegladsportowy_data = load_from_json(przegladsportowy_path, {'news': []})
+    
+    # Połącz wszystkie wiadomości
+    all_news = []
+    all_news.extend(kryminalki_data.get('news', []))
+    all_news.extend(minut_data.get('news', []))
+    all_news.extend(przegladsportowy_data.get('news', []))
+    
+    # Filtruj po tagach jeśli są wybrane
+    if selected_tags:
+        filtered_news = []
+        for news_item in all_news:
+            item_tags = news_item.get('tags', [])
+            # Sprawdź czy wiadomość ma przynajmniej jeden z wybranych tagów
+            if any(tag in item_tags for tag in selected_tags):
+                filtered_news.append(news_item)
+        all_news = filtered_news
+    
+    # Sortuj po dacie malejąco (najnowsze pierwsze)
+    all_news.sort(key=lambda x: x.get('date', ''), reverse=True)
     
     return render_template('news/news.html', 
-                         news_list=news_data.get('news', []),
-                         updated_at=news_data.get('updated_at'))
+                         news_list=all_news,
+                         selected_tags=selected_tags)
 
 
 @tables_bp.route('/news_main')

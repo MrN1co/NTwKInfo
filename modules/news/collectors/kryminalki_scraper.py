@@ -68,8 +68,15 @@ def get_kryminalki_news(limit=10):
             if not title_text or len(title_text) < 10:
                 continue
             
-            # Oczyszczamy tytuł - usuwamy datę jeśli jest na końcu
-            title = title_text.split('Data dodania artykułu:')[0].strip()
+            # Wyciągamy datę jeśli jest
+            date = None
+            if 'Data dodania artykułu:' in title_text:
+                parts = title_text.split('Data dodania artykułu:')
+                title = parts[0].strip()
+                if len(parts) > 1:
+                    date = parts[1].strip()
+            else:
+                title = title_text
             
             # Pomijamy duplikaty
             if any(n['link'] == link for n in news_list):
@@ -78,7 +85,9 @@ def get_kryminalki_news(limit=10):
             news_list.append({
                 'title': title,
                 'link': link,
-                'image': image_url if image_url else None
+                'image': image_url if image_url else None,
+                'date': date,
+                'tags': ['kryminalne']
             })
         
         return news_list

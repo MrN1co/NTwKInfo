@@ -1,16 +1,16 @@
 {% extends "news/news_base.html" %}
 
-{% block title %}Wiadomości - Kryminalki.pl{% endblock %}
+{% block title %}Wiadomości{% endblock %}
 
 {% block news_content %}
 <div class="news-container">
-    <h1>Wiadomości z Kryminalki.pl</h1>
+    <h1>Wiadomości</h1>
     
-    {% if updated_at %}
-    <p class="info">
-        <span class="update-time">Ostatnia aktualizacja: {{ updated_at }} (Warszawa)</span>
-    </p>
-    {% endif %}
+    <div class="tag-filters">
+        <button class="tag-btn {% if not selected_tags %}active{% endif %}" data-tag="">Wszystko</button>
+        <button class="tag-btn {% if 'sport' in selected_tags %}active{% endif %}" data-tag="sport">Sport</button>
+        <button class="tag-btn {% if 'kryminalne' in selected_tags %}active{% endif %}" data-tag="kryminalne">Kryminalne</button>
+    </div>
     
     {% if news_list %}
         {% for item in news_list %}
@@ -49,4 +49,33 @@
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tagButtons = document.querySelectorAll('.tag-btn');
+    let selectedTags = new Set({{ selected_tags|tojson }});
+    
+    tagButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const tag = this.dataset.tag;
+            
+            if (tag === '') {
+                // "Wszystko" - wyczyść wszystkie filtry
+                selectedTags.clear();
+            } else {
+                // Tag konkretny
+                if (selectedTags.has(tag)) {
+                    selectedTags.delete(tag);
+                } else {
+                    selectedTags.add(tag);
+                }
+            }
+            
+            // Zbuduj URL z parametrami
+            const tagsParam = Array.from(selectedTags).join(',');
+            const url = tagsParam ? `{{ url_for('tables.news') }}?tags=${tagsParam}` : `{{ url_for('tables.news') }}`;
+            window.location.href = url;
+        });
+    });
+});
+</script>
 {% endblock %}
