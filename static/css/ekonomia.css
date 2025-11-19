@@ -1,10 +1,9 @@
 body {
     /* Background of whole page -> very light gray */
-    background-color: #F3F4F3;
     color: #000000;
     font-family: 'Inter', sans-serif;
     text-align: center;
-    padding: 20px;
+    /* padding: 20px; */
 }
 
 html, body {

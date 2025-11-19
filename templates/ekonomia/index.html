@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block title %}NTWKInfo - Bądź na czasie{% endblock %}
+
+{% block content %}
+
 <html lang="pl">
 <head>
     <meta charset="UTF-8" />
@@ -12,63 +17,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/ekonomia.css') }}" />
 </head>
 <body>
-<!-- NAVBAR – FULL WIDTH + STICKY -->
-<nav class="navbar navbar-expand-lg bg-white border-bottom py-3 fixed-top w-100">
-  <div class="container-fluid px-4">
-
-    <!-- LEWA STRONA – LOGO -->
-    <a class="navbar-brand fw-bold" href="#" style="font-size: 1.6rem;">
-      NTWKinfo
-    </a>
-
-    <!-- HAMBURGER -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <!-- ZAWARTOŚĆ -->
-    <div class="collapse navbar-collapse" id="mainNavbar">
-
-      <!-- LINKI W ŚRODKU -->
-      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-4">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Wiadomości</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Ekonomia</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pogoda</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">O nas</a>
-        </li>
-      </ul>
-
-<!-- PRAWA STRONA -->
-<div class="d-flex align-items-center gap-4 navbar-right">
-
-  <div class="d-flex flex-column justify-content-center text-center" style="line-height: 1.2; min-width: 230px;">
-    <div class="fw-semibold" style="font-size: 0.9rem;">
-      28 stycznia, poniedziałek
-    </div>
-    <div class="text-success" style="font-size: 0.85rem;">
-      Dzień Pamięci Ofiar Reżimu Hitlerowskiego
-    </div>
-  </div>
-
-        <a href="#" class="btn btn-success rounded-pill px-4 py-2">
-          Zaloguj się
-        </a>
-
-      </div>
-    </div>
-
-  </div>
-</nav>
-
 <!-- DODAJ ODSTĘP POD NAVBAREM, ŻEBY NIE ZACHODZIŁ NA TREŚĆ -->
-<div style="height: 95px;"></div>
 <div class="container py-4">
     <h1 class="mb-4 header-title">💱 Kursy walut i cena złota</h1>
 
@@ -260,41 +209,9 @@
 })();
 </script>
 
-<!-- FOOTER -->
-<footer class="border-top py-3 mt-5">
-  <div class="container-fluid px-4">
-
-    <div class="d-flex justify-content-between align-items-center">
-
-      <!-- LEWA STRONA: LUDZIK + TEXT -->
-      <div class="d-flex align-items-center">
-
-        <!-- TWÓJ LUDZIK SVG -->
-        <div style="height: 40px; display: flex; align-items: center;">
-          <svg width="32" height="70" viewBox="0 0 32 70" fill="none" xmlns="http://www.w3.org/2000/svg" style="height: 100%;">
-            <path d="M22.3379 21.5869L31.751 32.6748L27.9258 35.9121L22.3379 29.3125V45H24.8379V70H19.8379V45H17.3379V15H22.3379V21.5869ZM12.4248 44.999L7.83789 69.999H2.75L7.33789 44.999H12.4248ZM4.6748 35.8877L0 34.1123L7.22461 15H12.5752L4.6748 35.8877ZM17.3389 9.9502H12.3389V0H17.3389V9.9502Z" fill="black"/>
-          </svg>
-        </div>
-
-        <!-- TEKST -->
-        <span class="ms-3 footer-label" style="color: #5a6b2d; font-size: 0.9rem;">
-          NTWKinfo&nbsp; 2025
-        </span>
-
-      </div>
-
-      <!-- PRAWA STRONA -->
-      <div class="footer-label" style="color: #5a6b2d; font-size: 0.9rem;">
-        All Rights Reserved
-      </div>
-
-    </div>
-
-  </div>
-</footer>
-
-
 <!-- Bootstrap JS bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+{% endblock %}
