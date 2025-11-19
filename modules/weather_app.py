@@ -28,7 +28,7 @@ DEFAULT_LON = 19.9450
 
 def get_api_key(): # nie działa pobieranie api key z .env więc trzeba wstawić na sztywno
     """Pobierz API key dynamicznie z zmiennych środowiskowych"""
-    api_key = ""
+    api_key = "3c4d926e6a63030571954b43415a7367"
     if not api_key:
         raise RuntimeError("Ustaw OPENWEATHER_APPID w pliku .env")
     return api_key
@@ -155,10 +155,10 @@ def get_hourly_window(lat: float, lon: float, day_offset: int = 0):
 
 # ======================= ROUTY FLASKA =======================
 
-@weather_bp.route("/weather")
+@weather_bp.route("/pogoda")
 def weather_index():
     # templates/main/weather_index.html
-    return render_template("main/weather_index.html")
+    return render_template("weather/weather.html")
 
 
 # --------- API: prognoza 7-dniowa (dla kafelków) ---------

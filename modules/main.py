@@ -7,6 +7,10 @@ main_bp = Blueprint('main', __name__)
 def index():
     return render_template('main/index.html')
 
+@main_bp.route('/pogoda')
+def weather():
+    return render_template('weather/weather.html')
+
 
 @main_bp.route('/dashboard')
 @login_required
