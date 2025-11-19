@@ -2,6 +2,9 @@ from modules.ekonomia.klasy_api_obsluga.APIClient import APIClient
 from modules.ekonomia.klasy_api_obsluga.CurrencyRates import CurrencyRates
 from modules.ekonomia.klasy_api_obsluga.GoldPrices import GoldPrices
 from modules.ekonomia.klasy_api_obsluga.HistoricalData import HistoricalData
+import matplotlib
+# Use non-interactive Agg backend for server-side rendering
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pandas as pd
 

@@ -3,6 +3,9 @@ from flask import Flask, render_template
 from modules.ekonomia.klasy_api_obsluga.Manager import Manager
 import io
 import base64
+import matplotlib
+# Use non-interactive Agg backend for server-side image generation
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import modules.ekonomia.api_testy as api_testy
@@ -61,7 +64,9 @@ def ekonomia():
             if rate:
                 all_currencies_for_tiles[code.upper()] = rate
 
-    return render_template('ekonomia/index.html',
+    # Render template to string so we can inject a small CSS override that
+    # ensures vertical scrolling works correctly on wide viewports.
+    html = render_template('ekonomia/exchange.html',
                            kurs_walut=kurs_walut,
                            wykres_waluty=wykres_waluty,
                            wykres_zlota=wykres_zlota,
@@ -69,3 +74,25 @@ def ekonomia():
                            currency_codes=currency_codes,
                            currency_rates=currency_rates,
                            all_currencies_for_tiles=all_currencies_for_tiles)
+
+    fix_css = """
+    <style>
+    /* Ensure page can always scroll vertically on wide screens; override any
+       accidental overflow/height rules that hide lower content. */
+    html, body {
+        height: auto !important;
+        min-height: 100% !important;
+        overflow-y: auto !important;
+    }
+    /* Defensive: ensure main container doesn't get clipped */
+    .container { overflow: visible !important; }
+    </style>
+    """
+
+    # Inject our style just before the closing </head> if present, otherwise prepend
+    if '</head>' in html:
+        html = html.replace('</head>', fix_css + '</head>', 1)
+    else:
+        html = fix_css + html
+
+    return html
