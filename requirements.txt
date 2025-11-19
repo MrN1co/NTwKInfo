@@ -20,6 +20,16 @@ flask-cors>=4.0.0
 # Optional: For production deployment
 gunicorn>=21.0.0
 
+# Optional: For making HTTP requests
+requests>=2.30.0
+
+# Numerical and plotting libraries used by `modules/ekonomia`
+numpy>=1.25.0
+pandas>=2.2.0
+matplotlib>=3.8.0
+
+
+
 # Optional: For database migrations (if using Flask-Migrate)
 # Flask-Migrate>=4.0.0
 
