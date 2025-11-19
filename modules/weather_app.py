@@ -28,9 +28,10 @@ DEFAULT_LON = 19.9450
 
 def get_api_key(): # nie działa pobieranie api key z .env więc trzeba wstawić na sztywno
     """Pobierz API key dynamicznie z zmiennych środowiskowych"""
-    api_key = ""
+    api_key = os.environ.get("OPENWEATHER_API_KEY")
     if not api_key:
         raise RuntimeError("Ustaw OPENWEATHER_APPID w pliku .env")
+    print("API Key:", api_key)
     return api_key
 
 

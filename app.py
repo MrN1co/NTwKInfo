@@ -19,11 +19,7 @@ def create_app():
     # Configuration
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
     app.config['DEBUG'] = os.environ.get('DEBUG', 'True') == 'True'
-    
-    # Register blueprints
-    app.register_blueprint(main_bp)
-    app.register_blueprint(auth_bp, url_prefix='/auth')
-    app.register_blueprint(weather_bp)
+
     
     # Database configuration
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
@@ -39,6 +35,7 @@ def create_app():
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(tables_bp, url_prefix='/news')
+    app.register_blueprint(weather_bp, url_prefix='/weather')
     
     # Create database tables
     with app.app_context():

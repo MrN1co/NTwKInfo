@@ -22,7 +22,7 @@ function formatToday() {
 // Bez parametrów -> domyślna lokalizacja (Kraków),
 // z lat/lon -> prognoza dla wskazanych współrzędnych.
 async function fetchForecast(lat, lon) {
-  let url = "/api/forecast";
+  let url = "http://127.0.0.1:5001/weather/api/forecast";
   if (lat != null && lon != null) {
     url += `?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}`;
   }
@@ -43,7 +43,7 @@ async function fetchForecast(lat, lon) {
 
 // Zamiana nazwy miasta na współrzędne (geokodowanie)
 async function geocodeCity(query) {
-  const res = await fetch(`/api/geocode?q=${encodeURIComponent(query)}`);
+  const res = await fetch(`http://127.0.0.1:5001/weather/api/geocode?q=${encodeURIComponent(query)}`);
   if (!res.ok) {
     throw new Error("Błąd geokodowania");
   }
