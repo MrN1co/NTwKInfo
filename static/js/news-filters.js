@@ -1,17 +1,26 @@
 document.addEventListener('DOMContentLoaded', function() {
     const tagButtons = document.querySelectorAll('.tag-btn');
     const selectedTagsData = document.getElementById('selected-tags-data');
-    let selectedTags = new Set(JSON.parse(selectedTagsData.dataset.tags || '[]'));
+    
+    if (!selectedTagsData) return;
+    
+    let selectedTags = new Set();
+    try {
+        const tagsJson = selectedTagsData.dataset.tags;
+        if (tagsJson) {
+            selectedTags = new Set(JSON.parse(tagsJson));
+        }
+    } catch (e) {
+        console.error('Błąd parsowania tagów:', e);
+    }
     
     tagButtons.forEach(button => {
         button.addEventListener('click', function() {
             const tag = this.dataset.tag;
             
             if (tag === '') {
-                // "Wszystko" - wyczyść wszystkie filtry
                 selectedTags.clear();
             } else {
-                // Tag konkretny
                 if (selectedTags.has(tag)) {
                     selectedTags.delete(tag);
                 } else {
@@ -19,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
             
-            // Zbuduj URL z parametrami
             const tagsParam = Array.from(selectedTags).join(',');
             const baseUrl = window.location.pathname;
             const url = tagsParam ? `${baseUrl}?tags=${tagsParam}` : baseUrl;

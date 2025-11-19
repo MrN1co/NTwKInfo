@@ -16,18 +16,6 @@ from modules.news.collectors import get_przegladsportowy_news
 # Tworzymy Blueprint
 tables_bp = Blueprint('tables', __name__, template_folder='templates')
 
-
-@tables_bp.route('/sport')
-def sport_demo():
-    """Demo endpoint dla tabel sportowych w iframe"""
-    return render_template('news/news_demo.html', iframe_src='/news/tables?competition=PL&season=2025')
-
-
-@tables_bp.route('/news-page')
-def news_page_demo():
-    """Demo endpoint dla wiadomości w iframe"""
-    return render_template('news/news_demo.html', iframe_src='/news/news')
-
 # Mapowanie nazw lig na polskie
 LEAGUE_NAME_TRANSLATIONS = {
     'UEFA Champions League': 'Liga Mistrzów',
@@ -188,8 +176,11 @@ def news():
                 filtered_news.append(news_item)
         all_news = filtered_news
     
-    # Sortuj po dacie malejąco (najnowsze pierwsze)
-    all_news.sort(key=lambda x: x.get('date', ''), reverse=True)
+    # Sortuj po timestamp malejąco (najnowsze pierwsze)
+    # Użyj maksymalnego timestamp jako wartości domyślnej dla wiadomości bez timestampa
+    # aby pojawiały się na górze (jako najnowsze)
+    import sys
+    all_news.sort(key=lambda x: x.get('timestamp', sys.maxsize), reverse=True)
     
     return render_template('news/news.html', 
                          news_list=all_news,
