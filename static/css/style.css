@@ -108,6 +108,55 @@ h1, h2, h3 {
     align-items: center; /* wyśrodkowanie meta */
 }
 
+/* Calendar widget in header */
+.calendar-widget {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-text-secondary);
+}
+.calendar-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+}
+.calendar-month {
+  font-size: 11px;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+.calendar-day {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  line-height: 1;
+}
+.calendar-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  max-width: 320px;
+}
+.calendar-date {
+  font-size: 13px;
+  color: var(--color-black);
+  font-weight: 500;
+}
+.calendar-fact {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+}
+
 .header__cta-button {
     background-color: var(--color-primary);
     color: var(--color-white);
@@ -879,6 +928,3 @@ h1, h2, h3 {
   cursor: pointer;
   margin-top: 10px;
 }
-
-
-
