@@ -1,10 +1,10 @@
 .sqlite3
 .db
 .vscode/
-# Ignorowanie data/news/* z wyjątkiem plików z 'config' w nazwie
-data/news/*
+# Ignorowanie wszystkich plików w data/news/ i podfolderach z wyjątkiem plików z 'config' w nazwie
+data/news/**
 !data/news/**/
-!data/news/**/*config*.json
+!data/news/**/*config*
 
 
 # domyślne:
