@@ -1,0 +1,31 @@
+{
+  "leagues": [
+    {
+      "name": "PKO BP Ekstraklasa",
+      "code": "EKS",
+      "area": "Polska",
+      "source": "90minut.pl",
+      "url": "http://www.90minut.pl/liga/1/liga14072.html",
+      "scraping_interval": 120,
+      "min_scraping_interval": 1
+    },
+    {
+      "name": "Betclic I Liga",
+      "code": "PL1",
+      "area": "Polska",
+      "source": "90minut.pl",
+      "url": "http://www.90minut.pl/liga/1/liga14073.html",
+      "scraping_interval": 240,
+      "min_scraping_interval": 1
+    },
+    {
+      "name": "Betclic II Liga",
+      "code": "PL2",
+      "area": "Polska",
+      "source": "90minut.pl",
+      "url": "http://www.90minut.pl/liga/1/liga14074.html",
+      "scraping_interval": 240,
+      "min_scraping_interval": 1
+    }
+  ]
+}
