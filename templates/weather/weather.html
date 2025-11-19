@@ -1,89 +1,25 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-  <meta charset="UTF-8">
-  <title>NTWKInfo – Pogoda</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/weather_styles.css') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
-</head>
-<body>
-<!-- --- MODAL LOGOWANIA / REJESTRACJI --- -->
-<div id="authOverlay" class="auth-overlay hidden"></div>
+{% extends "base.html" %}
 
-<div id="authModal" class="auth-modal hidden">
+{% block content %}
 
-  <!-- LOGOWANIE -->
-  <div id="loginForm" class="auth-box">
-    <button class="auth-close">×</button>
-    <h2>Zaloguj się</h2>
-    <p class="auth-switch">Nie masz konta?
-      <a href="#" id="showRegister">Zarejestruj się</a>
-    </p>
-
-    <label>Adres email</label>
-    <input type="email" placeholder="Podaj email">
-
-    <label>Hasło</label>
-    <input type="password" placeholder="Wpisz hasło">
-
-    <button class="auth-submit">Potwierdź ↗</button>
-  </div>
-
-  <!-- REJESTRACJA -->
-  <div id="registerForm" class="auth-box hidden">
-    <button class="auth-close">×</button>
-    <h2>Zarejestruj się</h2>
-    <p class="auth-switch">Masz konto?
-      <a href="#" id="showLogin">Zaloguj się</a>
-    </p>
-
-    <label>Adres email</label>
-    <input type="email" placeholder="Podaj email">
-
-    <label>Hasło</label>
-    <input type="password" placeholder="Wpisz hasło">
-
-    <label>Powtórz hasło</label>
-    <input type="password" placeholder="Powtórz hasło">
-
-    <button class="auth-submit">Potwierdź ↗</button>
-  </div>
-
-</div>
-<header class="header">
-  <div class="header__top-bar container-padding">
-    <div class="header__logo">NTWKInfo</div>
-    <nav class="header__nav">
-      <a href="/" >Strona główna</a>
-      <a href="wiadomosci">Wiadomości</a>
-      <a href="pogoda" class="active">Pogoda</a>
-      <a href="ekonomia">Ekonomia</a>
-    </nav>
-    <div class="header__meta">
-      <span>28 stycznia, poniedziałek</span>
-      <span>Europejski Dzień Ochrony Danych Osobowych</span>
-    </div>
-    <button class="header__cta-button">Zaloguj się</button>
-  </div>
-</header>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/weather_styles.css') }}">
 
 <main class="page">
+
   <!-- pasek wyszukiwania -->
   <section class="search-row">
     <input id="cityInput" type="text" placeholder="Wpisz miasto">
     <button id="searchBtn">Szukaj</button>
   </section>
 
-  <!-- duże kafle: aktualna pogoda + miejsce na wykres -->
+  <!-- duże kafle -->
   <section class="cards-grid">
-    <!-- aktualna pogoda -->
+
     <div class="card card-current">
       <button
         class="favorite-btn"
         id="favoriteBtn"
         data-logged-in="{% if current_user is defined and current_user.is_authenticated %}1{% else %}0{% endif %}"
-        aria-label="Dodaj do ulubionych"
       >
         ♥
       </button>
@@ -106,20 +42,16 @@
       </div>
     </div>
 
-    <!-- kafel na wykres (na razie placeholder) -->
     <div class="card card-chart">
         <img id="chartImg" alt="Wykres temperatury i opadów">
     </div>
+
   </section>
 
-  <!-- pasek 7-dniowej prognozy -->
   <section class="card card-forecast">
-    <div class="forecast-strip" id="forecastStrip">
-      <!-- wypełnia JS -->
-    </div>
+    <div class="forecast-strip" id="forecastStrip"></div>
   </section>
 
-  {# Ulubione miasta – tylko jeśli current_user istnieje i jest zalogowany #}
   {% if current_user is defined and current_user.is_authenticated %}
   <section class="card card-favorites" id="favoritesSection">
     <h2 class="favorites-title">Ulubione miasta</h2>
@@ -131,13 +63,10 @@
     </div>
   </section>
   {% endif %}
-</main>
 
-<footer class="footer container-padding"><span>NTWKInfo 2025 © Wszystkie prawa zastrzeżone</span></footer>
+</main>
 
 <script src="{{ url_for('static', filename='js/weather_icons.js') }}"></script>
 <script src="{{ url_for('static', filename='js/weather_app.js') }}"></script>
-<script src="{{ url_for('static', filename='js/script-auth.js') }}"></script>
-</body>
-</html>
 
+{% endblock %}

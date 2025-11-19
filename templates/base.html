@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{% block title %}NTWKInfo - Bądź na czasie{% endblock %}</title>
+  <title>NTWKInfo - Bądź na czasie</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
 </head>
@@ -56,33 +56,25 @@
     <div class="header__top-bar container-padding">
       <div class="header__logo">NTWKInfo</div>
       <nav class="header__nav">
-        <a href="{{ url_for('main.index') }}" class="{% if request.path == '/' %}active{% endif %}">Strona główna</a>
-        <a href="{{ url_for('main.news') }}" class="{% if request.path == '/wiadomosci' %}active{% endif %}">Wiadomości</a>
-        <a href="{{ url_for('main.weather') }}" class="{% if request.path == '/pogoda' %}active{% endif %}">Pogoda</a>
-        <a href="{{ url_for('main.economy') }}" class="{% if request.path == '/ekonomia' %}active{% endif %}">Ekonomia</a>
+        <a href="/" class="active">Strona główna</a>
+        <a href="wiadomosci">Wiadomości</a>
+        <a href="pogoda">Pogoda</a>
+        <a href="ekonomia">Ekonomia</a>
       </nav>
+      <div class="header__meta">
+        <span>28 stycznia, poniedziałek</span>
+        <span>Europejski Dzień Ochrony Danych Osobowych</span>
+      </div>
       <button class="header__cta-button">Zaloguj się</button>
     </div>
   </header>
 
   <main class="main-content container-padding">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
     {% block content %}{% endblock %}
   </main>
 
 <footer class="footer container-padding"><span>NTWKInfo 2025 © Wszystkie prawa zastrzeżone</span></footer>
 </script>
  <script src="{{ url_for('static', filename='js/script-auth.js') }}"></script>
- {% block scripts %}{% endblock %}
 </body>
 </html>
