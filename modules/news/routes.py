@@ -189,30 +189,7 @@ def news():
         all_news = filtered_news
     
     # Sortuj po dacie malejąco (najnowsze pierwsze)
-    def parse_date_for_sort(date_str):
-        if not date_str:
-            return datetime.min
-        
-        date_str = date_str.strip()
-        
-        # Spróbuj różne formaty
-        formats = [
-            '%d.%m.%Y %H:%M',              # Polski: "19 listopada 2025, 16:16" -> "19.11.2025 16:16"
-            '%d %B %Y, %H:%M',             # "19 listopada 2025, 16:16"
-            '%Y-%m-%d %H:%M:%S',           # ISO
-            '%d.%m.%Y',                    # Bez godziny
-        ]
-        
-        for fmt in formats:
-            try:
-                return datetime.strptime(date_str, fmt)
-            except:
-                continue
-        
-        # Jeśli żaden nie pasuje, zwróć minimalną datę (będzie na końcu)
-        return datetime.min
-    
-    all_news.sort(key=lambda x: parse_date_for_sort(x.get('date', '')), reverse=True)
+    all_news.sort(key=lambda x: x.get('date', ''), reverse=True)
     
     return render_template('news/news.html', 
                          news_list=all_news,
