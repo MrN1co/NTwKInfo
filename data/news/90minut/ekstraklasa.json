@@ -1,0 +1,916 @@
+{
+  "type": "Ekstraklasa",
+  "updated_at": "13:18:58",
+  "standings": [
+    {
+      "position": "1",
+      "team_name": "Górnik Zabrze",
+      "played_games": "13",
+      "points": "26",
+      "won": "8",
+      "draw": "2",
+      "lost": "3",
+      "goals": "21-11"
+    },
+    {
+      "position": "2",
+      "team_name": "Jagiellonia Białystok",
+      "played_games": "12",
+      "points": "24",
+      "won": "7",
+      "draw": "3",
+      "lost": "2",
+      "goals": "24-15"
+    },
+    {
+      "position": "3",
+      "team_name": "Wisła Płock",
+      "played_games": "12",
+      "points": "22",
+      "won": "6",
+      "draw": "4",
+      "lost": "2",
+      "goals": "16-9"
+    },
+    {
+      "position": "4",
+      "team_name": "Cracovia",
+      "played_games": "12",
+      "points": "21",
+      "won": "6",
+      "draw": "3",
+      "lost": "3",
+      "goals": "21-14"
+    },
+    {
+      "position": "5",
+      "team_name": "Lech Poznań",
+      "played_games": "12",
+      "points": "20",
+      "won": "5",
+      "draw": "5",
+      "lost": "2",
+      "goals": "20-18"
+    },
+    {
+      "position": "6",
+      "team_name": "Korona Kielce",
+      "played_games": "13",
+      "points": "19",
+      "won": "5",
+      "draw": "4",
+      "lost": "4",
+      "goals": "16-12"
+    },
+    {
+      "position": "7",
+      "team_name": "Zagłębie Lubin",
+      "played_games": "12",
+      "points": "17",
+      "won": "4",
+      "draw": "5",
+      "lost": "3",
+      "goals": "25-18"
+    },
+    {
+      "position": "8",
+      "team_name": "Raków Częstochowa",
+      "played_games": "12",
+      "points": "17",
+      "won": "5",
+      "draw": "2",
+      "lost": "5",
+      "goals": "14-16"
+    },
+    {
+      "position": "9",
+      "team_name": "Pogoń Szczecin",
+      "played_games": "13",
+      "points": "17",
+      "won": "5",
+      "draw": "2",
+      "lost": "6",
+      "goals": "20-23"
+    },
+    {
+      "position": "10",
+      "team_name": "Legia Warszawa",
+      "played_games": "12",
+      "points": "16",
+      "won": "4",
+      "draw": "4",
+      "lost": "4",
+      "goals": "14-12"
+    },
+    {
+      "position": "11",
+      "team_name": "Radomiak Radom",
+      "played_games": "13",
+      "points": "16",
+      "won": "4",
+      "draw": "4",
+      "lost": "5",
+      "goals": "23-23"
+    },
+    {
+      "position": "12",
+      "team_name": "Widzew Łódź",
+      "played_games": "13",
+      "points": "16",
+      "won": "5",
+      "draw": "1",
+      "lost": "7",
+      "goals": "20-20"
+    },
+    {
+      "position": "13",
+      "team_name": "Arka Gdynia",
+      "played_games": "13",
+      "points": "15",
+      "won": "4",
+      "draw": "3",
+      "lost": "6",
+      "goals": "9-20"
+    },
+    {
+      "position": "14",
+      "team_name": "Motor Lublin",
+      "played_games": "12",
+      "points": "14",
+      "won": "3",
+      "draw": "5",
+      "lost": "4",
+      "goals": "16-21"
+    },
+    {
+      "position": "15",
+      "team_name": "GKS Katowice",
+      "played_games": "13",
+      "points": "14",
+      "won": "4",
+      "draw": "2",
+      "lost": "7",
+      "goals": "17-24"
+    },
+    {
+      "position": "16",
+      "team_name": "Lechia Gdańsk",
+      "played_games": "13",
+      "points": "10",
+      "won": "4",
+      "draw": "3",
+      "lost": "6",
+      "goals": "22-29"
+    },
+    {
+      "position": "17",
+      "team_name": "Bruk-Bet Termalica Nieciecza",
+      "played_games": "13",
+      "points": "10",
+      "won": "2",
+      "draw": "4",
+      "lost": "7",
+      "goals": "17-25"
+    },
+    {
+      "position": "18",
+      "team_name": "Piast Gliwice",
+      "played_games": "11",
+      "points": "7",
+      "won": "1",
+      "draw": "4",
+      "lost": "6",
+      "goals": "10-15"
+    }
+  ],
+  "error": null,
+  "EKS": {
+    "type": "EKS",
+    "competition_name": "PKO BP Ekstraklasa",
+    "area": "Polska",
+    "updated_at": "19.11.2025   01:14:07",
+    "standings": [
+      {
+        "position": "1",
+        "team": {
+          "name": "Górnik Zabrze",
+          "crest": "http://img.90minut.pl/logo/dobazy/gornik_zabrze.gif"
+        },
+        "played_games": "15",
+        "points": "29",
+        "won": "9",
+        "draw": "2",
+        "lost": "4",
+        "goals": "26-14"
+      },
+      {
+        "position": "2",
+        "team": {
+          "name": "Jagiellonia Białystok",
+          "crest": "http://img.90minut.pl/logo/dobazy/jagiellonia.gif"
+        },
+        "played_games": "14",
+        "points": "27",
+        "won": "8",
+        "draw": "3",
+        "lost": "3",
+        "goals": "27-18"
+      },
+      {
+        "position": "3",
+        "team": {
+          "name": "Wisła Płock",
+          "crest": "http://img.90minut.pl/logo/dobazy/wisla_plock.gif"
+        },
+        "played_games": "14",
+        "points": "26",
+        "won": "7",
+        "draw": "5",
+        "lost": "2",
+        "goals": "19-10"
+      },
+      {
+        "position": "4",
+        "team": {
+          "name": "Raków Częstochowa",
+          "crest": "http://img.90minut.pl/logo/dobazy/rakow.gif"
+        },
+        "played_games": "14",
+        "points": "23",
+        "won": "7",
+        "draw": "2",
+        "lost": "5",
+        "goals": "20-18"
+      },
+      {
+        "position": "5",
+        "team": {
+          "name": "Radomiak Radom",
+          "crest": "http://img.90minut.pl/logo/dobazy/radomiak.gif"
+        },
+        "played_games": "15",
+        "points": "22",
+        "won": "6",
+        "draw": "4",
+        "lost": "5",
+        "goals": "28-24"
+      },
+      {
+        "position": "6",
+        "team": {
+          "name": "Cracovia",
+          "crest": "http://img.90minut.pl/logo/dobazy/cracovia.gif"
+        },
+        "played_games": "14",
+        "points": "22",
+        "won": "6",
+        "draw": "4",
+        "lost": "4",
+        "goals": "21-17"
+      },
+      {
+        "position": "7",
+        "team": {
+          "name": "Zagłębie Lubin",
+          "crest": "http://img.90minut.pl/logo/dobazy/zaglebie_lubin.gif"
+        },
+        "played_games": "14",
+        "points": "21",
+        "won": "5",
+        "draw": "6",
+        "lost": "3",
+        "goals": "27-18"
+      },
+      {
+        "position": "8",
+        "team": {
+          "name": "Lech Poznań",
+          "crest": "http://img.90minut.pl/logo/dobazy/lech.gif"
+        },
+        "played_games": "14",
+        "points": "21",
+        "won": "5",
+        "draw": "6",
+        "lost": "3",
+        "goals": "23-23"
+      },
+      {
+        "position": "9",
+        "team": {
+          "name": "Korona Kielce",
+          "crest": "http://img.90minut.pl/logo/dobazy/korona_kielce.gif"
+        },
+        "played_games": "15",
+        "points": "20",
+        "won": "5",
+        "draw": "5",
+        "lost": "5",
+        "goals": "17-16"
+      },
+      {
+        "position": "10",
+        "team": {
+          "name": "Arka Gdynia",
+          "crest": "http://img.90minut.pl/logo/dobazy/arka.gif"
+        },
+        "played_games": "15",
+        "points": "18",
+        "won": "5",
+        "draw": "3",
+        "lost": "7",
+        "goals": "13-26"
+      },
+      {
+        "position": "11",
+        "team": {
+          "name": "Legia Warszawa",
+          "crest": "http://img.90minut.pl/logo/dobazy/legia.gif"
+        },
+        "played_games": "14",
+        "points": "17",
+        "won": "4",
+        "draw": "5",
+        "lost": "5",
+        "goals": "16-15"
+      },
+      {
+        "position": "12",
+        "team": {
+          "name": "Widzew Łódź",
+          "crest": "http://img.90minut.pl/logo/dobazy/widzew.gif"
+        },
+        "played_games": "15",
+        "points": "17",
+        "won": "5",
+        "draw": "2",
+        "lost": "8",
+        "goals": "22-23"
+      },
+      {
+        "position": "13",
+        "team": {
+          "name": "GKS Katowice",
+          "crest": "http://img.90minut.pl/logo/dobazy/katowice_ssk.gif"
+        },
+        "played_games": "15",
+        "points": "17",
+        "won": "5",
+        "draw": "2",
+        "lost": "8",
+        "goals": "21-27"
+      },
+      {
+        "position": "14",
+        "team": {
+          "name": "Pogoń Szczecin",
+          "crest": "http://img.90minut.pl/logo/dobazy/pogon_szczecin.gif"
+        },
+        "played_games": "15",
+        "points": "17",
+        "won": "5",
+        "draw": "2",
+        "lost": "8",
+        "goals": "21-27"
+      },
+      {
+        "position": "15",
+        "team": {
+          "name": "Motor Lublin",
+          "crest": "http://img.90minut.pl/logo/dobazy/motor_lublin.gif"
+        },
+        "played_games": "14",
+        "points": "16",
+        "won": "3",
+        "draw": "7",
+        "lost": "4",
+        "goals": "19-24"
+      },
+      {
+        "position": "16",
+        "team": {
+          "name": "Lechia Gdańsk",
+          "crest": "http://img.90minut.pl/logo/dobazy/lechia_gdansk.gif"
+        },
+        "played_games": "15",
+        "points": "13",
+        "won": "5",
+        "draw": "3",
+        "lost": "7",
+        "goals": "25-32"
+      },
+      {
+        "position": "17",
+        "team": {
+          "name": "Bruk-Bet Termalica Nieciecza",
+          "crest": "http://img.90minut.pl/logo/dobazy/nieciecza.gif"
+        },
+        "played_games": "15",
+        "points": "13",
+        "won": "3",
+        "draw": "4",
+        "lost": "8",
+        "goals": "19-29"
+      },
+      {
+        "position": "18",
+        "team": {
+          "name": "Piast Gliwice",
+          "crest": "http://img.90minut.pl/logo/dobazy/piast_gliwice.gif"
+        },
+        "played_games": "13",
+        "points": "11",
+        "won": "2",
+        "draw": "5",
+        "lost": "6",
+        "goals": "13-16"
+      }
+    ],
+    "error": null
+  },
+  "PL1": {
+    "type": "PL1",
+    "competition_name": "Betclic I Liga",
+    "area": "Polska",
+    "updated_at": "19.11.2025   01:16:08",
+    "standings": [
+      {
+        "position": "1",
+        "team": {
+          "name": "Wisła Kraków",
+          "crest": "http://img.90minut.pl/logo/dobazy/wisla.gif"
+        },
+        "played_games": "16",
+        "points": "38",
+        "won": "12",
+        "draw": "2",
+        "lost": "2",
+        "goals": "44-14"
+      },
+      {
+        "position": "2",
+        "team": {
+          "name": "Pogoń Grodzisk Mazowiecki",
+          "crest": "http://img.90minut.pl/logo/dobazy/pogon_grodzisk.gif"
+        },
+        "played_games": "16",
+        "points": "31",
+        "won": "9",
+        "draw": "4",
+        "lost": "3",
+        "goals": "34-23"
+      },
+      {
+        "position": "3",
+        "team": {
+          "name": "Chrobry Głogów",
+          "crest": "http://img.90minut.pl/logo/dobazy/chrobry.gif"
+        },
+        "played_games": "16",
+        "points": "28",
+        "won": "8",
+        "draw": "4",
+        "lost": "4",
+        "goals": "23-14"
+      },
+      {
+        "position": "4",
+        "team": {
+          "name": "Polonia Bytom",
+          "crest": "http://img.90minut.pl/logo/dobazy/polonia_bytom.gif"
+        },
+        "played_games": "16",
+        "points": "27",
+        "won": "8",
+        "draw": "3",
+        "lost": "5",
+        "goals": "25-18"
+      },
+      {
+        "position": "5",
+        "team": {
+          "name": "Śląsk Wrocław",
+          "crest": "http://img.90minut.pl/logo/dobazy/slask.gif"
+        },
+        "played_games": "16",
+        "points": "27",
+        "won": "8",
+        "draw": "3",
+        "lost": "5",
+        "goals": "28-25"
+      },
+      {
+        "position": "6",
+        "team": {
+          "name": "Ruch Chorzów",
+          "crest": "http://img.90minut.pl/logo/dobazy/ruch_chorzow.gif"
+        },
+        "played_games": "16",
+        "points": "24",
+        "won": "6",
+        "draw": "6",
+        "lost": "4",
+        "goals": "25-24"
+      },
+      {
+        "position": "7",
+        "team": {
+          "name": "Stal Rzeszów",
+          "crest": "http://img.90minut.pl/logo/dobazy/stal_rzeszow.gif"
+        },
+        "played_games": "16",
+        "points": "24",
+        "won": "7",
+        "draw": "3",
+        "lost": "6",
+        "goals": "26-27"
+      },
+      {
+        "position": "8",
+        "team": {
+          "name": "Wieczysta Kraków",
+          "crest": "http://img.90minut.pl/logo/dobazy/wieczysta.gif"
+        },
+        "played_games": "16",
+        "points": "23",
+        "won": "6",
+        "draw": "5",
+        "lost": "5",
+        "goals": "33-25"
+      },
+      {
+        "position": "9",
+        "team": {
+          "name": "Polonia Warszawa",
+          "crest": "http://img.90minut.pl/logo/dobazy/polonia_warszawa_sa.gif"
+        },
+        "played_games": "16",
+        "points": "23",
+        "won": "6",
+        "draw": "5",
+        "lost": "5",
+        "goals": "25-26"
+      },
+      {
+        "position": "10",
+        "team": {
+          "name": "Odra Opole",
+          "crest": "http://img.90minut.pl/logo/dobazy/odra_opole.gif"
+        },
+        "played_games": "16",
+        "points": "22",
+        "won": "5",
+        "draw": "7",
+        "lost": "4",
+        "goals": "18-18"
+      },
+      {
+        "position": "11",
+        "team": {
+          "name": "Pogoń Siedlce",
+          "crest": "http://img.90minut.pl/logo/dobazy/pogon_siedlce.gif"
+        },
+        "played_games": "16",
+        "points": "21",
+        "won": "5",
+        "draw": "6",
+        "lost": "5",
+        "goals": "21-17"
+      },
+      {
+        "position": "12",
+        "team": {
+          "name": "ŁKS Łódź",
+          "crest": "http://img.90minut.pl/logo/dobazy/lkslodz.gif"
+        },
+        "played_games": "16",
+        "points": "21",
+        "won": "6",
+        "draw": "3",
+        "lost": "7",
+        "goals": "24-26"
+      },
+      {
+        "position": "13",
+        "team": {
+          "name": "Miedź Legnica",
+          "crest": "http://img.90minut.pl/logo/dobazy/miedz.gif"
+        },
+        "played_games": "16",
+        "points": "21",
+        "won": "6",
+        "draw": "3",
+        "lost": "7",
+        "goals": "24-33"
+      },
+      {
+        "position": "14",
+        "team": {
+          "name": "Puszcza Niepołomice",
+          "crest": "http://img.90minut.pl/logo/dobazy/puszcza_niepolomice.gif"
+        },
+        "played_games": "16",
+        "points": "18",
+        "won": "3",
+        "draw": "9",
+        "lost": "4",
+        "goals": "18-18"
+      },
+      {
+        "position": "15",
+        "team": {
+          "name": "Stal Mielec",
+          "crest": "http://img.90minut.pl/logo/dobazy/stal_mielec.gif"
+        },
+        "played_games": "16",
+        "points": "13",
+        "won": "3",
+        "draw": "4",
+        "lost": "9",
+        "goals": "19-31"
+      },
+      {
+        "position": "16",
+        "team": {
+          "name": "GKS Tychy",
+          "crest": "http://img.90minut.pl/logo/dobazy/tychy.gif"
+        },
+        "played_games": "16",
+        "points": "12",
+        "won": "3",
+        "draw": "3",
+        "lost": "10",
+        "goals": "22-34"
+      },
+      {
+        "position": "17",
+        "team": {
+          "name": "Górnik Łęczna",
+          "crest": "http://img.90minut.pl/logo/dobazy/gornik_leczna.gif"
+        },
+        "played_games": "16",
+        "points": "10",
+        "won": "1",
+        "draw": "7",
+        "lost": "8",
+        "goals": "19-33"
+      },
+      {
+        "position": "18",
+        "team": {
+          "name": "Znicz Pruszków",
+          "crest": "http://img.90minut.pl/logo/dobazy/znicz_pruszkow.gif"
+        },
+        "played_games": "16",
+        "points": "10",
+        "won": "3",
+        "draw": "1",
+        "lost": "12",
+        "goals": "16-38"
+      }
+    ],
+    "error": null
+  },
+  "PL2": {
+    "type": "PL2",
+    "competition_name": "Betclic II Liga",
+    "area": "Polska",
+    "updated_at": "19.11.2025   01:14:03",
+    "standings": [
+      {
+        "position": "1",
+        "team": {
+          "name": "Unia Skierniewice",
+          "crest": "http://img.90minut.pl/logo/dobazy/unia_skierniewice.gif"
+        },
+        "played_games": "17",
+        "points": "35",
+        "won": "11",
+        "draw": "2",
+        "lost": "4",
+        "goals": "34-19"
+      },
+      {
+        "position": "2",
+        "team": {
+          "name": "Warta Poznań",
+          "crest": "http://img.90minut.pl/logo/dobazy/warta_poznan.gif"
+        },
+        "played_games": "17",
+        "points": "35",
+        "won": "10",
+        "draw": "5",
+        "lost": "2",
+        "goals": "31-19"
+      },
+      {
+        "position": "3",
+        "team": {
+          "name": "Olimpia Grudziądz",
+          "crest": "http://img.90minut.pl/logo/dobazy/olimpia_grudziadz.gif"
+        },
+        "played_games": "17",
+        "points": "33",
+        "won": "9",
+        "draw": "6",
+        "lost": "2",
+        "goals": "34-22"
+      },
+      {
+        "position": "4",
+        "team": {
+          "name": "Podhale Nowy Targ",
+          "crest": "http://img.90minut.pl/logo/dobazy/podhale_nowytarg.gif"
+        },
+        "played_games": "17",
+        "points": "29",
+        "won": "7",
+        "draw": "8",
+        "lost": "2",
+        "goals": "18-13"
+      },
+      {
+        "position": "5",
+        "team": {
+          "name": "Świt Szczecin",
+          "crest": "http://img.90minut.pl/logo/dobazy/swit_skolwin.gif"
+        },
+        "played_games": "17",
+        "points": "26",
+        "won": "7",
+        "draw": "5",
+        "lost": "5",
+        "goals": "31-29"
+      },
+      {
+        "position": "6",
+        "team": {
+          "name": "Stal Stalowa Wola",
+          "crest": "http://img.90minut.pl/logo/dobazy/stal_stalowawola.gif"
+        },
+        "played_games": "17",
+        "points": "25",
+        "won": "6",
+        "draw": "7",
+        "lost": "4",
+        "goals": "35-26"
+      },
+      {
+        "position": "7",
+        "team": {
+          "name": "Śląsk II Wrocław",
+          "crest": "http://img.90minut.pl/logo/dobazy/slask.gif"
+        },
+        "played_games": "17",
+        "points": "23",
+        "won": "6",
+        "draw": "5",
+        "lost": "6",
+        "goals": "32-27"
+      },
+      {
+        "position": "8",
+        "team": {
+          "name": "Sandecja Nowy Sącz",
+          "crest": "http://img.90minut.pl/logo/dobazy/sandecja.gif"
+        },
+        "played_games": "16",
+        "points": "23",
+        "won": "6",
+        "draw": "5",
+        "lost": "5",
+        "goals": "24-25"
+      },
+      {
+        "position": "9",
+        "team": {
+          "name": "Zagłębie Sosnowiec",
+          "crest": "http://img.90minut.pl/logo/dobazy/zaglebie_sosnowiec.gif"
+        },
+        "played_games": "16",
+        "points": "23",
+        "won": "6",
+        "draw": "5",
+        "lost": "5",
+        "goals": "20-22"
+      },
+      {
+        "position": "10",
+        "team": {
+          "name": "Resovia",
+          "crest": "http://img.90minut.pl/logo/dobazy/resovia.gif"
+        },
+        "played_games": "17",
+        "points": "22",
+        "won": "5",
+        "draw": "7",
+        "lost": "5",
+        "goals": "22-22"
+      },
+      {
+        "position": "11",
+        "team": {
+          "name": "Chojniczanka Chojnice",
+          "crest": "http://img.90minut.pl/logo/dobazy/chojniczanka.gif"
+        },
+        "played_games": "17",
+        "points": "21",
+        "won": "5",
+        "draw": "6",
+        "lost": "6",
+        "goals": "28-28"
+      },
+      {
+        "position": "12",
+        "team": {
+          "name": "Podbeskidzie Bielsko-Biała",
+          "crest": "http://img.90minut.pl/logo/dobazy/podbeskidzie.gif"
+        },
+        "played_games": "17",
+        "points": "21",
+        "won": "6",
+        "draw": "3",
+        "lost": "8",
+        "goals": "25-30"
+      },
+      {
+        "position": "13",
+        "team": {
+          "name": "Rekord Bielsko-Biała",
+          "crest": "http://img.90minut.pl/logo/dobazy/rekord_bielsko.gif"
+        },
+        "played_games": "17",
+        "points": "20",
+        "won": "5",
+        "draw": "5",
+        "lost": "7",
+        "goals": "24-31"
+      },
+      {
+        "position": "14",
+        "team": {
+          "name": "Sokół Kleczew",
+          "crest": "http://img.90minut.pl/logo/dobazy/sokol_kleczew.gif"
+        },
+        "played_games": "16",
+        "points": "19",
+        "won": "5",
+        "draw": "4",
+        "lost": "7",
+        "goals": "31-29"
+      },
+      {
+        "position": "15",
+        "team": {
+          "name": "Hutnik Kraków",
+          "crest": "http://img.90minut.pl/logo/dobazy/hutnik_krakow.gif"
+        },
+        "played_games": "17",
+        "points": "18",
+        "won": "4",
+        "draw": "6",
+        "lost": "7",
+        "goals": "26-28"
+      },
+      {
+        "position": "16",
+        "team": {
+          "name": "KKS 1925 Kalisz",
+          "crest": "http://img.90minut.pl/logo/dobazy/kks1925_kalisz.gif"
+        },
+        "played_games": "17",
+        "points": "18",
+        "won": "4",
+        "draw": "6",
+        "lost": "7",
+        "goals": "18-23"
+      },
+      {
+        "position": "17",
+        "team": {
+          "name": "ŁKS II Łódź",
+          "crest": "http://img.90minut.pl/logo/dobazy/lkslodz.gif"
+        },
+        "played_games": "16",
+        "points": "8",
+        "won": "1",
+        "draw": "5",
+        "lost": "10",
+        "goals": "14-32"
+      },
+      {
+        "position": "18",
+        "team": {
+          "name": "GKS Jastrzębie (Jastrzębie Zdrój)",
+          "crest": "http://img.90minut.pl/logo/dobazy/gksjastrzebie.gif"
+        },
+        "played_games": "17",
+        "points": "6",
+        "won": "0",
+        "draw": "6",
+        "lost": "11",
+        "goals": "15-37"
+      }
+    ],
+    "error": null
+  }
+}
