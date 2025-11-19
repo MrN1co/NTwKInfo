@@ -6,6 +6,8 @@ from modules.news.routes import tables_bp
 from modules.news.news import init_news_module
 import os
 from dotenv import load_dotenv
+from modules.weather_app import weather_bp
+from flask_sqlalchemy import SQLAlchemy
 
 # Load environment variables from .env file
 load_dotenv()
@@ -17,6 +19,11 @@ def create_app():
     # Configuration
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
     app.config['DEBUG'] = os.environ.get('DEBUG', 'True') == 'True'
+    
+    # Register blueprints
+    app.register_blueprint(main_bp)
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(weather_bp)
     
     # Database configuration
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(

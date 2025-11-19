@@ -24,7 +24,7 @@ def economy():
 
 @main_bp.route('/pogoda')
 def weather():
-    return render_template('base.html')
+    return render_template('weather/weather.html')
 
 
 @main_bp.route('/dashboard')
