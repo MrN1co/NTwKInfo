@@ -46,18 +46,40 @@
     background-color: var(--color-secondary);
 }
 
+/* Strony news ZAWSZE muszą być scrollowalne */
+/* Reguły ogólne (wszystkie rozmiary ekranów) */
+body.news-page {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+    min-height: 100vh !important;
+}
+
+body.news-page .main-content {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 0 !important;
+}
+
+/* Dodatkowo dla dużych ekranów - nadpisuje style.css */
 @media (min-width: 1280px) {
-    body.news-page,
-    body.news-page html {
-        overflow: auto !important;
+    body.news-page {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
         height: auto !important;
         min-height: 100vh !important;
+        max-height: none !important;
     }
 
     body.news-page .main-content {
         overflow: visible !important;
         height: auto !important;
+        max-height: none !important;
         min-height: 0 !important;
-        flex: none !important;
+        flex: 1 0 auto !important;
+    }
+
+    body.news-page .header {
+        position: sticky !important;
     }
 }

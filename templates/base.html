@@ -51,7 +51,7 @@
   </div>
 
 </div>
-<body>
+<body{% if request.path.startswith('/news/') %} class="news-page"{% endif %}>
     
   <header class="header">
     <div class="header__top-bar container-padding">
