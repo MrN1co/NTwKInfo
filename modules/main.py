@@ -13,7 +13,8 @@ def index():
 
 @main_bp.route('/news')
 def news():
-    return render_template('news/news_base.html')
+    
+    return redirect(url_for('tables.news_main'))
 
 
 @main_bp.route('/ekonomia')

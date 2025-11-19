@@ -79,6 +79,25 @@
     {
       "position": 5,
       "team": {
+        "id": 1770,
+        "name": "Botafogo FR",
+        "shortName": "Botafogo",
+        "tla": "BOT",
+        "crest": "https://crests.football-data.org/1770.png"
+      },
+      "playedGames": 34,
+      "form": null,
+      "won": 15,
+      "draw": 10,
+      "lost": 9,
+      "points": 55,
+      "goalsFor": 47,
+      "goalsAgainst": 30,
+      "goalDifference": 17
+    },
+    {
+      "position": 6,
+      "team": {
         "id": 1777,
         "name": "EC Bahia",
         "shortName": "Bahia",
@@ -94,25 +113,6 @@
       "goalsFor": 44,
       "goalsAgainst": 40,
       "goalDifference": 4
-    },
-    {
-      "position": 6,
-      "team": {
-        "id": 1770,
-        "name": "Botafogo FR",
-        "shortName": "Botafogo",
-        "tla": "BOT",
-        "crest": "https://crests.football-data.org/1770.png"
-      },
-      "playedGames": 33,
-      "form": null,
-      "won": 14,
-      "draw": 10,
-      "lost": 9,
-      "points": 52,
-      "goalsFor": 44,
-      "goalsAgainst": 28,
-      "goalDifference": 16
     },
     {
       "position": 7,
@@ -370,15 +370,15 @@
         "tla": "REC",
         "crest": "https://crests.football-data.org/1778.png"
       },
-      "playedGames": 33,
+      "playedGames": 34,
       "form": null,
       "won": 2,
       "draw": 11,
-      "lost": 20,
+      "lost": 21,
       "points": 17,
-      "goalsFor": 25,
-      "goalsAgainst": 60,
-      "goalDifference": -35
+      "goalsFor": 27,
+      "goalsAgainst": 63,
+      "goalDifference": -36
     }
   ],
   "competition_name": "Campeonato Brasileiro Série A",
@@ -392,5 +392,5 @@
   },
   "available_seasons": [],
   "error": null,
-  "updated_at": "18.11.2025   20:10:20"
+  "updated_at": "19.11.2025   14:10:46"
 }
