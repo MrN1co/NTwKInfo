@@ -141,13 +141,11 @@ def get_kryminalki_news(limit=10):
                     dt = datetime.strptime(date, '%d.%m.%Y %H:%M')
                     timestamp = int(dt.timestamp())
                 except Exception:
-                    timestamp = int(time.time())
+                    timestamp = None
             
-            # Jeśli nadal nie ma timestampa, użyj aktualnego czasu
-            if not timestamp:
-                timestamp = int(time.time())
-                if not display_date:
-                    display_date = datetime.now().strftime('%d.%m.%Y %H:%M')
+            # Jeśli nie udało się pobrać, pozostaw None
+            if not display_date and timestamp:
+                display_date = datetime.fromtimestamp(timestamp).strftime('%d.%m.%Y %H:%M')
             
             news_list.append({
                 'title': title,

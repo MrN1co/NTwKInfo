@@ -180,7 +180,8 @@ def news():
     # Użyj maksymalnego timestamp jako wartości domyślnej dla wiadomości bez timestampa
     # aby pojawiały się na górze (jako najnowsze)
     import sys
-    all_news.sort(key=lambda x: x.get('timestamp', sys.maxsize), reverse=True)
+    # Sortuj: artykuły z datą najpierw (malejąco), potem bez daty
+    all_news.sort(key=lambda x: (x.get('timestamp') is None, -(x.get('timestamp') or 0)))
     
     return render_template('news/news.html', 
                          news_list=all_news,

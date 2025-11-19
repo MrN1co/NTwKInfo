@@ -101,10 +101,7 @@ def get_przegladsportowy_news(limit=10):
             except Exception:
                 pass
             
-            # Jeśli nie udało się pobrać, użyj aktualnego czasu
-            if not timestamp:
-                timestamp = int(time.time())
-                date = datetime.now().strftime('%d.%m.%Y %H:%M')
+            # Jeśli nie udało się pobrać, pozostaw None
 
             news_list.append({
                 'title': title,
