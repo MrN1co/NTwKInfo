@@ -1,10 +1,4 @@
-// Funkcja do automatycznego odświeżania strony co 60 sekund ~ KG
-function autoRefresh() {
-    setTimeout(function() {
-        location.reload();
-    }, 60000); // w milisekundach
-}
-
-// Uruchomienie auto-odświeżania po załadowaniu strony ~ KG
-window.onload = autoRefresh;
-console.log('JavaScript załadowany');//debug
+// Automatyczne odświeżanie strony co 60 sekund ~ KG
+setTimeout(function() {
+    location.reload();
+}, 60000); // 60 sekund w milisekundach

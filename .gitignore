@@ -1,6 +1,12 @@
 .sqlite3
 .db
 .vscode/
+# Ignorowanie data/news/* z wyjątkiem plików z 'config' w nazwie
+data/news/*
+!data/news/**/
+!data/news/**/*config*.json
+
+
 # domyślne:
 # Byte-compiled / optimized / DLL files
 __pycache__/

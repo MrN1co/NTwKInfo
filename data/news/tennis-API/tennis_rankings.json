@@ -1,7 +1,7 @@
 {
   "atp": {
     "type": "ATP",
-    "updated_at": "18.11.2025   00:46:25",
+    "updated_at": "19.11.2025   02:02:03",
     "rankings": [
       {
         "team": {
@@ -14,7 +14,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 235518,
+          "userCount": 235579,
           "nameCode": "ALC",
           "ranking": 1,
           "disabled": false,
@@ -72,7 +72,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 213130,
+          "userCount": 213266,
           "nameCode": "SIN",
           "ranking": 2,
           "disabled": false,
@@ -130,7 +130,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 79554,
+          "userCount": 79509,
           "nameCode": "ZVE",
           "ranking": 3,
           "national": false,
@@ -187,7 +187,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 251787,
+          "userCount": 251723,
           "nameCode": "DJO",
           "ranking": 4,
           "disabled": false,
@@ -246,7 +246,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 27633,
+          "userCount": 27624,
           "nameCode": "AUG",
           "ranking": 5,
           "disabled": false,
@@ -283,7 +283,7 @@
         "points": 4245,
         "previousRanking": 8,
         "previousPoints": 3845,
-        "bestRanking": 6,
+        "bestRanking": 5,
         "id": 716,
         "country": {
           "alpha2": "CA",
@@ -304,7 +304,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 38294,
+          "userCount": 38261,
           "nameCode": "FRI",
           "ranking": 6,
           "disabled": false,
@@ -362,7 +362,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 31167,
+          "userCount": 31138,
           "nameCode": "DE",
           "ranking": 7,
           "disabled": false,
@@ -420,7 +420,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 55407,
+          "userCount": 55397,
           "nameCode": "MUS",
           "ranking": 8,
           "disabled": false,
@@ -478,7 +478,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 38382,
+          "userCount": 38362,
           "nameCode": "SHE",
           "ranking": 9,
           "disabled": false,
@@ -535,7 +535,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 27349,
+          "userCount": 27342,
           "nameCode": "DRA",
           "ranking": 10,
           "disabled": false,
@@ -592,7 +592,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 22673,
+          "userCount": 22666,
           "nameCode": "BUB",
           "ranking": 11,
           "disabled": false,
@@ -650,7 +650,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 38104,
+          "userCount": 38070,
           "nameCode": "RUU",
           "ranking": 12,
           "disabled": false,
@@ -708,7 +708,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 65095,
+          "userCount": 65051,
           "nameCode": "MED",
           "ranking": 13,
           "disabled": false,
@@ -766,7 +766,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 14373,
+          "userCount": 14367,
           "nameCode": "DAV",
           "ranking": 14,
           "disabled": false,
@@ -824,7 +824,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 41313,
+          "userCount": 41284,
           "nameCode": "RUN",
           "ranking": 15,
           "disabled": false,
@@ -882,7 +882,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 38455,
+          "userCount": 38422,
           "nameCode": "RUB",
           "ranking": 16,
           "disabled": false,
@@ -940,7 +940,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 11435,
+          "userCount": 11428,
           "nameCode": "LEH",
           "ranking": 17,
           "disabled": false,
@@ -998,7 +998,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 17544,
+          "userCount": 17527,
           "nameCode": "KHA",
           "ranking": 18,
           "disabled": false,
@@ -1056,7 +1056,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 14907,
+          "userCount": 14902,
           "nameCode": "MEN",
           "ranking": 19,
           "disabled": false,
@@ -1113,7 +1113,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 17323,
+          "userCount": 17301,
           "nameCode": "PAU",
           "ranking": 20,
           "disabled": false,
@@ -1160,12 +1160,11 @@
         },
         "rankingClass": "team"
       }
-    ],
-    "error": "Brak nowych danych dla ATP"
+    ]
   },
   "wta": {
     "type": "WTA",
-    "updated_at": "18.11.2025   00:46:28",
+    "updated_at": "19.11.2025   02:01:57",
     "rankings": [
       {
         "team": {
@@ -1178,7 +1177,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 68011,
+          "userCount": 67972,
           "nameCode": "SAB",
           "ranking": 1,
           "disabled": false,
@@ -1229,7 +1228,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 78803,
+          "userCount": 78768,
           "nameCode": "SWI",
           "ranking": 2,
           "disabled": false,
@@ -1280,7 +1279,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 42350,
+          "userCount": 42321,
           "nameCode": "GAU",
           "ranking": 3,
           "disabled": false,
@@ -1331,7 +1330,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 15902,
+          "userCount": 15901,
           "nameCode": "ANI",
           "ranking": 4,
           "disabled": false,
@@ -1382,7 +1381,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 28211,
+          "userCount": 28192,
           "nameCode": "RYB",
           "ranking": 5,
           "disabled": false,
@@ -1433,7 +1432,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 20445,
+          "userCount": 20435,
           "nameCode": "PEG",
           "ranking": 6,
           "disabled": false,
@@ -1484,7 +1483,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 12018,
+          "userCount": 12009,
           "nameCode": "KEY",
           "ranking": 7,
           "disabled": false,
@@ -1535,7 +1534,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 38350,
+          "userCount": 38337,
           "nameCode": "PAO",
           "ranking": 8,
           "disabled": false,
@@ -1586,7 +1585,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 24122,
+          "userCount": 24117,
           "nameCode": "AND",
           "ranking": 9,
           "disabled": false,
@@ -1636,7 +1635,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 7419,
+          "userCount": 7415,
           "nameCode": "ALE",
           "ranking": 10,
           "disabled": false,
@@ -1687,7 +1686,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 10355,
+          "userCount": 10356,
           "nameCode": "BEN",
           "ranking": 11,
           "disabled": false,
@@ -1738,7 +1737,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 10138,
+          "userCount": 10128,
           "nameCode": "TAU",
           "ranking": 12,
           "disabled": false,
@@ -1789,7 +1788,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 6072,
+          "userCount": 6062,
           "nameCode": "NOS",
           "ranking": 13,
           "disabled": false,
@@ -1840,7 +1839,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 15177,
+          "userCount": 15173,
           "nameCode": "SVI",
           "ranking": 14,
           "disabled": false,
@@ -1891,7 +1890,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 9317,
+          "userCount": 9313,
           "nameCode": "NAV",
           "ranking": 15,
           "disabled": false,
@@ -1942,7 +1941,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 24356,
+          "userCount": 24338,
           "nameCode": "OSA",
           "ranking": 16,
           "disabled": false,
@@ -2044,7 +2043,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 6397,
+          "userCount": 6417,
           "nameCode": "MBO",
           "ranking": 18,
           "national": false,
@@ -2091,7 +2090,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 9542,
+          "userCount": 9535,
           "nameCode": "MUC",
           "ranking": 19,
           "disabled": false,
@@ -2142,7 +2141,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 7590,
+          "userCount": 7584,
           "nameCode": "MER",
           "ranking": 20,
           "disabled": false,
@@ -2182,7 +2181,6 @@
         "country": {},
         "rankingClass": "team"
       }
-    ],
-    "error": "Brak nowych danych dla WTA"
+    ]
   }
 }

@@ -323,9 +323,7 @@ def atp_daemon(interval):
     
     while True:
         success = update_tennis_rankings('atp', get_atp_rankings)
-        if success:
-            continue
-        else:
+        if not success:
             print(f"[{get_warsaw_time()}] Ostrzeżenie: utrzymano poprzedni ranking ATP")
         time.sleep(interval)
 
@@ -339,9 +337,7 @@ def wta_daemon(interval):
     
     while True:
         success = update_tennis_rankings('wta', get_wta_rankings)
-        if success:
-            continue
-        else:
+        if not success:
             print(f"[{get_warsaw_time()}] Ostrzeżenie: utrzymano poprzedni ranking WTA")
         time.sleep(interval)
 
@@ -378,9 +374,7 @@ def polish_leagues_daemon():
             league_name = league['name']
 
             success = update_polish_league(league)
-            if success:
-                continue
-            else:
+            if not success:
                 print(f"[{get_warsaw_time()}] Ostrzeżenie: utrzymano poprzednie dane {league_name}")
 
             league_index = (league_index + 1) % len(leagues)
@@ -541,7 +535,7 @@ def minut_news_daemon(interval):
                 }
                 save_to_json(news_path, news_data)
         except Exception as e:
-            pass
+            print(f"[{get_warsaw_time()}] Błąd daemon wiadomości: {e}")
         
         time.sleep(interval)
 

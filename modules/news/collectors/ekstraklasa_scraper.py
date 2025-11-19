@@ -7,12 +7,48 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_90minut_table(url):
+def get_emblems_map(id_rozgrywki):
     """
-    Pobiera tabelę ligową ze strony 90minut.pl
+    Pobiera mapę emblematów drużyn z 90minut.pl
+    
+    Args:
+        id_rozgrywki (str): ID rozgrywek (14072 dla Ekstraklasy, 14073 dla I Ligi, 14074 dla II Ligi)
+    
+    Returns:
+        dict: Słownik {nazwa_drużyny: url_emblemu}
+    """
+    try:
+        url = f"http://www.90minut.pl/skarb.php?id_rozgrywki={id_rozgrywki}"
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        
+        soup = BeautifulSoup(response.text, 'html.parser')
+        emblems_map = {}
+        
+        # Szukamy wszystkich obrazków na stronie
+        all_imgs = soup.find_all('img')
+        
+        for img in all_imgs:
+            src = img.get('src', '')
+            alt = img.get('alt', '')
+            
+            # Logo drużyn są w katalogu /logo/dobazy/
+            if '/logo/dobazy/' in src and alt:
+                emblems_map[alt] = src
+        
+        return emblems_map
+    except Exception as e:
+        print(f"Błąd pobierania emblematów: {e}")
+        return {}
+
+
+def get_90minut_table(url, id_rozgrywki):
+    """
+    Pobiera tabelę ligową ze strony 90minut.pl wraz z emblemami
     
     Args:
         url (str): URL do tabeli ligowej
+        id_rozgrywki (str): ID rozgrywek dla emblematów
     
     Returns:
         dict: Słownik zawierający:
@@ -24,6 +60,9 @@ def get_90minut_table(url):
         response.raise_for_status()
         
         soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Pobierz mapę emblematów
+        emblems_map = get_emblems_map(id_rozgrywki)
         
         dane_ligi = []
         
@@ -57,18 +96,23 @@ def get_90minut_table(url):
                                 bramki = cols[7].text.strip() if len(cols) > 7 else ''
                                 
                                 if nazwa and mecze.isdigit():
-                                    dane_ligi.append({
+                                    # Format zgodny z europejskimi ligami (z polem team.crest)
+                                    team_data = {
                                         'position': str(len(dane_ligi) + 1),
-                                        'team_name': nazwa,
+                                        'team': {
+                                            'name': nazwa,
+                                            'crest': emblems_map.get(nazwa, '')
+                                        },
                                         'played_games': mecze,
                                         'points': punkty,
                                         'won': zwyciestwa,
                                         'draw': remisy,
                                         'lost': porazki,
                                         'goals': bramki
-                                    })
-                            except:
-                                continue
+                                    }
+                                    dane_ligi.append(team_data)
+                            except Exception as e:
+                                print(f"[Błąd parsowania wiersza: {e}]")
                     
                     if dane_ligi:
                         break
@@ -98,29 +142,29 @@ def get_90minut_table(url):
 
 def get_ekstraklasa_table():
     """
-    Pobiera tabelę Ekstraklasy ze strony 90minut.pl
+    Pobiera tabelę Ekstraklasy ze strony 90minut.pl z emblemami
     
     Returns:
         dict: Słownik zawierający standings i error
     """
-    return get_90minut_table("http://www.90minut.pl/liga/1/liga14072.html")
+    return get_90minut_table("http://www.90minut.pl/liga/1/liga14072.html", "14072")
 
 
 def get_first_league_table():
     """
-    Pobiera tabelę I Ligi ze strony 90minut.pl
+    Pobiera tabelę I Ligi ze strony 90minut.pl z emblemami
     
     Returns:
         dict: Słownik zawierający standings i error
     """
-    return get_90minut_table("http://www.90minut.pl/liga/1/liga14073.html")
+    return get_90minut_table("http://www.90minut.pl/liga/1/liga14073.html", "14073")
 
 
 def get_second_league_table():
     """
-    Pobiera tabelę II Ligi ze strony 90minut.pl
+    Pobiera tabelę II Ligi ze strony 90minut.pl z emblemami
     
     Returns:
         dict: Słownik zawierający standings i error
     """
-    return get_90minut_table("http://www.90minut.pl/liga/1/liga14074.html")
+    return get_90minut_table("http://www.90minut.pl/liga/1/liga14074.html", "14074")

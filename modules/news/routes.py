@@ -99,7 +99,8 @@ def get_available_competitions():
         with open('data/news/football-data/COMPETITIONS.JSON', 'r', encoding='utf-8') as f:
             data = json.load(f)
             return data.get('competitions', [])
-    except:
+    except Exception as e:
+        print(f"Błąd wczytywania COMPETITIONS.JSON: {e}")
         return []
 
 
