@@ -20,10 +20,21 @@
                 <div class="main-article__image-container">
                 <div class="image-placeholder">
                   {% if item.image %}
-                    <img src="{{ item.image }}" 
-                        alt="{{ item.title }}" 
-                        class="image-placeholder"
-                        onerror="this.style.display='none'; this.parentElement.textContent='Brak zdjęcia';">
+                    {% if item.link %}
+                      <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">
+                        <img src="{{ item.image }}" 
+                            alt="{{ item.title }}" 
+                            class="image-placeholder"
+                            onerror="this.style.display='none'; this.parentElement.nextElementSibling.style.display='flex';">
+                      </a>
+                      <div class="image-placeholder" style="display:none;">Brak zdjęcia</div>
+                    {% else %}
+                      <img src="{{ item.image }}" 
+                          alt="{{ item.title }}" 
+                          class="image-placeholder"
+                          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                      <div class="image-placeholder" style="display:none;">Brak zdjęcia</div>
+                    {% endif %}
                   {% else %}
                     Brak zdjęcia
                   {% endif %}

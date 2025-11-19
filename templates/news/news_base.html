@@ -8,11 +8,12 @@
 
 {% block content %}
 <div class="top-buttons container-padding">
-    <a href="{{ url_for('tables.news') }}" class="top-btn">Wiadomości</a>
+    <a href="{{ url_for('tables.news') }}" class="top-btn">Wiadomości Kryminalne</a>
+    <a href="{{ url_for('tables.news_sport') }}" class="top-btn">Wiadomości Sportowe</a>
     <a href="{{ url_for('tables.tables') }}" class="top-btn">Tabele</a>
 </div>
 
 {% block news_content %}
-<iframe id="main-iframe" src="{{ iframe_src }}"></iframe>
+<iframe id="main-iframe" src="{{ iframe_src }}" scrolling="yes" title="News content"></iframe>
 {% endblock %}
 {% endblock %}
