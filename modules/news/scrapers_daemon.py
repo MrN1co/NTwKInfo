@@ -23,7 +23,8 @@ from modules.news.collectors import (
     get_nba_standings,
     get_mls_standings,
     get_kryminalki_news,
-    get_minut_news
+    get_minut_news,
+    get_przegladsportowy_news
 )
 
 
@@ -504,7 +505,9 @@ def kryminalki_news_daemon(interval):
             pass
         
         time.sleep(interval)
-
+# ============================================================================
+# DAEMON DLA WIADOMOŚCI 90minut.PL
+# ============================================================================
 def minut_news_daemon(interval):
     """
     Daemon scrapujący wiadomości z 90minut.pl
@@ -517,6 +520,46 @@ def minut_news_daemon(interval):
     while True:
         try:
             news_list = get_minut_news(limit=15)
+            
+            if news_list:
+                # Wczytaj stare dane do archiwum (na przyszłość)
+                old_data = load_from_json(news_path, {})
+                if old_data.get('news'):
+                    # Zapisz stare wiadomości do archiwum
+                    archive_data = load_from_json(archive_path, {'archived_news': []})
+                    # Dodaj stare wiadomości na początek archiwum (najnowsze najpierw)
+                    archive_data.setdefault('archived_news', [])
+                    archive_data['archived_news'] = old_data['news'] + archive_data['archived_news']
+                    # Ogranicz archiwum do 100 wiadomości
+                    archive_data['archived_news'] = archive_data['archived_news'][:100]
+                    save_to_json(archive_path, archive_data)
+                
+                # Zapisz nowe wiadomości
+                news_data = {
+                    'news': news_list,
+                    'updated_at': get_warsaw_time()
+                }
+                save_to_json(news_path, news_data)
+        except Exception as e:
+            pass
+        
+        time.sleep(interval)
+
+# ============================================================================
+# DAEMON DLA WIADOMOŚCI przegladsportowy.onet.PL
+# ============================================================================
+def przegladsportowy_news_daemon(interval):
+    """
+    Daemon scrapujący wiadomości z przegladsportowy.onet.pl
+    Args:
+        interval: interwał w sekundach między scrapowaniem
+    """
+    news_path = os.path.join(BASE_DIR, 'data', 'news', 'przegladsportowy', 'przegladsportowy.json')
+    archive_path = os.path.join(BASE_DIR, 'data', 'news', 'przegladsportowy', 'przegladsportowy.json')
+    
+    while True:
+        try:
+            news_list = get_przegladsportowy_news(limit=15)
             
             if news_list:
                 # Wczytaj stare dane do archiwum (na przyszłość)
@@ -574,6 +617,7 @@ def start_all_daemons():
         threading.Thread(target=mls_daemon, args=(mls_interval,), daemon=True, name="MLS-Daemon"),
         threading.Thread(target=kryminalki_news_daemon, args=(news_interval,), daemon=True, name="Kryminalki-News-Daemon"),
         threading.Thread(target=minut_news_daemon, args=(news_interval,), daemon=True, name="Minut-News-Daemon"),
+        threading.Thread(target=przegladsportowy_news_daemon, args=(news_interval,), daemon=True, name="PrzegladSportowy-News-Daemon")
     ]
 
     for thread in threads:
