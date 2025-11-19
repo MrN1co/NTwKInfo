@@ -61,10 +61,6 @@
         <a href="{{ url_for('main.weather') }}" class="{% if request.path == '/pogoda' %}active{% endif %}">Pogoda</a>
         <a href="{{ url_for('main.economy') }}" class="{% if request.path == '/ekonomia' %}active{% endif %}">Ekonomia</a>
       </nav>
-      <div class="header__meta">
-        <span>28 stycznia, poniedziałek</span>
-        <span>Europejski Dzień Ochrony Danych Osobowych</span>
-      </div>
       <button class="header__cta-button">Zaloguj się</button>
     </div>
   </header>
@@ -87,6 +83,7 @@
 <footer class="footer container-padding"><span>NTWKInfo 2025 © Wszystkie prawa zastrzeżone</span></footer>
 </script>
  <script src="{{ url_for('static', filename='js/script-auth.js') }}"></script>
+ <script src="{{ url_for('static', filename='js/script-calendar.js') }}"></script>
  {% block scripts %}{% endblock %}
 </body>
 </html>
