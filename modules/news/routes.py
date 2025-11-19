@@ -62,7 +62,7 @@ def localize_competition_name(name, area):
     
     Args:
         name (str): Oryginalna nazwa ligi
-        area (str): Region/kraj (JUŻ PRZETŁUMACZONY w COMPETITIONS.JSON)
+        area (str): Region/kraj (JUŻ PRZETŁUMACZONY w COMPETITIONS_config.JSON)
         
     Returns:
         str: Zlokalizowana nazwa w formacie "Nazwa (Region)"
@@ -96,11 +96,11 @@ def load_config():
 def get_available_competitions():
     """Pobiera listę dostępnych rozgrywek z pliku"""
     try:
-        with open('data/news/football-data/COMPETITIONS.JSON', 'r', encoding='utf-8') as f:
+        with open('data/news/football-data/COMPETITIONS_config.JSON', 'r', encoding='utf-8') as f:
             data = json.load(f)
             return data.get('competitions', [])
     except Exception as e:
-        print(f"Błąd wczytywania COMPETITIONS.JSON: {e}")
+        print(f"Błąd wczytywania COMPETITIONS_config.JSON: {e}")
         return []
 
 
@@ -448,11 +448,11 @@ def tables():
         
         historical_data = load_from_json('data/news/football-data/historical_seasons.json', {})
         
-        # Pobierz info o lidze z COMPETITIONS.JSON aby uzyskać dostępne sezony
+        # Pobierz info o lidze z COMPETITIONS_config.JSON aby uzyskać dostępne sezony
         competitions = get_available_competitions()
         comp_info = next((c for c in competitions if c.get('code') == selected_competition), None)
         
-        # Przygotuj dostępne sezony z COMPETITIONS.JSON
+        # Przygotuj dostępne sezony z COMPETITIONS_config.JSON
         available_seasons = []
         if comp_info:
             max_seasons = comp_info.get('seasons', 3)

@@ -21,12 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.pa
 
 def get_available_competitions():
     """
-    Pobiera listę dostępnych rozgrywek z pliku COMPETITIONS.JSON
+    Pobiera listę dostępnych rozgrywek z pliku COMPETITIONS_config.JSON
     
     Returns:
         list: Lista słowników z informacjami o rozgrywkach
     """
-    competitions_path = os.path.join(BASE_DIR, 'data', 'news', 'football-data', 'COMPETITIONS.JSON')
+    competitions_path = os.path.join(BASE_DIR, 'data', 'news', 'football-data', 'COMPETITIONS_config.JSON')
     
     try:
         with open(competitions_path, 'r', encoding='utf-8') as f:

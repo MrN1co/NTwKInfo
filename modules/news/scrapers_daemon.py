@@ -46,7 +46,7 @@ def load_football_config():
 
 def load_football_competitions():
     """Wczytuje konfigurację rozgrywek piłkarskich"""
-    competitions_path = os.path.join(BASE_DIR, 'data', 'news', 'football-data', 'COMPETITIONS.JSON')
+    competitions_path = os.path.join(BASE_DIR, 'data', 'news', 'football-data', 'COMPETITIONS_config.JSON')
     with open(competitions_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
         return data.get('competitions', [])
@@ -210,7 +210,6 @@ def update_football_league(league_code, season='current'):
     existing = load_from_json(league_json_path, {})
 
     try:
-        # WAŻNE: skip_competition_info=True aby zaoszczędzić połowę API calls!
         football_data = get_football_standings(league_code, season, skip_competition_info=True)
     except Exception as exc:
         print(f"[{get_warsaw_time()}] Wyjątek football-data {league_code}: {exc}")
@@ -270,45 +269,6 @@ def update_espn_league(code, fetch_func, filepath):
     }
     save_to_json(filepath, payload)
     return True
-
-
-def run_initial_scrape():
-    """Jednorazowe scrapowanie wszystkich źródeł przy starcie aplikacji"""
-
-    results = defaultdict(lambda: False)
-
-    try:
-        results['ATP'] = update_tennis_rankings('atp', get_atp_rankings)
-    except Exception as exc:
-        print(f"[{get_warsaw_time()}] Ostrzeżenie: błąd startowy ATP: {exc}")
-
-    try:
-        results['WTA'] = update_tennis_rankings('wta', get_wta_rankings)
-    except Exception as exc:
-        print(f"[{get_warsaw_time()}] Ostrzeżenie: błąd startowy WTA: {exc}")
-
-    ekstraklasa_config = load_ekstraklasa_config()
-    for league in ekstraklasa_config.get('leagues', []):
-        code = league.get('code', 'UNKNOWN')
-        results[f"POL-{code}"] = update_polish_league(league)
-
-    try:
-        nba_path = os.path.join(BASE_DIR, 'data', 'news', 'ESPN-API', 'nba_standings.json')
-        results['NBA'] = update_espn_league('NBA', get_nba_standings, nba_path)
-    except Exception as exc:
-        print(f"[{get_warsaw_time()}] Ostrzeżenie: błąd startowy NBA: {exc}")
-
-    try:
-        mls_path = os.path.join(BASE_DIR, 'data', 'news', 'ESPN-API', 'mls_standings.json')
-        results['MLS'] = update_espn_league('MLS', get_mls_standings, mls_path)
-    except Exception as exc:
-        print(f"[{get_warsaw_time()}] Ostrzeżenie: błąd startowy MLS: {exc}")
-
-    # NIE scrapujemy football-data przy starcie - daemon od razu zacznie rotację!
-    # Dodanie scrapowania tutaj powodowało podwójne zapytania (start + daemon)
-    
-    summary = ', '.join([f"{key}:{'OK' if value else 'WARN'}" for key, value in results.items()])
-    print(f"[{get_warsaw_time()}] Jednorazowe scrapowanie zakończone -> {summary}")
 
 
 # ============================================================================
@@ -594,13 +554,10 @@ def start_all_daemons():
     nba_interval = determine_interval(espn_entries, 'NBA', 3600)
     mls_interval = determine_interval(espn_entries, 'MLS', 3600)
 
-    try:
-        run_initial_scrape()
-    except Exception as exc:
-        print(f"[{get_warsaw_time()}] Ostrzeżenie: błąd podczas jednorazowego scrapowania: {exc}")
-
     # Interwał dla wiadomości - 5 minut (300s)
     news_interval = 300
+    
+    print(f"[{get_warsaw_time()}] Uruchamianie daemonów scrapujących...")
     
     threads = [
         threading.Thread(target=atp_daemon, args=(atp_interval,), daemon=True, name="ATP-Daemon"),
