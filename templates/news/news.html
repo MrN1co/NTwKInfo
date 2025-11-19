@@ -15,6 +15,9 @@
     {% if news_list %}
         {% for item in news_list %}
         <div class="news-item">
+            {% if item.date %}
+            <div class="news-timestamp">{{ item.date }}</div>
+            {% endif %}
             {% if item.image %}
                 {% if item.link %}
                     <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">
@@ -35,9 +38,6 @@
                         {{ item.title }}
                     </a>
                 </h2>
-                <div class="news-meta">
-                    <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">Czytaj więcej →</a>
-                </div>
             </div>
         </div>
         {% endfor %}

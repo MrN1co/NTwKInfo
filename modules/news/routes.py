@@ -196,42 +196,6 @@ def news():
                          selected_tags=selected_tags)
 
 
-@tables_bp.route('/news_main')
-def news_main():
-    """
-    Strona główna wiadomości: wyświetla 1 wiadomość z kryminalki i 1 ze sportowych
-    """
-    # Kryminalki
-    crime_path = 'data/news/kryminalki/kryminalki.json'
-    crime_data = load_from_json(crime_path, {'news': [], 'updated_at': None})
-    if not crime_data.get('news'):
-        try:
-            fresh = get_kryminalki_news(limit=1)
-            if fresh:
-                crime_data = {'news': fresh, 'updated_at': get_warsaw_time()}
-                save_to_json(crime_path, crime_data)
-        except Exception:
-            crime_data = {'news': [], 'updated_at': None}
-
-    crime_item = crime_data.get('news', [None])[0] if crime_data.get('news') else None
-
-    # Sportowe (przegladsportowy)
-    sport_path = 'data/news/przegladsportowy/przegladsportowy.json'
-    sport_data = load_from_json(sport_path, {'news': [], 'updated_at': None})
-    if not sport_data.get('news'):
-        try:
-            fresh = get_przegladsportowy_news(limit=1)
-            if fresh:
-                sport_data = {'news': fresh, 'updated_at': get_warsaw_time()}
-                save_to_json(sport_path, sport_data)
-        except Exception:
-            sport_data = {'news': [], 'updated_at': None}
-
-    sport_item = sport_data.get('news', [None])[0] if sport_data.get('news') else None
-
-    return render_template('news/news_main.html', crime_item=crime_item, sport_item=sport_item,
-                           crime_updated=crime_data.get('updated_at'), sport_updated=sport_data.get('updated_at'))
-
 @tables_bp.route('/news_sport')
 def news_sport():
     """

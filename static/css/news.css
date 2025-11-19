@@ -116,3 +116,22 @@ body.news-page .main-content {
     border-color: var(--color-primary);
     font-weight: 600;
 }
+
+/* Odstępy między wiadomościami */
+.news-item {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.news-item:last-child {
+    border-bottom: none;
+}
+
+/* Timestamp wiadomości */
+.news-timestamp {
+    color: #666;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+    font-style: italic;
+}

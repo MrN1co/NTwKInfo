@@ -14,7 +14,7 @@ def index():
 @main_bp.route('/news')
 def news():
     
-    return redirect(url_for('tables.news_main'))
+    return redirect(url_for('tables.news'))
 
 
 @main_bp.route('/ekonomia')

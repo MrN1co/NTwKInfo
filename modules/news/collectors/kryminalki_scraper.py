@@ -74,7 +74,12 @@ def get_kryminalki_news(limit=10):
                 parts = title_text.split('Data dodania artykułu:')
                 title = parts[0].strip()
                 if len(parts) > 1:
-                    date = parts[1].strip()
+                    # Wyciągamy tylko datę i godzinę (przed "Liczba komentarzy")
+                    date_part = parts[1]
+                    if 'Liczba komentarzy' in date_part:
+                        date = date_part.split('Liczba komentarzy')[0].strip()
+                    else:
+                        date = date_part.strip()
             else:
                 title = title_text
             
