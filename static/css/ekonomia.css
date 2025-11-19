@@ -319,3 +319,184 @@ html, body {
 .navbar .navbar-toggler {
     font-family: 'DM Sans', sans-serif;
 }
+
+/* --- MAŁE KAFELKI WALUT NA DOLE --- */
+.all-currencies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    padding: 20px 0;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.small-currency-item {
+    display: flex;
+    justify-content: center;
+}
+
+.card.small-currency-box {
+    background-color: #74825f; /* ten sam kolor co większe kafelki */
+    padding: 12px 8px; /* mniejszy padding */
+    border-radius: 10px; /* nieco mniejszy border-radius */
+    min-width: 100px; /* mniejsza minimalna szerokość */
+    max-width: 130px; /* mniejsza maksymalna szerokość */
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06); /* nieco mniejszy cień */
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    color: #F3F4F3;
+}
+
+.card.small-currency-box:hover {
+    transform: translateY(-2px); /* mniejszy efekt hover */
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.small-currency-title {
+    color: #F3F4F3;
+    font-size: 11px; /* mniejsza czcionka */
+    margin-bottom: 4px;
+    letter-spacing: 0.1px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.small-currency-value {
+    font-size: 14px; /* znacznie mniejsza czcionka niż w dużych kafelkach */
+    font-weight: 600;
+    margin-top: 2px;
+    color: #F3F4F3;
+}
+
+/* Responsive adjustments dla małych kafelków */
+@media (max-width: 768px) {
+    .all-currencies-grid {
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+        gap: 10px;
+        padding: 15px 10px;
+    }
+    
+    .card.small-currency-box {
+        min-width: 80px;
+        max-width: 100px;
+        padding: 10px 6px;
+    }
+    
+    .small-currency-title {
+        font-size: 10px;
+    }
+    
+    .small-currency-value {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .all-currencies-grid {
+        grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
+        gap: 8px;
+    }
+    
+    .card.small-currency-box {
+        min-width: 70px;
+        max-width: 85px;
+        padding: 8px 4px;
+    }
+    
+    .small-currency-title {
+        font-size: 9px;
+    }
+    
+    .small-currency-value {
+        font-size: 11px;
+    }
+}
+
+/* Tabela z kursami walut */
+.currency-table {
+    margin-top: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.currency-table thead th {
+    background: linear-gradient(135deg, #74825f 0%, #5E612B 100%);
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    padding: 15px;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.currency-table tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+.currency-table tbody tr:hover {
+    background-color: rgba(116, 130, 95, 0.1);
+}
+
+.currency-table tbody tr:nth-child(even) {
+    background-color: rgba(116, 130, 95, 0.05);
+}
+
+.currency-table td {
+    padding: 12px 15px;
+    vertical-align: middle;
+    border-color: rgba(116, 130, 95, 0.2);
+}
+
+.currency-code {
+    font-weight: bold;
+    color: #74825f;
+    text-align: center;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.currency-rate {
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    font-family: 'Roboto Mono', monospace;
+}
+
+/* Responsive adjustments dla tabeli */
+@media (max-width: 768px) {
+    .currency-table {
+        font-size: 0.9rem;
+    }
+    
+    .currency-table td {
+        padding: 10px 12px;
+    }
+    
+    .currency-table thead th {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .currency-table {
+        font-size: 0.8rem;
+    }
+    
+    .currency-table td {
+        padding: 8px 10px;
+    }
+    
+    .currency-table thead th {
+        padding: 10px;
+        font-size: 0.8rem;
+    }
+}

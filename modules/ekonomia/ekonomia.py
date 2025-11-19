@@ -52,10 +52,20 @@ def ekonomia():
     currency_rates = {k.upper(): v for k, v in raw_rates.items()}
     currency_rates['PLN'] = 1.0
 
+    # Przygotuj wszystkie waluty oprócz tych które są już na górze (EUR, CHF, USD)
+    excluded_currencies = {'EUR', 'CHF', 'USD'}
+    all_currencies_for_tiles = {}
+    for code in currency_codes:
+        if code.upper() not in excluded_currencies:
+            rate = currency_rates.get(code.upper())
+            if rate:
+                all_currencies_for_tiles[code.upper()] = rate
+
     return render_template('ekonomia/index.html',
                            kurs_walut=kurs_walut,
                            wykres_waluty=wykres_waluty,
                            wykres_zlota=wykres_zlota,
                            cena_zlota=cena_zlota,
                            currency_codes=currency_codes,
-                           currency_rates=currency_rates)
+                           currency_rates=currency_rates,
+                           all_currencies_for_tiles=all_currencies_for_tiles)
