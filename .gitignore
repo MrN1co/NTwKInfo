@@ -1,3 +1,13 @@
+.sqlite3
+.db
+.vscode/
+# Ignorowanie wszystkich plików w data/news/ i podfolderach z wyjątkiem plików z 'config' w nazwie
+data/news/**
+!data/news/**/
+!data/news/**/*config*
+
+
+# domyślne:
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

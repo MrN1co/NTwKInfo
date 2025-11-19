@@ -108,6 +108,55 @@ h1, h2, h3 {
     align-items: center; /* wyśrodkowanie meta */
 }
 
+/* Calendar widget in header */
+.calendar-widget {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-text-secondary);
+}
+.calendar-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+}
+.calendar-month {
+  font-size: 11px;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+.calendar-day {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  line-height: 1;
+}
+.calendar-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  max-width: 320px;
+}
+.calendar-date {
+  font-size: 13px;
+  color: var(--color-black);
+  font-weight: 500;
+}
+.calendar-fact {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+}
+
 .header__cta-button {
     background-color: var(--color-primary);
     color: var(--color-white);
@@ -568,65 +617,170 @@ h1, h2, h3 {
 
 
 /* 🖥 LAPTOPY I WIĘKSZE */
-@media (min-width: 1024px) {
-  html, body {
-    height: 100%;
-  }
+@media (min-width: 1280px) {
+    /* Domyślne dla strony głównej - brak scrollowania */
+    html:not(:has(body.news-page)), 
+    body:not(.news-page) {
+        height: 100vh;
+        overflow: hidden;
+    }
 
-  body {
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-  }
+    body:not(.news-page) {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+    }
 
-  .main-content {
-    flex: 1;
-    width: 100%;
-    max-width: none;
-    height: 100%;
-    padding: 50px 60px;
-    gap: 60px;
-  }
+    /* Wymuszenie scrollowania dla stron news */
+    html:has(body.news-page) {
+        height: auto !important;
+        overflow-y: auto !important;
+    }
 
-  .main-article__title {
-    font-size: 42px;
-  }
+    body.news-page {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
 
-  .main-article__caption {
-    font-size: 16px;
-    padding: 20px 30px;
-  }
+    body.news-page .main-content {
+        height: auto !important;
+        overflow: visible !important;
+        flex: 1 0 auto !important;
+    }
 
-  .weather-box,
-  .exchange-rates {
-    font-size: 16px;
-  }
+    /* --- GŁÓWNA ZAWARTOŚĆ --- */
+    .main-content {
+        flex: 1;
+        width: 100%;
+        max-width: none;
+        padding: 20px 40px;
+        gap: 30px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
 
-  .exchange-rates__title {
-    font-size: 24px;
-  }
+    /* --- GRID --- */
+    .content-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 30px;
+        height: 100%;
+        min-height: 0; /* kluczowe, by zmieścić wszystko */
+    }
 
-  .rate-item .cell {
-    font-size: 16px;
-    padding: 12px 20px;
-  }
+    .left-column,
+    .right-column {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;  /* pozwala kolumnom się zmniejszyć */
+        overflow: hidden;
+    }
 
-  .header__top-bar,
-  .footer {
-    width: 100%;
-    max-width: none;
-    padding-left: 60px;
-    padding-right: 60px;
-  }
+    /* --- KARUZELA / ARTYKUŁ --- */
+    .main-article-carousel {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
 
-  
-  .right-column {
-    margin-top: 70px;
-  }
+    .main-article__header {
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+
+    .main-article__title {
+        font-size: 36px; /* większy tytuł */
+        margin-bottom: 12px;
+        line-height: 1.2;
+    }
+
+    .main-article__image-container {
+        flex: 1;           /* zdjęcie wypełnia kolumnę proporcjonalnie */
+        min-height: 0;
+        margin-bottom: 10px;
+    }
+
+    .image-placeholder {
+        width: 100%;
+        height: 350px;     /* większe, naturalne zdjęcie */
+    }
+
+    .main-article__caption {
+        font-size: 14px;
+        padding: 12px 20px;
+    }
+
+    /* --- PRAWA KOLUMNA --- */
+    .right-column {
+        gap: 20px;
+        min-height: 0;
+        overflow: hidden;
+        flex: 1;
+    }
+
+    .weather-box {
+        flex: 0 0 35%; /* trochę więcej miejsca dla pogody */
+        overflow: auto;
+    }
+
+    .exchange-rates {
+        flex: 1;       /* zajmuje resztę miejsca */
+        overflow: auto;
+        min-height: 0;
+    }
+
+    /* --- POGODA --- */
+    .weather-box {
+        background: var(--color-accent);
+        border: 1px solid var(--color-border);
+        border-radius: 16px;
+        padding: 15px 20px;
+    }
+
+    .weather-box__city {
+        font-size: 18px;
+    }
+
+    .weather-box__temp {
+        font-size: 30px;
+    }
+
+    .weather-box__icon {
+        font-size: 40px;
+    }
+
+    /* --- KURSY --- */
+    .exchange-rates__title {
+        font-size: 20px;
+    }
+
+    .rate-item .cell {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+
+    /* --- HEADER / FOOTER --- */
+    .header__top-bar,
+    .footer {
+        width: 100%;
+        max-width: none;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+
+    .right-column {
+        margin-top: 30px; /* zmniejszone, żeby nie było dużego luzu */
+    }
 }
-
-
 
 
 /* --- 10. KARUZELA WIADOMOŚCI --- */

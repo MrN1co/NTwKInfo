@@ -1,0 +1,52 @@
+{% extends "news/news_base.html" %}
+
+{% block title %}Wiadomości - przegladsportowy.onet.pl{% endblock %}
+
+{% block news_content %}
+<div class="news-container">
+    <h1>Wiadomości z przegladsportowy.onet.pl</h1>
+    
+    {% if updated_at %}
+    <p class="info">
+        <span class="update-time">Ostatnia aktualizacja: {{ updated_at }} (Warszawa)</span>
+    </p>
+    {% endif %}
+    
+    {% if news_list %}
+        {% for item in news_list %}
+        <div class="news-item">
+            {% if item.image %}
+                {% if item.link %}
+                    <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">
+                        <img src="{{ item.image }}" alt="{{ item.title }}" class="news-image" onerror="this.style.display='none'; this.parentElement.nextElementSibling.style.display='flex';">
+                    </a>
+                    <div class="news-image-placeholder" style="display: none;">Brak obrazka</div>
+                {% else %}
+                    <img src="{{ item.image }}" alt="{{ item.title }}" class="news-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="news-image-placeholder" style="display: none;">Brak obrazka</div>
+                {% endif %}
+            {% else %}
+                <div class="news-image-placeholder">Brak obrazka</div>
+            {% endif %}
+            
+            <div class="news-content">
+                <h2 class="news-title">
+                    <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer" class="news-link">
+                        {{ item.title }}
+                    </a>
+                </h2>
+                <div class="news-meta">
+                    <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">Czytaj więcej →</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p class="error">Brak dostępnych wiadomości. Spróbuj odświeżyć stronę.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}

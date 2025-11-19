@@ -1,0 +1,204 @@
+{% extends "news/news_base.html" %}
+
+{% block title %}Wyniki Sportowe - NTWKInfo{% endblock %}
+
+{% block news_content %}
+
+<!-- Nagłówek z nazwą ligi/sportu -->
+<h1>
+    {% if competition_emblem %}
+    <img src="{{ competition_emblem }}" alt="{{ competition_name }}" width="50" height="50">
+    {% endif %}
+    {{ competition_name }}
+</h1>
+
+<!-- Informacja o sezonie i aktualizacji -->
+{% if season_info %}
+<p class="info">
+    Sezon: {{ season_info.startDate }} - {{ season_info.endDate }}
+    {% if updated_at %}
+    <span class="update-time">| Aktualizacja: {{ updated_at }} (Warszawa)</span>
+    {% endif %}
+</p>
+{% elif updated_at %}
+<p class="info">
+    <span class="update-time">Aktualizacja: {{ updated_at }} (Warszawa)</span>
+</p>
+{% endif %}
+
+<!-- Formularz wyboru ligi i sezonu -->
+<form method="GET" action="{{ url_for('tables.tables') }}">
+    <label for="competition">Wybierz ligę/sport:</label>
+    <select name="competition" id="competition" onchange="this.form.submit()">
+        {% for comp in all_competitions %}
+        <option value="{{ comp.code }}" {% if comp.code == selected_code %}selected{% endif %}>
+            {{ comp.name }}{% if comp.area %} ({{ comp.area }}){% endif %}
+        </option>
+        {% endfor %}
+    </select>
+
+    {% if available_seasons %}
+    <label for="season">Wybierz sezon:</label>
+    <select name="season" id="season" onchange="this.form.submit()">
+        {% for season in available_seasons %}
+        <option value="{{ season.year }}" {% if season.year == selected_season %}selected{% endif %}>
+            {{ season.label }}
+        </option>
+        {% endfor %}
+    </select>
+    {% endif %}
+</form>
+
+<!-- Komunikaty -->
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+
+{% if is_football and not standings and not error %}
+<p class="info">Ładowanie danych...</p>
+{% endif %}
+
+<!-- Tabela piłkarska -->
+{% if is_football and standings %}
+<table>
+    <thead>
+        <tr>
+            <th>Pozycja</th>
+            <th>Drużyna</th>
+            <th>Mecze</th>
+            <th>Wygrane</th>
+            <th>Remisy</th>
+            <th>Przegrane</th>
+            <th>Punkty</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for team in standings %}
+        <tr>
+            <td>{{ team.position }}</td>
+            <td>
+                {% if team.team and team.team.crest %}
+                <img src="{{ team.team.crest }}" width="30" height="30">
+                {{ team.team.name }}
+                {% else %}
+                {{ team.team_name }}
+                {% endif %}
+            </td>
+            <td>{{ team.playedGames or team.played_games }}</td>
+            <td>{{ team.won }}</td>
+            <td>{{ team.draw }}</td>
+            <td>{{ team.lost }}</td>
+            <td>{{ team.points }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+<!-- Tabela tenisowa -->
+{% if is_tennis and tennis_rankings %}
+<table>
+    <thead>
+        <tr>
+            <th>Pozycja</th>
+            <th>Zawodnik</th>
+            <th>Kraj</th>
+            <th>Punkty</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for player in tennis_rankings %}
+        <tr>
+            <td>{{ player.ranking }}</td>
+            <td>{{ player.team.name if player.team else player.rowName }}</td>
+            <td>{{ player.team.country.name if player.team and player.team.country else 'N/A' }}</td>
+            <td>{{ player.points | default(0) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+<!-- Tabele NBA -->
+{% if is_nba and nba_conferences %}
+{% for conference_name, teams in nba_conferences.items() %}
+{% if teams %}
+<h2>{{ conference_name }} Conference</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Pozycja</th>
+            <th>Drużyna</th>
+            <th>Wygrane</th>
+            <th>Przegrane</th>
+            <th>%</th>
+            <th>GB</th>
+            <th>Seria</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for team in teams %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>
+                {% if team.team_logo %}
+                <img src="{{ team.team_logo }}" width="30" height="30">
+                {% endif %}
+                {{ team.team_name }}
+            </td>
+            <td>{{ team.wins }}</td>
+            <td>{{ team.losses }}</td>
+            <td>{{ "%.3f"|format(team.win_percent) }}</td>
+            <td>{{ team.games_behind }}</td>
+            <td>{{ team.streak }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+<!-- Tabele MLS -->
+{% if is_mls and mls_conferences %}
+{% for conference_name, teams in mls_conferences.items() %}
+{% if teams %}
+<h2>{{ conference_name }} Conference</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Pozycja</th>
+            <th>Drużyna</th>
+            <th>Punkty</th>
+            <th>Wygrane</th>
+            <th>Remisy</th>
+            <th>Przegrane</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for team in teams %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>
+                {% if team.team_logo %}
+                <img src="{{ team.team_logo }}" width="30" height="30">
+                {% endif %}
+                {{ team.team_name }}
+            </td>
+            <td>{{ team.points }}</td>
+            <td>{{ team.wins }}</td>
+            <td>{{ team.ties }}</td>
+            <td>{{ team.losses }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}
