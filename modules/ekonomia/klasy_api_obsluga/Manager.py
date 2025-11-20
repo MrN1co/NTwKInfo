@@ -89,7 +89,7 @@ class Manager:
         if y_label:
             ax.set_ylabel(y_label, color='#2B370A')
         else:
-            ax.set_ylabel('Cena złota [PLN/g]' if y_col == 'price' else y_col, color='#2B370A')
+            ax.set_ylabel('Cena złota [t oz]' if y_col == 'price' else y_col, color='#2B370A')
         fig.autofmt_xdate()
         buf = io.BytesIO()
         plt.savefig(buf, format='png', bbox_inches='tight', facecolor=fig.get_facecolor())
