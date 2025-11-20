@@ -10,16 +10,6 @@
   <main class="main-content container-padding">
     <section class="content-grid">
       <div class="left-column">
-          <div id="calendarWidget" class="calendar-widget" aria-live="polite" style="margin-bottom:12px;">
-            <div class="calendar-icon">
-              <div class="calendar-month" id="calendarMonth">--</div>
-              <div class="calendar-day" id="calendarDay">--</div>
-            </div>
-            <div class="calendar-info">
-              <div class="calendar-date" id="calendarDate">Ładuję...</div>
-              <div class="calendar-fact" id="calendarFact">Ładuję ciekawostkę...</div>
-            </div>
-          </div>
         <section class="main-article-carousel">
           <div class="carousel-container">
             {% if news_list %}
@@ -72,6 +62,16 @@
         </section>
       </div>
       <div class="right-column">
+        <div id="calendarWidget" class="calendar-widget">
+            <div class="calendar-icon">
+              <div class="calendar-month" id="calendarMonth">--</div>
+              <div class="calendar-day" id="calendarDay">--</div>
+            </div>
+            <div class="calendar-info">
+              <div class="calendar-date" id="calendarDate">Ładuję...</div>
+              <div class="calendar-fact" id="calendarFact">Ładuję ciekawostkę...</div>
+            </div>
+          </div>
         <section class="weather-box">
           <div>
             <div class="weather-box__city">Kraków</div>

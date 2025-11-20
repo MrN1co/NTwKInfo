@@ -44,6 +44,7 @@ def fetch_daily_forecast(lat: float, lon: float, cnt: int = 7, units: str = "met
         "appid": get_api_key(),
         "cnt": cnt,
         "units": units,
+        "lang": "pl",
     }
     resp = requests.get(DAILY_URL, params=params, timeout=10)
     resp.raise_for_status()

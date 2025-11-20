@@ -1,43 +1,53 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const dayEl = document.getElementById('calendarDay');
-  const monthEl = document.getElementById('calendarMonth');
   const dateEl = document.getElementById('calendarDate');
   const factEl = document.getElementById('calendarFact');
+  const dayEl = document.getElementById('calendarDay');
+  const monthEl = document.getElementById('calendarMonth');
 
-  if (!dayEl || !monthEl || !dateEl || !factEl) return;
+  if (!dateEl || !factEl) return;
 
   const polishMonths = ['stycznia','lutego','marca','kwietnia','maja','czerwca','lipca','sierpnia','września','października','listopada','grudnia'];
-  const polishMonthsShort = ['Sty','Lut','Mar','Kwi','Maj','Cze','Lip','Sie','Wrz','Paź','Lis','Gru'];
-  const polishWeekdays = ['niedziela','poniedziałek','wtorek','środa','czwartek','piątek','sobota'];
 
   const now = new Date();
   const day = now.getDate();
-  const monthIndex = now.getMonth();
-  const weekdayIndex = now.getDay();
+  const month = now.getMonth() + 1; // 1-based
 
-  // Fill calendar elements
-  dayEl.textContent = day;
-  monthEl.textContent = polishMonthsShort[monthIndex];
-  dateEl.textContent = `${day} ${polishMonths[monthIndex]}, ${polishWeekdays[weekdayIndex]}`;
+  const polishMonthsShort = ['Sty','Lut','Mar','Kwi','Maj','Cze','Lip','Sie','Wrz','Paź','Lis','Gru'];
 
-  // Fetch a fun fact about the date from NumbersAPI
-  // e.g. https://numbersapi.com/11/19/date?json
-  const numbersUrl = `https://numbersapi.com/${monthIndex + 1}/${day}/date?json`;
+  // Fill icon (if present)
+  if (dayEl) dayEl.textContent = day;
+  if (monthEl) monthEl.textContent = polishMonthsShort[month - 1];
 
-  fetch(numbersUrl)
+  // Show date (day + month name)
+  dateEl.textContent = `${day} ${polishMonths[month - 1]}`;
+
+  // Use the provided JSON feed of obscure holidays: /<month>/<day>.json
+  const holidaysUrl = `https://pniedzwiedzinski.github.io/kalendarz-swiat-nietypowych/${month}/${day}.json`;
+
+  fetch(holidaysUrl)
     .then(res => {
       if (!res.ok) throw new Error('Network response was not ok');
       return res.json();
     })
     .then(data => {
-      if (data && data.text) {
-        factEl.textContent = data.text;
+      if (Array.isArray(data) && data.length > 0) {
+        // join holiday names into a short string
+        const names = data.map(item => item.name).filter(Boolean);
+        if (names.length === 0) {
+          factEl.textContent = 'Brak nietypowych świąt dziś.';
+        } else if (names.length === 1) {
+          factEl.textContent = names[0];
+        } else {
+          // show up to first 3, indicate if more
+          const shown = names.slice(0, 3).join(' · ');
+          factEl.textContent = names.length > 3 ? `${shown} i więcej...` : shown;
+        }
       } else {
-        factEl.textContent = 'Brak ciekawostki na dziś.';
+        factEl.textContent = 'Brak nietypowych świąt dziś.';
       }
     })
-    .catch(() => {
-      // graceful fallback if API fails
-      factEl.textContent = 'Nie można załadować ciekawostki — spróbuj później.';
+    .catch(err => {
+      console.warn('Holidays fetch failed', err);
+      factEl.textContent = 'Nie można załadować świąt — spróbuj później.';
     });
 });
