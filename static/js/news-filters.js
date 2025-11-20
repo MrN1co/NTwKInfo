@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     const tagButtons = document.querySelectorAll('.tag-btn[data-tag]');
     const selectedTagsData = document.getElementById('selected-tags-data');
-    
+    const newsItems = document.querySelectorAll('.news-item');
+
     if (!selectedTagsData) return;
-    
+
     let selectedTags = new Set();
     try {
         const tagsJson = selectedTagsData.dataset.tags;
@@ -13,10 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } catch (e) {
         console.error('Błąd parsowania tagów:', e);
     }
-    
-    let redirectTimer = null;
-    
-    // Funkcja aktualizująca wizualny stan przycisków
+
     function updateButtonStates() {
         tagButtons.forEach(button => {
             const tag = button.dataset.tag;
@@ -29,43 +27,57 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
-    // Funkcja przekierowująca
-    function scheduleRedirect() {
-        // Anuluj poprzedni timer
-        if (redirectTimer) {
-            clearTimeout(redirectTimer);
-        }
-        
 
-        redirectTimer = setTimeout(() => {
-            const tagsParam = Array.from(selectedTags).join(',');
-            const baseUrl = window.location.pathname;
-            const url = tagsParam ? `${baseUrl}?tags=${tagsParam}` : baseUrl;
-            window.location.href = url;
-        }, 1000);
+    function updateUrlParamWithoutReload() {
+        const tagsParam = Array.from(selectedTags).join(',');
+        const baseUrl = window.location.pathname;
+        const url = tagsParam ? `${baseUrl}?tags=${encodeURIComponent(tagsParam)}` : baseUrl;
+        window.history.replaceState({}, '', url);
     }
-    
-    // Kliknięcia na przyciski tagów
+
+    function applyFilters() {
+        // Pokaż wszystko, jeśli brak wybranych tagów
+        if (selectedTags.size === 0) {
+            newsItems.forEach(item => {
+                item.style.display = '';
+            });
+            return;
+        }
+
+        newsItems.forEach(item => {
+            const itemTagsRaw = item.dataset.tags || '';
+            const itemTags = itemTagsRaw
+                .split(',')
+                .map(t => t.trim())
+                .filter(Boolean);
+
+            const hasAny = itemTags.some(t => selectedTags.has(t));
+            item.style.display = hasAny ? '' : 'none';
+        });
+    }
+
     tagButtons.forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
             const tag = this.dataset.tag;
-            
+
             if (tag === '') {
-                // "Wszystko" - wyczyść wszystkie filtry
                 selectedTags.clear();
             } else {
-                // Tag konkretny - przełącz
                 if (selectedTags.has(tag)) {
                     selectedTags.delete(tag);
                 } else {
                     selectedTags.add(tag);
                 }
             }
-            
+
             updateButtonStates();
-            scheduleRedirect();
+            applyFilters();
+            updateUrlParamWithoutReload();
         });
     });
+
+    updateButtonStates();
+    applyFilters();
+    updateUrlParamWithoutReload();
 });

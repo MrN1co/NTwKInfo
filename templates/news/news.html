@@ -16,7 +16,7 @@
     
     {% if news_list %}
         {% for item in news_list %}
-        <div class="news-item">
+        <div class="news-item" data-tags="{{ (item.tags or [])|join(',') }}">
             {% if item.date %}
             <div class="news-timestamp">{{ item.date }}</div>
             {% endif %}
