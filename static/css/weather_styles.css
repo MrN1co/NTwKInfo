@@ -145,23 +145,23 @@ body {
   position: absolute;
   top: 18px;
   right: 22px;
-  width: 30px;
-  height: 30px;
+  width: 60px;       
+  height: 60px;      
   border-radius: 999px;
-  border: 1px solid #c9c6bf;
-  background: #f4f2ee;
-  color: #b7b0a5;
-  font-size: 16px;
+  border: 2px solid #5d7419; 
+  color: #cad0c5;
+  font-size: 32px;   
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+
 .favorite-btn.active {
-  background: #f0c3aa;
-  color: #a34d2a;
-  border-color: #dba88a;
+  background: #cad0c5;
+  color: #aa2415;
+  border-color: #5d7419;
 }
 
 /* NAZWA LOKALIZACJI – większa niż wcześniej */
@@ -347,11 +347,30 @@ body {
   margin-bottom: 6px;
 }
 
+/* Ikony w kafelkach prognozy — większe na desktopie */
 .day-card img {
-  width: 60px;
-  height: 60px;
-  margin-bottom: 4px;
+  width: 90px;   /* większa ikona */
+  height: 90px;
+  margin-bottom: 6px;
+  object-fit: contain;
 }
+
+/* Na tabletach ikony trochę mniejsze */
+@media (max-width: 1279px) and (min-width: 800px) {
+  .day-card img {
+    width: 75px;
+    height: 75px;
+  }
+}
+
+/* Na telefonach ikony jeszcze bardziej kompaktowe */
+@media (max-width: 799px) {
+  .day-card img {
+    width: 70px;
+    height: 70px;
+  }
+}
+
 
 .day-card .temps {
   font-size: 0.78rem;

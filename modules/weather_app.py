@@ -178,6 +178,7 @@ def api_forecast():
     """GET /api/forecast?lat=...&lon=... – jeśli brak, bierze domyślny Kraków."""
     lat_param = request.args.get("lat")
     lon_param = request.args.get("lon")
+    label = request.args.get("label")
 
     try:
         lat = float(lat_param) if lat_param is not None else DEFAULT_LAT
@@ -188,6 +189,13 @@ def api_forecast():
     try:
         raw = fetch_daily_forecast(lat, lon, cnt=7, units="metric")
         data = normalize_forecast(raw)
+        if label:
+            data["city"] = label 
+        else:
+            # jeśli to domyślna lokalizacja – wymuś "Kraków"
+            if lat == DEFAULT_LAT and lon == DEFAULT_LON:
+                data["city"] = "Kraków"
+
         return jsonify(data)
     except requests.HTTPError as e:
         return jsonify({"error": "Błąd OpenWeather", "details": str(e)}), 502
@@ -252,19 +260,20 @@ def plot_png():
     if not points:
         abort(404)
 
-    # przygotowanie danych do wykresu
+    raw = fetch_hourly_forecast(lat, lon, units="metric")
+    tz_offset = raw.get("city", {}).get("timezone", 0)  # sekundy od UTC
+    target_tz = timezone(timedelta(seconds=tz_offset))
+
     labels = []
     temps = []
     precip = []
 
-    # konwersja na lokalny czas (żeby godziny zgadzały się u użytkownika)
-    local_tz = datetime.now().astimezone().tzinfo
-
     for p in points:
-        dt_local = p["dt"].astimezone(local_tz)
-        labels.append(dt_local.strftime("%H:%M"))
-        temps.append(p["temp"])
-        precip.append(p["precip_mm"])
+    # p["dt"] jest datetime w UTC
+       dt_local = p["dt"].astimezone(target_tz)
+       labels.append(dt_local.strftime("%H:%M"))
+       temps.append(p["temp"])
+       precip.append(p["precip_mm"])
 
     # --- STYL WYKRESU (bardziej estetyczny) ---
     fig, ax1 = plt.subplots(figsize=(8.0, 3.2), dpi=160)
