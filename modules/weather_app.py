@@ -28,7 +28,7 @@ DEFAULT_LON = 19.9450
 
 def get_api_key(): # nie działa pobieranie api key z .env więc trzeba wstawić na sztywno
     """Pobierz API key dynamicznie z zmiennych środowiskowych"""
-    api_key = os.environ.get("OPENWEATHER_API_KEY")
+    api_key = '3c4d926e6a63030571954b43415a7367' #os.getenv("OPENWEATHER_APPID")
     if not api_key:
         raise RuntimeError("Ustaw OPENWEATHER_APPID w pliku .env")
     print("API Key:", api_key)
@@ -58,11 +58,18 @@ def normalize_forecast(raw: dict) -> dict:
     coord = city.get("coord", {})
     lat = coord.get("lat")
     lon = coord.get("lon")
+    # timezone offset in seconds (if API provides it) to align dates to city local time
+    tz_offset = city.get("timezone") or 0
 
     days = []
     for item in raw.get("list", []):
         dt = item.get("dt")
-        date = datetime.utcfromtimestamp(dt).date().isoformat() if dt else None
+        if dt:
+            # API dt is a UNIX timestamp (UTC). Add city timezone offset to get local date.
+            date_dt = datetime.utcfromtimestamp(dt) + timedelta(seconds=tz_offset)
+            date = date_dt.date().isoformat()
+        else:
+            date = None
         temp = item.get("temp", {})
         weather_list = item.get("weather") or [{}]
         weather = weather_list[0]
@@ -72,6 +79,7 @@ def normalize_forecast(raw: dict) -> dict:
             "date": date,
             "t_min": temp.get("min"),
             "t_max": temp.get("max"),
+            "t_day": temp.get("day"),
             "pressure": item.get("pressure"),
             "precip_mm": float(item.get("rain", 0.0)),
             "icon": weather.get("icon"),

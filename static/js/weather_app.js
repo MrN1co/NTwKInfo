@@ -100,7 +100,7 @@ function renderForecast(data) {
 
   // Temperatura, opis, ciśnienie, opady
   $("#currentTemp").textContent =
-    today.t_max != null ? `${Math.round(today.t_max)}°C` : "--°C";
+    (today.t_day != null ? `${Math.round(today.t_day)}°C` : (today.t_max != null ? `${Math.round(today.t_max)}°C` : "--°C"));
 
   $("#currentDesc").textContent = today.description || "";
 
@@ -209,7 +209,7 @@ function updateCurrentDayPanel(dayIndex) {
 
   // Temperatura, opis, ciśnienie, opady
   $("#currentTemp").textContent =
-    day.t_max != null ? `${Math.round(day.t_max)}°C` : "--°C";
+    (day.t_day != null ? `${Math.round(day.t_day)}°C` : (day.t_max != null ? `${Math.round(day.t_max)}°C` : "--°C"));
 
   $("#currentDesc").textContent = day.description || "";
 
@@ -360,8 +360,8 @@ function updateChart() {
 
   const { lat, lon } = currentCoords;
 
-  // day=chartDayOffset możesz później obsłużyć w /plot.png po stronie Flask
-  img.src = `/plot.png?lat=${lat}&lon=${lon}&day=${chartDayOffset}&_=${Date.now()}`;
+  // Wywołaj endpoint z blueprintem '/weather' (route zdefiniowana w modules/weather_app.py)
+  img.src = `/weather/plot.png?lat=${lat}&lon=${lon}&day=${chartDayOffset}&_=${Date.now()}`;
 
   updateChartTitle(chartDayOffset);
 }

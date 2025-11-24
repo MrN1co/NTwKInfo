@@ -417,6 +417,86 @@ body {
     max-height: 220px;
   }
 }
+/* --- Compact widget layout for index page --- */
+.weather-box--compact {
+  width: 260px;     /* węższe okno */
+  padding: 12px 12px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #ebebeb; /* opcjonalnie — jak inne kafle */
+}
+
+/* prawa kolumna: miasto + data */
+.weather-box--compact .current-city,
+.weather-box--compact .current-date {
+  text-align: right;
+}
+
+.weather-box--compact .current-city {
+  font-size: 1.3rem;         /* większa czcionka */
+  font-weight: 700;          /* pogrubiona */
+}
+
+.weather-box--compact .current-date {
+  font-size: 0.9rem;
+  color: #5d5d5d;
+  margin-bottom: 4px;
+}
+
+/* główny rząd — 3 kolumny:
+   [IKONA]  [TEMP + OPIS]  [OPADY + CIŚNIENIE] */
+.weather-box--compact .current-main-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 90px;
+  align-items: center;
+  gap: 6px;
+}
+
+/* kolumna lewa — IKONA */
+.weather-box--compact .current-icon-box img {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+}
+
+/* środek — temperatura i opis */
+.weather-box--compact .current-left {
+  text-align: center;
+}
+
+.weather-box--compact .current-temp {
+  font-size: 2.6rem;   /* największa czcionka */
+  font-weight: 700;
+  line-height: 1;
+}
+
+.weather-box--compact .current-desc {
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+
+/* prawa kolumna — opady i ciśnienie */
+.weather-box--compact .current-right {
+  text-align: right;
+}
+
+.weather-box--compact .current-extra {
+  font-size: 0.82rem;
+  color: #6f6f6f;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+@media (max-width: 799px) {
+  .weather-box--compact {
+    width: 100%;
+  }
+}
+
+
 
 /* Mobile 1–799 */
 
