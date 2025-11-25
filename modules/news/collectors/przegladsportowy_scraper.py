@@ -5,15 +5,53 @@ import time
 import locale
 
 
-def get_przegladsportowy_news(limit=10):
-    """
-    Pobiera najnowsze informacje z przegladsportowy.pl (prosta, defensywna implementacja).
-    Zwraca listę słowników z kluczami: 'title', 'link', 'image', 'date', 'tags'.
-    """
-    url = 'https://przegladsportowy.onet.pl/pilka-nozna'
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+def _parse_polish_date(date_raw):
+    """Parsuje polską datę w formacie '19 listopada 2025, 15:34' na timestamp i sformatowaną datę."""
+    months = {
+        'stycznia': 1, 'lutego': 2, 'marca': 3, 'kwietnia': 4,
+        'maja': 5, 'czerwca': 6, 'lipca': 7, 'sierpnia': 8,
+        'września': 9, 'października': 10, 'listopada': 11, 'grudnia': 12
     }
+    try:
+        # Parsuj: "19 listopada 2025, 15:34"
+        parts = date_raw.replace(',', '').split()
+        if len(parts) >= 4:
+            day = int(parts[0])
+            month_name = parts[1]
+            year = int(parts[2])
+            time_parts = parts[3].split(':')
+            hour = int(time_parts[0])
+            minute = int(time_parts[1])
+            month = months.get(month_name.lower())
+            if month:
+                dt = datetime(year, month, day, hour, minute)
+                timestamp = int(dt.timestamp())
+                date = dt.strftime('%d.%m.%Y %H:%M')
+                return date, timestamp
+    except Exception:
+        pass
+    return None, None
+
+
+def _fetch_news_from_category(category_slug, limit=10, headers=None):
+    """
+    Pobiera wiadomości z konkretnej kategorii na przegladsportowy.pl.
+    
+    Args:
+        category_slug: ścieżka kategorii (np. 'pilka-nozna', 'tenis', 'siatkowka')
+        limit: maksymalna liczba wiadomości
+        headers: nagłówki HTTP
+        
+    Returns:
+        Lista słowników z wiadomościami
+    """
+    if not headers:
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+        }
+
+    url = f'https://przegladsportowy.onet.pl/{category_slug}'
+    news_list = []
 
     try:
         resp = requests.get(url, headers=headers, timeout=10)
@@ -21,15 +59,13 @@ def get_przegladsportowy_news(limit=10):
             return []
 
         soup = BeautifulSoup(resp.content, 'html.parser')
-        news_list = []
-
-        
         anchors = soup.find_all('a', class_='text-left flex w-full mb-6 last:mb-0 h-30', href=True)
 
         for a in anchors:
             if len(news_list) >= limit:
                 break
-            # Najpierw spróbuj pobrać tytuł z <h3 class="title ..."> wewnątrz linku
+            
+            # Pobierz tytuł z <h3 class="title ...">
             h3 = a.find('h3', class_=lambda c: c and 'title' in c)
             if h3:
                 title = h3.get_text(strip=True)
@@ -40,12 +76,11 @@ def get_przegladsportowy_news(limit=10):
 
             link = a['href']
             if link.startswith('/'):
-                link = f'https://przegladsportowy.onet.pl/pilka-nozna{link}'
+                link = f'https://przegladsportowy.onet.pl/{category_slug}{link}'
 
-            # Spróbuj znaleźć obrazek związany z linkiem
+            # Pobierz obrazek
             img = a.find('img')
             if not img:
-                # czasami obrazek jest w sąsiednim elemencie
                 parent = a.parent
                 if parent:
                     img = parent.find('img')
@@ -54,54 +89,23 @@ def get_przegladsportowy_news(limit=10):
             if img and img.has_attr('src'):
                 image_url = img['src']
 
-            # Wejdź na stronę artykułu i pobierz datę z div class="mr-2"
+            # Spróbuj pobrać datę z artykułu
             date = None
             timestamp = None
             try:
                 article_response = requests.get(link, headers=headers, timeout=10)
                 if article_response.status_code == 200:
                     article_soup = BeautifulSoup(article_response.content, 'html.parser')
-                    
-                    # Znajdź wszystkie div-y z klasą "mr-2"
                     mr2_divs = article_soup.find_all('div', class_='mr-2')
-                    date_div = None
                     
-                    # Szukaj tego, który zawiera datę (polską nazwę miesiąca)
                     for div in mr2_divs:
                         text = div.get_text(strip=True)
                         if any(month in text.lower() for month in ['stycznia', 'lutego', 'marca', 'kwietnia', 'maja', 'czerwca', 'lipca', 'sierpnia', 'września', 'października', 'listopada', 'grudnia']):
-                            date_div = div
+                            date_raw = div.get_text(strip=True)
+                            date, timestamp = _parse_polish_date(date_raw)
                             break
-                    
-                    if date_div:
-                        date_raw = date_div.get_text(strip=True)
-                        # Format: "19 listopada 2025, 15:34"
-                        months = {
-                            'stycznia': 1, 'lutego': 2, 'marca': 3, 'kwietnia': 4,
-                            'maja': 5, 'czerwca': 6, 'lipca': 7, 'sierpnia': 8,
-                            'września': 9, 'października': 10, 'listopada': 11, 'grudnia': 12
-                        }
-                        try:
-                            # Parsuj: "19 listopada 2025, 15:34"
-                            parts = date_raw.replace(',', '').split()
-                            if len(parts) >= 4:
-                                day = int(parts[0])
-                                month_name = parts[1]
-                                year = int(parts[2])
-                                time_parts = parts[3].split(':')
-                                hour = int(time_parts[0])
-                                minute = int(time_parts[1])
-                                month = months.get(month_name.lower())
-                                if month:
-                                    dt = datetime(year, month, day, hour, minute)
-                                    timestamp = int(dt.timestamp())
-                                    date = dt.strftime('%d.%m.%Y %H:%M')
-                        except Exception:
-                            pass
             except Exception:
                 pass
-            
-            # Jeśli nie udało się pobrać, pozostaw None
 
             news_list.append({
                 'title': title,
@@ -109,7 +113,7 @@ def get_przegladsportowy_news(limit=10):
                 'image': image_url,
                 'date': date,
                 'timestamp': timestamp,
-                'tags': ['sport']
+                'tags': ['sport', category_slug]
             })
 
         return news_list
@@ -118,3 +122,38 @@ def get_przegladsportowy_news(limit=10):
         return []
     except Exception:
         return []
+
+
+def get_przegladsportowy_news(limit=30):
+    """
+    Pobiera najnowsze informacje z przegladsportowy.pl z wielu kategorii.
+    Zwraca listę słowników z kluczami: 'title', 'link', 'image', 'date', 'tags'.
+    """
+    # Kategorie do scrapowania
+    categories = [
+        'pilka-nozna',
+        'tenis',
+        'siatkowka',
+        'zuzel',
+        'lekkoatletyka'
+    ]
+    
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+    }
+
+    all_news = []
+
+    # Pobierz wiadomości z każdej kategorii
+    for category in categories:
+        try:
+            news = _fetch_news_from_category(category, limit=5, headers=headers) 
+            all_news.extend(news)
+        except Exception:
+            pass
+
+    # Posortuj po timestamp (najnowsze na górze)
+    all_news.sort(key=lambda x: x.get('timestamp') or 0, reverse=True)
+
+    # Ogranicz do żądanej liczby
+    return all_news[:limit]
