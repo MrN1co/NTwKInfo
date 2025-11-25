@@ -28,6 +28,11 @@ def weather():
     # (registered under '/weather') is the single source of truth.
     return redirect(url_for('weather.weather_index'))
 
+@main_bp.route('/favorite')
+def test_weather():
+    return render_template('weather/weather-login.html')
+
+
 
 @main_bp.route('/dashboard')
 @login_required
