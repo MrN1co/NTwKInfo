@@ -125,13 +125,13 @@ function renderForecast(data) {
 
   $("#currentPressure").textContent =
     today.pressure != null
-      ? `Ciśnienie: ${Math.round(today.pressure)} hPa`
-      : "Ciśnienie: -- hPa";
+      ? `${Math.round(today.pressure)}`
+      : "--";
 
   $("#currentPrecip").textContent =
     today.precip_mm != null
-      ? `Opady: ${today.precip_mm.toFixed(1)} mm`
-      : "Opady: -- mm";
+      ? `${today.precip_mm.toFixed(1)}`
+      : "--";
 
   // Ikona aktualnej pogody (iconUrl pochodzi z icons.js)
   if (today.icon) {
@@ -234,13 +234,13 @@ function updateCurrentDayPanel(dayIndex) {
 
   $("#currentPressure").textContent =
     day.pressure != null
-      ? `Ciśnienie: ${Math.round(day.pressure)} hPa`
-      : "Ciśnienie: -- hPa";
+      ? `${Math.round(day.pressure)}`
+      : "--";
 
   $("#currentPrecip").textContent =
     day.precip_mm != null
-      ? `Opady: ${day.precip_mm.toFixed(1)} mm`
-      : "Opady: -- mm";
+      ? `${day.precip_mm.toFixed(1)}`
+      : "--";
 
   // Ikona pogody na wybrany dzień
   if (day.icon) {

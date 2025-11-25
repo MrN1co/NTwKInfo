@@ -265,6 +265,30 @@ h1, h2, h3 {
     font-family: var(--font-heading)
 }
 
+.current-temp {
+    font-size: 48px;
+    font-family: var(--font-body);
+    font-weight: 500;
+}
+.city-main {
+    font-size: 24px;
+    font-family: var(--font-body);
+    font-weight: 800;
+}
+
+.current-extra {
+  padding: 0px;
+  margin: 0px;
+  width: 80px;
+  height: 80px;
+}
+
+.temp-main {
+    font-size: 48px;
+    font-family: var(--font-body);
+    font-weight: 50;
+}
+
 .current-desc {
   font-size: 14px;
   font-family: var(--font-body)
