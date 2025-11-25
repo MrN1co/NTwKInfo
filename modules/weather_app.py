@@ -13,12 +13,19 @@ import smtplib
 from email.mime.text import MIMEText
 
 from flask import Blueprint, request, jsonify, render_template, send_file, abort
+from dotenv import load_dotenv
+
+load_dotenv()
+
+my_email = os.environ.get("MY_EMAIL")
+password = os.environ.get("EMAIL_PASSW")
+api_key = os.environ.get("OPENWEATHER_API_KEY")
 
 weather_bp = Blueprint('weather', __name__)
 
 # ======================= WYSYŁANIE MAILI =======================
 def send_snow_alert(users_address):
-    message = f"""It's going to snow today! Remember to take your snow gear and drive safely!"""
+    message = f"""It's going to snow today!\nRemember to take your snow gear and drive safely!"""
     message = MIMEText(message, "plain", "utf-8")
     with smtplib.SMTP("smtp.gmail.com", 587) as connection:
         connection.starttls() #making connection secure
@@ -40,7 +47,6 @@ DEFAULT_LON = 19.9450
 
 def get_api_key(): # nie działa pobieranie api key z .env więc trzeba wstawić na sztywno
     """Pobierz API key dynamicznie z zmiennych środowiskowych"""
-    api_key = '3c4d926e6a63030571954b43415a7367' #os.getenv("OPENWEATHER_APPID")
     if not api_key:
         raise RuntimeError("Ustaw OPENWEATHER_APPID w pliku .env")
     print("API Key:", api_key)
@@ -207,6 +213,14 @@ def api_forecast():
             # jeśli to domyślna lokalizacja – wymuś "Kraków"
             if lat == DEFAULT_LAT and lon == DEFAULT_LON:
                 data["city"] = "Kraków"
+                
+        # data = normalize_forecast(raw)
+        if data["days"] and data["days"][0].get("precip_mm", 0) > 0:
+            # Dziś zapowiadany jest deszcz (lub śnieg)
+            send_snow_alert("email@gmail.com")
+            print("Wysłano alert o śniegu na email.")
+        else:
+            print("Dziś nie ma opadów, nie wysłano alertu.")
 
         return jsonify(data)
     except requests.HTTPError as e:
