@@ -9,9 +9,21 @@ matplotlib.use("Agg")  # backend bez GUI
 import matplotlib.pyplot as plt
 import numpy as np
 
+import smtplib
+from email.mime.text import MIMEText
+
 from flask import Blueprint, request, jsonify, render_template, send_file, abort
 
 weather_bp = Blueprint('weather', __name__)
+
+# ======================= WYSYŁANIE MAILI =======================
+def send_snow_alert(users_address):
+    message = f"""It's going to snow today! Remember to take your snow gear and drive safely!"""
+    message = MIMEText(message, "plain", "utf-8")
+    with smtplib.SMTP("smtp.gmail.com", 587) as connection:
+        connection.starttls() #making connection secure
+        connection.login(user=my_email, password=password)
+        connection.sendmail(from_addr=my_email, to_addrs=users_address, msg=message.as_string())
 
 # --- ENDPOINTY OPENWEATHER ---
 
