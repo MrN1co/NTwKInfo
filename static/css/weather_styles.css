@@ -145,12 +145,13 @@ body {
   position: absolute;
   top: 18px;
   right: 22px;
-  width: 60px;       
-  height: 60px;      
+  width: 46px;
+  height: 46px;
   border-radius: 999px;
-  border: 2px solid #5d7419; 
-  color: #cad0c5;
-  font-size: 32px;   
+  border: 1px solid #c9c6bf;
+  background: #f4f2ee;
+  color: #b7b0a5;
+  font-size: 24px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -206,10 +207,10 @@ body {
 
 
 .current-right img {
-  width: 130px;       /* większa ikona */
-  height: 130px;
+  width: 170px;       /* większa ikona */
+  height: 170px;
   object-fit: contain;
-  margin-right: 20px; /* odsunięcie od krawędzi */
+  margin-right: 40px; /* odsunięcie od krawędzi */
 }
 
 /* --- kafel wykresu --- */
@@ -349,8 +350,8 @@ body {
 
 /* Ikony w kafelkach prognozy — większe na desktopie */
 .day-card img {
-  width: 90px;   /* większa ikona */
-  height: 90px;
+  width: 80px;   /* większa ikona */
+  height: 80px;
   margin-bottom: 6px;
   object-fit: contain;
 }
@@ -475,8 +476,8 @@ body {
 
 /* kolumna lewa — IKONA */
 .weather-box--compact .current-icon-box img {
-  width: 58px;
-  height: 58px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
 }
 
@@ -487,7 +488,7 @@ body {
 
 .weather-box--compact .current-temp {
   font-size: 2.6rem;   /* największa czcionka */
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1;
 }
 
@@ -563,4 +564,10 @@ body {
   .footer {
     padding: 14px 16px;
   }
+}
+
+/* Override lower-specificity rule in global style.css for full weather card icon */
+.card-current #currentIcon {
+  width: 150px;
+  height: 150px;
 }

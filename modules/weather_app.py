@@ -32,7 +32,7 @@ DAILY_URL = "https://api.openweathermap.org/data/2.5/forecast/daily"
 # 5-dniowa prognoza co 3 godziny (dla wykresu 24h)
 HOURLY_URL = "https://api.openweathermap.org/data/2.5/forecast"
 # geokodowanie nazw miast
-GEOCODE_URL = "http://api.openweathermap.org/geo/1.0/direct"
+GEOCODE_URL = "https://api.openweathermap.org/geo/1.0/direct"
 
 # DOMYŚLNA LOKALIZACJA – KRAKÓW
 DEFAULT_LAT = 50.0647
@@ -227,10 +227,19 @@ def api_geocode():
     params = {"q": q, "appid": get_api_key(), "limit": 5}
     try:
         resp = requests.get(GEOCODE_URL, params=params, timeout=10)
-        resp.raise_for_status()
+        try:
+            resp.raise_for_status()
+        except requests.HTTPError as e:
+            # include response body if available for easier debugging
+            body = None
+            try:
+                body = resp.text
+            except Exception:
+                body = None
+            return jsonify({"error": "Błąd geokodowania", "status": resp.status_code, "details": str(e), "response": body}), 502
         return jsonify(resp.json())
-    except requests.HTTPError as e:
-        return jsonify({"error": "Błąd geokodowania", "details": str(e)}), 502
+    except requests.RequestException as e:
+        return jsonify({"error": "Błąd sieci podczas geokodowania", "details": str(e)}), 502
     except Exception as e:
         return jsonify({"error": "Błąd backendu", "details": str(e)}), 500
 
