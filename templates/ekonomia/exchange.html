@@ -87,7 +87,7 @@
     </div>
 </div>
 
-<!-- Client-side conversion script (przeniesione z oryginalnego index.html) -->
+
 <script>
 (function() {
     const RATES = {{ currency_rates | tojson | safe }};
@@ -97,9 +97,10 @@
     const toEl = document.getElementById('currency-to');
     const resultEl = document.getElementById('result');
 
+    // Formatowanie wyniku: zawsze 2 miejsca po przecinku (zaokrąglone)
     const PL_FORMATTER = new Intl.NumberFormat('pl-PL', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 4
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
     });
 
     function compute() {
@@ -121,13 +122,12 @@
         const inPln = a * rateFrom;
         const res = inPln / rateTo;
 
-        let formatted = PL_FORMATTER.format(res);
+        // zaokrąglij numerycznie do 2 miejsc przed formatowaniem
+        const rounded = Math.round(res * 100) / 100;
+        let formatted = PL_FORMATTER.format(rounded);
         if (hasTrailingSep) {
+            // Only append a trailing comma when the formatted value has no decimal separator yet.
             if (!formatted.includes(',')) {
-                formatted = formatted + ',';
-            } else if (formatted.endsWith(',')) {
-                // already ends with comma
-            } else {
                 formatted = formatted + ',';
             }
         }
