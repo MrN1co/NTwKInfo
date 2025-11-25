@@ -1,24 +1,7 @@
-body {
-    /* Background of whole page -> very light gray */
-    color: #000000;
-    font-family: 'Inter', sans-serif;
-    text-align: center;
-    /* padding: 20px; */
-}
+/* ekonomia.css — page-specific styles for the "ekonomia" view */
 
-html, body {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden; 
-}
-
-/* .navbar-nav .nav-link {
-    font-weight: 500;
-} */
-
-/* .navbar-nav .nav-link:hover {
-    text-decoration: underline;
-} */
+/* Import main site stylesheet so we don't duplicate shared rules */
+@import url("style.css");
 
 /* currency layout adjustments */
 .currency-row {
@@ -28,9 +11,13 @@ html, body {
     margin: 30px 0;
 }
 
+h1, h2, p{
+    text-align: center;
+}
+
 /* make cards a bit larger, centered, borderless and add hover */
 .card.currency-box {
-    background-color: #74825f; /* dark olive */
+    background-color: #74825f; 
     padding: 18px 14px;
     border-radius: 14px;
     min-width: 160px;
@@ -51,7 +38,7 @@ html, body {
     box-shadow: 0 10px 22px rgba(0,0,0,0.08);
 }
 
-/* typography tweaks */
+/* typography tweaks for currency tiles */
 .currency-title {
     color: #F3F4F3;
     font-size: 13px;
@@ -67,7 +54,8 @@ html, body {
     color: #F3F4F3;
 }
 
-/* --- CALCULATOR RESPONSYWNY --- */
+
+ /* --- CALCULATOR LAYOUT --- */
 .calc-container {
     display: flex;
     flex-wrap: wrap;
@@ -89,7 +77,7 @@ html, body {
     gap: 16px;
 }
 
-/* kolumna z inputami i wynikiem */
+/* input and result column */
 .calc-box .input-column {
     display: flex;
     flex-direction: column;
@@ -98,7 +86,7 @@ html, body {
     justify-content: center;
 }
 
-/* inputy i wynik */
+/* input and result */
 .calc-box .input-column .form-control,
 .calc-box .input-column #result,
 .calc-box select.form-select {
@@ -120,7 +108,7 @@ html, body {
     user-select: none;
 }
 
-/* przycisk */
+/* button */
 .calc-box .btn {
     background-color: #5E612B;
     color: #fff;
@@ -144,7 +132,48 @@ html, body {
     border-radius: 10px;
 }
 
-/* responsive adjustments */
+
+/* horizontal currency scroll (mobile-first) */
+.currency-scroll {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    padding: 10px 16px;
+    margin: 0 !important;
+    scroll-snap-type: x mandatory;
+}
+
+.currency-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+.currency-scroll::-webkit-scrollbar-thumb {
+    background: #b5bca7;
+    border-radius: 10px;
+}
+
+.currency-item {
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+}
+
+/* Desktop: show centered tiles instead of scrolling */
+@media (min-width: 768px) {
+    .currency-scroll {
+        overflow-x: visible;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 22px;
+        padding: 0;
+    }
+
+    .currency-item {
+        flex: 0 0 auto;
+    }
+}
+
+/* === Responsive tweaks (mobile / tablet / desktop) ==== */
+
+ /* responsive adjustments */
 @media (max-width: 768px) {
     .card.currency-box {
         min-width: 140px;
@@ -202,125 +231,13 @@ html, body {
     }
 }
 
-/* try to reduce default focus ring visual differences */
+/* focus visual */
 .calc-box .form-select:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(189,200,170,0.25);
 }
 
-.currency-scroll {
-    display: flex;
-    gap: 18px;
-    overflow-x: auto;
-    padding: 10px 16px;
-    margin: 0 !important;
-    scroll-snap-type: x mandatory;
-}
-
-.currency-scroll::-webkit-scrollbar {
-    height: 6px;
-}
-.currency-scroll::-webkit-scrollbar-thumb {
-    background: #b5bca7;
-    border-radius: 10px;
-}
-
-.currency-item {
-    scroll-snap-align: start;
-    flex: 0 0 auto;
-}
-
-/* --- DESKTOP: wyłączamy scroll i centrujemy --- */
-@media (min-width: 768px) {
-    .currency-scroll {
-        overflow-x: visible;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 22px;
-        padding: 0;
-    }
-
-    .currency-item {
-        flex: 0 0 auto;
-    }
-}
-
-/* MOBILE: ustaw prawe elementy w kolumnie i wyśrodkuj */
-@media (max-width: 576px) {
-  .navbar-right {
-    flex-direction: column !important;
-    align-items: center;
-    gap: 8px;
-    margin-top: 10px;
-  }
-
-  .navbar-right .btn {
-    width: 140px;
-    text-align: center;
-  }
-
-  .navbar-right .fw-semibold {
-    min-width: auto;
-    text-align: center;
-  }
-}
-
-/* currency chart image */
-.currency-chart {
-    width: 90%;
-    max-width: 570px;
-    border-radius: 10px;
-}
-
-/* Ukryj swap emoji na telefonach */
-@media (max-width: 768px) {
-    #swap-btn {
-        display: none;
-    }
-}
-
-@media (min-width: 769px) {
-    .calc-box .input-column {
-        flex-direction: row;        /* obok siebie */
-        gap: 18px;                  /* większy odstęp między polami */
-        justify-content: center;    /* wyśrodkowane w poziomie */
-        align-items: center;        /* wyrównanie w pionie */
-    }
-
-    .calc-box .input-column .form-control,
-    .calc-box .input-column #result {
-        width: 180px;               /* szersze pola na desktop */
-        padding: 10px 12px;
-        font-size: 1rem;
-    }
-
-    .calc-box select.form-select {
-        width: 150px;               /* szersze selecty na desktop */
-        padding: 8px 10px;
-        font-size: 0.95rem;
-    }
-}
-
-.footer-label {
-    font-family: 'Roboto Mono', monospace;
-}
-
-.calc-heading {
-    font-family: 'Crimson Text', serif;
-}
-
-.header-title {
-    font-family: 'Crimson Text', serif;
-}
-
-/* .navbar, 
-.navbar .navbar-brand, 
-.navbar .nav-link, 
-.navbar .navbar-toggler {
-    font-family: 'DM Sans', sans-serif;
-} */
-
-/* --- MAŁE KAFELKI WALUT NA DOLE --- */
+/* --- Small currency tiles grid (bottom) --- */
 .all-currencies-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -336,13 +253,13 @@ html, body {
 }
 
 .card.small-currency-box {
-    background-color: #74825f; /* ten sam kolor co większe kafelki */
-    padding: 12px 8px; /* mniejszy padding */
-    border-radius: 10px; /* nieco mniejszy border-radius */
-    min-width: 100px; /* mniejsza minimalna szerokość */
-    max-width: 130px; /* mniejsza maksymalna szerokość */
+    background-color: #74825f;
+    padding: 12px 8px;
+    border-radius: 10px;
+    min-width: 100px;
+    max-width: 130px;
     width: 100%;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06); /* nieco mniejszy cień */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     border: none;
     display: flex;
     flex-direction: column;
@@ -353,13 +270,13 @@ html, body {
 }
 
 .card.small-currency-box:hover {
-    transform: translateY(-2px); /* mniejszy efekt hover */
+    transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(0,0,0,0.08);
 }
 
 .small-currency-title {
     color: #F3F4F3;
-    font-size: 11px; /* mniejsza czcionka */
+    font-size: 11px;
     margin-bottom: 4px;
     letter-spacing: 0.1px;
     text-transform: uppercase;
@@ -367,30 +284,30 @@ html, body {
 }
 
 .small-currency-value {
-    font-size: 14px; /* znacznie mniejsza czcionka niż w dużych kafelkach */
+    font-size: 14px;
     font-weight: 600;
     margin-top: 2px;
     color: #F3F4F3;
 }
 
-/* Responsive adjustments dla małych kafelków */
+/* Responsive adjustments for small currency tiles */
 @media (max-width: 768px) {
     .all-currencies-grid {
         grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
         gap: 10px;
         padding: 15px 10px;
     }
-    
+
     .card.small-currency-box {
         min-width: 80px;
         max-width: 100px;
         padding: 10px 6px;
     }
-    
+
     .small-currency-title {
         font-size: 10px;
     }
-    
+
     .small-currency-value {
         font-size: 12px;
     }
@@ -401,23 +318,22 @@ html, body {
         grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
         gap: 8px;
     }
-    
+
     .card.small-currency-box {
         min-width: 70px;
         max-width: 85px;
         padding: 8px 4px;
     }
-    
+
     .small-currency-title {
         font-size: 9px;
     }
-    
+
     .small-currency-value {
         font-size: 11px;
     }
 }
 
-/* Tabela z kursami walut */
 .currency-table {
     margin-top: 20px;
     border-radius: 12px;
@@ -470,16 +386,16 @@ html, body {
     font-family: 'Roboto Mono', monospace;
 }
 
-/* Responsive adjustments dla tabeli */
+/* small-table responsive tweaks */
 @media (max-width: 768px) {
     .currency-table {
         font-size: 0.9rem;
     }
-    
+
     .currency-table td {
         padding: 10px 12px;
     }
-    
+
     .currency-table thead th {
         padding: 12px;
         font-size: 0.9rem;
@@ -490,11 +406,11 @@ html, body {
     .currency-table {
         font-size: 0.8rem;
     }
-    
+
     .currency-table td {
         padding: 8px 10px;
     }
-    
+
     .currency-table thead th {
         padding: 10px;
         font-size: 0.8rem;
