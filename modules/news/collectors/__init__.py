@@ -9,6 +9,7 @@ from .espn_api_scraper import get_nba_standings, get_mls_standings
 from .kryminalki_scraper import get_kryminalki_news
 from .minut_scraper import get_minut_news
 from .przegladsportowy_scraper import get_przegladsportowy_news
+from .policja_scraper import get_policja_krakow_news, get_policja_malopolska_news
 
 __all__ = [
     'get_football_standings',
@@ -23,4 +24,6 @@ __all__ = [
     'get_kryminalki_news',
     'get_minut_news',
     'get_przegladsportowy_news',
+    'get_policja_krakow_news',
+    'get_policja_malopolska_news',
 ]

@@ -155,16 +155,22 @@ def news():
     kryminalki_path = 'data/news/kryminalki/kryminalki.json'
     minut_path = 'data/news/minut/minut.json'
     przegladsportowy_path = 'data/news/przegladsportowy/przegladsportowy.json'
+    policja_krakow_path = 'data/news/policja/krakow.json'
+    policja_malopolska_path = 'data/news/policja/malopolska.json'
     
     kryminalki_data = load_from_json(kryminalki_path, {'news': []})
     minut_data = load_from_json(minut_path, {'news': []})
     przegladsportowy_data = load_from_json(przegladsportowy_path, {'news': []})
+    policja_krakow_data = load_from_json(policja_krakow_path, {'news': []})
+    policja_malopolska_data = load_from_json(policja_malopolska_path, {'news': []})
     
     # Połącz wszystkie wiadomości
     all_news = []
     all_news.extend(kryminalki_data.get('news', []))
     all_news.extend(minut_data.get('news', []))
     all_news.extend(przegladsportowy_data.get('news', []))
+    all_news.extend(policja_krakow_data.get('news', []))
+    all_news.extend(policja_malopolska_data.get('news', []))
     
     # Filtruj po tagach jeśli są wybrane
     if selected_tags:

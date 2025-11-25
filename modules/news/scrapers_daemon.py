@@ -24,7 +24,9 @@ from modules.news.collectors import (
     get_mls_standings,
     get_kryminalki_news,
     get_minut_news,
-    get_przegladsportowy_news
+    get_przegladsportowy_news,
+    get_policja_krakow_news,
+    get_policja_malopolska_news
 )
 
 
@@ -538,6 +540,82 @@ def przegladsportowy_news_daemon(interval):
             pass
         
         time.sleep(interval)
+
+# ============================================================================
+# DAEMONY DLA WIADOMOŚCI POLICJI (Kraków / Małopolska)
+# ============================================================================
+def policja_krakow_news_daemon(interval):
+    """
+    Daemon scrapujący wiadomości z krakowskiej policji
+    """
+    news_path = os.path.join(BASE_DIR, 'data', 'news', 'policja', 'krakow.json')
+    archive_path = os.path.join(BASE_DIR, 'data', 'news', 'policja', 'krakow_archiwum.json')
+
+    print(f"[{get_warsaw_time()}] Uruchomiono Policja Kraków daemon (interwał: {interval}s)")
+
+    while True:
+        try:
+            print(f"[{get_warsaw_time()}] Scrapuję Policja Kraków...")
+            news_list = get_policja_krakow_news(limit=15)
+
+            if news_list:
+                print(f"[{get_warsaw_time()}] Pobrano {len(news_list)} wiadomości z Policji Kraków")
+                old_data = load_from_json(news_path, {})
+                if old_data.get('news'):
+                    archive_data = load_from_json(archive_path, {'archived_news': []})
+                    archive_data.setdefault('archived_news', [])
+                    archive_data['archived_news'] = old_data['news'] + archive_data['archived_news']
+                    archive_data['archived_news'] = archive_data['archived_news'][:100]
+                    save_to_json(archive_path, archive_data)
+
+                news_data = {
+                    'news': news_list,
+                    'updated_at': get_warsaw_time()
+                }
+                save_to_json(news_path, news_data)
+            else:
+                print(f"[{get_warsaw_time()}] Brak wiadomości z Policji Kraków")
+        except Exception as e:
+            print(f"[{get_warsaw_time()}] Błąd w Policja Kraków daemon: {e}")
+
+        time.sleep(interval)
+
+
+def policja_malopolska_news_daemon(interval):
+    """
+    Daemon scrapujący wiadomości z małopolskiej policji
+    """
+    news_path = os.path.join(BASE_DIR, 'data', 'news', 'policja', 'malopolska.json')
+    archive_path = os.path.join(BASE_DIR, 'data', 'news', 'policja', 'malopolska_archiwum.json')
+
+    print(f"[{get_warsaw_time()}] Uruchomiono Policja Małopolska daemon (interwał: {interval}s)")
+
+    while True:
+        try:
+            print(f"[{get_warsaw_time()}] Scrapuję Policja Małopolska...")
+            news_list = get_policja_malopolska_news(limit=15)
+
+            if news_list:
+                print(f"[{get_warsaw_time()}] Pobrano {len(news_list)} wiadomości z Policji Małopolska")
+                old_data = load_from_json(news_path, {})
+                if old_data.get('news'):
+                    archive_data = load_from_json(archive_path, {'archived_news': []})
+                    archive_data.setdefault('archived_news', [])
+                    archive_data['archived_news'] = old_data['news'] + archive_data['archived_news']
+                    archive_data['archived_news'] = archive_data['archived_news'][:100]
+                    save_to_json(archive_path, archive_data)
+
+                news_data = {
+                    'news': news_list,
+                    'updated_at': get_warsaw_time()
+                }
+                save_to_json(news_path, news_data)
+            else:
+                print(f"[{get_warsaw_time()}] Brak wiadomości z Policji Małopolska")
+        except Exception as e:
+            print(f"[{get_warsaw_time()}] Błąd w Policja Małopolska daemon: {e}")
+
+        time.sleep(interval)
 # ============================================================================
 # FUNKCJA STARTOWA - URUCHAMIA WSZYSTKIE DAEMONY
 # ============================================================================
@@ -569,6 +647,8 @@ def start_all_daemons():
         threading.Thread(target=kryminalki_news_daemon, args=(news_interval,), daemon=True, name="Kryminalki-News-Daemon"),
         threading.Thread(target=minut_news_daemon, args=(news_interval,), daemon=True, name="Minut-News-Daemon"),
         threading.Thread(target=przegladsportowy_news_daemon, args=(news_interval,), daemon=True, name="PrzegladSportowy-News-Daemon")
+        ,threading.Thread(target=policja_krakow_news_daemon, args=(news_interval,), daemon=True, name="Policja-Krakow-News-Daemon")
+        ,threading.Thread(target=policja_malopolska_news_daemon, args=(news_interval,), daemon=True, name="Policja-Malopolska-News-Daemon")
     ]
 
     for thread in threads:
