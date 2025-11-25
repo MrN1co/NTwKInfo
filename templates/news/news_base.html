@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Wiadomości - NTWKInfo{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/news.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="top-buttons container-padding">
+    <a href="{{ url_for('tables.news') }}" class="top-btn">Wiadomości</a>
+    <a href="{{ url_for('tables.tables') }}" class="top-btn">Wyniki sportowe</a>
+</div>
+
+{% block news_content %}
+<iframe id="main-iframe" src="{{ iframe_src }}" scrolling="yes" title="News content"></iframe>
+{% endblock %}
+{% endblock %}

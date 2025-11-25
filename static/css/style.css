@@ -108,6 +108,55 @@ h1, h2, h3 {
     align-items: center; /* wyśrodkowanie meta */
 }
 
+/* Calendar widget in header */
+.calendar-widget {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-text-secondary);
+}
+.calendar-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+}
+.calendar-month {
+  font-size: 11px;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+.calendar-day {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  line-height: 1;
+}
+.calendar-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  max-width: 320px;
+}
+.calendar-date {
+  font-size: 13px;
+  color: var(--color-black);
+  font-weight: 500;
+}
+.calendar-fact {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+}
+
 .header__cta-button {
     background-color: var(--color-primary);
     color: var(--color-white);
@@ -569,18 +618,39 @@ h1, h2, h3 {
 
 /* 🖥 LAPTOPY I WIĘKSZE */
 @media (min-width: 1280px) {
-    html, body {
+    /* Domyślne dla strony głównej - brak scrollowania */
+    html:not(:has(body.news-page)), 
+    body:not(.news-page) {
         height: 100vh;
         overflow: hidden;
     }
 
-    body {
+    body:not(.news-page) {
         margin: 0;
         padding: 0;
         display: flex;
         flex-direction: column;
         height: 100vh;
         overflow: hidden;
+    }
+
+    /* Wymuszenie scrollowania dla stron news */
+    html:has(body.news-page) {
+        height: auto !important;
+        overflow-y: auto !important;
+    }
+
+    body.news-page {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
+
+    body.news-page .main-content {
+        height: auto !important;
+        overflow: visible !important;
+        flex: 1 0 auto !important;
     }
 
     /* --- GŁÓWNA ZAWARTOŚĆ --- */
@@ -858,6 +928,3 @@ h1, h2, h3 {
   cursor: pointer;
   margin-top: 10px;
 }
-
-
-

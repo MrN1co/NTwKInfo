@@ -1,0 +1,55 @@
+{% extends "news/news_base.html" %}
+
+{% block title %}Wiadomości{% endblock %}
+
+{% block news_content %}
+<div class="news-container">
+    <h1>Wiadomości</h1>
+    
+    <div id="selected-tags-data" data-tags="{{ selected_tags|tojson }}" style="display: none;"></div>
+    
+    <div class="tag-filters">
+        <button class="tag-btn {% if not selected_tags %}active{% endif %}" data-tag="">Wszystko</button>
+        <button class="tag-btn {% if 'sport' in selected_tags %}active{% endif %}" data-tag="sport">Sport</button>
+        <button class="tag-btn {% if 'kryminalne' in selected_tags %}active{% endif %}" data-tag="kryminalne">Kryminalne</button>
+    </div>
+    
+    {% if news_list %}
+        {% for item in news_list %}
+        <div class="news-item" data-tags="{{ (item.tags or [])|join(',') }}">
+            {% if item.date %}
+            <div class="news-timestamp">{{ item.date }}</div>
+            {% endif %}
+            {% if item.image %}
+                {% if item.link %}
+                    <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">
+                        <img src="{{ item.image }}" alt="{{ item.title }}" class="news-image" onerror="this.style.display='none'; this.parentElement.nextElementSibling.style.display='flex';">
+                    </a>
+                    <div class="news-image-placeholder" style="display: none;">Brak obrazka</div>
+                {% else %}
+                    <img src="{{ item.image }}" alt="{{ item.title }}" class="news-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="news-image-placeholder" style="display: none;">Brak obrazka</div>
+                {% endif %}
+            {% else %}
+                <div class="news-image-placeholder">Brak obrazka</div>
+            {% endif %}
+            
+            <div class="news-content">
+                <h2 class="news-title">
+                    <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer" class="news-link">
+                        {{ item.title }}
+                    </a>
+                </h2>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p class="error">Brak dostępnych wiadomości. Spróbuj odświeżyć stronę.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/news-filters.js') }}"></script>
+{% endblock %}

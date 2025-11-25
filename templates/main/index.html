@@ -1,11 +1,106 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}Home - Flask App{% endblock %}
-
-{% block content %}
-
-{% endblock %}
+{% block title %}NTWKInfo - Bądź na czasie{% endblock %}
 
 {% block head %}
-<link rel="stylesheet" href="static/css/main.css">
+  {# Additional head elements (fonts are included in base.html) #}
+{% endblock %}
+
+{% block content %}
+  <main class="main-content container-padding">
+    <section class="content-grid">
+      <div class="left-column">
+        <section class="main-article-carousel">
+          <div class="carousel-container">
+            {% if news_list %}
+              {% for item in news_list %}
+              <article class="carousel-slide {% if loop.first %}active{% endif %}">
+                
+                <h1 class="main-article__title"><a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">{{ item.title }}</a></h1>
+                <div class="main-article__image-container">
+                <div class="image-placeholder">
+                  {% if item.image %}
+                    {% if item.link %}
+                      <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">
+                        <img src="{{ item.image }}" 
+                            alt="{{ item.title }}" 
+                            class="image-placeholder"
+                            onerror="this.style.display='none'; this.parentElement.nextElementSibling.style.display='flex';">
+                      </a>
+                      <div class="image-placeholder" style="display:none;">Brak zdjęcia</div>
+                    {% else %}
+                      <img src="{{ item.image }}" 
+                          alt="{{ item.title }}" 
+                          class="image-placeholder"
+                          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                      <div class="image-placeholder" style="display:none;">Brak zdjęcia</div>
+                    {% endif %}
+                  {% else %}
+                    Brak zdjęcia
+                  {% endif %}
+                </div>
+                <div class="main-article__header"><span>{{ item.published or item.date or '' }}</span></div>
+                <div class="main-article__caption">
+                  {{ item.summary or item.excerpt or '' }}
+                </div>
+              </div>
+              </article>
+              {% endfor %}
+            {% else %}
+              <article class="carousel-slide active">
+                <div class="main-article__header"><span>brak aktualnych wiadomości</span></div>
+                <h1 class="main-article__title">Brak wiadomości</h1>
+                <div class="main-article__image-container">
+                  <div class="image-placeholder">Brak zdjęcia</div>
+                  <div class="main-article__caption">Spróbuj odświeżyć stronę później.</div>
+                </div>
+              </article>
+            {% endif %}
+            <button class="carousel-button prev">‹</button>
+            <button class="carousel-button next">›</button>
+          </div>
+        </section>
+      </div>
+      <div class="right-column">
+        <div id="calendarWidget" class="calendar-widget">
+            <div class="calendar-icon">
+              <div class="calendar-month" id="calendarMonth">--</div>
+              <div class="calendar-day" id="calendarDay">--</div>
+            </div>
+            <div class="calendar-info">
+              <div class="calendar-date" id="calendarDate">Ładuję...</div>
+              <div class="calendar-fact" id="calendarFact">Ładuję ciekawostkę...</div>
+            </div>
+          </div>
+        <section class="weather-box">
+          <div>
+            <div class="weather-box__city">Kraków</div>
+            <div class="weather-box__temp">24°C</div>
+            <div class="weather-box__details"><span>Zachmurzenie</span><span> Od 18°C do 25°C</span></div>
+          </div>
+          <div class="weather-box__icon">🌧️</div>
+        </section>
+        <section class="exchange-rates">
+          <h2 class="exchange-rates__title">Aktualne kursy walut:</h2>
+          <div class="exchange-rates__table">
+            <div class="exchange-rates__header">
+              <span class="cell">Waluta</span><span class="cell">Kupno</span><span class="cell">Sprzedaż</span>
+            </div>
+            <div class="rate-list">
+              <div class="rate-item"><span class="cell">USD</span><span class="cell">4.10</span><span class="cell">4.25</span></div>
+              <div class="rate-item"><span class="cell">EUR</span><span class="cell">4.45</span><span class="cell">4.60</span></div>
+              <div class="rate-item"><span class="cell">GBP</span><span class="cell">5.20</span><span class="cell">5.35</span></div>
+              <div class="rate-item"><span class="cell">CHF</span><span class="cell">4.65</span><span class="cell">4.80</span></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/script-carousel.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/script-auth.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/script-calendar.js') }}"></script>
 {% endblock %}

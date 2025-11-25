@@ -6,6 +6,7 @@
   <title>{% block title %}NTWKInfo - Bądź na czasie{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  {% block head %}{% endblock %}
 </head>
 <!-- --- MODAL LOGOWANIA / REJESTRACJI --- -->
 <div id="authOverlay" class="auth-overlay hidden"></div>
@@ -50,7 +51,7 @@
   </div>
 
 </div>
-<body>
+<body{% if request.path.startswith('/news/') %} class="news-page"{% endif %}>
     
   <header class="header">
     <div class="header__top-bar container-padding">
@@ -61,10 +62,6 @@
         <a href="{{ url_for('main.weather') }}" class="{% if request.path == '/pogoda' %}active{% endif %}">Pogoda</a>
         <a href="{{ url_for('main.economy') }}" class="{% if request.path == '/ekonomia' %}active{% endif %}">Ekonomia</a>
       </nav>
-      <div class="header__meta">
-        <span>28 stycznia, poniedziałek</span>
-        <span>Europejski Dzień Ochrony Danych Osobowych</span>
-      </div>
       <button class="header__cta-button">Zaloguj się</button>
     </div>
   </header>

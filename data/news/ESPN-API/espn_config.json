@@ -1,0 +1,18 @@
+{
+  "leagues": [
+    {
+      "name": "NBA",
+      "code": "NBA",
+      "sport": "Basketball",
+      "country": "USA",
+      "scraping_interval": 3600
+    },
+    {
+      "name": "MLS",
+      "code": "MLS",
+      "sport": "Soccer",
+      "country": "USA",
+      "scraping_interval": 3600
+    }
+  ]
+}
