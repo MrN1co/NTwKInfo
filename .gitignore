@@ -6,6 +6,9 @@ data/news/**
 !data/news/**/
 !data/news/**/*config*
 
+# Ignorowanie mockup plików HTML w folderze testów news
+modules/news/tests/*.html
+
 
 # domyślne:
 # Byte-compiled / optimized / DLL files
