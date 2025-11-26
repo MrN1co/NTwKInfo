@@ -34,4 +34,3 @@ def weather():
 def dashboard():
     username = session.get('user_id', 'Guest')
     return render_template('main/dashboard.html', username=username)
-
