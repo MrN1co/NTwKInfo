@@ -89,11 +89,10 @@ def get_kryminalki_news(limit=10):
                     # Mapowanie tagów z kryminalek na tagi aplikacji
                     TAG_MAPPING = {
                         'małopolskie': 'Małopolska',
-                        'Narkotyki': 'Narkotyki',
-                        'Piraci Drogowi': 'Piraci Drogowi',
+                        'Przestępstwa narkotykowe': 'Narkotyki',
+                        'Piraci drogowi': 'Piraci drogowi',
                         'Kradzieże': 'Kradzieże',
                         'Wypadki': 'Wypadki',
-                        'Patologia': 'Patologia',
                     }
                     
                     categories_div = article_soup.find('div', class_='categories-list')
