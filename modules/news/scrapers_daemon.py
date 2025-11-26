@@ -551,15 +551,11 @@ def policja_krakow_news_daemon(interval):
     news_path = os.path.join(BASE_DIR, 'data', 'news', 'policja', 'krakow.json')
     archive_path = os.path.join(BASE_DIR, 'data', 'news', 'policja', 'krakow_archiwum.json')
 
-    print(f"[{get_warsaw_time()}] Uruchomiono Policja Kraków daemon (interwał: {interval}s)")
-
     while True:
         try:
-            print(f"[{get_warsaw_time()}] Scrapuję Policja Kraków...")
-            news_list = get_policja_krakow_news(limit=15)
+            news_list = get_policja_krakow_news(limit=10)
 
             if news_list:
-                print(f"[{get_warsaw_time()}] Pobrano {len(news_list)} wiadomości z Policji Kraków")
                 old_data = load_from_json(news_path, {})
                 if old_data.get('news'):
                     archive_data = load_from_json(archive_path, {'archived_news': []})
@@ -588,15 +584,12 @@ def policja_malopolska_news_daemon(interval):
     news_path = os.path.join(BASE_DIR, 'data', 'news', 'policja', 'malopolska.json')
     archive_path = os.path.join(BASE_DIR, 'data', 'news', 'policja', 'malopolska_archiwum.json')
 
-    print(f"[{get_warsaw_time()}] Uruchomiono Policja Małopolska daemon (interwał: {interval}s)")
 
     while True:
         try:
-            print(f"[{get_warsaw_time()}] Scrapuję Policja Małopolska...")
-            news_list = get_policja_malopolska_news(limit=15)
+            news_list = get_policja_malopolska_news(limit=10)
 
             if news_list:
-                print(f"[{get_warsaw_time()}] Pobrano {len(news_list)} wiadomości z Policji Małopolska")
                 old_data = load_from_json(news_path, {})
                 if old_data.get('news'):
                     archive_data = load_from_json(archive_path, {'archived_news': []})

@@ -14,6 +14,11 @@
         <button class="tag-btn {% if 'kryminalne' in selected_tags %}active{% endif %}" data-tag="kryminalne">Kryminalne</button>
         <button class="tag-btn {% if 'Kraków' in selected_tags %}active{% endif %}" data-tag="Kraków">Kraków</button>
         <button class="tag-btn {% if 'Małopolska' in selected_tags %}active{% endif %}" data-tag="Małopolska">Małopolska</button>
+        <button class="tag-btn {% if 'Narkotyki' in selected_tags %}active{% endif %}" data-tag="Narkotyki">Narkotyki</button>
+        <button class="tag-btn {% if 'Piraci Drogowi' in selected_tags %}active{% endif %}" data-tag="Piraci Drogowi">Piraci Drogowi</button>
+        <button class="tag-btn {% if 'Kradzieże' in selected_tags %}active{% endif %}" data-tag="Kradzieże">Kradzieże</button>
+        <button class="tag-btn {% if 'Wypadki' in selected_tags %}active{% endif %}" data-tag="Wypadki">Wypadki</button>
+        <button class="tag-btn {% if 'Patologia' in selected_tags %}active{% endif %}" data-tag="Patologia">Patologia</button>
     </div>
     
     {% if news_list %}
@@ -22,14 +27,16 @@
             {% if item.date %}
             <div class="news-timestamp">{{ item.date }}</div>
             {% endif %}
+            
             {% if item.image %}
+                {% set proxy_url = url_for('tables.image_proxy', url=item.image) if 'policja.gov.pl' in item.image else item.image %}
                 {% if item.link %}
                     <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">
-                        <img src="{{ item.image }}" alt="{{ item.title }}" class="news-image" onerror="this.style.display='none'; this.parentElement.nextElementSibling.style.display='flex';">
+                        <img src="{{ proxy_url }}" alt="{{ item.title }}" class="news-image" onerror="this.style.display='none'; this.parentElement.nextElementSibling.style.display='flex';">
                     </a>
                     <div class="news-image-placeholder" style="display: none;">Brak obrazka</div>
                 {% else %}
-                    <img src="{{ item.image }}" alt="{{ item.title }}" class="news-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <img src="{{ proxy_url }}" alt="{{ item.title }}" class="news-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="news-image-placeholder" style="display: none;">Brak obrazka</div>
                 {% endif %}
             {% else %}

@@ -106,7 +106,10 @@ def scrape_policja_news(url, tags, limit=10):
             })
 
         return news_list
-    except Exception:
+    except Exception as e:
+        print(f"Błąd w scrape_policja_news: {e}")
+        import traceback
+        traceback.print_exc()
         return []
 
 

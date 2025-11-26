@@ -194,6 +194,39 @@ def news():
                          selected_tags=selected_tags)
 
 
+@tables_bp.route('/image_proxy')
+def image_proxy():
+    """
+    Proxy dla obrazków z policji - omija blokadę CORS/Referer
+    """
+    import requests
+    from flask import Response
+    
+    image_url = request.args.get('url')
+    if not image_url:
+        return "No URL provided", 400
+    
+    # Tylko dla zaufanych domen (policja)
+    allowed_domains = ['krakow.policja.gov.pl', 'malopolska.policja.gov.pl']
+    if not any(domain in image_url for domain in allowed_domains):
+        return "Domain not allowed", 403
+    
+    try:
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'Referer': image_url.split('/dokumenty')[0] if '/dokumenty' in image_url else image_url
+        }
+        resp = requests.get(image_url, headers=headers, timeout=10)
+        
+        if resp.status_code == 200:
+            return Response(resp.content, mimetype=resp.headers.get('Content-Type', 'image/jpeg'))
+        else:
+            return "Image not found", 404
+    except Exception as e:
+        print(f"Błąd proxy obrazka: {e}")
+        return "Error loading image", 500
+
+
 @tables_bp.route('/news_sport')
 def news_sport():
     """
