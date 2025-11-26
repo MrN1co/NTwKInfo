@@ -24,11 +24,9 @@ def economy():
 
 @main_bp.route('/pogoda')
 def weather():
-    # Redirect to the weather blueprint's page so the weather module
-    # (registered under '/weather') is the single source of truth.
     return redirect(url_for('weather.weather_index'))
 
-@main_bp.route('/favorite')
+@main_bp.route('/test')
 def test_weather():
     return render_template('weather/weather-login.html')
 

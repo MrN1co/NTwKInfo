@@ -19,7 +19,6 @@ load_dotenv()
 
 my_email = os.environ.get("MY_EMAIL")
 password = os.environ.get("EMAIL_PASSW")
-api_key = os.environ.get("OPENWEATHER_API_KEY")
 
 weather_bp = Blueprint('weather', __name__)
 
@@ -30,7 +29,7 @@ def send_snow_alert(users_address):
     with smtplib.SMTP("smtp.gmail.com", 587) as connection:
         connection.starttls() #making connection secure
         connection.login(user=my_email, password=password)
-        connection.sendmail(from_addr=my_email, to_addrs=users_address, msg=message.as_string())
+        # connection.sendmail(from_addr=my_email, to_addrs=users_address, msg=message.as_string())
 
 # --- ENDPOINTY OPENWEATHER ---
 
@@ -45,10 +44,11 @@ GEOCODE_URL = "https://api.openweathermap.org/geo/1.0/direct"
 DEFAULT_LAT = 50.0647
 DEFAULT_LON = 19.9450
 
-def get_api_key(): # nie działa pobieranie api key z .env więc trzeba wstawić na sztywno
+def get_api_key(): 
     """Pobierz API key dynamicznie z zmiennych środowiskowych"""
+    api_key = os.environ.get("OPENWEATHER_API_KEY")
     if not api_key:
-        raise RuntimeError("Ustaw OPENWEATHER_APPID w pliku .env")
+        raise RuntimeError("Ustaw OPENWEATHER_API_KEY w pliku .env")
     print("API Key:", api_key)
     return api_key
 
