@@ -303,6 +303,14 @@ body.news-page .main-content {
     font-style: italic;
 }
 
+.news-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 15px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 /* --- LAYOUT: WIELE WIADOMOŚCI W WIERSZU --- */
 .news-container {
     width: 100%;
@@ -362,13 +370,6 @@ body.news-page .main-content {
     }
 }
 
-/* Obraz po lewej - nie rozciąga się */
-.news-image {
-    width: 100%;
-    max-width: 250px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 8px;
 }
 
 .news-image-placeholder {

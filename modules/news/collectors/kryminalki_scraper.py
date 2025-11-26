@@ -78,11 +78,33 @@ def get_kryminalki_news(limit=10):
             else:
                 title = title_text
             
-            # ZAWSZE wejdź na stronę artykułu aby pobrać datę
+            # ZAWSZE wejdź na stronę artykułu aby pobrać datę i tagi
+            article_tags = []
             try:
                 article_response = requests.get(link, headers=headers, timeout=10)
                 if article_response.status_code == 200:
                     article_soup = BeautifulSoup(article_response.content, 'html.parser')
+                    
+                    # Wyciągnij tagi z kategorii artykułu
+                    # Mapowanie tagów z kryminalek na tagi aplikacji
+                    TAG_MAPPING = {
+                        'małopolskie': 'Małopolska',
+                        'Przestępstwa narkotykowe': 'Narkotyki',
+                        'Piraci drogowi': 'Piraci drogowi',
+                        'Kradzieże': 'Kradzieże',
+                        'Wypadki': 'Wypadki',
+                    }
+                    
+                    categories_div = article_soup.find('div', class_='categories-list')
+                    if categories_div:
+                        category_links = categories_div.find_all('a', class_='btn')
+                        for cat_link in category_links:
+                            tag_text = cat_link.get_text(strip=True)
+                            # Sprawdź czy tag jest w mapowaniu
+                            if tag_text in TAG_MAPPING:
+                                normalized_tag = TAG_MAPPING[tag_text]
+                                if normalized_tag not in article_tags:
+                                    article_tags.append(normalized_tag)
                     
                     # Szukamy daty w <span class="fal fa-calendar-alt">
                     date_span = article_soup.find('span', class_='fal fa-calendar-alt')
@@ -147,13 +169,16 @@ def get_kryminalki_news(limit=10):
             if not display_date and timestamp:
                 display_date = datetime.fromtimestamp(timestamp).strftime('%d.%m.%Y %H:%M')
             
+            # Dodaj bazowy tag 'kryminalne' oraz wyciągnięte z artykułu
+            all_tags = ['kryminalne'] + article_tags
+            
             news_list.append({
                 'title': title,
                 'link': link,
                 'image': image_url if image_url else None,
                 'date': display_date,
                 'timestamp': timestamp,
-                'tags': ['kryminalne']
+                'tags': all_tags
             })
         
         return news_list

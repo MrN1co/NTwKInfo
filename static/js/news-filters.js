@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let selectedTags = new Set();
     try {
         const tagsJson = selectedTagsData.dataset.tags;
-        if (tagsJson) {
+        if (tagsJson && tagsJson.trim() !== '') {
             selectedTags = new Set(JSON.parse(tagsJson));
         }
     } catch (e) {
