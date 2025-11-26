@@ -116,7 +116,9 @@ h1, h2, h3 {
   color: var(--color-text-secondary);
 }
 .calendar-icon {
-  width: 56px;
+  flex: 0 0 56px;
+  min-width: 56px;
+  max-width: 56px;
   height: 56px;
   border-radius: 8px;
   background: var(--color-primary);
@@ -398,6 +400,11 @@ h1, h2, h3 {
     margin-top: 0;
   }
 
+    /* Hide calendar icon on small devices to simplify the right column */
+  .calendar-icon {
+    display: none;
+  }
+
   /* MAIN GRID */
   .content-grid {
     display: flex;
@@ -407,7 +414,7 @@ h1, h2, h3 {
 
   /* RIGHT COLUMN — pogoda i kursy obok siebie */
   .right-column {
-    display: grid;
+    display: flex;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     width: 100%;
