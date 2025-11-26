@@ -52,8 +52,8 @@
                     </div>
                 </div>
 
-                <div class="d-flex flex-column align-items-center" style="min-width:140px;">
-                    <select id="currency-from" class="form-select mb-2" style="width:100%;">
+                <div class="d-flex flex-column align-items-center currency-select-container">
+                    <select id="currency-from" class="form-select mb-2 currency-select">
                         <!-- PLN jako opcja oraz lista z serwera -->
                         <option value="PLN">PLN</option>
                         {% for code in currency_codes %}
@@ -61,8 +61,8 @@
                         {% endfor %}
                     </select>
                     <!-- clickable swap button -->
-                    <span id="swap-btn" role="button" title="Zamień" style="cursor:pointer; user-select:none;">🔃</span>
-                    <select id="currency-to" class="form-select mt-2" style="width:100%;">
+                    <span id="swap-btn" role="button" title="Zamień">🔃</span>
+                    <select id="currency-to" class="form-select mt-2 currency-select">
                         <option value="EUR">EUR</option>
                         {% for code in currency_codes %}
                         <option value="{{ code }}">{{ code }}</option>
@@ -83,7 +83,7 @@
 
     <h2 class="mt-4 calc-heading">Kurs złota [t oz] - widok w skali roku</h2>
     <div class="d-flex justify-content-center mb-4">
-        <img src="data:image/png;base64,{{ wykres_zlota }}" alt="Wykres złota" class="gold-chart img-fluid" style="width:100%; max-width:1200px;">
+        <img src="data:image/png;base64,{{ wykres_zlota }}" alt="Wykres złota" class="gold-chart img-fluid gold-chart-container">
     </div>
 </div>
 
@@ -93,7 +93,7 @@
         currency_rates: {{ currency_rates | tojson | safe }}
     };
 </script>
-<script src="{{ url_for('static', filename='js/economic-calc.js') }}"></script>
+<script src="{{ url_for('static', filename='js/economy.js') }}"></script>
 
 <!-- Bootstrap JS bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

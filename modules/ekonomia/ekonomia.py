@@ -14,6 +14,7 @@ import os
 from urllib.parse import quote_plus
 
 def generate_plot(color='#c2c9b6', title='Widok w skali roku'):
+    """Generate sample currency chart"""
     x = np.linspace(0, 20, 100)
     y = 4.2 + 0.1 * np.sin(x) + 0.05 * np.random.randn(100)
 
@@ -31,6 +32,8 @@ def generate_plot(color='#c2c9b6', title='Widok w skali roku'):
     return encoded
 
 def ekonomia():
+    """Main economy module handler"""
+    # Static exchange rates for main currencies
     kurs_walut = {
         'EUR': 4.24,
         'CHF': 4.57,
@@ -38,24 +41,22 @@ def ekonomia():
     }
     wykres_waluty = generate_plot('#6c7c40', 'Widok w skali roku')
 
-    # Pobierz historyczne ceny złota za ostatni miesiąc i wygeneruj wykres
+    # Get historical gold prices and generate chart
     mgr = Manager()
-    # Pobierz historyczne ceny złota za ostatni miesiąc (1 miesiąc)
     gold_df = mgr.history.get_historical_gold_prices(months=1)
     wykres_zlota = mgr.create_plot_image(gold_df, x_col='date', y_col='price', color='#6c7c40')
 
     cena_zlota = api_testy.get_gold_price()[0]['cena']
 
-    # Pobierz listę walut z Managera i przekaż do szablonu — progressive enhancement
+    # Get currency list and rates for calculator
     mgr = Manager()
     currency_codes = mgr.list_currencies()
-    # Pobierz aktualne kursy z Managera (słownik kod->kurs w PLN)
     raw_rates = mgr.currencies.get_current_rates()
-    # Normalizuj klucze do wielkich liter i dodaj PLN=1
+    # Normalize to uppercase and add PLN=1
     currency_rates = {k.upper(): v for k, v in raw_rates.items()}
     currency_rates['PLN'] = 1.0
 
-    # Przygotuj wszystkie waluty oprócz tych które są już na górze (EUR, CHF, USD)
+    # Prepare currencies for table (exclude main ones)
     excluded_currencies = {'EUR', 'CHF', 'USD'}
     all_currencies_for_tiles = {}
     for code in currency_codes:
@@ -64,9 +65,7 @@ def ekonomia():
             if rate:
                 all_currencies_for_tiles[code.upper()] = rate
 
-    # Render template to string so we can inject a small CSS override that
-    # ensures vertical scrolling works correctly on wide viewports.
-    html = render_template('ekonomia/exchange.html',
+    return render_template('ekonomia/exchange.html',
                            kurs_walut=kurs_walut,
                            wykres_waluty=wykres_waluty,
                            wykres_zlota=wykres_zlota,
@@ -74,25 +73,3 @@ def ekonomia():
                            currency_codes=currency_codes,
                            currency_rates=currency_rates,
                            all_currencies_for_tiles=all_currencies_for_tiles)
-
-    fix_css = """
-    <style>
-    /* Ensure page can always scroll vertically on wide screens; override any
-       accidental overflow/height rules that hide lower content. */
-    html, body {
-        height: auto !important;
-        min-height: 100% !important;
-        overflow-y: auto !important;
-    }
-    /* Defensive: ensure main container doesn't get clipped */
-    .container { overflow: visible !important; }
-    </style>
-    """
-
-    # Inject our style just before the closing </head> if present, otherwise prepend
-    if '</head>' in html:
-        html = html.replace('</head>', fix_css + '</head>', 1)
-    else:
-        html = fix_css + html
-
-    return html

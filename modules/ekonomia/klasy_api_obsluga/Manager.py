@@ -16,56 +16,52 @@ class Manager:
         self.history = HistoricalData(self.client)
 
     def update_all(self):
-        """Aktualizacja danych walut i złota"""
-        print("Pobieranie aktualnych kursów walut...")
+        """Update currency rates and gold prices"""
+        print("Fetching current exchange rates...")
         rates = self.currencies.get_current_rates()
-        print("Pobieranie aktualnej ceny złota...")
+        print("Fetching current gold price...")
         gold_price = self.gold.get_current_price()
         return rates, gold_price
 
     def export_to_csv(self, df, filename):
+        """Export DataFrame to CSV file"""
         df.to_csv(filename, index=False)
-        print(f"Zapisano do {filename}")
+        print(f"Saved to {filename}")
 
     def plot_rates(self, df, code):
+        """Plot currency rates over time"""
         df_code = df[df["code"] == code.upper()]
         if df_code.empty:
-            print(f"Brak danych dla waluty {code}")
+            print(f"No data for currency {code}")
             return
-        df_code.plot(x="date", y="rate", title=f"Kurs {code.upper()} w czasie")
-        plt.xlabel("Data")
-        plt.ylabel("Kurs PLN")
+        df_code.plot(x="date", y="rate", title=f"{code.upper()} exchange rate")
+        plt.xlabel("Date")
+        plt.ylabel("PLN Rate")
         plt.show()
 
     def list_currencies(self, table: str = 'a'):
         """
-        Zwraca listę kodów walut dostępnych w zadanej tabeli (domyślnie 'a').
-        Nie modyfikuje stanu obiektu `self.currencies` — tworzy krótkotrwały
-        obiekt `CurrencyRates` dla podanej tabeli i pobiera listę.
-
-        Zwracana wartość: posortowana lista unikalnych kodów walut (np. ['EUR','USD']).
+        Get list of available currency codes from specified table.
+        Returns sorted list of unique currency codes (e.g. ['EUR','USD']).
         """
-        # Tworzymy tymczasowy obiekt CurrencyRates, by nie zmieniać self.currencies
+        # Create temporary CurrencyRates object to avoid modifying self.currencies
         temp = CurrencyRates(self.client, tables=[table])
         entries = temp.get_currency_list()
-        # entries to lista słowników {'code': 'EUR', 'table': 'a'}
+        # entries is list of dicts {'code': 'EUR', 'table': 'a'}
         codes = sorted({e['code'].upper() for e in entries})
         return codes
 
     def create_plot_image(self, df, x_col='date', y_col='price', title=None, color='#fbc531', y_label=None):
         """
-        Tworzy wykres z podanego DataFrame (kolumny x_col i y_col) i zwraca obraz PNG
-        zakodowany base64 (bez nagłówka).
-
-        Przydatne do tworzenia wykresów historycznych (np. cen złota) z danych pobranych
-        z API lub bazy danych.
+        Create plot from DataFrame and return base64-encoded PNG image.
+        Useful for creating historical charts (e.g. gold prices) from API data.
         """
         import io, base64
         if df is None or df.empty:
-            # Zwróć pusty obrazek (można też zwrócić None)
+            # Return empty chart with "No data" message
             fig, ax = plt.subplots(figsize=(10, 5), facecolor='#c2c9b6')
             ax.set_facecolor('#c2c9b6')
-            ax.text(0.5, 0.5, 'Brak danych', ha='center', va='center', color='#2B370A')
+            ax.text(0.5, 0.5, 'No data available', ha='center', va='center', color='#2B370A')
             ax.tick_params(colors='#2B370A')
             buf = io.BytesIO()
             plt.savefig(buf, format='png', bbox_inches='tight', facecolor=fig.get_facecolor())
@@ -76,7 +72,7 @@ class Manager:
 
         fig, ax = plt.subplots( figsize=(16, 7), facecolor='#c2c9b6')
         ax.set_facecolor('#c2c9b6')
-        # Ensure x_col is datetime for plotting
+        # Convert x_col to datetime for proper plotting
         try:
             x = pd.to_datetime(df[x_col])
         except Exception:
@@ -84,15 +80,14 @@ class Manager:
         y = df[y_col]
 
         ax.plot(x, y, color=color, linewidth=2)
-        # Styling similar to generate_plot
+        # Apply consistent styling
         ax.tick_params(colors='#2B370A')
-        # Do not set a title (user requested no title)
-        ax.set_xlabel('Data', color='#2B370A')
-        # Determine y-label: if provided use it, otherwise for price use gold label
+        ax.set_xlabel('Date', color='#2B370A')
+        # Set y-label based on column type
         if y_label:
             ax.set_ylabel(y_label, color='#2B370A')
         else:
-            ax.set_ylabel('Cena złota [t oz]' if y_col == 'price' else y_col, color='#2B370A')
+            ax.set_ylabel('Gold price [t oz]' if y_col == 'price' else y_col, color='#2B370A')
         fig.autofmt_xdate()
         buf = io.BytesIO()
         plt.savefig(buf, format='png', bbox_inches='tight', facecolor=fig.get_facecolor())

@@ -1,7 +1,18 @@
-/* ekonomia.css — page-specific styles for the "ekonomia" view */
+body {
+    /* Background of whole page -> very light gray */
+    color: #000000;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    /* padding: 20px; */
+}
 
-/* Import main site stylesheet so we don't duplicate shared rules */
-@import url("style.css");
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden; 
+}
+
+
 
 /* currency layout adjustments */
 .currency-row {
@@ -132,46 +143,37 @@ h1, h2, p{
     border-radius: 10px;
 }
 
+/* Header button styles */
+.header__cta-button {
+    background-color: #485C11;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 18px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
 
-/* horizontal currency scroll (mobile-first) */
-.currency-scroll {
+.header__cta-button:hover {
+    background-color: #3a4a0d;
+}
+
+/* Header layout */
+.header__top-bar {
     display: flex;
-    gap: 18px;
-    overflow-x: auto;
-    padding: 10px 16px;
-    margin: 0 !important;
-    scroll-snap-type: x mandatory;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
 }
 
-.currency-scroll::-webkit-scrollbar {
-    height: 6px;
+.header__logo {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #000000;
 }
-.currency-scroll::-webkit-scrollbar-thumb {
-    background: #b5bca7;
-    border-radius: 10px;
-}
-
-.currency-item {
-    scroll-snap-align: start;
-    flex: 0 0 auto;
-}
-
-/* Desktop: show centered tiles instead of scrolling */
-@media (min-width: 768px) {
-    .currency-scroll {
-        overflow-x: visible;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 22px;
-        padding: 0;
-    }
-
-    .currency-item {
-        flex: 0 0 auto;
-    }
-}
-
-/* === Responsive tweaks (mobile / tablet / desktop) ==== */
 
  /* responsive adjustments */
 @media (max-width: 768px) {
@@ -237,7 +239,114 @@ h1, h2, p{
     box-shadow: 0 0 0 2px rgba(189,200,170,0.25);
 }
 
-/* --- Small currency tiles grid (bottom) --- */
+.currency-scroll {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    padding: 10px 16px;
+    margin: 0 !important;
+    scroll-snap-type: x mandatory;
+}
+
+.currency-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+.currency-scroll::-webkit-scrollbar-thumb {
+    background: #b5bca7;
+    border-radius: 10px;
+}
+
+.currency-item {
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+}
+
+/* --- DESKTOP: wyłączamy scroll i centrujemy --- */
+@media (min-width: 768px) {
+    .currency-scroll {
+        overflow-x: visible;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 22px;
+        padding: 0;
+    }
+
+    .currency-item {
+        flex: 0 0 auto;
+    }
+}
+
+/* MOBILE: ustaw prawe elementy w kolumnie i wyśrodkuj */
+@media (max-width: 576px) {
+  .navbar-right {
+    flex-direction: column !important;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .navbar-right .btn {
+    width: 140px;
+    text-align: center;
+  }
+
+  .navbar-right .fw-semibold {
+    min-width: auto;
+    text-align: center;
+  }
+}
+
+/* currency chart image */
+.currency-chart {
+    width: 90%;
+    max-width: 570px;
+    border-radius: 10px;
+}
+
+/* Ukryj swap emoji na telefonach */
+@media (max-width: 768px) {
+    #swap-btn {
+        display: none;
+    }
+}
+
+@media (min-width: 769px) {
+    .calc-box .input-column {
+        flex-direction: row;        /* obok siebie */
+        gap: 18px;                  /* większy odstęp między polami */
+        justify-content: center;    /* wyśrodkowane w poziomie */
+        align-items: center;        /* wyrównanie w pionie */
+    }
+
+    .calc-box .input-column .form-control,
+    .calc-box .input-column #result {
+        width: 180px;               /* szersze pola na desktop */
+        padding: 10px 12px;
+        font-size: 1rem;
+    }
+
+    .calc-box select.form-select {
+        width: 150px;               /* szersze selecty na desktop */
+        padding: 8px 10px;
+        font-size: 0.95rem;
+    }
+}
+
+.footer-label {
+    font-family: 'Roboto Mono', monospace;
+}
+
+.calc-heading {
+    font-family: 'Crimson Text', serif;
+}
+
+.header-title {
+    font-family: 'Crimson Text', serif;
+}
+
+
+
+/* --- MAŁE KAFELKI WALUT NA DOLE --- */
 .all-currencies-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -415,4 +524,102 @@ h1, h2, p{
         padding: 10px;
         font-size: 0.8rem;
     }
+}
+
+/* Styles moved from inline HTML */
+.currency-select-container {
+    min-width: 140px;
+}
+
+.currency-select {
+    width: 100%;
+}
+
+#swap-btn {
+    cursor: pointer;
+    user-select: none;
+}
+
+.gold-chart-container {
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* Navbar styles from main CSS to fix styling issues */
+.header__nav {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.header__nav a {
+    margin: 0;
+    padding: 5px 0;
+    color: #929292;
+    transition: color 0.2s;
+    text-decoration: none !important;
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+.header__nav a:hover {
+    color: #000000;
+    text-decoration: none !important;
+}
+
+.header__nav a.active {
+    color: #000000;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 2px;
+}
+
+/* Responsive navbar styles */
+@media (max-width: 768px) {
+    .header__nav {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 6px;
+        width: 100%;
+    }
+
+    .header__nav a {
+        font-size: 11px;
+        padding: 3px 0;
+        flex: 1 1 auto;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .header__nav {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 20px;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .header__nav a {
+        padding: 6px 0;
+        min-width: 90px;
+        font-size: 15px;
+    }
+}
+
+/* Fix full-screen scrolling issues */
+html {
+    height: auto !important;
+    overflow-y: auto !important;
+}
+
+body {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+}
+
+/* Ensure containers don't interfere with scrolling */
+.container {
+    height: auto !important;
+    max-height: none !important;
 }
