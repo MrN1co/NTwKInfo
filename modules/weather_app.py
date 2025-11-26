@@ -9,9 +9,27 @@ matplotlib.use("Agg")  # backend bez GUI
 import matplotlib.pyplot as plt
 import numpy as np
 
+import smtplib
+from email.mime.text import MIMEText
+
 from flask import Blueprint, request, jsonify, render_template, send_file, abort
+from dotenv import load_dotenv
+
+load_dotenv()
+
+my_email = os.environ.get("MY_EMAIL")
+password = os.environ.get("EMAIL_PASSW")
 
 weather_bp = Blueprint('weather', __name__)
+
+# ======================= WYSYŁANIE MAILI =======================
+def send_snow_alert(users_address):
+    message = f"""It's going to snow today!\nRemember to take your snow gear and drive safely!"""
+    message = MIMEText(message, "plain", "utf-8")
+    with smtplib.SMTP("smtp.gmail.com", 587) as connection:
+        connection.starttls() #making connection secure
+        connection.login(user=my_email, password=password)
+        # connection.sendmail(from_addr=my_email, to_addrs=users_address, msg=message.as_string())
 
 # --- ENDPOINTY OPENWEATHER ---
 
@@ -20,17 +38,17 @@ DAILY_URL = "https://api.openweathermap.org/data/2.5/forecast/daily"
 # 5-dniowa prognoza co 3 godziny (dla wykresu 24h)
 HOURLY_URL = "https://api.openweathermap.org/data/2.5/forecast"
 # geokodowanie nazw miast
-GEOCODE_URL = "http://api.openweathermap.org/geo/1.0/direct"
+GEOCODE_URL = "https://api.openweathermap.org/geo/1.0/direct"
 
 # DOMYŚLNA LOKALIZACJA – KRAKÓW
 DEFAULT_LAT = 50.0647
 DEFAULT_LON = 19.9450
 
-def get_api_key(): # nie działa pobieranie api key z .env więc trzeba wstawić na sztywno
+def get_api_key(): 
     """Pobierz API key dynamicznie z zmiennych środowiskowych"""
     api_key = os.environ.get("OPENWEATHER_API_KEY")
     if not api_key:
-        raise RuntimeError("Ustaw OPENWEATHER_APPID w pliku .env")
+        raise RuntimeError("Ustaw OPENWEATHER_API_KEY w pliku .env")
     print("API Key:", api_key)
     return api_key
 
@@ -58,11 +76,18 @@ def normalize_forecast(raw: dict) -> dict:
     coord = city.get("coord", {})
     lat = coord.get("lat")
     lon = coord.get("lon")
+    # timezone offset in seconds (if API provides it) to align dates to city local time
+    tz_offset = city.get("timezone") or 0
 
     days = []
     for item in raw.get("list", []):
         dt = item.get("dt")
-        date = datetime.utcfromtimestamp(dt).date().isoformat() if dt else None
+        if dt:
+            # API dt is a UNIX timestamp (UTC). Add city timezone offset to get local date.
+            date_dt = datetime.utcfromtimestamp(dt) + timedelta(seconds=tz_offset)
+            date = date_dt.date().isoformat()
+        else:
+            date = None
         temp = item.get("temp", {})
         weather_list = item.get("weather") or [{}]
         weather = weather_list[0]
@@ -72,6 +97,7 @@ def normalize_forecast(raw: dict) -> dict:
             "date": date,
             "t_min": temp.get("min"),
             "t_max": temp.get("max"),
+            "t_day": temp.get("day"),
             "pressure": item.get("pressure"),
             "precip_mm": float(item.get("rain", 0.0)),
             "icon": weather.get("icon"),
@@ -170,6 +196,7 @@ def api_forecast():
     """GET /api/forecast?lat=...&lon=... – jeśli brak, bierze domyślny Kraków."""
     lat_param = request.args.get("lat")
     lon_param = request.args.get("lon")
+    label = request.args.get("label")
 
     try:
         lat = float(lat_param) if lat_param is not None else DEFAULT_LAT
@@ -180,6 +207,21 @@ def api_forecast():
     try:
         raw = fetch_daily_forecast(lat, lon, cnt=7, units="metric")
         data = normalize_forecast(raw)
+        if label:
+            data["city"] = label 
+        else:
+            # jeśli to domyślna lokalizacja – wymuś "Kraków"
+            if lat == DEFAULT_LAT and lon == DEFAULT_LON:
+                data["city"] = "Kraków"
+                
+        # data = normalize_forecast(raw)
+        if data["days"] and data["days"][0].get("precip_mm", 0) > 0:
+            # Dziś zapowiadany jest deszcz (lub śnieg)
+            send_snow_alert("email@gmail.com")
+            print("Wysłano alert o śniegu na email.")
+        else:
+            print("Dziś nie ma opadów, nie wysłano alertu.")
+
         return jsonify(data)
     except requests.HTTPError as e:
         return jsonify({"error": "Błąd OpenWeather", "details": str(e)}), 502
@@ -199,10 +241,19 @@ def api_geocode():
     params = {"q": q, "appid": get_api_key(), "limit": 5}
     try:
         resp = requests.get(GEOCODE_URL, params=params, timeout=10)
-        resp.raise_for_status()
+        try:
+            resp.raise_for_status()
+        except requests.HTTPError as e:
+            # include response body if available for easier debugging
+            body = None
+            try:
+                body = resp.text
+            except Exception:
+                body = None
+            return jsonify({"error": "Błąd geokodowania", "status": resp.status_code, "details": str(e), "response": body}), 502
         return jsonify(resp.json())
-    except requests.HTTPError as e:
-        return jsonify({"error": "Błąd geokodowania", "details": str(e)}), 502
+    except requests.RequestException as e:
+        return jsonify({"error": "Błąd sieci podczas geokodowania", "details": str(e)}), 502
     except Exception as e:
         return jsonify({"error": "Błąd backendu", "details": str(e)}), 500
 
@@ -244,19 +295,20 @@ def plot_png():
     if not points:
         abort(404)
 
-    # przygotowanie danych do wykresu
+    raw = fetch_hourly_forecast(lat, lon, units="metric")
+    tz_offset = raw.get("city", {}).get("timezone", 0)  # sekundy od UTC
+    target_tz = timezone(timedelta(seconds=tz_offset))
+
     labels = []
     temps = []
     precip = []
 
-    # konwersja na lokalny czas (żeby godziny zgadzały się u użytkownika)
-    local_tz = datetime.now().astimezone().tzinfo
-
     for p in points:
-        dt_local = p["dt"].astimezone(local_tz)
-        labels.append(dt_local.strftime("%H:%M"))
-        temps.append(p["temp"])
-        precip.append(p["precip_mm"])
+    # p["dt"] jest datetime w UTC
+       dt_local = p["dt"].astimezone(target_tz)
+       labels.append(dt_local.strftime("%H:%M"))
+       temps.append(p["temp"])
+       precip.append(p["precip_mm"])
 
     # --- STYL WYKRESU (bardziej estetyczny) ---
     fig, ax1 = plt.subplots(figsize=(8.0, 3.2), dpi=160)
@@ -322,6 +374,3 @@ def plot_png():
     buf.seek(0)
 
     return send_file(buf, mimetype="image/png")
-
-
-

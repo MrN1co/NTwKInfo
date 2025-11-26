@@ -21,37 +21,56 @@ function formatToday() {
 // Pobranie prognozy z backendu.
 // Bez parametrów -> domyślna lokalizacja (Kraków),
 // z lat/lon -> prognoza dla wskazanych współrzędnych.
-async function fetchForecast(lat, lon) {
-  let url = "http://127.0.0.1:5001/weather/api/forecast";
+async function fetchForecast(lat, lon, label = null) {
+  let url = "/weather/api/forecast";
+
+  
+  const params = new URLSearchParams();
+
   if (lat != null && lon != null) {
-    url += `?lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}`;
+    params.append("lat", lat);
+    params.append("lon", lon);
+  }
+
+  if (label) {
+    params.append("label", label); // <<< NAZWA MIASTA
+  }
+
+  if (params.toString().length > 0) {
+    url += "?" + params.toString();
   }
 
   console.log("Fetching forecast from:", url);
+
   const res = await fetch(url);
   console.log("Response status:", res.status, res.statusText);
-  
+
   if (!res.ok) {
     const msg = await res.text();
     console.error("Forecast error response:", msg);
     throw new Error(`Błąd pobierania prognozy: ${res.status} ${msg}`);
   }
+
   const data = await res.json();
   console.log("Forecast data:", data);
-  return data; // oczekujemy: { city, lat, lon, days: [...] }
+  return data;
 }
+// Funkcja do pobrania współrzędnych miasta z backendu
+async function geocodeCity(name) {
+  const url = `/weather/api/geocode?q=${encodeURIComponent(name)}`;
+  const res = await fetch(url);
 
-// Zamiana nazwy miasta na współrzędne (geokodowanie)
-async function geocodeCity(query) {
-  const res = await fetch(`http://127.0.0.1:5001/weather/api/geocode?q=${encodeURIComponent(query)}`);
   if (!res.ok) {
-    throw new Error("Błąd geokodowania");
+    const msg = await res.text();
+    throw new Error(`Błąd geokodowania: ${res.status} ${msg}`);
   }
+
   const data = await res.json();
-  if (!Array.isArray(data) || data.length === 0) {
-    throw new Error("Nie znaleziono lokalizacji");
+  if (!data || data.length === 0) {
+    throw new Error("Nie znaleziono miasta.");
   }
-  return data[0]; // pierwszy wynik, np. { name, lat, lon }
+
+  return data[0]; // pierwszy wynik
 }
 
 // =================== STAN APLIKACJI ===================
@@ -100,19 +119,19 @@ function renderForecast(data) {
 
   // Temperatura, opis, ciśnienie, opady
   $("#currentTemp").textContent =
-    today.t_max != null ? `${Math.round(today.t_max)}°C` : "--°C";
+    (today.t_day != null ? `${Math.round(today.t_day)}°C` : (today.t_max != null ? `${Math.round(today.t_max)}°C` : "--°C"));
 
   $("#currentDesc").textContent = today.description || "";
 
   $("#currentPressure").textContent =
     today.pressure != null
-      ? `Ciśnienie: ${Math.round(today.pressure)} hPa`
-      : "Ciśnienie: -- hPa";
+      ? `${Math.round(today.pressure)}`
+      : "--";
 
   $("#currentPrecip").textContent =
     today.precip_mm != null
-      ? `Opady: ${today.precip_mm.toFixed(1)} mm`
-      : "Opady: -- mm";
+      ? `${today.precip_mm.toFixed(1)}`
+      : "--";
 
   // Ikona aktualnej pogody (iconUrl pochodzi z icons.js)
   if (today.icon) {
@@ -209,19 +228,19 @@ function updateCurrentDayPanel(dayIndex) {
 
   // Temperatura, opis, ciśnienie, opady
   $("#currentTemp").textContent =
-    day.t_max != null ? `${Math.round(day.t_max)}°C` : "--°C";
+    (day.t_day != null ? `${Math.round(day.t_day)}°C` : (day.t_max != null ? `${Math.round(day.t_max)}°C` : "--°C"));
 
   $("#currentDesc").textContent = day.description || "";
 
   $("#currentPressure").textContent =
     day.pressure != null
-      ? `Ciśnienie: ${Math.round(day.pressure)} hPa`
-      : "Ciśnienie: -- hPa";
+      ? `${Math.round(day.pressure)}`
+      : "--";
 
   $("#currentPrecip").textContent =
     day.precip_mm != null
-      ? `Opady: ${day.precip_mm.toFixed(1)} mm`
-      : "Opady: -- mm";
+      ? `${day.precip_mm.toFixed(1)}`
+      : "--";
 
   // Ikona pogody na wybrany dzień
   if (day.icon) {
@@ -276,7 +295,9 @@ async function loadDefault() {
 // Ładowanie na podstawie wpisanej nazwy miasta
 async function loadByCityName(name) {
   const place = await geocodeCity(name);
-  const data = await fetchForecast(place.lat, place.lon);
+
+  const cityName = place.local_names?.pl || place.name;
+  const data = await fetchForecast(place.lat, place.lon, cityName);
   renderForecast(data);
 }
 
@@ -289,14 +310,20 @@ function setupSearch() {
   if (!input || !btn) return;
 
   const runSearch = () => {
-    const q = input.value.trim();
-    if (!q) return;
-    loadByCityName(q).catch((err) => {
-      console.error(err);
-      alert(err.message || "Nie udało się znaleźć miasta.");
-    });
-  };
-
+  const q = input.value.trim();
+  if (!q) {
+    alert("Podaj nazwę miasta.");
+    return;
+  }
+  if (!/^[a-zA-ZąćęłńóśżźĄĆĘŁŃÓŚŻŹ\s-]+$/.test(q)) {
+    alert("Nazwa miasta zawiera niedozwolone znaki.");
+    return;
+  }
+  loadByCityName(q).catch((err) => {
+    console.error(err);
+    alert(err.message || "Nie udało się znaleźć miasta.");
+  });
+};
   btn.addEventListener("click", runSearch);
 
   input.addEventListener("keydown", (e) => {
@@ -318,16 +345,25 @@ function setupFavoriteButton() {
     const loggedIn = btn.dataset.loggedIn === "1";
 
     if (!loggedIn) {
-      // użytkownik niezalogowany -> przenosimy do logowania
-      window.location.href = "/login"; // jeśli masz inną ścieżkę, zmień tutaj
+      // zamiast przekierowania:
+      const overlay = document.getElementById("authOverlay");
+      const modal = document.getElementById("authModal");
+      const loginForm = document.getElementById("loginForm");
+
+      overlay.classList.remove("hidden");
+      modal.classList.remove("hidden");
+
+      // pokaż formularz logowania
+      loginForm.classList.remove("hidden");
+      document.getElementById("registerForm").classList.add("hidden");
       return;
     }
 
-    // TODO: tu w przyszłości zrobisz fetch() do backendu,
-    // który zapisze ulubioną lokalizację w bazie.
+    // jeśli zalogowany -> toggle ulubione
     btn.classList.toggle("active");
   });
 }
+
 
 // =================== WYKRES (IMG + NAWIGACJA) ===================
 
@@ -360,8 +396,8 @@ function updateChart() {
 
   const { lat, lon } = currentCoords;
 
-  // day=chartDayOffset możesz później obsłużyć w /plot.png po stronie Flask
-  img.src = `/plot.png?lat=${lat}&lon=${lon}&day=${chartDayOffset}&_=${Date.now()}`;
+  // Wywołaj endpoint z blueprintem '/weather' (route zdefiniowana w modules/weather_app.py)
+  img.src = `/weather/plot.png?lat=${lat}&lon=${lon}&day=${chartDayOffset}&_=${Date.now()}`;
 
   updateChartTitle(chartDayOffset);
 }
@@ -405,6 +441,6 @@ document.addEventListener("DOMContentLoaded", () => {
   loadDefault()
     .catch((err) => {
       console.error(err);
-      alert("Nie udało się załadować prognozy dla domyślnej lokalizacji.");
+    
     });
 });
