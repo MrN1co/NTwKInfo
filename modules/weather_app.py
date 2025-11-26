@@ -197,17 +197,27 @@ def get_hourly_window(lat: float, lon: float, day_offset: int = 0):
     Każdy punkt: { "dt": datetime, "temp": float, "precip_mm": float }
     """
     raw = fetch_hourly_forecast(lat, lon, units="metric")
-    now_utc = datetime.now(timezone.utc)
+
+    # Use city's timezone (offset in seconds) to compute local start/end windows
+    tz_offset = raw.get("city", {}).get("timezone", 0)
+    target_tz = timezone(timedelta(seconds=tz_offset))
+
+    # current time in city's local timezone
+    now_local = datetime.now(timezone.utc).astimezone(target_tz)
 
     if day_offset == 0:
-        # Dziś: od teraz do jutra rano (dłuższy zakres czasu na wykresie)
-        start = now_utc
-        end = now_utc + timedelta(days=1, hours=6)  # ~30h
+        # Today: from now (local) to ~30h ahead (local)
+        start_local = now_local
+        end_local = now_local + timedelta(days=1, hours=6)  # ~30h
     else:
-        # Inne dni: od północy danego dnia do północy następnego
-        today_utc = now_utc.replace(hour=0, minute=0, second=0, microsecond=0)
-        start = today_utc + timedelta(days=day_offset)
-        end = start + timedelta(days=1)
+        # Other days: from local midnight of that day to next local midnight
+        today_local_midnight = now_local.replace(hour=0, minute=0, second=0, microsecond=0)
+        start_local = today_local_midnight + timedelta(days=day_offset)
+        end_local = start_local + timedelta(days=1)
+
+    # convert local window back to UTC for comparison with API timestamps
+    start = start_local.astimezone(timezone.utc)
+    end = end_local.astimezone(timezone.utc)
 
     points = []
     for item in raw.get("list", []):

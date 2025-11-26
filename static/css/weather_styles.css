@@ -180,7 +180,7 @@ body {
 .current-date {
   font-size: 0.95rem;
   color: #7a7a7a;
-  margin-bottom: 3px;
+  margin-bottom: 40px;
 }
 
 .current-main-row {
@@ -243,6 +243,29 @@ body {
   min-height: 280px;       /* zapewnia miejsce do pionowego centrowania */
 }
 
+/* Ensure the chart area keeps a stable height so page sections don't shift */
+.card-chart {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.card-chart canvas,
+.card-chart #chartImg {
+  width: 100% !important;
+  height: 260px !important;       /* fixed visual height to avoid layout reflow */
+  max-height: 260px !important;
+  display: block;
+  object-fit: contain;
+}
+
+.chart-caption {
+  margin-top: 10px;
+  text-align: center;
+  color: #333333;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
 /* Ukryj tytuł wykresu */
 #chartTitle {
   display: none;
@@ -289,20 +312,6 @@ body {
   max-width: 100%;
   max-height: 200px;           /* żeby wykres nie zajmował całego kafla */
   object-fit: contain;         /* zachowuje proporcje */
-}
-
-/* Spinner wyświetlany podczas ładowania obrazka wykresu */
-.chart-spinner{
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-50%);
-  background: rgba(0,0,0,0.6);
-  color: #fff;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-weight: 600;
-  z-index: 10;
 }
 
 /* strzałki nawigacji */
@@ -594,6 +603,20 @@ body {
 
   .footer {
     padding: 14px 16px;
+  }
+}
+
+/* Mobile: smaller fixed chart height to keep layout compact */
+@media (max-width: 799px) {
+  .card-chart canvas,
+  .card-chart #chartImg {
+    height: 200px !important;
+    max-height: 200px !important;
+  }
+
+  .card-chart {
+    min-height: 230px !important;
+    padding: 14px 14px !important;
   }
 }
 

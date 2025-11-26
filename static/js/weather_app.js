@@ -480,13 +480,13 @@ function updateChart() {
     const cached = getCachedHourly(hourlyKey);
     if (cached){
       try{
-        const pts = (cached.points || []).map(p => ({ t: new Date(p.dt), temp: p.temp, precip: p.precip_mm }));
+        const pts = (cached.points || []).map(p => ({ t: p.dt, temp: p.temp, precip: p.precip_mm }));
         renderChartFromPoints(pts);
       }catch(e){ console.warn('Render from hourly cache failed', e); }
       // refresh in background
       fetch(`/weather/api/hourly?lat=${lat}&lon=${lon}&day=${chartDayOffset}`)
         .then(async (res)=>{ if (!res.ok) throw new Error(await res.text()); return res.json(); })
-        .then(json=>{ setCachedHourly(hourlyKey, json); const pts=(json.points||[]).map(p=>({ t:new Date(p.dt), temp:p.temp, precip:p.precip_mm })); renderChartFromPoints(pts); })
+        .then(json=>{ setCachedHourly(hourlyKey, json); const pts=(json.points||[]).map(p=>({ t:p.dt, temp:p.temp, precip:p.precip_mm })); renderChartFromPoints(pts); })
         .catch(err=>{ console.warn('Hourly refresh failed', err); });
     } else {
       fetch(`/weather/api/hourly?lat=${lat}&lon=${lon}&day=${chartDayOffset}`)
@@ -496,11 +496,7 @@ function updateChart() {
         })
         .then((json) => {
           setCachedHourly(hourlyKey, json);
-          const pts = (json.points || []).map(p => ({
-            t: new Date(p.dt),
-            temp: p.temp,
-            precip: p.precip_mm
-          }));
+          const pts = (json.points || []).map(p => ({ t: p.dt, temp: p.temp, precip: p.precip_mm }));
           renderChartFromPoints(pts);
         })
         .catch((err) => {
@@ -528,7 +524,22 @@ let chartInstance = null;
 
 function renderChartFromPoints(points){
   const ctx = document.getElementById('chartCanvas').getContext('2d');
-  const labels = points.map(p => p.t instanceof Date ? p.t.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : p.t);
+  // helper: extract HH:MM from ISO-local string like 2025-11-26T06:00:00+08:00
+  function timeFromISO(iso){
+    try{
+      const m = iso.match(/T(\d{2}:\d{2})/);
+      if (m && m[1]) return m[1];
+      // fallback: create Date and format (may show user's local tz)
+      const d = new Date(iso);
+      return d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    }catch(e){ return iso; }
+  }
+
+  const labels = points.map(p => {
+    if (typeof p.t === 'string') return timeFromISO(p.t);
+    if (p.t instanceof Date) return p.t.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    return String(p.t);
+  });
   const temps = points.map(p => p.temp == null ? NaN : p.temp);
   const prec = points.map(p => p.precip == null ? 0 : p.precip);
 
