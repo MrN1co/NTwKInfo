@@ -291,6 +291,20 @@ body {
   object-fit: contain;         /* zachowuje proporcje */
 }
 
+/* Spinner wyświetlany podczas ładowania obrazka wykresu */
+.chart-spinner{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  z-index: 10;
+}
+
 /* strzałki nawigacji */
 
 .chart-nav {

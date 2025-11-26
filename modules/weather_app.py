@@ -14,6 +14,7 @@ from email.mime.text import MIMEText
 
 from flask import Blueprint, request, jsonify, render_template, send_file, abort
 from dotenv import load_dotenv
+import time
 
 load_dotenv()
 
@@ -21,6 +22,28 @@ my_email = os.environ.get("MY_EMAIL")
 password = os.environ.get("EMAIL_PASSW")
 
 weather_bp = Blueprint('weather', __name__)
+
+# Prosty lokalny cache dla wyników zapytań do OpenWeather
+# Klucz: string, wartość: (timestamp_seconds, data)
+_OW_CACHE = {}
+# TTL cache w sekundach
+_OW_CACHE_TTL = 60  # 1 minuta
+
+def _cache_get(key):
+    rec = _OW_CACHE.get(key)
+    if not rec:
+        return None
+    ts, data = rec
+    if time.time() - ts > _OW_CACHE_TTL:
+        try:
+            del _OW_CACHE[key]
+        except KeyError:
+            pass
+        return None
+    return data
+
+def _cache_set(key, data):
+    _OW_CACHE[key] = (time.time(), data)
 
 # ======================= WYSYŁANIE MAILI =======================
 def send_snow_alert(users_address):
@@ -64,9 +87,27 @@ def fetch_daily_forecast(lat: float, lon: float, cnt: int = 7, units: str = "met
         "units": units,
         "lang": "pl",
     }
-    resp = requests.get(DAILY_URL, params=params, timeout=10)
-    resp.raise_for_status()
-    return resp.json()
+    # Spróbuj pobrać z cache
+    key = f"daily:{lat}:{lon}:{cnt}:{units}"
+    cached = _cache_get(key)
+    if cached is not None:
+        return cached
+
+    try:
+        resp = requests.get(DAILY_URL, params=params, timeout=10)
+        resp.raise_for_status()
+        data = resp.json()
+        _cache_set(key, data)
+        return data
+    except requests.HTTPError as e:
+        body = None
+        try:
+            body = resp.text
+        except Exception:
+            body = None
+        raise requests.HTTPError(f"HTTP {resp.status_code} from OpenWeather: {body}") from e
+    except requests.RequestException as e:
+        raise
 
 
 def normalize_forecast(raw: dict) -> dict:
@@ -125,9 +166,27 @@ def fetch_hourly_forecast(lat: float, lon: float, units: str = "metric") -> dict
         "appid": get_api_key(),
         "units": units,
     }
-    resp = requests.get(HOURLY_URL, params=params, timeout=10)
-    resp.raise_for_status()
-    return resp.json()
+    # Cache results briefly to avoid repeated external calls when user refreshuje
+    key = f"hourly:{lat}:{lon}:{units}"
+    cached = _cache_get(key)
+    if cached is not None:
+        return cached
+
+    try:
+        resp = requests.get(HOURLY_URL, params=params, timeout=10)
+        resp.raise_for_status()
+        data = resp.json()
+        _cache_set(key, data)
+        return data
+    except requests.HTTPError as e:
+        body = None
+        try:
+            body = resp.text
+        except Exception:
+            body = None
+        raise requests.HTTPError(f"HTTP {resp.status_code} from OpenWeather: {body}") from e
+    except requests.RequestException:
+        raise
 
 
 def get_hourly_window(lat: float, lon: float, day_offset: int = 0):
@@ -254,6 +313,64 @@ def api_geocode():
         return jsonify(resp.json())
     except requests.RequestException as e:
         return jsonify({"error": "Błąd sieci podczas geokodowania", "details": str(e)}), 502
+    except Exception as e:
+        return jsonify({"error": "Błąd backendu", "details": str(e)}), 500
+
+
+# --------- API: godzinowa prognoza (JSON) ---------
+
+@weather_bp.get("/api/hourly")
+def api_hourly():
+    """GET /api/hourly?lat=...&lon=...&day=0  -> zwraca listę punktów godzinowych dla wykresu
+
+    Każdy punkt: { dt: ISO-string (lokalny czas miasta), temp: float, precip_mm: float }
+    """
+    lat_param = request.args.get("lat")
+    lon_param = request.args.get("lon")
+    day_param = request.args.get("day", default="0")
+
+    try:
+        lat = float(lat_param) if lat_param is not None else DEFAULT_LAT
+        lon = float(lon_param) if lon_param is not None else DEFAULT_LON
+    except (TypeError, ValueError):
+        return jsonify({"error": "Błędne lat/lon"}), 400
+
+    try:
+        day_offset = int(day_param)
+    except ValueError:
+        day_offset = 0
+
+    if day_offset < 0:
+        day_offset = 0
+    if day_offset > 4:
+        day_offset = 4
+
+    try:
+        # zwróć punkty godzinowe (datetimes w UTC tz-aware)
+        points = get_hourly_window(lat, lon, day_offset=day_offset)
+
+        # Dla poprawnego wyświetlania czasu skonwertuj do strefy miasta
+        raw = fetch_hourly_forecast(lat, lon, units="metric")
+        tz_offset = raw.get("city", {}).get("timezone", 0)
+        target_tz = timezone(timedelta(seconds=tz_offset))
+
+        out = []
+        for p in points:
+            dt_local = p["dt"].astimezone(target_tz)
+            out.append({
+                "dt": dt_local.isoformat(),
+                "temp": p.get("temp"),
+                "precip_mm": p.get("precip_mm"),
+            })
+
+        return jsonify({"points": out, "tz_offset": tz_offset})
+    except requests.HTTPError as e:
+        body = None
+        try:
+            body = str(e)
+        except Exception:
+            body = None
+        return jsonify({"error": "Błąd OpenWeather", "details": body}), 502
     except Exception as e:
         return jsonify({"error": "Błąd backendu", "details": str(e)}), 500
 

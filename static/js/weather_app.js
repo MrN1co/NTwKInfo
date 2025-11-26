@@ -81,6 +81,56 @@ const currentCoords = {
   lon: 19.9450,
 };
 
+// CACHE: localStorage TTL (ms)
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minut
+
+function cacheKeyFor(lat, lon, label){
+  if (label) return `forecast_label_${label}`;
+  return `forecast_${lat}_${lon}`;
+}
+
+function getCachedForecast(key){
+  try{
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    const obj = JSON.parse(raw);
+    if (!obj || !obj.ts) return null;
+    if (Date.now() - obj.ts > CACHE_TTL_MS) {
+      localStorage.removeItem(key);
+      return null;
+    }
+    return obj.data;
+  }catch(e){
+    return null;
+  }
+}
+
+function setCachedForecast(key, data){
+  try{
+    const obj = { ts: Date.now(), data };
+    localStorage.setItem(key, JSON.stringify(obj));
+  }catch(e){ /* ignore */ }
+}
+
+// Cache for hourly JSON (short TTL)
+const HOURLY_CACHE_TTL = 30 * 1000; // 30s
+function hourlyCacheKey(lat, lon, day){
+  return `hourly_${lat}_${lon}_${day}`;
+}
+function getCachedHourly(key){
+  try{
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    const obj = JSON.parse(raw);
+    if (!obj || !obj.ts) return null;
+    if (Date.now() - obj.ts > HOURLY_CACHE_TTL) { localStorage.removeItem(key); return null; }
+    return obj.data;
+  }catch(e){ return null; }
+}
+function setCachedHourly(key, data){
+  try{ localStorage.setItem(key, JSON.stringify({ ts: Date.now(), data })); }catch(e){}
+}
+
 // nazwa miasta
 let currentCity = "Kraków";
 
@@ -141,6 +191,14 @@ function renderForecast(data) {
     $("#currentIcon").removeAttribute("src");
     $("#currentIcon").alt = "";
   }
+
+  // Preload ikon dla wszystkich dni, aby zmniejszyć opóźnienia przy ładowaniu obrazków
+  data.days.forEach(d => {
+    if (d.icon){
+      const img = new Image();
+      img.src = iconUrl(d.icon);
+    }
+  });
 
   // Pasek 7-dniowej prognozy
   renderForecastStrip(data.days);
@@ -288,16 +346,35 @@ function updateForecastStripActive() {
 
 // Domyślna lokalizacja (bez parametrów -> Kraków po stronie backendu)
 async function loadDefault() {
+  const key = cacheKeyFor(currentCoords.lat, currentCoords.lon, null);
+  const cached = getCachedForecast(key);
+  if (cached){
+    try{ renderForecast(cached); }catch(e){ console.warn('Cached render failed', e); }
+    // fetch fresh in background
+    fetchForecast().then((fresh)=>{ setCachedForecast(key, fresh); renderForecast(fresh); }).catch(()=>{});
+    return;
+  }
+
   const data = await fetchForecast();
+  setCachedForecast(key, data);
   renderForecast(data);
 }
 
 // Ładowanie na podstawie wpisanej nazwy miasta
 async function loadByCityName(name) {
   const place = await geocodeCity(name);
-
   const cityName = place.local_names?.pl || place.name;
+  const key = cacheKeyFor(place.lat, place.lon, cityName);
+  const cached = getCachedForecast(key);
+  if (cached){
+    try{ renderForecast(cached); }catch(e){ console.warn('Cached render failed', e); }
+    // refresh in background
+    fetchForecast(place.lat, place.lon, cityName).then((fresh)=>{ setCachedForecast(key, fresh); renderForecast(fresh); }).catch(()=>{});
+    return;
+  }
+
   const data = await fetchForecast(place.lat, place.lon, cityName);
+  setCachedForecast(key, data);
   renderForecast(data);
 }
 
@@ -391,15 +468,111 @@ function updateChartTitle(dayOffset) {
 
 // Wstawia poprawny src do <img id="chartImg">
 function updateChart() {
+  const canvas = document.getElementById('chartCanvas');
   const img = $("#chartImg");
-  if (!img) return;
-
   const { lat, lon } = currentCoords;
 
-  // Wywołaj endpoint z blueprintem '/weather' (route zdefiniowana w modules/weather_app.py)
-  img.src = `/weather/plot.png?lat=${lat}&lon=${lon}&day=${chartDayOffset}&_=${Date.now()}`;
+  // Prefer client-side chart using hourly JSON endpoint (faster perception)
+  if (canvas && window.Chart) {
+    canvas.style.display = 'block';
+    if (img) img.style.display = 'none';
+    const hourlyKey = hourlyCacheKey(lat, lon, chartDayOffset);
+    const cached = getCachedHourly(hourlyKey);
+    if (cached){
+      try{
+        const pts = (cached.points || []).map(p => ({ t: new Date(p.dt), temp: p.temp, precip: p.precip_mm }));
+        renderChartFromPoints(pts);
+      }catch(e){ console.warn('Render from hourly cache failed', e); }
+      // refresh in background
+      fetch(`/weather/api/hourly?lat=${lat}&lon=${lon}&day=${chartDayOffset}`)
+        .then(async (res)=>{ if (!res.ok) throw new Error(await res.text()); return res.json(); })
+        .then(json=>{ setCachedHourly(hourlyKey, json); const pts=(json.points||[]).map(p=>({ t:new Date(p.dt), temp:p.temp, precip:p.precip_mm })); renderChartFromPoints(pts); })
+        .catch(err=>{ console.warn('Hourly refresh failed', err); });
+    } else {
+      fetch(`/weather/api/hourly?lat=${lat}&lon=${lon}&day=${chartDayOffset}`)
+        .then(async (res) => {
+          if (!res.ok) throw new Error(await res.text());
+          return res.json();
+        })
+        .then((json) => {
+          setCachedHourly(hourlyKey, json);
+          const pts = (json.points || []).map(p => ({
+            t: new Date(p.dt),
+            temp: p.temp,
+            precip: p.precip_mm
+          }));
+          renderChartFromPoints(pts);
+        })
+        .catch((err) => {
+          // fallback: load server-generated PNG without spinner
+          console.warn('Hourly JSON failed, falling back to PNG:', err);
+          if (canvas) canvas.style.display = 'none';
+          if (img) {
+            const src = `/weather/plot.png?lat=${lat}&lon=${lon}&day=${chartDayOffset}&_=${Date.now()}`;
+            img.style.display = 'block';
+            img.src = src;
+          }
+        });
+    }
+  } else {
+    // no Chart.js available: use PNG fallback
+    if (canvas) canvas.style.display = 'none';
+    if (img) { img.style.display = 'block'; img.src = `/weather/plot.png?lat=${lat}&lon=${lon}&day=${chartDayOffset}&_=${Date.now()}`; }
+  }
 
   updateChartTitle(chartDayOffset);
+}
+
+// Chart.js instance
+let chartInstance = null;
+
+function renderChartFromPoints(points){
+  const ctx = document.getElementById('chartCanvas').getContext('2d');
+  const labels = points.map(p => p.t instanceof Date ? p.t.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : p.t);
+  const temps = points.map(p => p.temp == null ? NaN : p.temp);
+  const prec = points.map(p => p.precip == null ? 0 : p.precip);
+
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        type: 'line',
+        label: 'Temperatura (°C)',
+        data: temps,
+        borderColor: '#2B7A78',
+        backgroundColor: 'rgba(43,122,120,0.08)',
+        yAxisID: 'y1',
+        tension: 0.3,
+        pointRadius: 3,
+      },
+      {
+        type: 'bar',
+        label: 'Opady (mm)',
+        data: prec,
+        backgroundColor: 'rgba(138,162,74,0.7)',
+        yAxisID: 'y2',
+      }
+    ]
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: { grid: { display: false } },
+      y1: { type: 'linear', position: 'left', title: { display: true, text: '°C' } },
+      y2: { type: 'linear', position: 'right', title: { display: true, text: 'mm' }, grid: { drawOnChartArea: false } }
+    },
+    plugins: { legend: { display: true } }
+  };
+
+  if (chartInstance) {
+    chartInstance.data = data;
+    chartInstance.options = options;
+    chartInstance.update();
+  } else {
+    chartInstance = new Chart(ctx, { data, options });
+  }
 }
 
 // Obsługa przycisków ‹ i ›
