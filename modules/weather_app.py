@@ -47,7 +47,6 @@ DEFAULT_LON = 19.9450
 
 def get_api_key(): # nie działa pobieranie api key z .env więc trzeba wstawić na sztywno
     """Pobierz API key dynamicznie z zmiennych środowiskowych"""
-    api_key = '3c4d926e6a63030571954b43415a7367' #os.getenv("OPENWEATHER_APPID")
     if not api_key:
         raise RuntimeError("Ustaw OPENWEATHER_APPID w pliku .env")
     print("API Key:", api_key)
@@ -375,6 +374,3 @@ def plot_png():
     buf.seek(0)
 
     return send_file(buf, mimetype="image/png")
-
-
-
