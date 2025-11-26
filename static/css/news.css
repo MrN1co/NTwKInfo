@@ -46,6 +46,173 @@
     background-color: var(--color-secondary);
 }
 
+/* --- TABELE SPORTOWE --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    margin: 30px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(72, 92, 17, 0.1);
+}
+
+table thead {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+table thead th {
+    padding: 16px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #e0e0e0;
+    transition: background-color 0.2s ease;
+}
+
+table tbody tr:hover {
+    background-color: #f5f9f0;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #fafbf8;
+}
+
+table tbody td {
+    padding: 14px 12px;
+    font-size: 0.95rem;
+}
+
+table tbody td img {
+    vertical-align: middle;
+    margin-right: 8px;
+    border-radius: 4px;
+}
+
+table h2 {
+    color: var(--color-primary);
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+}
+
+/* Formularz wyboru */
+form {
+    display: flex;
+    gap: 20px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+form label {
+    font-weight: 600;
+    color: #333;
+}
+
+form select {
+    padding: 10px 12px;
+    border: 2px solid var(--color-primary);
+    border-radius: 6px;
+    background-color: white;
+    color: #333;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+form select:hover {
+    border-color: var(--color-secondary);
+}
+
+form select:focus {
+    outline: none;
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 6px rgba(72, 92, 17, 0.2);
+}
+
+/* --- RESPONSYWNOŚĆ --- */
+
+/* TABLETY */
+@media (max-width: 1024px) {
+    table {
+        font-size: 0.85rem;
+    }
+
+    table thead th {
+        padding: 12px 8px;
+        font-size: 0.85rem;
+    }
+
+    table tbody td {
+        padding: 10px 8px;
+        font-size: 0.85rem;
+    }
+
+    form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    form label {
+        margin-bottom: 4px;
+    }
+
+    form select {
+        width: 100%;
+    }
+}
+
+/* TELEFONY */
+@media (max-width: 768px) {
+    table {
+        font-size: 0.75rem;
+        margin: 20px 0;
+    }
+
+    table thead th {
+        padding: 10px 6px;
+        font-size: 0.7rem;
+    }
+
+    table tbody td {
+        padding: 8px 6px;
+        font-size: 0.75rem;
+    }
+
+    table tbody td img {
+        width: 24px;
+        height: 24px;
+        margin-right: 4px;
+    }
+
+    form {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    form label {
+        margin-bottom: 4px;
+        font-size: 0.9rem;
+    }
+
+    form select {
+        width: 100%;
+        font-size: 0.9rem;
+    }
+
+    table h2 {
+        font-size: 1.1rem;
+        margin-top: 25px;
+        margin-bottom: 15px;
+    }
+}
+
 /* Strony news ZAWSZE muszą być scrollowalne */
 /* Reguły ogólne (wszystkie rozmiary ekranów) */
 body.news-page {
@@ -128,7 +295,7 @@ body.news-page .main-content {
     border-bottom: none;
 }
 
-/* Timestamp wiadomości */
+/* Timestamp wiadomo\u015bci */
 .news-timestamp {
     color: #666;
     font-size: 0.85rem;
@@ -136,7 +303,6 @@ body.news-page .main-content {
     font-style: italic;
 }
 
-/* Obrazki wiadomości */
 .news-image {
     max-width: 100%;
     height: auto;
@@ -145,16 +311,173 @@ body.news-page .main-content {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+/* --- LAYOUT: WIELE WIADOMOŚCI W WIERSZU --- */
+.news-container {
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Na dużych ekranach: 2 wiadomości obok siebie */
+@media (min-width: 1025px) {
+    .news-container {
+        flex-direction: row;
+    }
+
+    .news-container h1 {
+        width: 100%;
+        flex-basis: 100%;
+    }
+
+    .news-container .info {
+        width: 100%;
+        flex-basis: 100%;
+    }
+
+    .news-container .tag-filters {
+        width: 100%;
+        flex-basis: 100%;
+    }
+
+    .news-item {
+        flex: 1 1 calc(50% - 10px);
+        min-width: 0;
+    }
+}
+
+.news-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    align-items: flex-start;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+/* Na telefonach: 1 wiadomość w wierszu */
+@media (max-width: 1024px) {
+    .news-container {
+        flex-direction: column;
+    }
+
+    .news-item {
+        flex: 1 1 100%;
+    }
+}
+
+}
 
 .news-image-placeholder {
     width: 100%;
+    max-width: 250px;
     height: 200px;
+    background-color: #f0f0f0;
     display: flex;
-    align-items: center;
     justify-content: center;
-    background-color: #f5f5f5;
+    align-items: center;
     color: #999;
-    font-style: italic;
+    font-size: 14px;
     border-radius: 8px;
-    margin: 15px 0;
+}
+
+/* Tekst po prawej */
+.news-content {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.news-title {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.news-title a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.news-title a:hover {
+    color: var(--color-primary);
+}
+
+.news-link {
+    color: #333;
+    text-decoration: none;
+}
+
+.news-link:hover {
+    color: var(--color-primary);
+}
+
+.news-meta {
+    margin-top: auto;
+    font-size: 0.9rem;
+}
+
+.news-meta a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.news-meta a:hover {
+    color: var(--color-secondary);
+}
+
+/* --- RESPONSIVE: TABLETY --- */
+@media (max-width: 1024px) {
+    .news-item {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .news-image {
+        max-width: 100%;
+        height: 220px;
+    }
+
+    .news-image-placeholder {
+        max-width: 100%;
+        height: 220px;
+    }
+
+    .news-title {
+        font-size: 1rem;
+    }
+}
+
+/* --- RESPONSIVE: TELEFONY --- */
+@media (max-width: 768px) {
+    .news-item {
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .news-image {
+        max-width: 100%;
+        height: 180px;
+    }
+
+    .news-image-placeholder {
+        max-width: 100%;
+        height: 180px;
+    }
+
+    .news-title {
+        font-size: 0.95rem;
+        margin-bottom: 8px;
+    }
+
+    .news-content {
+        padding: 0;
+    }
 }

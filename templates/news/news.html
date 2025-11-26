@@ -26,17 +26,14 @@
             {% if item.date %}
             <div class="news-timestamp">{{ item.date }}</div>
             {% endif %}
-            
             {% if item.image %}
                 {% set proxy_url = url_for('tables.image_proxy', url=item.image) if 'policja.gov.pl' in item.image else item.image %}
                 {% if item.link %}
                     <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">
                         <img src="{{ proxy_url }}" alt="{{ item.title }}" class="news-image" onerror="this.style.display='none'; this.parentElement.nextElementSibling.style.display='flex';">
                     </a>
-                    <div class="news-image-placeholder" style="display: none;">Brak obrazka</div>
                 {% else %}
                     <img src="{{ proxy_url }}" alt="{{ item.title }}" class="news-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="news-image-placeholder" style="display: none;">Brak obrazka</div>
                 {% endif %}
             {% else %}
                 <div class="news-image-placeholder">Brak obrazka</div>
@@ -48,6 +45,9 @@
                         {{ item.title }}
                     </a>
                 </h2>
+                {% if item.date %}
+                <p class="update-time">{{ item.date }}</p>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
