@@ -4,11 +4,13 @@ from modules.ekonomia.klasy_api_obsluga.Manager import Manager
 import io
 import base64
 import matplotlib
+
 # Use non-interactive Agg backend for server-side image generation
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import modules.ekonomia.api_testy as api_testy
+from modules.ekonomia import fetch_nbp
 from datetime import datetime, timedelta
 import os
 from urllib.parse import quote_plus
@@ -33,6 +35,10 @@ def generate_plot(color='#c2c9b6', title='Widok w skali roku'):
 
 def ekonomia():
     """Main economy module handler"""
+    
+    # aktualizacja JSON-ów przy starcie
+    fetch_nbp.run_update()
+    
     # Static exchange rates for main currencies
     kurs_walut = {
         'EUR': 4.24,
