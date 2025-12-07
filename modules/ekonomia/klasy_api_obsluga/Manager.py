@@ -51,7 +51,7 @@ class Manager:
         codes = sorted({e['code'].upper() for e in entries})
         return codes
 
-    def create_plot_image(self, df, x_col='date', y_col='price', title=None, color='#fbc531', y_label=None):
+    def create_plot_image(self, df, x_col='date', y_col='price', title=None, color='#fbc531', y_label=None, x_label='Date'):
         """
         Create plot from DataFrame and return base64-encoded PNG image.
         Useful for creating historical charts (e.g. gold prices) from API data.
@@ -82,7 +82,7 @@ class Manager:
         ax.plot(x, y, color=color, linewidth=2)
         # Apply consistent styling
         ax.tick_params(colors='#2B370A')
-        ax.set_xlabel('Date', color='#2B370A')
+        ax.set_xlabel(x_label, color='#2B370A')
         # Set y-label based on column type
         if y_label:
             ax.set_ylabel(y_label, color='#2B370A')

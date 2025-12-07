@@ -1,31 +1,38 @@
-(function() {
+(function () {
     // run after DOM ready to ensure elements exist
     function init() {
-        const RATES = (window.ECON_DATA && window.ECON_DATA.currency_rates) || {};
+        const RATES =
+            (window.ECON_DATA && window.ECON_DATA.currency_rates) || {};
 
-        const amountEl = document.getElementById('amount');
-        const fromEl = document.getElementById('currency-from');
-        const toEl = document.getElementById('currency-to');
-        const resultEl = document.getElementById('result');
+        const amountEl = document.getElementById("amount");
+        const fromEl = document.getElementById("currency-from");
+        const toEl = document.getElementById("currency-to");
+        const resultEl = document.getElementById("result");
 
         // Formatowanie wyniku: zawsze 2 miejsca po przecinku (zaokrąglone)
-        const PL_FORMATTER = new Intl.NumberFormat('pl-PL', {
+        const PL_FORMATTER = new Intl.NumberFormat("pl-PL", {
             minimumFractionDigits: 2,
-            maximumFractionDigits: 2
+            maximumFractionDigits: 2,
         });
 
         function compute() {
             const raw = amountEl.value.trim();
-            if (raw === '') { resultEl.value = ''; return; }
+            if (raw === "") {
+                resultEl.value = "";
+                return;
+            }
 
             const hasTrailingSep = /[.,]$/.test(raw);
-            const normalized = raw.replace(',', '.');
+            const normalized = raw.replace(",", ".");
             const a = parseFloat(normalized);
 
-            if (isNaN(a)) { resultEl.value = ''; return; }
+            if (isNaN(a)) {
+                resultEl.value = "";
+                return;
+            }
 
-            const from = fromEl.value || 'PLN';
-            const to = toEl.value || 'PLN';
+            const from = fromEl.value || "PLN";
+            const to = toEl.value || "PLN";
 
             const rateFrom = RATES[from] !== undefined ? RATES[from] : 1;
             const rateTo = RATES[to] !== undefined ? RATES[to] : 1;
@@ -38,8 +45,8 @@
             let formatted = PL_FORMATTER.format(rounded);
             if (hasTrailingSep) {
                 // Only append a trailing comma when the formatted value has no decimal separator yet.
-                if (!formatted.includes(',')) {
-                    formatted = formatted + ',';
+                if (!formatted.includes(",")) {
+                    formatted = formatted + ",";
                 }
             }
 
@@ -56,42 +63,51 @@
             const hadTrailingSep = /[.,]$/.test(raw);
 
             // remove any characters except digits and separators
-            let s = raw.replace(/[^0-9.,]/g, '');
+            let s = raw.replace(/[^0-9.,]/g, "");
 
             // normalize commas to dot for processing
-            let normalized = s.replace(/,/g, '.');
+            let normalized = s.replace(/,/g, ".");
 
             // keep only the first dot, remove further dots
-            const firstDot = normalized.indexOf('.');
+            const firstDot = normalized.indexOf(".");
             if (firstDot !== -1) {
-                normalized = normalized.slice(0, firstDot + 1) + normalized.slice(firstDot + 1).replace(/\./g, '');
+                normalized =
+                    normalized.slice(0, firstDot + 1) +
+                    normalized.slice(firstDot + 1).replace(/\./g, "");
             }
 
             // limit to two decimal places if dot present
-            if (normalized.indexOf('.') !== -1) {
-                const [intPart, decPart = ''] = normalized.split('.');
+            if (normalized.indexOf(".") !== -1) {
+                const [intPart, decPart = ""] = normalized.split(".");
                 const dec = decPart.slice(0, 2);
                 // if user had trailing separator, keep a trailing dot to indicate they typed it
-                normalized = intPart + (dec.length > 0 ? '.' + dec : (hadTrailingSep ? '.' : ''));
+                normalized =
+                    intPart +
+                    (dec.length > 0 ? "." + dec : hadTrailingSep ? "." : "");
             }
 
             // Enforce total digits (integer + fractional) <= MAX_DIGITS
             // Remove extra digits from the end while preserving the dot.
-            const digitsOnly = normalized.replace(/[^0-9]/g, '');
+            const digitsOnly = normalized.replace(/[^0-9]/g, "");
             if (digitsOnly.length > MAX_DIGITS) {
                 let over = digitsOnly.length - MAX_DIGITS;
                 // Remove last 'over' digit characters from normalized
                 while (over > 0) {
                     let lastIndex = -1;
                     for (let i = normalized.length - 1; i >= 0; i--) {
-                        if (/\d/.test(normalized[i])) { lastIndex = i; break; }
+                        if (/\d/.test(normalized[i])) {
+                            lastIndex = i;
+                            break;
+                        }
                     }
                     if (lastIndex === -1) break;
-                    normalized = normalized.slice(0, lastIndex) + normalized.slice(lastIndex + 1);
+                    normalized =
+                        normalized.slice(0, lastIndex) +
+                        normalized.slice(lastIndex + 1);
                     over--;
                 }
                 // If result ends with a dot and it wasn't intended as trailing sep, keep it only if hadTrailingSep
-                if (normalized.endsWith('.') && !hadTrailingSep) {
+                if (normalized.endsWith(".") && !hadTrailingSep) {
                     normalized = normalized.slice(0, -1);
                 }
             }
@@ -100,23 +116,29 @@
             amountEl.value = normalized;
         }
 
-        if (amountEl) amountEl.addEventListener('input', function () { enforceTwoDecimals(); compute(); });
-        if (fromEl) fromEl.addEventListener('change', compute);
-        if (toEl) toEl.addEventListener('change', compute);
+        if (amountEl)
+            amountEl.addEventListener("input", function () {
+                enforceTwoDecimals();
+                compute();
+            });
+        if (fromEl) fromEl.addEventListener("change", compute);
+        if (toEl) toEl.addEventListener("change", compute);
 
         // Optional: button to trigger compute for users who click it
-        document.querySelectorAll('.calc-box .btn').forEach(btn => btn.addEventListener('click', compute));
+        document
+            .querySelectorAll(".calc-box .btn")
+            .forEach((btn) => btn.addEventListener("click", compute));
 
         // swap handler
-        const swapBtn = document.getElementById('swap-btn');
+        const swapBtn = document.getElementById("swap-btn");
         if (swapBtn) {
-            swapBtn.addEventListener('click', function() {
+            swapBtn.addEventListener("click", function () {
                 const valFrom = fromEl.value;
                 const valTo = toEl.value;
 
                 // helper: ensure select contains option with given value
                 function ensureOption(sel, val) {
-                    if (val === undefined || val === null || val === '') return;
+                    if (val === undefined || val === null || val === "") return;
                     for (let i = 0; i < sel.options.length; i++) {
                         if (sel.options[i].value === val) return;
                     }
@@ -142,9 +164,48 @@
         compute();
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
+    // Dynamic currency chart loading
+    function setupChartLoader() {
+        const toEl = document.getElementById("currency-to");
+        const chartImg = document.querySelector(".currency-chart");
+
+        if (!toEl || !chartImg) return;
+
+        toEl.addEventListener("change", function () {
+            const currency = toEl.value;
+
+            // Show loading state
+            chartImg.style.opacity = "0.5";
+
+            // Fetch new chart
+            fetch(`/ekonomia/chart/${currency}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success && data.chart) {
+                        chartImg.src = `data:image/png;base64,${data.chart}`;
+                        chartImg.style.opacity = "1";
+                    } else {
+                        alert(
+                            data.message || `Brak danych dla waluty ${currency}`
+                        );
+                        chartImg.style.opacity = "1";
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error loading chart:", error);
+                    alert("Błąd podczas ładowania wykresu");
+                    chartImg.style.opacity = "1";
+                });
+        });
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function () {
+            init();
+            setupChartLoader();
+        });
     } else {
         init();
+        setupChartLoader();
     }
 })();

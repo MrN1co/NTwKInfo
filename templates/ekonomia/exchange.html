@@ -1,124 +1,168 @@
-{% extends 'base.html' %}
-
-{% block title %}NTWKInfo - Bądź na czasie{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %}NTWKInfo - Bądź na czasie{% endblock
+%} {% block content %}
 
 <html lang="pl">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kursy walut i złota</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Kursy walut i złota</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bootstrap CSS -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
 
-    <!-- custom bootstrap-themed styles -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/ekonomia.css') }}" />
-</head>
-<body>
-<!-- DODAJ ODSTĘP POD NAVBAREM, ŻEBY NIE ZACHODZIŁ NA TREŚĆ -->
-<div class="container py-4">
-    <h1 class="mb-4 header-title">💱 Kursy walut i cena złota</h1>
+        <!-- custom bootstrap-themed styles -->
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/ekonomia.css') }}"
+        />
+    </head>
+    <body>
+        <!-- DODAJ ODSTĘP POD NAVBAREM, ŻEBY NIE ZACHODZIŁ NA TREŚĆ -->
+        <div class="container py-4">
+            <h1 class="mb-4 header-title">💱 Kursy walut i cena złota</h1>
 
-    <!-- Currency row: use Bootstrap row/cols but keep currency-box classes for CSS -->
-<div class="currency-scroll">
-    {% for waluta, kurs in kurs_walut.items() %}
-    <div class="currency-item">
-        <div class="card currency-box">
-            <div class="card-body text-center">
-                <div class="currency-title">{{ waluta }} to PLN</div>
-                <div class="currency-value">{{ "%.2f" | format(kurs) }} zł</div>
+            <!-- Currency row: use Bootstrap row/cols but keep currency-box classes for CSS -->
+            <div class="currency-scroll">
+                {% for waluta, kurs in kurs_walut.items() %}
+                <div class="currency-item">
+                    <div class="card currency-box">
+                        <div class="card-body text-center">
+                            <div class="currency-title">
+                                {{ waluta }} na PLN
+                            </div>
+                            <div class="currency-value">
+                                {{ "%.2f" | format(kurs) }} zł
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <h2 class="mt-4 calc-heading">Kalkulator walut</h2>
+
+            <!-- Calculator: Bootstrap layout, keeps original client-side logic -->
+            <div
+                class="d-flex flex-column flex-md-row align-items-center justify-content-center gap-4 calc-container mb-4"
+            >
+                <div class="calc-box p-3">
+                    <form class="d-flex align-items-center flex-wrap">
+                        <div class="d-flex flex-column me-3 input-column">
+                            <div class="input-group mb-2">
+                                <input
+                                    id="amount"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Kwota"
+                                    aria-label="Kwota"
+                                    inputmode="decimal"
+                                    pattern="[0-9]+([.,][0-9]+)?"
+                                />
+                            </div>
+                            <div class="input-group">
+                                <input
+                                    id="result"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Przeliczona"
+                                    aria-label="Wynik"
+                                    readonly
+                                />
+                            </div>
+                        </div>
+
+                        <div
+                            class="d-flex flex-column align-items-center currency-select-container"
+                        >
+                            <select
+                                id="currency-from"
+                                class="form-select mb-2 currency-select"
+                            >
+                                <!-- PLN jako opcja oraz lista z serwera -->
+                                <option value="PLN">PLN</option>
+                                {% for code in currency_codes %}
+                                <option value="{{ code }}">{{ code }}</option>
+                                {% endfor %}
+                            </select>
+                            <!-- clickable swap button -->
+                            <span id="swap-btn" role="button" title="Zamień">
+                                🔃
+                            </span>
+                            <select
+                                id="currency-to"
+                                class="form-select mt-2 currency-select"
+                            >
+                                <option value="EUR">EUR</option>
+                                {% for code in currency_codes %}
+                                <option value="{{ code }}">{{ code }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="text-center">
+                    <img
+                        src="data:image/png;base64,{{ wykres_waluty }}"
+                        alt="Wykres walut"
+                        class="currency-chart img-fluid"
+                    />
+                </div>
+            </div>
+
+            <h2 class="calc-heading">Cena złota dziś</h2>
+            <p class="gold-price">{{ cena_zlota }} [oz]</p>
+
+            <h2 class="mt-4 calc-heading">
+                Kurs złota [oz] - widok w skali roku
+            </h2>
+            <div class="d-flex justify-content-center mb-4">
+                <img
+                    src="data:image/png;base64,{{ wykres_zlota }}"
+                    alt="Wykres złota"
+                    class="gold-chart img-fluid gold-chart-container"
+                />
+            </div>
+
+            <!-- Wszystkie pozostałe waluty w tabeli -->
+            <h2 class="mt-4 calc-heading">Pozostałe kursy walut</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover currency-table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Kod waluty</th>
+                            <th scope="col">Kurs średni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for waluta, kurs in all_currencies_for_tiles.items()
+                        %}
+                        <tr>
+                            <td class="currency-code">1 {{ waluta }}</td>
+                            <td class="currency-rate">
+                                {{ "%.4f" | format(kurs) }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-    </div>
-    {% endfor %}
-</div>
 
+        <!-- expose server-side data to the static JS file -->
+        <script>
+            window.ECON_DATA = {
+                currency_rates: {{ currency_rates | tojson | safe }}
+            };
+        </script>
+        <script src="{{ url_for('static', filename='js/economic-calc.js') }}"></script>
 
-    <h2 class="mt-4 calc-heading">Kalkulator walut</h2>
-
-    <!-- Calculator: Bootstrap layout, keeps original client-side logic -->
-    <div class="d-flex flex-column flex-md-row align-items-center justify-content-center gap-4 calc-container mb-4">
-        <div class="calc-box p-3">
-            <form class="d-flex align-items-center flex-wrap">
-                <div class="d-flex flex-column me-3 input-column">
-                    <div class="input-group mb-2">
-                        <input id="amount" type="text" class="form-control" placeholder="Kwota" aria-label="Kwota"
-                               inputmode="decimal" pattern="[0-9]+([.,][0-9]+)?">
-                    </div>
-                    <div class="input-group">
-                        <input id="result" type="text" class="form-control" placeholder="Przeliczona" aria-label="Wynik" readonly>
-                    </div>
-                </div>
-
-                <div class="d-flex flex-column align-items-center currency-select-container">
-                    <select id="currency-from" class="form-select mb-2 currency-select">
-                        <!-- PLN jako opcja oraz lista z serwera -->
-                        <option value="PLN">PLN</option>
-                        {% for code in currency_codes %}
-                        <option value="{{ code }}">{{ code }}</option>
-                        {% endfor %}
-                    </select>
-                    <!-- clickable swap button -->
-                    <span id="swap-btn" role="button" title="Zamień">🔃</span>
-                    <select id="currency-to" class="form-select mt-2 currency-select">
-                        <option value="EUR">EUR</option>
-                        {% for code in currency_codes %}
-                        <option value="{{ code }}">{{ code }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-            </form>
-        </div>
-
-        <div class="text-center">
-            <img src="data:image/png;base64,{{ wykres_waluty }}" alt="Wykres walut" class="currency-chart img-fluid">
-        </div>
-    </div>
-
-    <h2 class="calc-heading">Cena złota dziś</h2>
-    <p class="gold-price">{{ cena_zlota }} [t oz]</p>
-
-    <h2 class="mt-4 calc-heading">Kurs złota [t oz] - widok w skali roku</h2>
-    <div class="d-flex justify-content-center mb-4">
-        <img src="data:image/png;base64,{{ wykres_zlota }}" alt="Wykres złota" class="gold-chart img-fluid gold-chart-container">
-    </div>
-
-    <!-- Wszystkie pozostałe waluty w tabeli -->
-    <h2 class="mt-4 calc-heading">Pozostałe kursy walut</h2>
-    <div class="table-responsive">
-        <table class="table table-striped table-hover currency-table">
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col">Kod waluty</th>
-                    <th scope="col">Kurs średni</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for waluta, kurs in all_currencies_for_tiles.items() %}
-                <tr>
-                    <td class="currency-code">1 {{ waluta }}</td>
-                    <td class="currency-rate">{{ "%.4f" | format(kurs) }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- expose server-side data to the static JS file -->
-<script>
-    window.ECON_DATA = {
-        currency_rates: {{ currency_rates | tojson | safe }}
-    };
-</script>
-<script src="{{ url_for('static', filename='js/economic-calc.js') }}"></script>
-
-<!-- Bootstrap JS bundle -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+        <!-- Bootstrap JS bundle -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
 </html>
 
 {% endblock %}
