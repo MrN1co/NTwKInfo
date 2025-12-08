@@ -449,6 +449,8 @@ function setupFavoriteButton() {
         });
         if (res.ok) {
           btn.classList.add("active");
+          // refresh favorites list UI
+          refreshFavorites().catch(()=>{});
         } else {
           const txt = await res.text();
           console.error('Add favorite failed', res.status, txt);
@@ -464,6 +466,8 @@ function setupFavoriteButton() {
         });
         if (res.ok) {
           btn.classList.remove("active");
+          // refresh favorites list UI
+          refreshFavorites().catch(()=>{});
         } else {
           const txt = await res.text();
           console.error('Remove favorite failed', res.status, txt);
@@ -474,6 +478,60 @@ function setupFavoriteButton() {
       console.error('Favorite request error', err);
       alert('Błąd sieci podczas operacji ulubionych.');
     }
+  });
+}
+
+// Fetch and render favorites list into #favoritesList
+async function refreshFavorites(){
+  try{
+    const res = await fetch('/weather/api/favorites', { credentials: 'same-origin' });
+    if (!res.ok) {
+      // not logged in or no favorites; show empty state
+      renderFavorites([]);
+      return;
+    }
+    const data = await res.json();
+    const favs = data.favorites || [];
+    renderFavorites(favs);
+  }catch(e){
+    console.warn('refreshFavorites failed', e);
+    renderFavorites([]);
+  }
+}
+
+function renderFavorites(favs){
+  const container = document.getElementById('favoritesList');
+  if (!container) return;
+  container.innerHTML = '';
+  if (!favs || favs.length === 0){
+    const row = document.createElement('div');
+    row.className = 'fav-row';
+    row.innerHTML = `<span class="fav-name">Brak zapisanych ulubionych lokalizacji</span><span class="fav-temp"></span>`;
+    container.appendChild(row);
+    return;
+  }
+
+  favs.forEach(f => {
+    const row = document.createElement('div');
+    row.className = 'fav-row';
+    const name = document.createElement('span');
+    name.className = 'fav-name';
+    name.textContent = f.city;
+    name.tabIndex = 0;
+    name.style.cursor = 'pointer';
+    name.addEventListener('click', () => {
+      // load forecast for this favorite
+      loadByCityName(f.city).catch(err=>{ console.error(err); alert('Nie udało się załadować miasta.'); });
+    });
+    name.addEventListener('keydown', (e)=>{ if (e.key==='Enter') name.click(); });
+
+    const temp = document.createElement('span');
+    temp.className = 'fav-temp';
+    temp.textContent = '';
+
+    row.appendChild(name);
+    row.appendChild(temp);
+    container.appendChild(row);
   });
 }
 
@@ -656,6 +714,14 @@ document.addEventListener("DOMContentLoaded", () => {
   setupSearch();
   setupFavoriteButton();
   setupChartNavigation();
+
+  // If page was rendered as logged-in, load favorites list
+  try{
+    const favBtn = document.getElementById('favoriteBtn');
+    if (favBtn && (favBtn.dataset.loggedin === '1' || favBtn.dataset.loggedIn === '1')){
+      refreshFavorites().catch(()=>{});
+    }
+  }catch(e){ }
 
   // Załaduj prognozę dla domyślnej lokalizacji i wykres
   loadDefault()

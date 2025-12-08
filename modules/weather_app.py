@@ -12,7 +12,7 @@ import numpy as np
 import smtplib
 from email.mime.text import MIMEText
 
-from flask import Blueprint, request, jsonify, render_template, send_file, abort
+from flask import Blueprint, request, jsonify, render_template, send_file, abort, session
 from flask_login import login_required, current_user
 from dotenv import load_dotenv
 from modules.database import Favorite
@@ -278,7 +278,17 @@ def get_hourly_window(lat: float, lon: float, day_offset: int = 0):
 
 @weather_bp.route("/pogoda")
 def weather_index():
-    # templates/main/weather_index.html
+    # Show a different template for authenticated users (contains favorites).
+    # Some installations use flask-login, others use a session-based auth
+    # (modules.auth sets `session['user_id']`). Check both.
+    try:
+        if (current_user and getattr(current_user, "is_authenticated", False)) or session.get("user_id"):
+            return render_template("weather/weather-login.html")
+    except Exception:
+        # If current_user is not available for some reason, fall back to session only
+        if session.get("user_id"):
+            return render_template("weather/weather-login.html")
+    # Default for anonymous users
     return render_template("weather/weather.html")
 
 
