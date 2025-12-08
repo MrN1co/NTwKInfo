@@ -15,39 +15,46 @@
 
   <!-- LOGOWANIE -->
   <div id="loginForm" class="auth-box">
-    <button class="auth-close">×</button>
-    <h2>Zaloguj się</h2>
-    <p class="auth-switch">Nie masz konta?
-      <a href="#" id="showRegister">Zarejestruj się</a>
-    </p>
+    <form method="post" action="{{ url_for('auth.login') }}">
+      <button type="button" class="auth-close">×</button>
+      <h2>Zaloguj się</h2>
+      <p class="auth-switch">Nie masz konta?
+        <a href="#" id="showRegister">Zarejestruj się</a>
+      </p>
 
-    <label>Adres email</label>
-    <input type="email" placeholder="Podaj email">
+      <label>Nazwa użytkownika lub email</label>
+      <input name="username" type="text" placeholder="Podaj nazwę użytkownika lub email" required>
 
-    <label>Hasło</label>
-    <input type="password" placeholder="Wpisz hasło">
+      <label>Hasło</label>
+      <input name="password" type="password" placeholder="Wpisz hasło" required>
 
-    <button class="auth-submit">Potwierdź ↗</button>
+      <button type="submit" class="auth-submit">Potwierdź ↗</button>
+    </form>
   </div>
 
   <!-- REJESTRACJA -->
   <div id="registerForm" class="auth-box hidden">
-    <button class="auth-close">×</button>
-    <h2>Zarejestruj się</h2>
-    <p class="auth-switch">Masz konto?
-      <a href="#" id="showLogin">Zaloguj się</a>
-    </p>
+    <form method="post" action="{{ url_for('auth.register') }}">
+      <button type="button" class="auth-close">×</button>
+      <h2>Zarejestruj się</h2>
+      <p class="auth-switch">Masz konto?
+        <a href="#" id="showLogin">Zaloguj się</a>
+      </p>
 
-    <label>Adres email</label>
-    <input type="email" placeholder="Podaj email">
+      <label>Nazwa użytkownika</label>
+      <input name="username" type="text" placeholder="Wybierz nazwę użytkownika" required>
 
-    <label>Hasło</label>
-    <input type="password" placeholder="Wpisz hasło">
+      <label>Adres email</label>
+      <input name="email" type="email" placeholder="Podaj email">
 
-    <label>Powtórz hasło</label>
-    <input type="password" placeholder="Powtórz hasło">
+      <label>Hasło</label>
+      <input name="password" type="password" placeholder="Wpisz hasło" required>
 
-    <button class="auth-submit">Potwierdź ↗</button>
+      <label>Powtórz hasło</label>
+      <input name="password_confirm" type="password" placeholder="Powtórz hasło">
+
+      <button type="submit" class="auth-submit">Potwierdź ↗</button>
+    </form>
   </div>
 
 </div>
@@ -62,7 +69,11 @@
         <a href="{{ url_for('main.weather') }}" class="{% if request.path == '/pogoda' %}active{% endif %}">Pogoda</a>
         <a href="{{ url_for('main.economy') }}" class="{% if request.path == '/ekonomia' %}active{% endif %}">Ekonomia</a>
       </nav>
-      <button class="header__cta-button">Zaloguj się</button>
+      {% if session.user_id %}
+        <a href="{{ url_for('main.dashboard') }}" class="header__user-button">{{ current_user.username }}</a>
+      {% else %}
+        <button class="header__cta-button">Zaloguj się</button>
+      {% endif %}
     </div>
   </header>
 
@@ -84,6 +95,7 @@
 <footer class="footer container-padding"><span>NTWKInfo 2025 © Wszystkie prawa zastrzeżone</span></footer>
 </script>
  <script src="{{ url_for('static', filename='js/script-auth.js') }}"></script>
+ <script src="{{ url_for('static', filename='js/auth-modal.js') }}"></script>
  {% block scripts %}{% endblock %}
 </body>
 </html>
