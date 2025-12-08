@@ -8,6 +8,7 @@ import os
 from dotenv import load_dotenv
 from modules.weather_app import weather_bp
 from flask_sqlalchemy import SQLAlchemy
+from modules.scheduler import init_scheduler
 import tests
 
 # Load environment variables from .env file
@@ -52,6 +53,9 @@ def create_app():
     # Create database tables
     with app.app_context():
         db.create_all()
+    
+    # Initialize background scheduler for daily alerts
+    init_scheduler(app)
     
     return app
 

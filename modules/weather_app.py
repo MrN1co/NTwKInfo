@@ -13,7 +13,6 @@ import smtplib
 from email.mime.text import MIMEText
 
 from flask import Blueprint, request, jsonify, render_template, send_file, abort, session
-from flask_login import login_required, current_user
 from dotenv import load_dotenv
 from modules.database import Favorite
 from modules.auth import api_login_required
@@ -51,10 +50,28 @@ def _cache_get(key):
 def _cache_set(key, data):
     _OW_CACHE[key] = (time.time(), data)
 
+
 # ======================= WYSYŁANIE MAILI =======================
-def send_snow_alert(users_addresses):
-    # users_addresses: iterable of strings (emails)
-    message_text = "Uwaga: dziś zapowiadane są opady. Sprawdź pogodę i przygotuj się."
+def send_favorite_cities_rain_alert(user_email, rainy_cities):
+    """
+    Wysyła e-mail z listą ulubionych miast, w których pada deszcz.
+    rainy_cities: lista miast (stringów) w których pada deszcz.
+    """
+    if not rainy_cities:
+        return  # Nie wysyłaj maila jeśli nie ma opadów w żadnym mieście
+    
+    cities_list = "\n".join([f"• {city}" for city in rainy_cities])
+    message_text = f"""Cześć!
+
+Dziś prognozowane są opady w Twoich ulubionych miastach:
+
+{cities_list}
+
+Pamiętaj, aby przygotować się i zabrać parsol!
+
+Pozdrawiamy,
+NTwKInfo
+"""
     msg = MIMEText(message_text, "plain", "utf-8")
     msg['Subject'] = "Alert pogodowy"
     msg['From'] = my_email
@@ -63,21 +80,11 @@ def send_snow_alert(users_addresses):
         with smtplib.SMTP("smtp.gmail.com", 587, timeout=20) as connection:
             connection.starttls()
             connection.login(user=my_email, password=password)
-            for to_addr in users_addresses:
-                try:
-                    connection.sendmail(from_addr=my_email, to_addrs=to_addr, msg=msg.as_string())
-                except Exception as e:
-                    # loguj błąd dla konkretnego adresu, ale kontynuuj
-                    print(f"Nie udało się wysłać do {to_addr}: {e}")
+            connection.sendmail(from_addr=my_email, to_addrs=user_email, msg=msg.as_string())
+            print(f"✓ Mail wysłany do {user_email} z alertem o opadach w {len(rainy_cities)} miastach.")
     except Exception as e:
-        print("Błąd połączenia SMTP:", e)
-        
-def _async_send(emails):
-    try:
-        send_snow_alert(emails)
-    except Exception as e:
-        # loguj błąd
-        print("Błąd wysyłania maili:", e)
+        print(f"✗ Błąd wysyłania maila do {user_email}: {e}")
+
 
 # --- ENDPOINTY OPENWEATHER ---
 
@@ -280,15 +287,9 @@ def get_hourly_window(lat: float, lon: float, day_offset: int = 0):
 @weather_bp.route("/pogoda")
 def weather_index():
     # Show a different template for authenticated users (contains favorites).
-    # Some installations use flask-login, others use a session-based auth
-    # (modules.auth sets `session['user_id']`). Check both.
-    try:
-        if (current_user and getattr(current_user, "is_authenticated", False)) or session.get("user_id"):
-            return render_template("weather/weather-login.html")
-    except Exception:
-        # If current_user is not available for some reason, fall back to session only
-        if session.get("user_id"):
-            return render_template("weather/weather-login.html")
+    # Session-based auth: modules.auth sets `session['user_id']`
+    if session.get("user_id"):
+        return render_template("weather/weather-login.html")
     # Default for anonymous users
     return render_template("weather/weather.html")
 
@@ -318,8 +319,8 @@ def api_forecast():
             if lat == DEFAULT_LAT and lon == DEFAULT_LON:
                 data["city"] = "Kraków"
         
+        # Sprawdzenie opadów na informacyjnym poziomie
         if data["days"] and data["days"][0].get("precip_mm", 0) > 0:
-            # Dziś zapowiadane są opady.
             print("Dziś zapowiadane są opady.")
         else:
             print("Dziś nie ma opadów.")
@@ -596,3 +597,65 @@ def plot_png():
     buf.seek(0)
 
     return send_file(buf, mimetype="image/png")
+
+
+# --------- TEST ENDPOINT: wysłanie maila testowego ---------
+
+@weather_bp.get("/api/test-email")
+@api_login_required
+def test_email():
+    """
+    Test endpoint: wysyła testowy email z opadami w ulubionych miastach.
+    GET /weather/api/test-email
+    """
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "not_authenticated"}), 401
+    
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "user_not_found"}), 404
+    
+    favs = Favorite.get_for_user(user_id)
+    if not favs:
+        return jsonify({"error": "no_favorites", "message": "Dodaj ulubione miasta aby testować"}), 400
+    
+    rainy_cities = []
+    
+    # Sprawdź opady dla każdego ulubionego miasta
+    for fav in favs:
+        try:
+            lat = fav.lat if fav.lat else DEFAULT_LAT
+            lon = fav.lon if fav.lon else DEFAULT_LON
+            
+            raw = fetch_daily_forecast(lat, lon, cnt=7, units="metric")
+            data = normalize_forecast(raw)
+            
+            # Sprawdzenie opadów na dzisiaj
+            if data["days"] and data["days"][0].get("precip_mm", 0) > 0:
+                rainy_cities.append(fav.city)
+        except Exception as e:
+            print(f"Błąd sprawdzania prognozy dla {fav.city}: {e}")
+            continue
+    
+    # Wyślij email testowy
+    try:
+        if rainy_cities:
+            send_favorite_cities_rain_alert(user.email, rainy_cities)
+            return jsonify({
+                "success": True,
+                "message": f"Email wysłany do {user.email}",
+                "rainy_cities": rainy_cities
+            })
+        else:
+            return jsonify({
+                "success": False,
+                "message": "Brak opadów w żadnym z ulubionych miast",
+                "checked_cities": [f.city for f in favs]
+            })
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e),
+            "message": "Błąd wysyłania emaila"
+        }), 500
