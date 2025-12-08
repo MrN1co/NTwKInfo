@@ -42,7 +42,10 @@ h1, h2, h3 {
     padding: 0 20px;
 }
 
-/* --- 2. NAGŁÓWEK --- */
+/* --- Utility Classes --- */
+.hidden {
+    display: none !important;
+}
 
 /* --- 2. NAGŁÓWEK --- */
 .header {
@@ -116,7 +119,9 @@ h1, h2, h3 {
   color: var(--color-text-secondary);
 }
 .calendar-icon {
-  width: 56px;
+  flex: 0 0 56px;
+  min-width: 56px;
+  max-width: 56px;
   height: 56px;
   border-radius: 8px;
   background: var(--color-primary);
@@ -167,6 +172,23 @@ h1, h2, h3 {
     font-size: 18px;
     border-radius: 8px;
     
+}
+
+.header__user-button {
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+    padding: 12px 20px;
+    font-family: var(--font-body);
+    font-size: 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s;
+}
+
+.header__user-button:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
 }
 
 /* --- 3. GŁÓWNA ZAWARTOŚĆ --- */
@@ -249,37 +271,53 @@ h1, h2, h3 {
 }
 
 /* --- 6. POGODA --- */
-.weather-box {
-    background: var(--color-accent);
-    border: 1px solid var(--color-border);
-    border-radius: 16px;
-    padding: 20px 25px;
-    display: flex;
+
+
+.current-main-row {
+    display: inline-flex;
     justify-content: space-between;
+    width: 100%;
+    gap: 20px;
     align-items: center;
+    height: 100 vh;
+    font-size: 24px;
+    font-family: var(--font-heading)
 }
 
-.weather-box__city {
-    font-family: var(--font-heading);
-    font-size: 20px;
-    font-weight: 700;
-}
-
-.weather-box__temp {
-    font-family: var(--font-heading);
-    font-size: 36px;
-    margin: 5px 0;
-}
-
-.weather-box__details {
-    font-size: 13px;
-    color: var(--color-text-secondary);
-    line-height: 1.3;
-}
-
-.weather-box__icon {
+.current-temp {
     font-size: 48px;
+    font-family: var(--font-body);
+    font-weight: 500;
 }
+.city-main {
+    font-size: 24px;
+    font-family: var(--font-body);
+    font-weight: 800;
+}
+
+.current-extra {
+  padding: 0px;
+  margin: 0px;
+  width: 80px;
+  height: 80px;
+}
+
+.temp-main {
+    font-size: 48px;
+    font-family: var(--font-body);
+    font-weight: 50;
+}
+
+.current-desc {
+  font-size: 14px;
+  font-family: var(--font-body)
+}
+
+#currentIcon {
+    width: 80px;
+    height: auto;
+}
+
 
 /* --- 7. KURSY WALUT --- */
 .exchange-rates__title {
@@ -387,7 +425,8 @@ h1, h2, h3 {
     position: relative;
   }
 
-  .header__cta-button {
+  .header__cta-button,
+  .header__user-button {
     position: absolute;
     top: 16px;
     right: 16px;
@@ -396,6 +435,11 @@ h1, h2, h3 {
     font-size: 14px;
     padding: 10px 15px;
     margin-top: 0;
+  }
+
+    /* Hide calendar icon on small devices to simplify the right column */
+  .calendar-icon {
+    display: none;
   }
 
   /* MAIN GRID */
@@ -407,7 +451,7 @@ h1, h2, h3 {
 
   /* RIGHT COLUMN — pogoda i kursy obok siebie */
   .right-column {
-    display: grid;
+    display: flex;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     width: 100%;
@@ -444,6 +488,15 @@ h1, h2, h3 {
   }
 
   /* WEATHER BOX */
+
+  .right-column {
+    width: 100%;
+    margin-top: 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* odstęp między kafelkami */
+  }
+
   .weather-box {
     flex-direction: column;
     align-items: center;
@@ -452,6 +505,24 @@ h1, h2, h3 {
     overflow-x: auto;
     padding: 25px;
     max-height: 250px;
+    background: var(--color-accent);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+  }
+  #currentIcon {
+    width: 50px;
+    height: auto;
+  }
+  .right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .calendar-widget {
+    margin-bottom: 0;
+  }
+  .weather-box.weather-box--compact {
+    margin-top: 0;
   }
 
   .weather-box__icon {
@@ -576,7 +647,8 @@ h1, h2, h3 {
     margin-top: 5px;
   }
 
-  .header__cta-button {
+  .header__cta-button,
+  .header__user-button {
     position: absolute;
     top: 16px;
     right: 16px;
@@ -607,6 +679,13 @@ h1, h2, h3 {
     flex-direction: column;
     gap: 30px; /* odstęp między kafelkami */
   }
+
+  .weather-box {
+        background: var(--color-accent);
+        border: 1px solid var(--color-border);
+        border-radius: 16px;
+        padding: 15px 20px;
+    }
 
   /* --- KAFELKI --- */
   .weather-box,
@@ -928,3 +1007,16 @@ h1, h2, h3 {
   cursor: pointer;
   margin-top: 10px;
 }
+
+/* Error message in auth modal */
+.auth-error {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+

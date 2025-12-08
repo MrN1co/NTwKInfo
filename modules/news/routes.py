@@ -155,16 +155,22 @@ def news():
     kryminalki_path = 'data/news/kryminalki/kryminalki.json'
     minut_path = 'data/news/minut/minut.json'
     przegladsportowy_path = 'data/news/przegladsportowy/przegladsportowy.json'
+    policja_krakow_path = 'data/news/policja/krakow.json'
+    policja_malopolska_path = 'data/news/policja/malopolska.json'
     
     kryminalki_data = load_from_json(kryminalki_path, {'news': []})
     minut_data = load_from_json(minut_path, {'news': []})
     przegladsportowy_data = load_from_json(przegladsportowy_path, {'news': []})
+    policja_krakow_data = load_from_json(policja_krakow_path, {'news': []})
+    policja_malopolska_data = load_from_json(policja_malopolska_path, {'news': []})
     
     # Połącz wszystkie wiadomości
     all_news = []
     all_news.extend(kryminalki_data.get('news', []))
     all_news.extend(minut_data.get('news', []))
     all_news.extend(przegladsportowy_data.get('news', []))
+    all_news.extend(policja_krakow_data.get('news', []))
+    all_news.extend(policja_malopolska_data.get('news', []))
     
     # Filtruj po tagach jeśli są wybrane
     if selected_tags:
@@ -186,6 +192,39 @@ def news():
     return render_template('news/news.html', 
                          news_list=all_news,
                          selected_tags=selected_tags)
+
+
+@tables_bp.route('/image_proxy')
+def image_proxy():
+    """
+    Proxy dla obrazków z policji - omija blokadę CORS/Referer
+    """
+    import requests
+    from flask import Response
+    
+    image_url = request.args.get('url')
+    if not image_url:
+        return "No URL provided", 400
+    
+    # Tylko dla zaufanych domen (policja)
+    allowed_domains = ['krakow.policja.gov.pl', 'malopolska.policja.gov.pl']
+    if not any(domain in image_url for domain in allowed_domains):
+        return "Domain not allowed", 403
+    
+    try:
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'Referer': image_url.split('/dokumenty')[0] if '/dokumenty' in image_url else image_url
+        }
+        resp = requests.get(image_url, headers=headers, timeout=10)
+        
+        if resp.status_code == 200:
+            return Response(resp.content, mimetype=resp.headers.get('Content-Type', 'image/jpeg'))
+        else:
+            return "Image not found", 404
+    except Exception as e:
+        print(f"Błąd proxy obrazka: {e}")
+        return "Error loading image", 500
 
 
 @tables_bp.route('/news_sport')

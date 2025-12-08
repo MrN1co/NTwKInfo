@@ -8,9 +8,11 @@ import os
 from dotenv import load_dotenv
 from modules.weather_app import weather_bp
 from flask_sqlalchemy import SQLAlchemy
+import tests
 
 # Load environment variables from .env file
 load_dotenv()
+
 
 def create_app():
     
@@ -31,6 +33,16 @@ def create_app():
     # Initialize database
     db.init_app(app)
     
+    # Context processor to make current user available to all templates
+    @app.context_processor
+    def inject_user():
+        from flask import session
+        from modules.database import User
+        current_user = None
+        if 'user_id' in session:
+            current_user = User.query.get(session['user_id'])
+        return dict(current_user=current_user)
+    
     # Register blueprints
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
@@ -44,6 +56,10 @@ def create_app():
     return app
 
 if __name__ == '__main__':
+    print("\n=== Uruchamianie testów ===\n")
+    tests.run_tests()
+    print("\n=== Testy zakończone ===\n")
+    
     app = create_app()
     
     # Flask gdy debug= True uruchamia proces podwójnie (proces główny + monitorujący zmiany)

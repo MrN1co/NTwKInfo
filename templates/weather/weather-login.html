@@ -6,21 +6,21 @@
 
 <main class="page">
 
-  <!-- pasek wyszukiwania -->
+  <!-- Pasek wyszukiwania -->
   <section class="search-row">
     <input id="cityInput" type="text" placeholder="Wpisz miasto">
     <button id="searchBtn">Szukaj</button>
   </section>
 
-  <!-- duże kafle -->
+  <!-- Duże kafle -->
   <section class="cards-grid">
 
+    <!-- Kafel aktualnej pogody -->
     <div class="card card-current">
       <button
         class="favorite-btn"
         id="favoriteBtn"
-        data-logged-in="{% if current_user is defined and current_user.is_authenticated %}1{% else %}0{% endif %}"
-      >
+        data-logged-in="{% if current_user is defined and current_user.is_authenticated %}1{% else %}0{% endif %}">
         ♥
       </button>
 
@@ -31,40 +31,44 @@
         <div class="current-left">
           <div class="current-temp" id="currentTemp">--°C</div>
           <div class="current-desc" id="currentDesc">---</div>
+
           <div class="current-extra">
-  <div class="row">
-    <span class="label">Ciśnienie:</span>
-    <span id="currentPressure">--</span>
-    <span>hPa</span>
-  </div>
-
-  <div class="row">
-    <span class="label">Opady:</span>
-    <span id="currentPrecip">--</span>
-    <span>mm</span>
-  </div>
-</div>
-
+            <div class="row">
+              <span class="label">Ciśnienie:</span>
+              <span id="currentPressure">--</span>
+              <span>hPa</span>
+            </div>
+            <div class="row">
+              <span class="label">Opady:</span>
+              <span id="currentPrecip">--</span>
+              <span>mm</span>
+            </div>
+          </div>
         </div>
+
         <div class="current-right">
           <img id="currentIcon" alt="Ikona pogody">
         </div>
       </div>
     </div>
 
+    <!-- Kafel wykresu -->
     <div class="card card-chart">
-        <img id="chartImg" alt="Wykres temperatury i opadów">
+      <img id="chartImg" alt="Wykres temperatury i opadów">
     </div>
 
   </section>
 
+  <!-- Prognoza 7 dni -->
   <section class="card card-forecast">
     <div class="forecast-strip" id="forecastStrip"></div>
   </section>
 
-  {% if current_user is defined and current_user.is_authenticated %}
+  <!-- ULUBIONE MIASTA — blok dodany -->
+  {% if True %}
   <section class="card card-favorites" id="favoritesSection">
     <h2 class="favorites-title">Ulubione miasta</h2>
+
     <div class="favorites-list" id="favoritesList">
       <div class="fav-row">
         <span class="fav-name">Brak zapisanych ulubionych lokalizacji</span>

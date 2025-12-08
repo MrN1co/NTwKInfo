@@ -72,13 +72,21 @@
               <div class="calendar-fact" id="calendarFact">Ładuję ciekawostkę...</div>
             </div>
           </div>
-        <section class="weather-box">
-          <div>
-            <div class="weather-box__city">Kraków</div>
-            <div class="weather-box__temp">24°C</div>
-            <div class="weather-box__details"><span>Zachmurzenie</span><span> Od 18°C do 25°C</span></div>
-          </div>
-          <div class="weather-box__icon">🌧️</div>
+        <section class="weather-box weather-box--compact">
+          
+          <div class="current-main-row">
+            <div class="city-desc"> 
+              <div class="current-city city-main" id="cityName">Kraków</div>
+              <div class="current-desc" id="currentDesc">---</div>
+            </div>
+            <div class="current-date hidden" id="currentDate">Dziś</div>
+            <div class="current-temp temp-main" id="currentTemp">--°C</div>
+            <div class="current-extra">
+              <div id="currentPressure" class="hidden">Ciśnienie: <span id="currentPressureVal">-- hPa</span></div>
+              <div id="currentPrecip" class="hidden">Opady: <span id="currentPrecipVal">-- mm</span></div>
+              <img id="currentIcon" alt="Ikona pogody">
+            </div>
+
         </section>
         <section class="exchange-rates">
           <h2 class="exchange-rates__title">Aktualne kursy walut:</h2>
@@ -103,4 +111,6 @@
   <script src="{{ url_for('static', filename='js/script-carousel.js') }}"></script>
   <script src="{{ url_for('static', filename='js/script-auth.js') }}"></script>
   <script src="{{ url_for('static', filename='js/script-calendar.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/weather_icons.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/weather_app.js') }}"></script>
 {% endblock %}
