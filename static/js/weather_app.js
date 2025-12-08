@@ -417,27 +417,63 @@ function setupSearch() {
 function setupFavoriteButton() {
   const btn = $("#favoriteBtn");
   if (!btn) return;
-
-  btn.addEventListener("click", () => {
-    const loggedIn = btn.dataset.loggedIn === "1";
+  btn.addEventListener("click", async () => {
+    const loggedIn = btn.dataset.loggedin === "1" || btn.dataset.loggedIn === "1";
 
     if (!loggedIn) {
-      // zamiast przekierowania:
+      // show auth modal (existing UI)
       const overlay = document.getElementById("authOverlay");
       const modal = document.getElementById("authModal");
       const loginForm = document.getElementById("loginForm");
 
-      overlay.classList.remove("hidden");
-      modal.classList.remove("hidden");
-
-      // pokaż formularz logowania
-      loginForm.classList.remove("hidden");
-      document.getElementById("registerForm").classList.add("hidden");
+      if (overlay) overlay.classList.remove("hidden");
+      if (modal) modal.classList.remove("hidden");
+      if (loginForm) {
+        loginForm.classList.remove("hidden");
+        const reg = document.getElementById("registerForm");
+        if (reg) reg.classList.add("hidden");
+      }
       return;
     }
 
-    // jeśli zalogowany -> toggle ulubione
-    btn.classList.toggle("active");
+    // jeśli zalogowany -> wyślij request do API
+    const isActive = btn.classList.contains("active");
+    try {
+      if (!isActive) {
+        // add favorite
+        const res = await fetch(`/weather/api/favorites`, {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ city: currentCity, lat: currentCoords.lat, lon: currentCoords.lon }),
+        });
+        if (res.ok) {
+          btn.classList.add("active");
+        } else {
+          const txt = await res.text();
+          console.error('Add favorite failed', res.status, txt);
+          alert('Nie udało się dodać do ulubionych.');
+        }
+      } else {
+        // remove favorite by city
+        const res = await fetch(`/weather/api/favorites`, {
+          method: "DELETE",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ city: currentCity }),
+        });
+        if (res.ok) {
+          btn.classList.remove("active");
+        } else {
+          const txt = await res.text();
+          console.error('Remove favorite failed', res.status, txt);
+          alert('Nie udało się usunąć z ulubionych.');
+        }
+      }
+    } catch (err) {
+      console.error('Favorite request error', err);
+      alert('Błąd sieci podczas operacji ulubionych.');
+    }
   });
 }
 

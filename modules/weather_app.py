@@ -13,8 +13,13 @@ import smtplib
 from email.mime.text import MIMEText
 
 from flask import Blueprint, request, jsonify, render_template, send_file, abort
+from flask_login import login_required, current_user
 from dotenv import load_dotenv
+from modules.database import Favorite
 import time
+import threading
+from modules.database import User
+
 
 load_dotenv()
 
@@ -46,13 +51,32 @@ def _cache_set(key, data):
     _OW_CACHE[key] = (time.time(), data)
 
 # ======================= WYSYŁANIE MAILI =======================
-def send_snow_alert(users_address):
-    message = f"""It's going to snow today!\nRemember to take your snow gear and drive safely!"""
-    message = MIMEText(message, "plain", "utf-8")
-    with smtplib.SMTP("smtp.gmail.com", 587) as connection:
-        connection.starttls() #making connection secure
-        connection.login(user=my_email, password=password)
-        # connection.sendmail(from_addr=my_email, to_addrs=users_address, msg=message.as_string())
+def send_snow_alert(users_addresses):
+    # users_addresses: iterable of strings (emails)
+    message_text = "Uwaga: dziś zapowiadane są opady. Sprawdź pogodę i przygotuj się."
+    msg = MIMEText(message_text, "plain", "utf-8")
+    msg['Subject'] = "Alert pogodowy"
+    msg['From'] = my_email
+
+    try:
+        with smtplib.SMTP("smtp.gmail.com", 587, timeout=20) as connection:
+            connection.starttls()
+            connection.login(user=my_email, password=password)
+            for to_addr in users_addresses:
+                try:
+                    connection.sendmail(from_addr=my_email, to_addrs=to_addr, msg=msg.as_string())
+                except Exception as e:
+                    # loguj błąd dla konkretnego adresu, ale kontynuuj
+                    print(f"Nie udało się wysłać do {to_addr}: {e}")
+    except Exception as e:
+        print("Błąd połączenia SMTP:", e)
+        
+def _async_send(emails):
+    try:
+        send_snow_alert(emails)
+    except Exception as e:
+        # loguj błąd
+        print("Błąd wysyłania maili:", e)
 
 # --- ENDPOINTY OPENWEATHER ---
 
@@ -282,14 +306,12 @@ def api_forecast():
             # jeśli to domyślna lokalizacja – wymuś "Kraków"
             if lat == DEFAULT_LAT and lon == DEFAULT_LON:
                 data["city"] = "Kraków"
-                
-        # data = normalize_forecast(raw)
+        
         if data["days"] and data["days"][0].get("precip_mm", 0) > 0:
-            # Dziś zapowiadany jest deszcz (lub śnieg)
-            send_snow_alert("email@gmail.com")
-            print("Wysłano alert o śniegu na email.")
+            # Dziś zapowiadane są opady.
+            print("Dziś zapowiadane są opady.")
         else:
-            print("Dziś nie ma opadów, nie wysłano alertu.")
+            print("Dziś nie ma opadów.")
 
         return jsonify(data)
     except requests.HTTPError as e:
@@ -325,6 +347,59 @@ def api_geocode():
         return jsonify({"error": "Błąd sieci podczas geokodowania", "details": str(e)}), 502
     except Exception as e:
         return jsonify({"error": "Błąd backendu", "details": str(e)}), 500
+
+
+# --------- API: ulubione miasta (GET/POST/DELETE) ---------
+@weather_bp.get("/api/favorites")
+@login_required
+def api_get_favorites():
+    """Zwraca listę ulubionych miast zalogowanego użytkownika"""
+    favs = Favorite.get_for_user(current_user.id)
+    out = []
+    for f in favs:
+        out.append({"id": f.id, "city": f.city, "lat": f.lat, "lon": f.lon})
+    return jsonify({"favorites": out})
+
+
+@weather_bp.post("/api/favorites")
+@login_required
+def api_add_favorite():
+    """Dodaj ulubione miasto dla zalogowanego użytkownika. Body JSON: { city, lat, lon }"""
+    body = request.get_json() or {}
+    city = body.get("city")
+    lat = body.get("lat")
+    lon = body.get("lon")
+    if not city:
+        return jsonify({"error": "city required"}), 400
+
+    # unikaj duplikatów
+    exists = Favorite.query.filter_by(user_id=current_user.id, city=city).first()
+    if exists:
+        return jsonify({"error": "exists", "favorite": {"id": exists.id}}), 409
+
+    fav = Favorite.create(user_id=current_user.id, city=city, lat=lat, lon=lon)
+    return jsonify({"id": fav.id, "city": fav.city, "lat": fav.lat, "lon": fav.lon}), 201
+
+
+@weather_bp.delete("/api/favorites")
+@login_required
+def api_delete_favorite():
+    """Usuń ulubione miasto. Body JSON: { id } lub { city }"""
+    body = request.get_json() or {}
+    fav_id = body.get("id")
+    city = body.get("city")
+    fav = None
+    if fav_id:
+        fav = Favorite.query.filter_by(id=fav_id, user_id=current_user.id).first()
+    elif city:
+        fav = Favorite.query.filter_by(user_id=current_user.id, city=city).first()
+    else:
+        return jsonify({"error": "id or city required"}), 400
+
+    if not fav:
+        return jsonify({"error": "not found"}), 404
+    fav.delete()
+    return jsonify({"ok": True})
 
 
 # --------- API: godzinowa prognoza (JSON) ---------
