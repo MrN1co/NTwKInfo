@@ -26,11 +26,6 @@ def economy():
 def weather():
     return redirect(url_for('weather.weather_index'))
 
-@main_bp.route('/test')
-def test_weather():
-    return render_template('weather/weather-login.html')
-
-
 
 @main_bp.route('/dashboard')
 @login_required
