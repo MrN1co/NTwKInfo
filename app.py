@@ -33,6 +33,16 @@ def create_app():
     # Initialize database
     db.init_app(app)
     
+    # Context processor to make current user available to all templates
+    @app.context_processor
+    def inject_user():
+        from flask import session
+        from modules.database import User
+        current_user = None
+        if 'user_id' in session:
+            current_user = User.query.get(session['user_id'])
+        return dict(current_user=current_user)
+    
     # Register blueprints
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')

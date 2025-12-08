@@ -1,0 +1,315 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - NTWKInfo{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>Witaj, {{ user.username }}!</h1>
+    <p class="dashboard-subtitle">Zarządzaj swoim kontem NTWKInfo</p>
+  </header>
+
+  <div class="dashboard-grid">
+    <!-- Account Information -->
+    <section class="dashboard-card">
+      <h2>Informacje o koncie</h2>
+      <div class="account-info">
+        <div class="info-row">
+          <span class="label">Nazwa użytkownika:</span>
+          <span class="value">{{ user.username }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Email:</span>
+          <span class="value">{{ user.email }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Status:</span>
+          <span class="value status-active">Aktywne</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Account Actions -->
+    <section class="dashboard-card">
+      <h2>Zarządzanie kontem</h2>
+      <div class="dashboard-actions">
+        <button class="action-btn primary" onclick="showChangePasswordModal()">
+          <span class="icon">🔒</span>
+          Zmień hasło
+        </button>
+        <button class="action-btn secondary" onclick="showEditProfileModal()">
+          <span class="icon">✏️</span>
+          Edytuj profil
+        </button>
+        <button class="action-btn secondary" onclick="showPreferencesModal()">
+          <span class="icon">⚙️</span>
+          Preferencje
+        </button>
+      </div>
+    </section>
+
+
+    <!-- Quick Links -->
+    <section class="dashboard-card">
+      <h2>Szybkie linki</h2>
+      <div class="quick-links">
+        <a href="{{ url_for('main.index') }}" class="quick-link">
+          <span class="icon">🏠</span>
+          Strona główna
+        </a>
+        <a href="{{ url_for('main.news') }}" class="quick-link">
+          <span class="icon">📰</span>
+          Wiadomości
+        </a>
+        <a href="{{ url_for('main.weather') }}" class="quick-link">
+          <span class="icon">🌤️</span>
+          Pogoda
+        </a>
+        <a href="{{ url_for('auth.logout') }}" class="quick-link logout">
+          <span class="icon">🚪</span>
+          Wyloguj się
+        </a>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Change Password Modal -->
+<div id="changePasswordModal" class="auth-overlay hidden">
+  <div class="auth-modal">
+    <div class="auth-box">
+      <form id="changePasswordForm">
+        <button type="button" class="auth-close" onclick="closeChangePasswordModal()">×</button>
+        <h2>Zmień hasło</h2>
+        
+        <label>Obecne hasło</label>
+        <input name="current_password" type="password" placeholder="Wpisz obecne hasło" required>
+        
+        <label>Nowe hasło</label>
+        <input name="new_password" type="password" placeholder="Wpisz nowe hasło" required>
+        
+        <label>Powtórz nowe hasło</label>
+        <input name="confirm_password" type="password" placeholder="Powtórz nowe hasło" required>
+        
+        <button type="submit" class="auth-submit">Zmień hasło</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.dashboard-header h1 {
+  font-size: 36px;
+  color: var(--color-primary);
+  margin-bottom: 10px;
+}
+
+.dashboard-subtitle {
+  color: var(--color-text-secondary);
+  font-size: 18px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.dashboard-card {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.dashboard-card h2 {
+  color: var(--color-primary);
+  font-size: 20px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--color-accent);
+  padding-bottom: 10px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-accent);
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.value {
+  color: var(--color-black);
+  font-weight: 500;
+}
+
+.status-active {
+  color: #28a745;
+}
+
+.dashboard-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.action-btn.primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.action-btn.secondary {
+  background: var(--color-accent);
+  color: var(--color-primary);
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.activity-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-accent);
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-time {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.activity-desc {
+  font-weight: 500;
+}
+
+.quick-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quick-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--color-black);
+  transition: background 0.2s;
+}
+
+.quick-link:hover {
+  background: var(--color-accent);
+}
+
+.quick-link.logout {
+  color: #dc3545;
+}
+
+.quick-link.logout:hover {
+  background: #f8d7da;
+}
+
+.icon {
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .dashboard-header h1 {
+    font-size: 28px;
+  }
+  
+  .info-row {
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+  }
+}
+</style>
+
+<script>
+function showChangePasswordModal() {
+  document.getElementById('changePasswordModal').classList.remove('hidden');
+}
+
+function closeChangePasswordModal() {
+  document.getElementById('changePasswordModal').classList.add('hidden');
+}
+
+function showEditProfileModal() {
+  alert('Funkcja w przygotowaniu');
+}
+
+function showPreferencesModal() {
+  alert('Funkcja w przygotowaniu');
+}
+
+// Handle change password form
+document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const formData = new FormData(this);
+  const newPassword = formData.get('new_password');
+  const confirmPassword = formData.get('confirm_password');
+  
+  if (newPassword !== confirmPassword) {
+    alert('Nowe hasła nie są identyczne');
+    return;
+  }
+  
+  // TODO: Implement password change via AJAX
+  alert('Funkcja zmiany hasła w przygotowaniu');
+});
+</script>
+{% endblock %}

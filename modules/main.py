@@ -35,6 +35,13 @@ def test_weather():
 @main_bp.route('/dashboard')
 @login_required
 def dashboard():
-    username = session.get('user_id', 'Guest')
-    return render_template('main/dashboard.html', username=username)
+    from modules.database import User
+    user_id = session.get('user_id')
+    user = User.query.get(user_id) if user_id else None
+    
+    if not user:
+        flash('User session expired. Please log in again.', 'error')
+        return redirect(url_for('auth.login'))
+    
+    return render_template('auth/dashboard.html', user=user)
 
