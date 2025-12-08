@@ -96,6 +96,51 @@ base.html) #} {% endblock %} {% block content %}
                         Ładuję ciekawostkę...
                     </div>
                 </div>
+              </article>
+            {% endif %}
+            <button class="carousel-button prev">‹</button>
+            <button class="carousel-button next">›</button>
+          </div>
+        </section>
+      </div>
+      <div class="right-column">
+        <div id="calendarWidget" class="calendar-widget">
+            <div class="calendar-icon">
+              <div class="calendar-month" id="calendarMonth">--</div>
+              <div class="calendar-day" id="calendarDay">--</div>
+            </div>
+            <div class="calendar-info">
+              <div class="calendar-date" id="calendarDate">Ładuję...</div>
+              <div class="calendar-fact" id="calendarFact">Ładuję ciekawostkę...</div>
+            </div>
+          </div>
+        <section class="weather-box weather-box--compact">
+          
+          <div class="current-main-row">
+            <div class="city-desc"> 
+              <div class="current-city city-main" id="cityName">Kraków</div>
+              <div class="current-desc" id="currentDesc">---</div>
+            </div>
+            <div class="current-date hidden" id="currentDate">Dziś</div>
+            <div class="current-temp temp-main" id="currentTemp">--°C</div>
+            <div class="current-extra">
+              <div id="currentPressure" class="hidden">Ciśnienie: <span id="currentPressureVal">-- hPa</span></div>
+              <div id="currentPrecip" class="hidden">Opady: <span id="currentPrecipVal">-- mm</span></div>
+              <img id="currentIcon" alt="Ikona pogody">
+            </div>
+
+        </section>
+        <section class="exchange-rates">
+          <h2 class="exchange-rates__title">Aktualne kursy walut:</h2>
+          <div class="exchange-rates__table">
+            <div class="exchange-rates__header">
+              <span class="cell">Waluta</span><span class="cell">Kupno</span><span class="cell">Sprzedaż</span>
+            </div>
+            <div class="rate-list">
+              <div class="rate-item"><span class="cell">USD</span><span class="cell">4.10</span><span class="cell">4.25</span></div>
+              <div class="rate-item"><span class="cell">EUR</span><span class="cell">4.45</span><span class="cell">4.60</span></div>
+              <div class="rate-item"><span class="cell">GBP</span><span class="cell">5.20</span><span class="cell">5.35</span></div>
+              <div class="rate-item"><span class="cell">CHF</span><span class="cell">4.65</span><span class="cell">4.80</span></div>
             </div>
             <section class="weather-box">
                 <div>
@@ -142,9 +187,13 @@ base.html) #} {% endblock %} {% block content %}
             </section>
         </div>
     </section>
-</main>
-{% endblock %} {% block scripts %}
-<script src="{{ url_for('static', filename='js/script-carousel.js') }}"></script>
-<script src="{{ url_for('static', filename='js/script-auth.js') }}"></script>
-<script src="{{ url_for('static', filename='js/script-calendar.js') }}"></script>
+  </main>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/script-carousel.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/script-auth.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/script-calendar.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/weather_icons.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/weather_app.js') }}"></script>
 {% endblock %}

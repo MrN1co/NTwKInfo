@@ -29,13 +29,24 @@ def economy_chart(currency_code):
 
 @main_bp.route('/pogoda')
 def weather():
-    # Redirect to the weather blueprint's page so the weather module
-    # (registered under '/weather') is the single source of truth.
     return redirect(url_for('weather.weather_index'))
+
+@main_bp.route('/test')
+def test_weather():
+    return render_template('weather/weather-login.html')
+
 
 
 @main_bp.route('/dashboard')
 @login_required
 def dashboard():
-    username = session.get('user_id', 'Guest')
-    return render_template('main/dashboard.html', username=username)
+    from modules.database import User
+    user_id = session.get('user_id')
+    user = User.query.get(user_id) if user_id else None
+    
+    if not user:
+        flash('User session expired. Please log in again.', 'error')
+        return redirect(url_for('auth.login'))
+    
+    return render_template('auth/dashboard.html', user=user)
+

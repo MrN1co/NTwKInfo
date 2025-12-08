@@ -18,12 +18,10 @@
             {% if item.image %}
                 {% if item.link %}
                     <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">
-                        <img src="{{ item.image }}" alt="{{ item.title }}" class="news-image" onerror="this.style.display='none'; this.parentElement.nextElementSibling.style.display='flex';">
+                        <img src="{{ item.image }}" alt="{{ item.title }}" class="news-image">
                     </a>
-                    <div class="news-image-placeholder" style="display: none;">Brak obrazka</div>
                 {% else %}
-                    <img src="{{ item.image }}" alt="{{ item.title }}" class="news-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="news-image-placeholder" style="display: none;">Brak obrazka</div>
+                    <img src="{{ item.image }}" alt="{{ item.title }}" class="news-image">
                 {% endif %}
             {% else %}
                 <div class="news-image-placeholder">Brak obrazka</div>
@@ -42,7 +40,7 @@
         </div>
         {% endfor %}
     {% else %}
-        <p class="error">Brak dostępnych wiadomości. Spróbuj odświeżyć stronę.</p>
+        <p class="error">Brak dostępnych wiadomości. Spróbuj wybrać inne filtry.</p>
     {% endif %}
 </div>
 {% endblock %}
