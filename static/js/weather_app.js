@@ -207,6 +207,21 @@ function renderForecast(data) {
   chartDayOffset = 0;
   updateChart();
   updateCurrentDayPanel(0);  // Zaktualizuj lewy panel dla dnia 0
+
+  // Po wyrenderowaniu prognozy sprawdź, czy aktualne miasto jest w ulubionych
+  try{
+    refreshFavorites().then((favs) => {
+      try{
+        const btn = document.getElementById('favoriteBtn');
+        if (!btn) return;
+        const found = (favs || []).some(f => {
+          if (!f || !f.city) return false;
+          return String(f.city).toLowerCase() === String(currentCity).toLowerCase();
+        });
+        setFavoriteButtonActive(found);
+      }catch(e){ console.warn('set favorite state failed', e); }
+    }).catch(()=>{});
+  }catch(e){}
 }
 
 // Pasek kart z prognozą na kolejne dni
@@ -370,12 +385,54 @@ async function loadByCityName(name) {
     try{ renderForecast(cached); }catch(e){ console.warn('Cached render failed', e); }
     // refresh in background
     fetchForecast(place.lat, place.lon, cityName).then((fresh)=>{ setCachedForecast(key, fresh); renderForecast(fresh); }).catch(()=>{});
+    try{ const inp = document.getElementById('cityInput'); if (inp) { inp.value = ''; inp.blur(); } }catch(e){}
     return;
   }
 
   const data = await fetchForecast(place.lat, place.lon, cityName);
   setCachedForecast(key, data);
   renderForecast(data);
+  try{ const inp = document.getElementById('cityInput'); if (inp) { inp.value = ''; inp.blur(); } }catch(e){}
+}
+
+// Ładowanie na podstawie współrzędnych (szybkie: używa cache jeśli dostępny,
+// a potem odświeża w tle). Zwraca promise, resolves gdy pobrano świeże dane.
+async function loadByCoords(lat, lon, label){
+  // update basic UI immediately
+  try{
+    if (label) {
+      currentCity = label;
+      const cityEl = document.getElementById('cityName');
+      if (cityEl) cityEl.textContent = label + ' (ładowanie...)';
+    }
+    currentCoords.lat = lat;
+    currentCoords.lon = lon;
+  }catch(e){}
+
+  const key = cacheKeyFor(lat, lon, label || null);
+  const cached = getCachedForecast(key);
+  if (cached){
+    try{ renderForecast(cached); }catch(e){ console.warn('Cached render failed', e); }
+    // refresh in background and update when fresh
+    try{
+      const fresh = await fetchForecast(lat, lon, label);
+      setCachedForecast(key, fresh);
+      renderForecast(fresh);
+      try{ const inp = document.getElementById('cityInput'); if (inp) { inp.value = ''; inp.blur(); } }catch(e){}
+      return fresh;
+    }catch(e){
+      console.warn('Background refresh failed', e);
+      return cached;
+      try{ const inp = document.getElementById('cityInput'); if (inp) { inp.value = ''; inp.blur(); } }catch(e){}
+    }
+  } else {
+    // no cache -> fetch and render
+    const data = await fetchForecast(lat, lon, label);
+    setCachedForecast(key, data);
+    renderForecast(data);
+    try{ const inp = document.getElementById('cityInput'); if (inp) { inp.value = ''; inp.blur(); } }catch(e){}
+    return data;
+  }
 }
 
 // =================== OBSŁUGA WYSZUKIWANIA ===================
@@ -488,14 +545,16 @@ async function refreshFavorites(){
     if (!res.ok) {
       // not logged in or no favorites; show empty state
       renderFavorites([]);
-      return;
+      return [];
     }
     const data = await res.json();
     const favs = data.favorites || [];
     renderFavorites(favs);
+    return favs;
   }catch(e){
     console.warn('refreshFavorites failed', e);
     renderFavorites([]);
+    return [];
   }
 }
 
@@ -514,16 +573,30 @@ function renderFavorites(favs){
   favs.forEach(f => {
     const row = document.createElement('div');
     row.className = 'fav-row';
+      row.style.cursor = 'pointer';
+      row.tabIndex = 0;
+      row.dataset.lat = f.lat;
+      row.dataset.lon = f.lon;
     const name = document.createElement('span');
     name.className = 'fav-name';
     name.textContent = f.city;
     name.tabIndex = 0;
     name.style.cursor = 'pointer';
-    name.addEventListener('click', () => {
-      // load forecast for this favorite
-      loadByCityName(f.city).catch(err=>{ console.error(err); alert('Nie udało się załadować miasta.'); });
-    });
-    name.addEventListener('keydown', (e)=>{ if (e.key==='Enter') name.click(); });
+    name.dataset.lat = f.lat;
+    name.dataset.lon = f.lon;
+      name.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // load forecast for this favorite (via coords if available)
+        const lat = name.closest('.fav-row').dataset.lat ? parseFloat(name.closest('.fav-row').dataset.lat) : null;
+        const lon = name.closest('.fav-row').dataset.lon ? parseFloat(name.closest('.fav-row').dataset.lon) : null;
+        const label = f.city;
+        if (lat != null && lon != null) {
+          loadByCoords(lat, lon, label).catch(err=>{ console.error(err); alert('Nie udało się załadować miasta.'); });
+        } else {
+          loadByCityName(f.city).catch(err=>{ console.error(err); alert('Nie udało się załadować miasta.'); });
+        }
+      });
+      name.addEventListener('keydown', (e)=>{ if (e.key==='Enter') name.click(); });
 
     const temp = document.createElement('span');
     temp.className = 'fav-temp';
@@ -531,8 +604,32 @@ function renderFavorites(favs){
 
     row.appendChild(name);
     row.appendChild(temp);
+
+    // make the whole row clickable and keyboard-accessible
+    row.addEventListener('click', () => {
+      const lat = row.dataset.lat ? parseFloat(row.dataset.lat) : null;
+      const lon = row.dataset.lon ? parseFloat(row.dataset.lon) : null;
+      const label = f.city;
+      if (lat != null && lon != null) {
+        loadByCoords(lat, lon, label).catch(err=>{ console.error(err); alert('Nie udało się załadować miasta.'); });
+      } else {
+        loadByCityName(f.city).catch(err=>{ console.error(err); alert('Nie udało się załadować miasta.'); });
+      }
+    });
+    row.addEventListener('keydown', (e)=>{ if (e.key==='Enter') row.click(); });
+
     container.appendChild(row);
   });
+}
+
+function setFavoriteButtonActive(active){
+  const btn = document.getElementById('favoriteBtn');
+  if (!btn) return;
+  if (active){
+    btn.classList.add('active');
+  } else {
+    btn.classList.remove('active');
+  }
 }
 
 

@@ -16,6 +16,7 @@ from flask import Blueprint, request, jsonify, render_template, send_file, abort
 from flask_login import login_required, current_user
 from dotenv import load_dotenv
 from modules.database import Favorite
+from modules.auth import api_login_required
 import time
 import threading
 from modules.database import User
@@ -361,10 +362,13 @@ def api_geocode():
 
 # --------- API: ulubione miasta (GET/POST/DELETE) ---------
 @weather_bp.get("/api/favorites")
-@login_required
+@api_login_required
 def api_get_favorites():
-    """Zwraca listę ulubionych miast zalogowanego użytkownika"""
-    favs = Favorite.get_for_user(current_user.id)
+    """Zwraca listę ulubionych miast zalogowanego użytkownika (sesja)."""
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "not_authenticated"}), 401
+    favs = Favorite.get_for_user(user_id)
     out = []
     for f in favs:
         out.append({"id": f.id, "city": f.city, "lat": f.lat, "lon": f.lon})
@@ -372,9 +376,12 @@ def api_get_favorites():
 
 
 @weather_bp.post("/api/favorites")
-@login_required
+@api_login_required
 def api_add_favorite():
     """Dodaj ulubione miasto dla zalogowanego użytkownika. Body JSON: { city, lat, lon }"""
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "not_authenticated"}), 401
     body = request.get_json() or {}
     city = body.get("city")
     lat = body.get("lat")
@@ -383,26 +390,29 @@ def api_add_favorite():
         return jsonify({"error": "city required"}), 400
 
     # unikaj duplikatów
-    exists = Favorite.query.filter_by(user_id=current_user.id, city=city).first()
+    exists = Favorite.query.filter_by(user_id=user_id, city=city).first()
     if exists:
         return jsonify({"error": "exists", "favorite": {"id": exists.id}}), 409
 
-    fav = Favorite.create(user_id=current_user.id, city=city, lat=lat, lon=lon)
+    fav = Favorite.create(user_id=user_id, city=city, lat=lat, lon=lon)
     return jsonify({"id": fav.id, "city": fav.city, "lat": fav.lat, "lon": fav.lon}), 201
 
 
 @weather_bp.delete("/api/favorites")
-@login_required
+@api_login_required
 def api_delete_favorite():
     """Usuń ulubione miasto. Body JSON: { id } lub { city }"""
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "not_authenticated"}), 401
     body = request.get_json() or {}
     fav_id = body.get("id")
     city = body.get("city")
     fav = None
     if fav_id:
-        fav = Favorite.query.filter_by(id=fav_id, user_id=current_user.id).first()
+        fav = Favorite.query.filter_by(id=fav_id, user_id=user_id).first()
     elif city:
-        fav = Favorite.query.filter_by(user_id=current_user.id, city=city).first()
+        fav = Favorite.query.filter_by(user_id=user_id, city=city).first()
     else:
         return jsonify({"error": "id or city required"}), 400
 
