@@ -40,10 +40,7 @@ async function fetchForecast(lat, lon, label = null) {
     url += "?" + params.toString();
   }
 
-  console.log("Fetching forecast from:", url);
-
   const res = await fetch(url);
-  console.log("Response status:", res.status, res.statusText);
 
   if (!res.ok) {
     const msg = await res.text();
@@ -52,7 +49,6 @@ async function fetchForecast(lat, lon, label = null) {
   }
 
   const data = await res.json();
-  console.log("Forecast data:", data);
   return data;
 }
 // Funkcja do pobrania współrzędnych miasta z backendu

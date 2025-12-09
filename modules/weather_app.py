@@ -17,11 +17,14 @@ from dotenv import load_dotenv
 from modules.database import Favorite
 from modules.auth import api_login_required
 import time
-import threading
+from threading import Lock
+import logging
 from modules.database import User
 
 
 load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 my_email = os.environ.get("MY_EMAIL")
 password = os.environ.get("EMAIL_PASSW")
@@ -30,25 +33,30 @@ weather_bp = Blueprint('weather', __name__)
 
 # Prosty lokalny cache dla wyników zapytań do OpenWeather
 # Klucz: string, wartość: (timestamp_seconds, data)
+# in-memory cache for OpenWeather responses
 _OW_CACHE = {}
+# lock to protect cache in multi-threaded environments
+_OW_CACHE_LOCK = Lock()
 # TTL cache w sekundach
 _OW_CACHE_TTL = 60  # 1 minuta
 
 def _cache_get(key):
-    rec = _OW_CACHE.get(key)
-    if not rec:
-        return None
-    ts, data = rec
-    if time.time() - ts > _OW_CACHE_TTL:
-        try:
-            del _OW_CACHE[key]
-        except KeyError:
-            pass
-        return None
-    return data
+    with _OW_CACHE_LOCK:
+        rec = _OW_CACHE.get(key)
+        if not rec:
+            return None
+        ts, data = rec
+        if time.time() - ts > _OW_CACHE_TTL:
+            try:
+                del _OW_CACHE[key]
+            except KeyError:
+                pass
+            return None
+        return data
 
 def _cache_set(key, data):
-    _OW_CACHE[key] = (time.time(), data)
+    with _OW_CACHE_LOCK:
+        _OW_CACHE[key] = (time.time(), data)
 
 
 # ======================= WYSYŁANIE MAILI =======================
@@ -67,7 +75,7 @@ Dziś prognozowane są opady w Twoich ulubionych miastach:
 
 {cities_list}
 
-Pamiętaj, aby przygotować się i zabrać parsol!
+Pamiętaj, aby przygotować się i zabrać parasol!
 
 Pozdrawiamy,
 NTwKInfo
@@ -104,7 +112,6 @@ def get_api_key():
     api_key = os.environ.get("OPENWEATHER_API_KEY")
     if not api_key:
         raise RuntimeError("Ustaw OPENWEATHER_API_KEY w pliku .env")
-    print("API Key:", api_key)
     return api_key
 
 
