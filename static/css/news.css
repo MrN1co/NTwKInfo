@@ -257,6 +257,35 @@ body.news-page .main-content {
     gap: 10px;
     margin: 20px 0;
     justify-content: center;
+    align-items: center;
+}
+
+.save-tags-btn {
+    padding: 8px 12px;
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.save-tags-btn:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.save-tags-btn.active {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.save-tags-btn svg {
+    width: 20px;
+    height: 20px;
 }
 
 .tag-btn {
