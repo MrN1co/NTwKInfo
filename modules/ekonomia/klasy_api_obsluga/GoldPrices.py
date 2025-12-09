@@ -5,7 +5,7 @@ class GoldPrices:
         self.client = client
 
     def get_current_price(self):
-        """Aktualna cena złota w PLN/g"""
+        """Get current gold price in t oz"""
         url = f"{self.client.base_url}/cenyzlota/"
         data = self.client.get_json(url, {"format": "json"})
         if data and len(data) > 0:
