@@ -76,8 +76,7 @@ def register():
 @auth_bp.route('/logout')
 def logout():
     session.clear()
-    flash('You have been logged out', 'info')
-    return redirect(url_for('main.index'))
+    return redirect(url_for('main.index', logout='success'))
 
 
 # API endpoints for saved tags
