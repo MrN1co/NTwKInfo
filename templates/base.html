@@ -58,6 +58,17 @@
   </div>
 
 </div>
+
+<div id="logoutModal" class="auth-overlay hidden">
+  <div class="auth-modal">
+    <div class="auth-box logout-modal">
+      <h2>✓ Wylogowanie pomyślne</h2>
+      <p>Zostałeś pomyślnie wylogowany z systemu.</p>
+      <button type="button" class="auth-submit" onclick="closeLogoutModal()">OK</button>
+    </div>
+  </div>
+</div>
+
 <body{% if request.path.startswith('/news/') %} class="news-page"{% endif %}>
     
   <header class="header">
