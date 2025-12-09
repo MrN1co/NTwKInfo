@@ -78,3 +78,59 @@ def logout():
     session.clear()
     flash('You have been logged out', 'info')
     return redirect(url_for('main.index'))
+
+
+# API endpoints for saved tags
+@auth_bp.route('/api/user/tags', methods=['GET'])
+def get_user_tags():
+    """Get saved tags for logged-in user"""
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not authenticated'}), 401
+    
+    from modules.database import SavedTag
+    user_id = session['user_id']
+    tags = SavedTag.get_user_tags(user_id)
+    
+    return jsonify({'success': True, 'tags': tags})
+
+
+@auth_bp.route('/api/user/tags', methods=['POST'])
+def save_user_tags():
+    """Save tags for logged-in user"""
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not authenticated'}), 401
+    
+    from modules.database import SavedTag
+    data = request.get_json()
+    
+    if not data or 'tags' not in data:
+        return jsonify({'success': False, 'message': 'No tags provided'}), 400
+    
+    user_id = session['user_id']
+    tags = data['tags']
+    
+    if not isinstance(tags, list):
+        return jsonify({'success': False, 'message': 'Tags must be a list'}), 400
+    
+    try:
+        SavedTag.save_tags(user_id, tags)
+        return jsonify({'success': True, 'tags': tags, 'message': 'Tags saved successfully'})
+    except Exception as e:
+        print(f"[API] ❌ Błąd zapisu: {str(e)}")
+        return jsonify({'success': False, 'message': f'Failed to save tags: {str(e)}'}), 500
+
+
+@auth_bp.route('/api/user/tags', methods=['DELETE'])
+def clear_user_tags():
+    """Clear all tags for logged-in user"""
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not authenticated'}), 401
+    
+    from modules.database import SavedTag
+    user_id = session['user_id']
+    
+    try:
+        SavedTag.clear_tags(user_id)
+        return jsonify({'success': True, 'message': 'Tags cleared successfully'})
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Failed to clear tags: {str(e)}'}), 500
