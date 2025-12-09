@@ -263,6 +263,38 @@ class APILog(db.Model):
         }
 
 
+class Favorite(db.Model):
+    """Favorite cities saved by users"""
+    __tablename__ = 'favorites'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, index=True)
+    city = db.Column(db.String(200), nullable=False, index=True)
+    lat = db.Column(db.Float, nullable=True)
+    lon = db.Column(db.Float, nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+    user = db.relationship('User', backref='favorites')
+
+    def __repr__(self):
+        return f'<Favorite {self.city} for user {self.user_id}>'
+
+    @staticmethod
+    def create(user_id, city, lat=None, lon=None):
+        fav = Favorite(user_id=user_id, city=city, lat=lat, lon=lon)
+        db.session.add(fav)
+        db.session.commit()
+        return fav
+
+    @staticmethod
+    def get_for_user(user_id):
+        return Favorite.query.filter_by(user_id=user_id).order_by(Favorite.created_at.desc()).all()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+
 def init_db(app):
     """Initialize the database with the Flask app"""
     db.init_app(app)

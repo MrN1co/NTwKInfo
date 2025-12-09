@@ -12,24 +12,87 @@ import numpy as np
 import smtplib
 from email.mime.text import MIMEText
 
-from flask import Blueprint, request, jsonify, render_template, send_file, abort
+from flask import Blueprint, request, jsonify, render_template, send_file, abort, session
 from dotenv import load_dotenv
+from modules.database import Favorite
+from modules.auth import api_login_required
+import time
+from threading import Lock
+import logging
+from modules.database import User
+
 
 load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 my_email = os.environ.get("MY_EMAIL")
 password = os.environ.get("EMAIL_PASSW")
 
 weather_bp = Blueprint('weather', __name__)
 
+# Prosty lokalny cache dla wyników zapytań do OpenWeather
+# Klucz: string, wartość: (timestamp_seconds, data)
+# in-memory cache for OpenWeather responses
+_OW_CACHE = {}
+# lock to protect cache in multi-threaded environments
+_OW_CACHE_LOCK = Lock()
+# TTL cache w sekundach
+_OW_CACHE_TTL = 60  # 1 minuta
+
+def _cache_get(key):
+    with _OW_CACHE_LOCK:
+        rec = _OW_CACHE.get(key)
+        if not rec:
+            return None
+        ts, data = rec
+        if time.time() - ts > _OW_CACHE_TTL:
+            try:
+                del _OW_CACHE[key]
+            except KeyError:
+                pass
+            return None
+        return data
+
+def _cache_set(key, data):
+    with _OW_CACHE_LOCK:
+        _OW_CACHE[key] = (time.time(), data)
+
+
 # ======================= WYSYŁANIE MAILI =======================
-def send_snow_alert(users_address):
-    message = f"""It's going to snow today!\nRemember to take your snow gear and drive safely!"""
-    message = MIMEText(message, "plain", "utf-8")
-    with smtplib.SMTP("smtp.gmail.com", 587) as connection:
-        connection.starttls() #making connection secure
-        connection.login(user=my_email, password=password)
-        # connection.sendmail(from_addr=my_email, to_addrs=users_address, msg=message.as_string())
+def send_favorite_cities_rain_alert(user_email, rainy_cities):
+    """
+    Wysyła e-mail z listą ulubionych miast, w których pada deszcz.
+    rainy_cities: lista miast (stringów) w których pada deszcz.
+    """
+    if not rainy_cities:
+        return  # Nie wysyłaj maila jeśli nie ma opadów w żadnym mieście
+    
+    cities_list = "\n".join([f"• {city}" for city in rainy_cities])
+    message_text = f"""Cześć!
+
+Dziś prognozowane są opady w Twoich ulubionych miastach:
+
+{cities_list}
+
+Pamiętaj, aby przygotować się i zabrać parasol!
+
+Pozdrawiamy,
+NTwKInfo
+"""
+    msg = MIMEText(message_text, "plain", "utf-8")
+    msg['Subject'] = "Alert pogodowy"
+    msg['From'] = my_email
+
+    try:
+        with smtplib.SMTP("smtp.gmail.com", 587, timeout=20) as connection:
+            connection.starttls()
+            connection.login(user=my_email, password=password)
+            connection.sendmail(from_addr=my_email, to_addrs=user_email, msg=msg.as_string())
+            print(f"✓ Mail wysłany do {user_email} z alertem o opadach w {len(rainy_cities)} miastach.")
+    except Exception as e:
+        print(f"✗ Błąd wysyłania maila do {user_email}: {e}")
+
 
 # --- ENDPOINTY OPENWEATHER ---
 
@@ -49,7 +112,6 @@ def get_api_key():
     api_key = os.environ.get("OPENWEATHER_API_KEY")
     if not api_key:
         raise RuntimeError("Ustaw OPENWEATHER_API_KEY w pliku .env")
-    print("API Key:", api_key)
     return api_key
 
 
@@ -64,9 +126,27 @@ def fetch_daily_forecast(lat: float, lon: float, cnt: int = 7, units: str = "met
         "units": units,
         "lang": "pl",
     }
-    resp = requests.get(DAILY_URL, params=params, timeout=10)
-    resp.raise_for_status()
-    return resp.json()
+    # Spróbuj pobrać z cache
+    key = f"daily:{lat}:{lon}:{cnt}:{units}"
+    cached = _cache_get(key)
+    if cached is not None:
+        return cached
+
+    try:
+        resp = requests.get(DAILY_URL, params=params, timeout=10)
+        resp.raise_for_status()
+        data = resp.json()
+        _cache_set(key, data)
+        return data
+    except requests.HTTPError as e:
+        body = None
+        try:
+            body = resp.text
+        except Exception:
+            body = None
+        raise requests.HTTPError(f"HTTP {resp.status_code} from OpenWeather: {body}") from e
+    except requests.RequestException as e:
+        raise
 
 
 def normalize_forecast(raw: dict) -> dict:
@@ -125,9 +205,27 @@ def fetch_hourly_forecast(lat: float, lon: float, units: str = "metric") -> dict
         "appid": get_api_key(),
         "units": units,
     }
-    resp = requests.get(HOURLY_URL, params=params, timeout=10)
-    resp.raise_for_status()
-    return resp.json()
+    # Cache results briefly to avoid repeated external calls when user refreshuje
+    key = f"hourly:{lat}:{lon}:{units}"
+    cached = _cache_get(key)
+    if cached is not None:
+        return cached
+
+    try:
+        resp = requests.get(HOURLY_URL, params=params, timeout=10)
+        resp.raise_for_status()
+        data = resp.json()
+        _cache_set(key, data)
+        return data
+    except requests.HTTPError as e:
+        body = None
+        try:
+            body = resp.text
+        except Exception:
+            body = None
+        raise requests.HTTPError(f"HTTP {resp.status_code} from OpenWeather: {body}") from e
+    except requests.RequestException:
+        raise
 
 
 def get_hourly_window(lat: float, lon: float, day_offset: int = 0):
@@ -138,17 +236,27 @@ def get_hourly_window(lat: float, lon: float, day_offset: int = 0):
     Każdy punkt: { "dt": datetime, "temp": float, "precip_mm": float }
     """
     raw = fetch_hourly_forecast(lat, lon, units="metric")
-    now_utc = datetime.now(timezone.utc)
+
+    # Use city's timezone (offset in seconds) to compute local start/end windows
+    tz_offset = raw.get("city", {}).get("timezone", 0)
+    target_tz = timezone(timedelta(seconds=tz_offset))
+
+    # current time in city's local timezone
+    now_local = datetime.now(timezone.utc).astimezone(target_tz)
 
     if day_offset == 0:
-        # Dziś: od teraz do jutra rano (dłuższy zakres czasu na wykresie)
-        start = now_utc
-        end = now_utc + timedelta(days=1, hours=6)  # ~30h
+        # Today: from now (local) to ~30h ahead (local)
+        start_local = now_local
+        end_local = now_local + timedelta(days=1, hours=6)  # ~30h
     else:
-        # Inne dni: od północy danego dnia do północy następnego
-        today_utc = now_utc.replace(hour=0, minute=0, second=0, microsecond=0)
-        start = today_utc + timedelta(days=day_offset)
-        end = start + timedelta(days=1)
+        # Other days: from local midnight of that day to next local midnight
+        today_local_midnight = now_local.replace(hour=0, minute=0, second=0, microsecond=0)
+        start_local = today_local_midnight + timedelta(days=day_offset)
+        end_local = start_local + timedelta(days=1)
+
+    # convert local window back to UTC for comparison with API timestamps
+    start = start_local.astimezone(timezone.utc)
+    end = end_local.astimezone(timezone.utc)
 
     points = []
     for item in raw.get("list", []):
@@ -185,7 +293,11 @@ def get_hourly_window(lat: float, lon: float, day_offset: int = 0):
 
 @weather_bp.route("/pogoda")
 def weather_index():
-    # templates/main/weather_index.html
+    # Show a different template for authenticated users (contains favorites).
+    # Session-based auth: modules.auth sets `session['user_id']`
+    if session.get("user_id"):
+        return render_template("weather/weather-login.html")
+    # Default for anonymous users
     return render_template("weather/weather.html")
 
 
@@ -213,14 +325,12 @@ def api_forecast():
             # jeśli to domyślna lokalizacja – wymuś "Kraków"
             if lat == DEFAULT_LAT and lon == DEFAULT_LON:
                 data["city"] = "Kraków"
-                
-        # data = normalize_forecast(raw)
+        
+        # Sprawdzenie opadów na informacyjnym poziomie
         if data["days"] and data["days"][0].get("precip_mm", 0) > 0:
-            # Dziś zapowiadany jest deszcz (lub śnieg)
-            send_snow_alert("email@gmail.com")
-            print("Wysłano alert o śniegu na email.")
+            print("Dziś zapowiadane są opady.")
         else:
-            print("Dziś nie ma opadów, nie wysłano alertu.")
+            print("Dziś nie ma opadów.")
 
         return jsonify(data)
     except requests.HTTPError as e:
@@ -254,6 +364,126 @@ def api_geocode():
         return jsonify(resp.json())
     except requests.RequestException as e:
         return jsonify({"error": "Błąd sieci podczas geokodowania", "details": str(e)}), 502
+    except Exception as e:
+        return jsonify({"error": "Błąd backendu", "details": str(e)}), 500
+
+
+# --------- API: ulubione miasta (GET/POST/DELETE) ---------
+@weather_bp.get("/api/favorites")
+@api_login_required
+def api_get_favorites():
+    """Zwraca listę ulubionych miast zalogowanego użytkownika (sesja)."""
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "not_authenticated"}), 401
+    favs = Favorite.get_for_user(user_id)
+    out = []
+    for f in favs:
+        out.append({"id": f.id, "city": f.city, "lat": f.lat, "lon": f.lon})
+    return jsonify({"favorites": out})
+
+
+@weather_bp.post("/api/favorites")
+@api_login_required
+def api_add_favorite():
+    """Dodaj ulubione miasto dla zalogowanego użytkownika. Body JSON: { city, lat, lon }"""
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "not_authenticated"}), 401
+    body = request.get_json() or {}
+    city = body.get("city")
+    lat = body.get("lat")
+    lon = body.get("lon")
+    if not city:
+        return jsonify({"error": "city required"}), 400
+
+    # unikaj duplikatów
+    exists = Favorite.query.filter_by(user_id=user_id, city=city).first()
+    if exists:
+        return jsonify({"error": "exists", "favorite": {"id": exists.id}}), 409
+
+    fav = Favorite.create(user_id=user_id, city=city, lat=lat, lon=lon)
+    return jsonify({"id": fav.id, "city": fav.city, "lat": fav.lat, "lon": fav.lon}), 201
+
+
+@weather_bp.delete("/api/favorites")
+@api_login_required
+def api_delete_favorite():
+    """Usuń ulubione miasto. Body JSON: { id } lub { city }"""
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "not_authenticated"}), 401
+    body = request.get_json() or {}
+    fav_id = body.get("id")
+    city = body.get("city")
+    fav = None
+    if fav_id:
+        fav = Favorite.query.filter_by(id=fav_id, user_id=user_id).first()
+    elif city:
+        fav = Favorite.query.filter_by(user_id=user_id, city=city).first()
+    else:
+        return jsonify({"error": "id or city required"}), 400
+
+    if not fav:
+        return jsonify({"error": "not found"}), 404
+    fav.delete()
+    return jsonify({"ok": True})
+
+
+# --------- API: godzinowa prognoza (JSON) ---------
+
+@weather_bp.get("/api/hourly")
+def api_hourly():
+    """GET /api/hourly?lat=...&lon=...&day=0  -> zwraca listę punktów godzinowych dla wykresu
+
+    Każdy punkt: { dt: ISO-string (lokalny czas miasta), temp: float, precip_mm: float }
+    """
+    lat_param = request.args.get("lat")
+    lon_param = request.args.get("lon")
+    day_param = request.args.get("day", default="0")
+
+    try:
+        lat = float(lat_param) if lat_param is not None else DEFAULT_LAT
+        lon = float(lon_param) if lon_param is not None else DEFAULT_LON
+    except (TypeError, ValueError):
+        return jsonify({"error": "Błędne lat/lon"}), 400
+
+    try:
+        day_offset = int(day_param)
+    except ValueError:
+        day_offset = 0
+
+    if day_offset < 0:
+        day_offset = 0
+    if day_offset > 4:
+        day_offset = 4
+
+    try:
+        # zwróć punkty godzinowe (datetimes w UTC tz-aware)
+        points = get_hourly_window(lat, lon, day_offset=day_offset)
+
+        # Dla poprawnego wyświetlania czasu skonwertuj do strefy miasta
+        raw = fetch_hourly_forecast(lat, lon, units="metric")
+        tz_offset = raw.get("city", {}).get("timezone", 0)
+        target_tz = timezone(timedelta(seconds=tz_offset))
+
+        out = []
+        for p in points:
+            dt_local = p["dt"].astimezone(target_tz)
+            out.append({
+                "dt": dt_local.isoformat(),
+                "temp": p.get("temp"),
+                "precip_mm": p.get("precip_mm"),
+            })
+
+        return jsonify({"points": out, "tz_offset": tz_offset})
+    except requests.HTTPError as e:
+        body = None
+        try:
+            body = str(e)
+        except Exception:
+            body = None
+        return jsonify({"error": "Błąd OpenWeather", "details": body}), 502
     except Exception as e:
         return jsonify({"error": "Błąd backendu", "details": str(e)}), 500
 
@@ -374,3 +604,65 @@ def plot_png():
     buf.seek(0)
 
     return send_file(buf, mimetype="image/png")
+
+
+# --------- TEST ENDPOINT: wysłanie maila testowego ---------
+
+@weather_bp.get("/api/test-email")
+@api_login_required
+def test_email():
+    """
+    Test endpoint: wysyła testowy email z opadami w ulubionych miastach.
+    GET /weather/api/test-email
+    """
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "not_authenticated"}), 401
+    
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "user_not_found"}), 404
+    
+    favs = Favorite.get_for_user(user_id)
+    if not favs:
+        return jsonify({"error": "no_favorites", "message": "Dodaj ulubione miasta aby testować"}), 400
+    
+    rainy_cities = []
+    
+    # Sprawdź opady dla każdego ulubionego miasta
+    for fav in favs:
+        try:
+            lat = fav.lat if fav.lat else DEFAULT_LAT
+            lon = fav.lon if fav.lon else DEFAULT_LON
+            
+            raw = fetch_daily_forecast(lat, lon, cnt=7, units="metric")
+            data = normalize_forecast(raw)
+            
+            # Sprawdzenie opadów na dzisiaj
+            if data["days"] and data["days"][0].get("precip_mm", 0) > 0:
+                rainy_cities.append(fav.city)
+        except Exception as e:
+            print(f"Błąd sprawdzania prognozy dla {fav.city}: {e}")
+            continue
+    
+    # Wyślij email testowy
+    try:
+        if rainy_cities:
+            send_favorite_cities_rain_alert(user.email, rainy_cities)
+            return jsonify({
+                "success": True,
+                "message": f"Email wysłany do {user.email}",
+                "rainy_cities": rainy_cities
+            })
+        else:
+            return jsonify({
+                "success": False,
+                "message": "Brak opadów w żadnym z ulubionych miast",
+                "checked_cities": [f.city for f in favs]
+            })
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e),
+            "message": "Błąd wysyłania emaila"
+        }), 500

@@ -14,6 +14,24 @@ def login_required(view):
         return view(**kwargs)
     return wrapped_view
 
+
+def api_login_required(view):
+    """Decorator for endpoints used by AJAX/JS: returns 401 JSON when not authenticated,
+    otherwise behaves like normal `login_required` (redirect to login for browser requests).
+    """
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if 'user_id' not in session:
+            # If caller expects JSON (AJAX), return 401 JSON. Otherwise redirect.
+            is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+            accepts = request.headers.get('Accept', '')
+            if is_ajax or 'application/json' in accepts:
+                return jsonify({'error': 'not_authenticated'}), 401
+            return redirect(url_for('auth.login'))
+        return view(**kwargs)
+
+    return wrapped_view
+
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':

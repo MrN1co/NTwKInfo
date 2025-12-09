@@ -8,6 +8,7 @@ import os
 from dotenv import load_dotenv
 from modules.weather_app import weather_bp
 from flask_sqlalchemy import SQLAlchemy
+from modules.scheduler import init_scheduler
 import tests
 
 # Load environment variables from .env file
@@ -49,9 +50,20 @@ def create_app():
     app.register_blueprint(tables_bp, url_prefix='/news')
     app.register_blueprint(weather_bp, url_prefix='/weather')
     
+    # Create database tables
+    with app.app_context():
+        db.create_all()
+    
+    # Initialize background scheduler for daily alerts
+    init_scheduler(app)
+    
     return app
 
 if __name__ == '__main__':
+    print("\n=== Uruchamianie testów ===\n")
+    tests.run_tests()
+    print("\n=== Testy zakończone ===\n")
+    
     app = create_app()
     
     # Flask gdy debug= True uruchamia proces podwójnie (proces główny + monitorujący zmiany)

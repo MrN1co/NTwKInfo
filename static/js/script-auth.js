@@ -68,33 +68,3 @@ if (loginBtn && overlay && modal) {
     });
   }
 }
-
-// Handle user button (redirects to dashboard when logged in) - no additional JS needed
-// The href attribute in the template handles the redirect
-
-// Logout modal functionality
-function closeLogoutModal() {
-  const logoutModal = document.getElementById("logoutModal");
-  if (logoutModal) {
-    logoutModal.classList.add("hidden");
-  }
-}
-
-// Check for logout success parameter and show modal
-function checkLogoutParam() {
-  const params = new URLSearchParams(window.location.search);
-  const logoutParam = params.get('logout');
-  if (logoutParam === 'success') {
-    const logoutModal = document.getElementById("logoutModal");
-    if (logoutModal) {
-      logoutModal.classList.remove("hidden");
-    }
-    // Clean up URL by removing the logout parameter
-    const newUrl = new URL(window.location);
-    newUrl.searchParams.delete('logout');
-    window.history.replaceState({}, '', newUrl);
-  }
-}
-
-// Run logout check on page load
-document.addEventListener('DOMContentLoaded', checkLogoutParam);

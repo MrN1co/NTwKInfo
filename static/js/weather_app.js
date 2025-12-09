@@ -40,10 +40,7 @@ async function fetchForecast(lat, lon, label = null) {
     url += "?" + params.toString();
   }
 
-  console.log("Fetching forecast from:", url);
-
   const res = await fetch(url);
-  console.log("Response status:", res.status, res.statusText);
 
   if (!res.ok) {
     const msg = await res.text();
@@ -52,7 +49,6 @@ async function fetchForecast(lat, lon, label = null) {
   }
 
   const data = await res.json();
-  console.log("Forecast data:", data);
   return data;
 }
 // Funkcja do pobrania współrzędnych miasta z backendu
@@ -80,6 +76,56 @@ const currentCoords = {
   lat: 50.0647,   // Kraków – domyślnie (spójne z backendem)
   lon: 19.9450,
 };
+
+// CACHE: localStorage TTL (ms)
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minut
+
+function cacheKeyFor(lat, lon, label){
+  if (label) return `forecast_label_${label}`;
+  return `forecast_${lat}_${lon}`;
+}
+
+function getCachedForecast(key){
+  try{
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    const obj = JSON.parse(raw);
+    if (!obj || !obj.ts) return null;
+    if (Date.now() - obj.ts > CACHE_TTL_MS) {
+      localStorage.removeItem(key);
+      return null;
+    }
+    return obj.data;
+  }catch(e){
+    return null;
+  }
+}
+
+function setCachedForecast(key, data){
+  try{
+    const obj = { ts: Date.now(), data };
+    localStorage.setItem(key, JSON.stringify(obj));
+  }catch(e){ /* ignore */ }
+}
+
+// Cache for hourly JSON (short TTL)
+const HOURLY_CACHE_TTL = 30 * 1000; // 30s
+function hourlyCacheKey(lat, lon, day){
+  return `hourly_${lat}_${lon}_${day}`;
+}
+function getCachedHourly(key){
+  try{
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    const obj = JSON.parse(raw);
+    if (!obj || !obj.ts) return null;
+    if (Date.now() - obj.ts > HOURLY_CACHE_TTL) { localStorage.removeItem(key); return null; }
+    return obj.data;
+  }catch(e){ return null; }
+}
+function setCachedHourly(key, data){
+  try{ localStorage.setItem(key, JSON.stringify({ ts: Date.now(), data })); }catch(e){}
+}
 
 // nazwa miasta
 let currentCity = "Kraków";
@@ -142,6 +188,14 @@ function renderForecast(data) {
     $("#currentIcon").alt = "";
   }
 
+  // Preload ikon dla wszystkich dni, aby zmniejszyć opóźnienia przy ładowaniu obrazków
+  data.days.forEach(d => {
+    if (d.icon){
+      const img = new Image();
+      img.src = iconUrl(d.icon);
+    }
+  });
+
   // Pasek 7-dniowej prognozy
   renderForecastStrip(data.days);
 
@@ -149,6 +203,21 @@ function renderForecast(data) {
   chartDayOffset = 0;
   updateChart();
   updateCurrentDayPanel(0);  // Zaktualizuj lewy panel dla dnia 0
+
+  // Po wyrenderowaniu prognozy sprawdź, czy aktualne miasto jest w ulubionych
+  try{
+    refreshFavorites().then((favs) => {
+      try{
+        const btn = document.getElementById('favoriteBtn');
+        if (!btn) return;
+        const found = (favs || []).some(f => {
+          if (!f || !f.city) return false;
+          return String(f.city).toLowerCase() === String(currentCity).toLowerCase();
+        });
+        setFavoriteButtonActive(found);
+      }catch(e){ console.warn('set favorite state failed', e); }
+    }).catch(()=>{});
+  }catch(e){}
 }
 
 // Pasek kart z prognozą na kolejne dni
@@ -288,17 +357,78 @@ function updateForecastStripActive() {
 
 // Domyślna lokalizacja (bez parametrów -> Kraków po stronie backendu)
 async function loadDefault() {
+  const key = cacheKeyFor(currentCoords.lat, currentCoords.lon, null);
+  const cached = getCachedForecast(key);
+  if (cached){
+    try{ renderForecast(cached); }catch(e){ console.warn('Cached render failed', e); }
+    // fetch fresh in background
+    fetchForecast().then((fresh)=>{ setCachedForecast(key, fresh); renderForecast(fresh); }).catch(()=>{});
+    return;
+  }
+
   const data = await fetchForecast();
+  setCachedForecast(key, data);
   renderForecast(data);
 }
 
 // Ładowanie na podstawie wpisanej nazwy miasta
 async function loadByCityName(name) {
   const place = await geocodeCity(name);
-
   const cityName = place.local_names?.pl || place.name;
+  const key = cacheKeyFor(place.lat, place.lon, cityName);
+  const cached = getCachedForecast(key);
+  if (cached){
+    try{ renderForecast(cached); }catch(e){ console.warn('Cached render failed', e); }
+    // refresh in background
+    fetchForecast(place.lat, place.lon, cityName).then((fresh)=>{ setCachedForecast(key, fresh); renderForecast(fresh); }).catch(()=>{});
+    try{ const inp = document.getElementById('cityInput'); if (inp) { inp.value = ''; inp.blur(); } }catch(e){}
+    return;
+  }
+
   const data = await fetchForecast(place.lat, place.lon, cityName);
+  setCachedForecast(key, data);
   renderForecast(data);
+  try{ const inp = document.getElementById('cityInput'); if (inp) { inp.value = ''; inp.blur(); } }catch(e){}
+}
+
+// Ładowanie na podstawie współrzędnych (szybkie: używa cache jeśli dostępny,
+// a potem odświeża w tle). Zwraca promise, resolves gdy pobrano świeże dane.
+async function loadByCoords(lat, lon, label){
+  // update basic UI immediately
+  try{
+    if (label) {
+      currentCity = label;
+      const cityEl = document.getElementById('cityName');
+      if (cityEl) cityEl.textContent = label + ' (ładowanie...)';
+    }
+    currentCoords.lat = lat;
+    currentCoords.lon = lon;
+  }catch(e){}
+
+  const key = cacheKeyFor(lat, lon, label || null);
+  const cached = getCachedForecast(key);
+  if (cached){
+    try{ renderForecast(cached); }catch(e){ console.warn('Cached render failed', e); }
+    // refresh in background and update when fresh
+    try{
+      const fresh = await fetchForecast(lat, lon, label);
+      setCachedForecast(key, fresh);
+      renderForecast(fresh);
+      try{ const inp = document.getElementById('cityInput'); if (inp) { inp.value = ''; inp.blur(); } }catch(e){}
+      return fresh;
+    }catch(e){
+      console.warn('Background refresh failed', e);
+      return cached;
+      try{ const inp = document.getElementById('cityInput'); if (inp) { inp.value = ''; inp.blur(); } }catch(e){}
+    }
+  } else {
+    // no cache -> fetch and render
+    const data = await fetchForecast(lat, lon, label);
+    setCachedForecast(key, data);
+    renderForecast(data);
+    try{ const inp = document.getElementById('cityInput'); if (inp) { inp.value = ''; inp.blur(); } }catch(e){}
+    return data;
+  }
 }
 
 // =================== OBSŁUGA WYSZUKIWANIA ===================
@@ -340,28 +470,162 @@ function setupSearch() {
 function setupFavoriteButton() {
   const btn = $("#favoriteBtn");
   if (!btn) return;
-
-  btn.addEventListener("click", () => {
-    const loggedIn = btn.dataset.loggedIn === "1";
+  btn.addEventListener("click", async () => {
+    const loggedIn = btn.dataset.loggedin === "1" || btn.dataset.loggedIn === "1";
 
     if (!loggedIn) {
-      // zamiast przekierowania:
+      // show auth modal (existing UI)
       const overlay = document.getElementById("authOverlay");
       const modal = document.getElementById("authModal");
       const loginForm = document.getElementById("loginForm");
 
-      overlay.classList.remove("hidden");
-      modal.classList.remove("hidden");
-
-      // pokaż formularz logowania
-      loginForm.classList.remove("hidden");
-      document.getElementById("registerForm").classList.add("hidden");
+      if (overlay) overlay.classList.remove("hidden");
+      if (modal) modal.classList.remove("hidden");
+      if (loginForm) {
+        loginForm.classList.remove("hidden");
+        const reg = document.getElementById("registerForm");
+        if (reg) reg.classList.add("hidden");
+      }
       return;
     }
 
-    // jeśli zalogowany -> toggle ulubione
-    btn.classList.toggle("active");
+    // jeśli zalogowany -> wyślij request do API
+    const isActive = btn.classList.contains("active");
+    try {
+      if (!isActive) {
+        // add favorite
+        const res = await fetch(`/weather/api/favorites`, {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ city: currentCity, lat: currentCoords.lat, lon: currentCoords.lon }),
+        });
+        if (res.ok) {
+          btn.classList.add("active");
+          // refresh favorites list UI
+          refreshFavorites().catch(()=>{});
+        } else {
+          const txt = await res.text();
+          console.error('Add favorite failed', res.status, txt);
+          alert('Nie udało się dodać do ulubionych.');
+        }
+      } else {
+        // remove favorite by city
+        const res = await fetch(`/weather/api/favorites`, {
+          method: "DELETE",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ city: currentCity }),
+        });
+        if (res.ok) {
+          btn.classList.remove("active");
+          // refresh favorites list UI
+          refreshFavorites().catch(()=>{});
+        } else {
+          const txt = await res.text();
+          console.error('Remove favorite failed', res.status, txt);
+          alert('Nie udało się usunąć z ulubionych.');
+        }
+      }
+    } catch (err) {
+      console.error('Favorite request error', err);
+      alert('Błąd sieci podczas operacji ulubionych.');
+    }
   });
+}
+
+// Fetch and render favorites list into #favoritesList
+async function refreshFavorites(){
+  try{
+    const res = await fetch('/weather/api/favorites', { credentials: 'same-origin' });
+    if (!res.ok) {
+      // not logged in or no favorites; show empty state
+      renderFavorites([]);
+      return [];
+    }
+    const data = await res.json();
+    const favs = data.favorites || [];
+    renderFavorites(favs);
+    return favs;
+  }catch(e){
+    console.warn('refreshFavorites failed', e);
+    renderFavorites([]);
+    return [];
+  }
+}
+
+function renderFavorites(favs){
+  const container = document.getElementById('favoritesList');
+  if (!container) return;
+  container.innerHTML = '';
+  if (!favs || favs.length === 0){
+    const row = document.createElement('div');
+    row.className = 'fav-row';
+    row.innerHTML = `<span class="fav-name">Brak zapisanych ulubionych lokalizacji</span><span class="fav-temp"></span>`;
+    container.appendChild(row);
+    return;
+  }
+
+  favs.forEach(f => {
+    const row = document.createElement('div');
+    row.className = 'fav-row';
+      row.style.cursor = 'pointer';
+      row.tabIndex = 0;
+      row.dataset.lat = f.lat;
+      row.dataset.lon = f.lon;
+    const name = document.createElement('span');
+    name.className = 'fav-name';
+    name.textContent = f.city;
+    name.tabIndex = 0;
+    name.style.cursor = 'pointer';
+    name.dataset.lat = f.lat;
+    name.dataset.lon = f.lon;
+      name.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // load forecast for this favorite (via coords if available)
+        const lat = name.closest('.fav-row').dataset.lat ? parseFloat(name.closest('.fav-row').dataset.lat) : null;
+        const lon = name.closest('.fav-row').dataset.lon ? parseFloat(name.closest('.fav-row').dataset.lon) : null;
+        const label = f.city;
+        if (lat != null && lon != null) {
+          loadByCoords(lat, lon, label).catch(err=>{ console.error(err); alert('Nie udało się załadować miasta.'); });
+        } else {
+          loadByCityName(f.city).catch(err=>{ console.error(err); alert('Nie udało się załadować miasta.'); });
+        }
+      });
+      name.addEventListener('keydown', (e)=>{ if (e.key==='Enter') name.click(); });
+
+    const temp = document.createElement('span');
+    temp.className = 'fav-temp';
+    temp.textContent = '';
+
+    row.appendChild(name);
+    row.appendChild(temp);
+
+    // make the whole row clickable and keyboard-accessible
+    row.addEventListener('click', () => {
+      const lat = row.dataset.lat ? parseFloat(row.dataset.lat) : null;
+      const lon = row.dataset.lon ? parseFloat(row.dataset.lon) : null;
+      const label = f.city;
+      if (lat != null && lon != null) {
+        loadByCoords(lat, lon, label).catch(err=>{ console.error(err); alert('Nie udało się załadować miasta.'); });
+      } else {
+        loadByCityName(f.city).catch(err=>{ console.error(err); alert('Nie udało się załadować miasta.'); });
+      }
+    });
+    row.addEventListener('keydown', (e)=>{ if (e.key==='Enter') row.click(); });
+
+    container.appendChild(row);
+  });
+}
+
+function setFavoriteButtonActive(active){
+  const btn = document.getElementById('favoriteBtn');
+  if (!btn) return;
+  if (active){
+    btn.classList.add('active');
+  } else {
+    btn.classList.remove('active');
+  }
 }
 
 
@@ -391,15 +655,122 @@ function updateChartTitle(dayOffset) {
 
 // Wstawia poprawny src do <img id="chartImg">
 function updateChart() {
+  const canvas = document.getElementById('chartCanvas');
   const img = $("#chartImg");
-  if (!img) return;
-
   const { lat, lon } = currentCoords;
 
-  // Wywołaj endpoint z blueprintem '/weather' (route zdefiniowana w modules/weather_app.py)
-  img.src = `/weather/plot.png?lat=${lat}&lon=${lon}&day=${chartDayOffset}&_=${Date.now()}`;
+  // Prefer client-side chart using hourly JSON endpoint (faster perception)
+  if (canvas && window.Chart) {
+    canvas.style.display = 'block';
+    if (img) img.style.display = 'none';
+    const hourlyKey = hourlyCacheKey(lat, lon, chartDayOffset);
+    const cached = getCachedHourly(hourlyKey);
+    if (cached){
+      try{
+        const pts = (cached.points || []).map(p => ({ t: p.dt, temp: p.temp, precip: p.precip_mm }));
+        renderChartFromPoints(pts);
+      }catch(e){ console.warn('Render from hourly cache failed', e); }
+      // refresh in background
+      fetch(`/weather/api/hourly?lat=${lat}&lon=${lon}&day=${chartDayOffset}`)
+        .then(async (res)=>{ if (!res.ok) throw new Error(await res.text()); return res.json(); })
+        .then(json=>{ setCachedHourly(hourlyKey, json); const pts=(json.points||[]).map(p=>({ t:p.dt, temp:p.temp, precip:p.precip_mm })); renderChartFromPoints(pts); })
+        .catch(err=>{ console.warn('Hourly refresh failed', err); });
+    } else {
+      fetch(`/weather/api/hourly?lat=${lat}&lon=${lon}&day=${chartDayOffset}`)
+        .then(async (res) => {
+          if (!res.ok) throw new Error(await res.text());
+          return res.json();
+        })
+        .then((json) => {
+          setCachedHourly(hourlyKey, json);
+          const pts = (json.points || []).map(p => ({ t: p.dt, temp: p.temp, precip: p.precip_mm }));
+          renderChartFromPoints(pts);
+        })
+        .catch((err) => {
+          // fallback: load server-generated PNG without spinner
+          console.warn('Hourly JSON failed, falling back to PNG:', err);
+          if (canvas) canvas.style.display = 'none';
+          if (img) {
+            const src = `/weather/plot.png?lat=${lat}&lon=${lon}&day=${chartDayOffset}&_=${Date.now()}`;
+            img.style.display = 'block';
+            img.src = src;
+          }
+        });
+    }
+  } else {
+    // no Chart.js available: use PNG fallback
+    if (canvas) canvas.style.display = 'none';
+    if (img) { img.style.display = 'block'; img.src = `/weather/plot.png?lat=${lat}&lon=${lon}&day=${chartDayOffset}&_=${Date.now()}`; }
+  }
 
   updateChartTitle(chartDayOffset);
+}
+
+// Chart.js instance
+let chartInstance = null;
+
+function renderChartFromPoints(points){
+  const ctx = document.getElementById('chartCanvas').getContext('2d');
+  // helper: extract HH:MM from ISO-local string like 2025-11-26T06:00:00+08:00
+  function timeFromISO(iso){
+    try{
+      const m = iso.match(/T(\d{2}:\d{2})/);
+      if (m && m[1]) return m[1];
+      // fallback: create Date and format (may show user's local tz)
+      const d = new Date(iso);
+      return d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    }catch(e){ return iso; }
+  }
+
+  const labels = points.map(p => {
+    if (typeof p.t === 'string') return timeFromISO(p.t);
+    if (p.t instanceof Date) return p.t.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    return String(p.t);
+  });
+  const temps = points.map(p => p.temp == null ? NaN : p.temp);
+  const prec = points.map(p => p.precip == null ? 0 : p.precip);
+
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        type: 'line',
+        label: 'Temperatura (°C)',
+        data: temps,
+        borderColor: '#2B7A78',
+        backgroundColor: 'rgba(43,122,120,0.08)',
+        yAxisID: 'y1',
+        tension: 0.3,
+        pointRadius: 3,
+      },
+      {
+        type: 'bar',
+        label: 'Opady (mm)',
+        data: prec,
+        backgroundColor: 'rgba(138,162,74,0.7)',
+        yAxisID: 'y2',
+      }
+    ]
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: { grid: { display: false } },
+      y1: { type: 'linear', position: 'left', title: { display: true, text: '°C' } },
+      y2: { type: 'linear', position: 'right', title: { display: true, text: 'mm' }, grid: { drawOnChartArea: false } }
+    },
+    plugins: { legend: { display: true } }
+  };
+
+  if (chartInstance) {
+    chartInstance.data = data;
+    chartInstance.options = options;
+    chartInstance.update();
+  } else {
+    chartInstance = new Chart(ctx, { data, options });
+  }
 }
 
 // Obsługa przycisków ‹ i ›
@@ -436,6 +807,14 @@ document.addEventListener("DOMContentLoaded", () => {
   setupSearch();
   setupFavoriteButton();
   setupChartNavigation();
+
+  // If page was rendered as logged-in, load favorites list
+  try{
+    const favBtn = document.getElementById('favoriteBtn');
+    if (favBtn && (favBtn.dataset.loggedin === '1' || favBtn.dataset.loggedIn === '1')){
+      refreshFavorites().catch(()=>{});
+    }
+  }catch(e){ }
 
   // Załaduj prognozę dla domyślnej lokalizacji i wykres
   loadDefault()
