@@ -3,6 +3,10 @@ document.addEventListener('click', function (e) {
     var el = e.target.closest && e.target.closest('.news-link');
     if (!el) return;
 
+    // Zapobiega wielokrotnemu wysyłaniu (np. gdy link jest zagnieżdżony)
+    if (e.news_history_logged) return;
+    e.news_history_logged = true;
+
     var url = el.getAttribute('href') || el.dataset.url;
     if (!url) return;
 
@@ -18,7 +22,7 @@ document.addEventListener('click', function (e) {
     }).catch(function () {
         // swallow errors silently
     });
-});
+}, true); // Capture phase, aby złapać event wcześniej
 
 // Historia - obsługa przycisków na stronie history.html
 document.addEventListener('DOMContentLoaded', function() {
