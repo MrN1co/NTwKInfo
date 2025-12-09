@@ -1,16 +1,16 @@
 /* Main stylesheet for NTwKInfo application */
 /* --- 0. Zmienne Kolorów i Czcionek --- */
 :root {
-    --color-primary: #485C11;
-    --color-secondary: #8E9C78;
-    --color-accent: #DFECC6;
+    --color-primary: #485c11;
+    --color-secondary: #8e9c78;
+    --color-accent: #dfecc6;
     --color-text-secondary: #929292;
-    --color-border: #E9E9E9;
+    --color-border: #e9e9e9;
     --color-black: #000000;
-    --color-white: #FFFFFF;
+    --color-white: #ffffff;
 
-    --font-heading: 'Playfair Display', Georgia, serif;
-    --font-body: 'Roboto', Arial, sans-serif;
+    --font-heading: "Playfair Display", Georgia, serif;
+    --font-body: "Roboto", Arial, sans-serif;
 }
 
 /* --- 1. Globalne Style i Reset --- */
@@ -32,7 +32,9 @@ a {
     color: var(--color-black);
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     font-family: var(--font-heading);
     font-weight: 700;
     margin-bottom: 0.5em;
@@ -49,14 +51,14 @@ h1, h2, h3 {
 
 /* --- 2. NAGŁÓWEK --- */
 .header {
-  border-bottom: 1px solid var(--color-border);
-  position: sticky;
-  top: 0;
-  background-color: var(--color-white);
-  z-index: 99;
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto; /* wycentrowanie nagłówka względem strony */
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    background-color: var(--color-white);
+    z-index: 99;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto; /* wycentrowanie nagłówka względem strony */
 }
 
 .header__top-bar {
@@ -72,13 +74,13 @@ h1, h2, h3 {
     text-align: center; /* wycentrowanie tekstu w elementach */
 }
 .header__logo {
-  font-size: 40px;
-  font-weight: 500;
-  font-family: var(--font-body);
-  margin: 10px 0;
-  margin-right: auto; /* umieść logo z lewej strony */
-  align-self: center;
-  text-align: left;
+    font-size: 40px;
+    font-weight: 500;
+    font-family: var(--font-body);
+    margin: 10px 0;
+    margin-right: auto; /* umieść logo z lewej strony */
+    align-self: center;
+    text-align: left;
 }
 
 .header__nav {
@@ -113,10 +115,10 @@ h1, h2, h3 {
 
 /* Calendar widget in header */
 .calendar-widget {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--color-text-secondary);
 }
 .calendar-icon {
   flex: 0 0 56px;
@@ -133,33 +135,33 @@ h1, h2, h3 {
   box-shadow: 0 1px 0 rgba(0,0,0,0.06);
 }
 .calendar-month {
-  font-size: 11px;
-  text-transform: uppercase;
-  opacity: 0.9;
+    font-size: 11px;
+    text-transform: uppercase;
+    opacity: 0.9;
 }
 .calendar-day {
-  font-family: var(--font-heading);
-  font-size: 20px;
-  line-height: 1;
+    font-family: var(--font-heading);
+    font-size: 20px;
+    line-height: 1;
 }
 .calendar-info {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    max-width: 320px;
 }
 .calendar-date {
-  font-size: 13px;
-  color: var(--color-black);
-  font-weight: 500;
+    font-size: 13px;
+    color: var(--color-black);
+    font-weight: 500;
 }
 .calendar-fact {
-  font-size: 12px;
-  color: var(--color-text-secondary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 320px;
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 320px;
 }
 
 .header__cta-button {
@@ -171,7 +173,6 @@ h1, h2, h3 {
     font-family: var(--font-body);
     font-size: 18px;
     border-radius: 8px;
-    
 }
 
 .header__user-button {
@@ -233,9 +234,8 @@ h1, h2, h3 {
 
 .main-article__caption {
     width: 100%;
-    background-color: var(--color-accent);
-    border: 1px dashed var(--color-primary);
-    padding: 15px 20px;
+    border: 0.1 px dashed var(--color-primary); /* niewidoczne bo nie używamy */
+    padding: 0.1 px 20px;
     text-align: center;
     font-size: 14px;
     line-height: 1.3;
@@ -383,47 +383,42 @@ h1, h2, h3 {
 
 /* --- 9. RESPONSYWNOŚĆ --- */
 
-
 /* 📱 TELEFONY */
 @media (max-width: 799px) {
-  /* HEADER */
-  .header__top-bar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 15px;
-    padding: 20px;
-    height: auto;
-    text-align: left;
-  }
+    /* HEADER */
+    .header__top-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+        padding: 20px;
+        height: auto;
+        text-align: left;
+    }
 
-  .header__logo {
-    font-size: 28px;
-    margin: 0;
-    width: 100%;
-  }
+    .header__logo {
+        font-size: 28px;
+        margin: 0;
+        width: 100%;
+    }
 
-  .header__nav {
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 6px;
-    width: 100%;
-  }
+    .header__nav {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 6px;
+        width: 100%;
+    }
 
-  .header__nav a {
-    font-size: 11px;
-    padding: 3px 0;
-    flex: 1 1 auto;
-  }
+    .header__nav a {
+        font-size: 11px;
+        padding: 3px 0;
+        flex: 1 1 auto;
+    }
 
-  .header__meta {
-    font-size: 13px;
-    align-items: flex-start;
-    width: 100%;
-  }
-
-  .header__top-bar {
-    position: relative;
-  }
+    .header__meta {
+        font-size: 13px;
+        align-items: flex-start;
+        width: 100%;
+    }
 
   .header__cta-button,
   .header__user-button {
@@ -457,35 +452,36 @@ h1, h2, h3 {
     width: 100%;
   }
 
-  /* KARUZELA NAD PRAWĄ KOLUMNĄ */
-  .main-article-carousel {
-    order: -1;
-    margin-bottom: 0; /* usuń dodatkową przerwę pod karuzelą */
-  }
+    /* RIGHT COLUMN — pogoda i kursy obok siebie */
+    .right-column {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        width: 100%;
+    }
 
-  /* OBRAZEK */
-  .image-placeholder {
-    height: 220px;
-    max-height: none;
-  }
+    /* KARUZELA NAD PRAWĄ KOLUMNĄ */
+    .main-article-carousel {
+        order: -1;
+        margin-bottom: 0; /* usuń dodatkową przerwę pod karuzelą */
+    }
 
-  .main-article__title {
-    font-size: 20px;
-    line-height: 1.2;
-    margin-bottom: 12px; /* lekko mniejszy odstęp pod tytułem */
-  }
-  .main-article__image-container {
-  margin-bottom: 1px; /* zmniejszona przerwa pod obrazkiem artykułu */
-}
+    /* OBRAZEK */
+    .image-placeholder {
+        height: 220px;
+        max-height: none;
+    }
 
-  /* KARUZELA */
-  
+    .main-article__title {
+        font-size: 20px;
+        line-height: 1.2;
+        margin-bottom: 12px; /* lekko mniejszy odstęp pod tytułem */
+    }
+    .main-article__image-container {
+        margin-bottom: 1px; /* zmniejszona przerwa pod obrazkiem artykułu */
+    }
 
-  .carousel-button {
-    font-size: 18px;
-    width: 32px;
-    height: 32px;
-  }
+    /* KARUZELA */
 
   /* WEATHER BOX */
 
@@ -525,127 +521,135 @@ h1, h2, h3 {
     margin-top: 0;
   }
 
-  .weather-box__icon {
-    font-size: 36px;
-    margin-bottom: 10px;
-  }
+    /* WEATHER BOX */
+    .weather-box {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        max-width: 100%;
+        overflow-x: auto;
+        padding: 25px;
+        max-height: 250px;
+    }
 
-  .weather-box__temp {
-    font-size: 28px;
-  }
+    .weather-box__icon {
+        font-size: 36px;
+        margin-bottom: 10px;
+    }
 
-  /* EXCHANGE RATES */
-  .exchange-rates {
-    max-width: 100%;
-    overflow-x: hidden;
-    /*padding: 25px;*/
-    width: 100%;
-  }
+    .weather-box__temp {
+        font-size: 28px;
+    }
 
-  .exchange-rates__table {
-    width: 100%;
-    table-layout: fixed;
-  }
-  .exchange-rates__header {
-    font-size: 15px;
-    padding: 10px 12px;
-    text-align: left;
-  }
+    /* EXCHANGE RATES */
+    .exchange-rates {
+        max-width: 100%;
+        overflow-x: hidden;
+        /*padding: 25px;*/
+        width: 100%;
+    }
 
     .exchange-rates__table {
-    font-size: 12px;
-  }
+        width: 100%;
+        table-layout: fixed;
+    }
+    .exchange-rates__header {
+        font-size: 15px;
+        padding: 10px 12px;
+        text-align: left;
+    }
 
-  .exchange-rates__header .cell,
-  .rate-item .cell {
-    padding: 6px 8px;
-  }
+    .exchange-rates__table {
+        font-size: 12px;
+    }
 
+    .exchange-rates__header .cell,
+    .rate-item .cell {
+        padding: 6px 8px;
+    }
 
-  .exchange-rates__title {
-    font-size: 15px;
-  }
+    .exchange-rates__title {
+        font-size: 15px;
+    }
 
-  .rate-item .cell {
-    font-size: 13px;
-    padding: 8px 12px;
-  }
+    .rate-item .cell {
+        font-size: 13px;
+        padding: 8px 12px;
+    }
 
-  /* OGÓLNE ZMNIEJSZENIE PADDINGÓW */
-  .main-content {
-    padding: 10px 10px;
-    gap: 20px;
-  }
+    /* OGÓLNE ZMNIEJSZENIE PADDINGÓW */
+    .main-content {
+        padding: 10px 10px;
+        gap: 20px;
+    }
 
+    /*zmienione wyrazy na znaki na telefonach*/
+    .exchange-rates__header .cell:nth-child(1)::before {
+        content: "💵";
+    }
+    .exchange-rates__header .cell:nth-child(2)::before {
+        content: "🛒";
+    }
+    .exchange-rates__header .cell:nth-child(3)::before {
+        content: "🏷️";
+    }
 
-  /*zmienione wyrazy na znaki na telefonach*/
-  .exchange-rates__header .cell:nth-child(1)::before {
-  content: "💵";
-}
-.exchange-rates__header .cell:nth-child(2)::before {
-  content: "🛒";
-}
-.exchange-rates__header .cell:nth-child(3)::before {
-  content: "🏷️";
-}
+    .exchange-rates__header .cell {
+        font-size: 0;
+    }
 
-.exchange-rates__header .cell {
-  font-size: 0;
-}
-
-.exchange-rates__header .cell::before {
-  font-size: 18px;
-  display: inline-block;
-  text-align: center;
-  width: 100%;
-}
-
+    .exchange-rates__header .cell::before {
+        font-size: 18px;
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
 }
 
 /* 💻 TABLETY */
 /* 💻 TABLETY */
 @media (min-width: 800px) and (max-width: 1279px) {
-  .header__top-bar {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 16px;
-    padding: 25px 40px;
-    height: auto;
-    text-align: left;
-    background-color: var(--color-white);
-  }
+    .header__top-bar {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        padding: 25px 40px;
+        height: auto;
+        text-align: left;
+        background-color: var(--color-white);
+    }
 
-  .header__logo {
-    font-size: 34px;
-    margin-bottom: 10px;
-    text-align: left;
-  }
+    .header__logo {
+        font-size: 34px;
+        margin-bottom: 10px;
+        text-align: left;
+    }
 
-  .header__nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 20px;
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
+    .header__nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 20px;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
 
-  .header__nav a {
-    padding: 6px 0;
-    min-width: 90px;
-    font-size: 15px;
-  }
+    .header__nav a {
+        padding: 6px 0;
+        min-width: 90px;
+        font-size: 15px;
+    }
 
-  .header__meta {
-    font-size: 14px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    line-height: 1.3;
-    color: var(--color-text-secondary);
-    margin-top: 5px;
-  }
+    .header__meta {
+        font-size: 14px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1.3;
+        color: var(--color-text-secondary);
+        margin-top: 5px;
+    }
 
   .header__cta-button,
   .header__user-button {
@@ -657,28 +661,28 @@ h1, h2, h3 {
     margin-top: 0;
   }
 
- .main-content {
-    max-width: 100%;
-    padding: 30px 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-  }
+    .main-content {
+        max-width: 100%;
+        padding: 30px 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
 
-  /* --- UKŁAD: WSZYSTKO POD SOBĄ --- */
-  .content-grid {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 40px !important;
-  }
+    /* --- UKŁAD: WSZYSTKO POD SOBĄ --- */
+    .content-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 40px !important;
+    }
 
-  .right-column {
-    width: 100%;
-    margin-top: 0 !important;
-    display: flex;
-    flex-direction: column;
-    gap: 30px; /* odstęp między kafelkami */
-  }
+    .right-column {
+        width: 100%;
+        margin-top: 0 !important;
+        display: flex;
+        flex-direction: column;
+        gap: 30px; /* odstęp między kafelkami */
+    }
 
   .weather-box {
         background: var(--color-accent);
@@ -694,11 +698,10 @@ h1, h2, h3 {
   }
 }
 
-
 /* 🖥 LAPTOPY I WIĘKSZE */
 @media (min-width: 1280px) {
     /* Domyślne dla strony głównej - brak scrollowania */
-    html:not(:has(body.news-page)), 
+    html:not(:has(body.news-page)),
     body:not(.news-page) {
         height: 100vh;
         overflow: hidden;
@@ -758,7 +761,7 @@ h1, h2, h3 {
     .right-column {
         display: flex;
         flex-direction: column;
-        min-height: 0;  /* pozwala kolumnom się zmniejszyć */
+        min-height: 0; /* pozwala kolumnom się zmniejszyć */
         overflow: hidden;
     }
 
@@ -783,19 +786,19 @@ h1, h2, h3 {
     }
 
     .main-article__image-container {
-        flex: 1;           /* zdjęcie wypełnia kolumnę proporcjonalnie */
+        flex: 1; /* zdjęcie wypełnia kolumnę proporcjonalnie */
         min-height: 0;
         margin-bottom: 10px;
     }
 
     .image-placeholder {
         width: 100%;
-        height: 350px;     /* większe, naturalne zdjęcie */
+        height: 350px; /* większe, naturalne zdjęcie */
     }
 
     .main-article__caption {
-        font-size: 14px;
-        padding: 12px 20px;
+        font-size: 0px;
+        padding: 0.1px 20px;
     }
 
     /* --- PRAWA KOLUMNA --- */
@@ -812,7 +815,7 @@ h1, h2, h3 {
     }
 
     .exchange-rates {
-        flex: 1;       /* zajmuje resztę miejsca */
+        flex: 1; /* zajmuje resztę miejsca */
         overflow: auto;
         min-height: 0;
     }
@@ -860,7 +863,6 @@ h1, h2, h3 {
         margin-top: 30px; /* zmniejszone, żeby nie było dużego luzu */
     }
 }
-
 
 /* --- 10. KARUZELA WIADOMOŚCI --- */
 .carousel-container {
@@ -913,99 +915,102 @@ h1, h2, h3 {
 
 /* --- 11. ANIMACJA KARUZELI --- */
 @keyframes fade {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
-
 
 /* --- 12. STYL LOGOWANIA I REJSTRACJI */
 /* --- MODAL: TŁO --- */
 .auth-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.45);
-  backdrop-filter: blur(3px);
-  z-index: 200;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(3px);
+    z-index: 200;
 }
 
 .hidden {
-  display: none !important;
+    display: none !important;
 }
 
 /* --- MODAL OKNO --- */
 .auth-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 300;
-  width: 90%;
-  max-width: 420px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 300;
+    width: 90%;
+    max-width: 420px;
 }
 
 /* --- BOXY --- */
 .auth-box {
-  background: white;
-  border-radius: 22px;
-  padding: 40px 35px;
-  border: 1px solid var(--color-border);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-  position: relative;
-  animation: fadeIn 0.3s ease;
+    background: white;
+    border-radius: 22px;
+    padding: 40px 35px;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    position: relative;
+    animation: fadeIn 0.3s ease;
 }
 
 .auth-close {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  background: none;
-  border: none;
-  font-size: 26px;
-  cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background: none;
+    border: none;
+    font-size: 26px;
+    cursor: pointer;
 }
 
 .auth-box h2 {
-  font-family: var(--font-heading);
-  margin-bottom: 12px;
+    font-family: var(--font-heading);
+    margin-bottom: 12px;
 }
 
 .auth-switch {
-  font-size: 14px;
-  margin-bottom: 25px;
+    font-size: 14px;
+    margin-bottom: 25px;
 }
 
 .auth-switch a {
-  color: var(--color-primary);
-  font-weight: bold;
+    color: var(--color-primary);
+    font-weight: bold;
 }
 
 /* INPUTY */
 .auth-box label {
-  font-weight: 600;
+    font-weight: 600;
 }
 
 .auth-box input {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 20px;
-  border: 1px solid var(--color-border);
-  background: #e5e5e5;
-  margin-bottom: 18px;
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--color-border);
+    background: #e5e5e5;
+    margin-bottom: 18px;
 }
 
 .auth-submit {
-  width: 100%;
-  padding: 14px 15px;
-  background: var(--color-primary);
-  color: white;
-  font-size: 17px;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  margin-top: 10px;
+    width: 100%;
+    padding: 14px 15px;
+    background: var(--color-primary);
+    color: white;
+    font-size: 17px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 10px;
 }
 
 /* Error message in auth modal */
@@ -1018,5 +1023,23 @@ h1, h2, h3 {
   margin-bottom: 20px;
   font-size: 14px;
   font-weight: 500;
+}
+
+/* Logout success modal */
+.logout-modal {
+  text-align: center;
+  max-width: 400px;
+}
+
+.logout-modal h2 {
+  color: #28a745;
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
+.logout-modal p {
+  margin-bottom: 25px;
+  color: var(--color-text-secondary);
+  font-size: 16px;
 }
 

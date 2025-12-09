@@ -68,6 +68,3 @@ if (loginBtn && overlay && modal) {
     });
   }
 }
-
-// Handle user button (redirects to dashboard when logged in) - no additional JS needed
-// The href attribute in the template handles the redirect
