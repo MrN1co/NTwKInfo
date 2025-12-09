@@ -30,8 +30,8 @@ def create_app():
     )
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
-    # Initialize database
-    db.init_app(app)
+    # Initialize database (creates tables and default users if needed)
+    init_db(app)
     
     # Context processor to make current user available to all templates
     @app.context_processor
@@ -48,10 +48,6 @@ def create_app():
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(tables_bp, url_prefix='/news')
     app.register_blueprint(weather_bp, url_prefix='/weather')
-    
-    # Create database tables
-    with app.app_context():
-        db.create_all()
     
     return app
 
