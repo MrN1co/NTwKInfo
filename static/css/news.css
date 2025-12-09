@@ -294,7 +294,6 @@ body.news-page .main-content {
     gap: 10px;
     margin: 20px 0;
     justify-content: center;
-    flex-wrap: wrap;
     align-items: center;
 }
 
