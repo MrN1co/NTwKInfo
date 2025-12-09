@@ -56,18 +56,16 @@ def create_app():
     return app
 
 if __name__ == '__main__':
-    print("\n=== Uruchamianie testów ===\n")
-    tests.run_tests()
-    print("\n=== Testy zakończone ===\n")
-    
     app = create_app()
     
     # Flask gdy debug= True uruchamia proces podwójnie (proces główny + monitorujący zmiany)
     # Aby nie wyczerpać szybko limitów API należy uruchomić kolektory tylko w procesie głównym
     # Do usunięcia w produkcji
     if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
+        print("\n=== Uruchamianie testów ===\n")
+        tests.run_tests()
+        print("\n=== Testy zakończone ===\n")
         init_news_module()
-    
     port = int(os.environ.get('FLASK_RUN_PORT', 5001))
     host = os.environ.get('FLASK_RUN_HOST', '0.0.0.0')
     app.run(debug=True, host=host, port=port)
