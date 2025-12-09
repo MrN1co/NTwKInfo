@@ -234,9 +234,8 @@ h3 {
 
 .main-article__caption {
     width: 100%;
-    background-color: var(--color-accent);
-    border: 1px dashed var(--color-primary);
-    padding: 15px 20px;
+    border: 0.1 px dashed var(--color-primary); /* niewidoczne bo nie używamy */
+    padding: 0.1 px 20px;
     text-align: center;
     font-size: 14px;
     line-height: 1.3;
@@ -798,8 +797,8 @@ h3 {
     }
 
     .main-article__caption {
-        font-size: 14px;
-        padding: 12px 20px;
+        font-size: 0px;
+        padding: 0.1px 20px;
     }
 
     /* --- PRAWA KOLUMNA --- */
