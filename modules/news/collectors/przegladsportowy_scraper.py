@@ -5,6 +5,16 @@ import time
 import locale
 
 
+# Mapa kategorii na polskie nazwy tagów
+CATEGORY_TAG_MAP = {
+    'pilka-nozna': 'piłka-nożna',
+    'tenis': 'tenis',
+    'siatkowka': 'siatkówka',
+    'zuzel': 'żużel',
+    'lekkoatletyka': 'lekkoatletyka'
+}
+
+
 def _parse_polish_date(date_raw):
     """Parsuje polską datę w formacie '19 listopada 2025, 15:34' na timestamp i sformatowaną datę."""
     months = {
@@ -33,7 +43,7 @@ def _parse_polish_date(date_raw):
     return None, None
 
 
-def _fetch_news_from_category(category_slug, limit=10, headers=None):
+def _fetch_news_from_category(category_slug, limit=30, headers=None):
     """
     Pobiera wiadomości z konkretnej kategorii na przegladsportowy.pl.
     
@@ -113,7 +123,7 @@ def _fetch_news_from_category(category_slug, limit=10, headers=None):
                 'image': image_url,
                 'date': date,
                 'timestamp': timestamp,
-                'tags': ['sport', category_slug]
+                'tags': ['sport', CATEGORY_TAG_MAP.get(category_slug, category_slug)]
             })
 
         return news_list

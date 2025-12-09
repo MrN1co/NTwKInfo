@@ -46,6 +46,43 @@
     background-color: var(--color-secondary);
 }
 
+/* Mały przycisk obok dużych przycisków w nagłówku wiadomości */
+.top-btn.small {
+    flex: 0 0 auto;
+    padding: 8px 10px;
+    font-size: 0.95rem;
+    width: auto;
+    min-width: 40px;
+    max-width: 60px;
+    border-radius: 8px;
+}
+
+.top-btn.small:hover {
+    background-color: var(--color-secondary);
+}
+
+/* Drobne dopracowanie dla przycisku-ikony zegara */
+.top-btn.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 0;
+}
+
+.top-btn.icon-btn svg {
+    width: 18px;
+    height: 18px;
+    color: var(--color-white);
+}
+
+.top-btn.icon-btn:hover svg {
+    color: var(--color-white);
+}
+
 /* --- TABELE SPORTOWE --- */
 table {
     width: 100%;
@@ -399,7 +436,6 @@ body.news-page .main-content {
     }
 }
 
-}
 
 .news-image-placeholder {
     width: 100%;
