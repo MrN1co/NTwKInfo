@@ -258,16 +258,23 @@ class TestSavedTagsAPI:
 
 @pytest.fixture
 def app():
-    from app import create_app
-    flask_app = create_app()
+    from flask import Flask
+    
+    # Tworzymy nową instancję aplikacji Flask specjalnie dla testów
+    flask_app = Flask(__name__)
     flask_app.config['TESTING'] = True
-    flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+    flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'  # Baza danych tylko w pamięci dla testów
+    flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    flask_app.config['SECRET_KEY'] = 'test-secret-key'
+    
+    # Inicjalizujemy bazę danych dla testowej aplikacji
+    db.init_app(flask_app)
     
     with flask_app.app_context():
-        db.create_all()
+        db.create_all()  # Tworzy tabele tylko w testowej bazie w pamięci
         yield flask_app
         db.session.remove()
-        db.drop_all()
+        db.drop_all()  # Usuwa tabele tylko z testowej bazy w pamięci
 
 
 @pytest.fixture
