@@ -96,6 +96,8 @@ base.html) #} {% endblock %} {% block content %}
                         Ładuję ciekawostkę...
                     </div>
                 </div>
+            </div>
+            {# USUNIĘTE - DUPLIKAT - zakomentowane przez naprawę błędu Jinja2
               </article>
             {% endif %}
             <button class="carousel-button prev">‹</button>
@@ -114,6 +116,7 @@ base.html) #} {% endblock %} {% block content %}
               <div class="calendar-fact" id="calendarFact">Ładuję ciekawostkę...</div>
             </div>
           </div>
+        #}
         <section class="weather-box weather-box--compact">
           
           <div class="current-main-row">
@@ -142,6 +145,7 @@ base.html) #} {% endblock %} {% block content %}
               <div class="rate-item"><span class="cell">GBP</span><span class="cell">5.20</span><span class="cell">5.35</span></div>
               <div class="rate-item"><span class="cell">CHF</span><span class="cell">4.65</span><span class="cell">4.80</span></div>
             </div>
+            {# ZAKOMENTOWANE, BO PRZESZKADZA
             <section class="weather-box">
                 <div>
                     <div class="weather-box__city">Kraków</div>
@@ -185,7 +189,10 @@ base.html) #} {% endblock %} {% block content %}
                     </div>
                 </div>
             </section>
-        </div>
+            #}
+          </div>
+        </section>
+      </div>
     </section>
   </main>
 {% endblock %}
