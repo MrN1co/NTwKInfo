@@ -60,12 +60,7 @@ def create_app():
     return app
 
 if __name__ == '__main__':
-    print("\n=== Uruchamianie testów ===\n")
-    tests.run_tests()
-    print("\n=== Testy zakończone ===\n")
-    
     app = create_app()
-    
     # Flask gdy debug= True uruchamia proces podwójnie (proces główny + monitorujący zmiany)
     # Aby nie wyczerpać szybko limitów API należy uruchomić kolektory tylko w procesie głównym
     # Do usunięcia w produkcji
