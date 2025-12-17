@@ -1,14 +1,14 @@
 from flask import Blueprint, render_template, session, request, flash, redirect, url_for
 from modules.auth import login_required
 from modules.news.collectors import get_kryminalki_news
-from modules.ekonomia.ekonomia import ekonomia, get_currency_chart
+from modules.ekonomia.ekonomia import ekonomia, get_currency_chart, get_homepage_rates
 
 main_bp = Blueprint('main', __name__)
-
 @main_bp.route('/')
 def index():
     news_list = get_kryminalki_news(limit=3)
-    return render_template('main/index.html', news_list=news_list)
+    homepage_rates = get_homepage_rates()
+    return render_template('main/index.html', news_list=news_list, homepage_rates=homepage_rates)
 
 
 @main_bp.route('/news')

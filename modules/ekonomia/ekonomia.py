@@ -79,6 +79,46 @@ def load_gold_json():
         print(f"Error loading gold JSON: {e}")
         return None
 
+
+def format_pl_number(value):
+    """Format number with Polish separators (space thousands, comma decimals)."""
+    try:
+        formatted = f"{float(value):,.2f}"
+        # 1,234.56 -> 1 234,56
+        return formatted.replace(',', ' ').replace('.', ',')
+    except Exception:
+        return "–"
+
+
+def get_homepage_rates(preferred_codes=None):
+    """Return list of currency rates for homepage.
+
+    Tries local JSON snapshots first; if missing, falls back to live NBP API.
+    """
+    preferred_codes = preferred_codes or ["USD", "EUR", "GBP", "CHF"]
+
+    # JSON first
+    json_rates = {}
+    for code in preferred_codes:
+        df = load_currency_json(code)
+        if df is not None and not df.empty:
+            json_rates[code] = float(df["rate"].iloc[-1])
+
+    # API fallback only if needed
+    api_rates = None
+    if len(json_rates) < len(preferred_codes):
+        api_rates = Manager().currencies.get_current_rates()
+
+    rates = []
+    for code in preferred_codes:
+        rate = json_rates.get(code)
+        if rate is None and api_rates:
+            rate = api_rates.get(code.lower())
+        if rate:
+            rates.append({"code": code, "rate": round(rate, 4)})
+
+    return rates
+
 def generate_currency_plot(currency_code, color='#6c7c40'):
     """Generate currency chart from JSON data
     
@@ -162,6 +202,7 @@ def ekonomia():
     # 1 troy ounce = 31.1034768 grams
     current_gold = mgr.gold.get_current_price()
     cena_zlota = round(current_gold * 31.1034768, 2) if current_gold else 0
+    cena_zlota_formatted = format_pl_number(cena_zlota)
 
     # Get currency list and rates for calculator
     mgr = Manager()
@@ -185,6 +226,7 @@ def ekonomia():
                            wykres_waluty=wykres_waluty,
                            wykres_zlota=wykres_zlota,
                            cena_zlota=cena_zlota,
+                           cena_zlota_formatted=cena_zlota_formatted,
                            currency_codes=currency_codes,
                            currency_rates=currency_rates,
                            all_currencies_for_tiles=all_currencies_for_tiles)
