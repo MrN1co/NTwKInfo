@@ -10,6 +10,8 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
 from modules.news.tests.test_kryminalki_scraper import TestKryminalekScraper
+from modules.news.tests.test_policja_scraper import TestPolicjaScraper
+from modules.news.tests.test_ekstraklasa_scraper import TestEkstraklasaScraper
 
 def news_run_all_tests():
     """
