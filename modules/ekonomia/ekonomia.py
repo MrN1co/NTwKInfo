@@ -19,7 +19,7 @@ from urllib.parse import quote_plus
 import json
 import pandas as pd
 
-# Create blueprint for economics module (like weather_bp)
+# Create blueprint for economics module 
 ekonomia_bp = Blueprint('ekonomia', __name__)
 from datetime import datetime, timedelta
 import os
@@ -131,7 +131,26 @@ def ekonomia():
     """Main economy module handler"""
     
     # aktualizacja JSON-ów przy starcie
-    fetch_nbp.run_update()
+    # Update JSONs only on first run, then once per 24 hours
+    last_update_file = os.path.join('data', 'economics', '.last_update')
+    should_update = False
+    
+    if not os.path.exists(last_update_file):
+        should_update = True
+    else:
+        try:
+            with open(last_update_file, 'r') as f:
+                last_update = datetime.fromisoformat(f.read().strip())
+            if datetime.now() - last_update > timedelta(hours=24):
+                should_update = True
+        except:
+            should_update = True
+    
+    if should_update:
+        fetch_nbp.run_update()
+        os.makedirs(os.path.dirname(last_update_file), exist_ok=True)
+        with open(last_update_file, 'w') as f:
+            f.write(datetime.now().isoformat())
     
     # Static exchange rates for main currencies
     kurs_walut = {
@@ -139,7 +158,7 @@ def ekonomia():
         'CHF': 4.57,
         'USD': 3.64
     }
-    
+        
     # Generate default currency chart (EUR)
     wykres_waluty = generate_currency_plot('EUR', '#6c7c40')
 
