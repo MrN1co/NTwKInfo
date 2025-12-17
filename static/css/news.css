@@ -295,6 +295,7 @@ body.news-page .main-content {
     margin: 20px 0;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .save-tags-btn {
@@ -348,6 +349,43 @@ body.news-page .main-content {
     color: var(--color-primary);
     border-color: var(--color-primary);
     font-weight: 600;
+}
+
+/* Responsywność dla tagów na mobilach */
+@media (max-width: 992px) {
+    .tag-filters {
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 15px 0;
+    }
+
+    .tag-btn {
+        padding: 6px 14px;
+        font-size: 0.85rem;
+    }
+
+    .save-tags-btn {
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .tag-filters {
+        gap: 6px;
+        margin: 12px 0;
+        padding: 0 10px;
+    }
+
+    .tag-btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+        flex: 0 0 auto;
+    }
+
+    .save-tags-btn {
+        padding: 5px 8px;
+        margin-right: 5px;
+    }
 }
 
 /* Odstępy między wiadomościami */
