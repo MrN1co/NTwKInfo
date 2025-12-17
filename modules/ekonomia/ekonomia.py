@@ -220,22 +220,23 @@ def get_currency_chart(currency_code):
 
 @ekonomia_bp.route('/ekonomia/api/exchange-rates')
 def api_get_exchange_rates():
-    """Zwraca listę 10 dostępnych walut z kursami z NBP API"""
+    """Zwraca listę dostępnych walut z kursami z NBP API"""
     try:
-        available_currencies = ['EUR', 'USD', 'CHF', 'GBP', 'JPY', 'AUD', 'CAD', 'NOK', 'SEK', 'DKK']
         mgr = Manager()
-        rates = mgr.currencies.get_current_rates()
+        raw_rates = mgr.currencies.get_current_rates()
         
-        # Build currency list with rates
-        currency_list = []
-        for code in available_currencies:
-            rate = rates.get(code.upper(), 0)
-            currency_list.append({
-                'code': code,
-                'rate': rate
-            })
+        # Normalize to uppercase and add PLN=1
+        currency_rates = {k.upper(): v for k, v in raw_rates.items()}
+        currency_rates['PLN'] = 1.0
         
-        return jsonify({'currencies': currency_list}), 200
+        # Prepare currencies for table (include main ones with rate 0)
+        all_currencies_for_tiles = []
+        main_currencies = ['EUR', 'USD', 'CHF', 'GBP', 'JPY', 'AUD', 'CAD', 'NOK', 'SEK', 'DKK']
+        
+        for code in main_currencies:
+            all_currencies_for_tiles.append({'code': code, 'rate': currency_rates.get(code, 0)})
+        
+        return jsonify(all_currencies_for_tiles), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

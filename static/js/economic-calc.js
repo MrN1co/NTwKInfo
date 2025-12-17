@@ -237,7 +237,8 @@
                     const res = await apiCall('/ekonomia/api/exchange-rates');
                     if (!res.ok) return [];
                     const data = await res.json();
-                    return data.currencies || [];
+                    console.log('Available currencies loaded:', data);
+                    return data || [];
                 } catch (e) {
                     console.warn('Failed to fetch available currencies', e);
                     return [];
@@ -269,6 +270,7 @@
 
             // Move selected currencies to top with formatted display
             function reorderCurrenciesToTop(favs, availableCurrencies) {
+                console.log('Reordering currencies to top with favorites:', favs, availableCurrencies);
                 if (!favs || favs.length === 0) return;
 
                 // Create a map for quick lookup: code -> rate
