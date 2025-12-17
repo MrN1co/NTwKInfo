@@ -23,22 +23,6 @@ class Manager:
         gold_price = self.gold.get_current_price()
         return rates, gold_price
 
-    def export_to_csv(self, df, filename):
-        """Export DataFrame to CSV file"""
-        df.to_csv(filename, index=False)
-        print(f"Saved to {filename}")
-
-    def plot_rates(self, df, code):
-        """Plot currency rates over time"""
-        df_code = df[df["code"] == code.upper()]
-        if df_code.empty:
-            print(f"No data for currency {code}")
-            return
-        df_code.plot(x="date", y="rate", title=f"{code.upper()} exchange rate")
-        plt.xlabel("Date")
-        plt.ylabel("PLN Rate")
-        plt.show()
-
     def list_currencies(self, table: str = 'a'):
         """
         Get list of available currency codes from specified table.

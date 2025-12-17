@@ -17,7 +17,8 @@ def run_tests():
     from modules.news.tests.test_news import news_run_all_tests
     news_run_all_tests()
     #ekonomia
-    # ...
+    from modules.ekonomia.tests.test_ekonomia import ekonomia_run_all_tests
+    ekonomia_run_all_tests()
     #pogoda
     # ...
     #inne

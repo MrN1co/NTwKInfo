@@ -1,31 +1,22 @@
-from datetime import date
+from datetime import date, datetime, timedelta
 from flask import Blueprint, render_template, jsonify, request, session
 from modules.ekonomia.klasy_api_obsluga.Manager import Manager
 from modules.auth import api_login_required
 from modules.database import FavoriteCurrency
+from modules.ekonomia import fetch_nbp
 import io
 import base64
 import matplotlib
+import os
+import json
+import pandas as pd
 
 # Use non-interactive Agg backend for server-side image generation
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import numpy as np
-import modules.ekonomia.api_testy as api_testy
-from modules.ekonomia import fetch_nbp
-from datetime import datetime, timedelta
-import os
-from urllib.parse import quote_plus
-import json
-import pandas as pd
 
 # Create blueprint for economics module 
 ekonomia_bp = Blueprint('ekonomia', __name__)
-from datetime import datetime, timedelta
-import os
-from urllib.parse import quote_plus
-import json
-import pandas as pd
 
 def load_currency_json(currency_code):
     """Load historical currency data from JSON file
@@ -169,8 +160,8 @@ def ekonomia():
 
     # Get gold price and convert from PLN per gram to PLN per troy ounce
     # 1 troy ounce = 31.1034768 grams
-    cena_zlota_za_gram = api_testy.get_gold_price()[0]['cena']
-    cena_zlota = round(cena_zlota_za_gram * 31.1034768, 2)
+    current_gold = mgr.gold.get_current_price()
+    cena_zlota = round(current_gold * 31.1034768, 2) if current_gold else 0
 
     # Get currency list and rates for calculator
     mgr = Manager()
