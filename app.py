@@ -7,6 +7,7 @@ from modules.news.news import init_news_module
 import os
 from dotenv import load_dotenv
 from modules.weather_app import weather_bp
+from modules.ekonomia.ekonomia import ekonomia_bp
 from flask_sqlalchemy import SQLAlchemy
 from modules.scheduler import init_scheduler
 import tests
@@ -49,6 +50,7 @@ def create_app():
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(tables_bp, url_prefix='/news')
     app.register_blueprint(weather_bp, url_prefix='/weather')
+    app.register_blueprint(ekonomia_bp)
     
     # Create database tables
     with app.app_context():

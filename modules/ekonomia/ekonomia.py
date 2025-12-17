@@ -1,6 +1,8 @@
 from datetime import date
-from flask import Flask, render_template, jsonify
+from flask import Blueprint, render_template, jsonify, request, session
 from modules.ekonomia.klasy_api_obsluga.Manager import Manager
+from modules.auth import api_login_required
+from modules.database import FavoriteCurrency
 import io
 import base64
 import matplotlib
@@ -11,6 +13,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import modules.ekonomia.api_testy as api_testy
 from modules.ekonomia import fetch_nbp
+from datetime import datetime, timedelta
+import os
+from urllib.parse import quote_plus
+import json
+import pandas as pd
+
+# Create blueprint for economics module (like weather_bp)
+ekonomia_bp = Blueprint('ekonomia', __name__)
 from datetime import datetime, timedelta
 import os
 from urllib.parse import quote_plus
@@ -116,6 +126,7 @@ def generate_currency_plot(currency_code, color='#6c7c40'):
     plt.close(fig)
     return encoded
 
+@ekonomia_bp.route('/ekonomia')
 def ekonomia():
     """Main economy module handler"""
     
@@ -168,6 +179,7 @@ def ekonomia():
                            currency_rates=currency_rates,
                            all_currencies_for_tiles=all_currencies_for_tiles)
 
+@ekonomia_bp.route('/ekonomia/chart/<currency_code>')
 def get_currency_chart(currency_code):
     """AJAX endpoint for dynamic currency chart generation
     
@@ -203,3 +215,96 @@ def get_currency_chart(currency_code):
             'message': f'Błąd podczas generowania wykresu: {str(e)}',
             'chart': None
         })
+
+# ======================= API: EXCHANGE RATES =======================
+
+@ekonomia_bp.route('/ekonomia/api/exchange-rates')
+def api_get_exchange_rates():
+    """Zwraca listę 10 dostępnych walut z kursami z NBP API"""
+    try:
+        available_currencies = ['EUR', 'USD', 'CHF', 'GBP', 'JPY', 'AUD', 'CAD', 'NOK', 'SEK', 'DKK']
+        mgr = Manager()
+        rates = mgr.currencies.get_current_rates()
+        
+        # Build currency list with rates
+        currency_list = []
+        for code in available_currencies:
+            rate = rates.get(code.upper(), 0)
+            currency_list.append({
+                'code': code,
+                'rate': rate
+            })
+        
+        return jsonify({'currencies': currency_list}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# ======================= API: FAVORITE CURRENCIES =======================
+
+@ekonomia_bp.route('/ekonomia/api/favorite-currencies', methods=['GET'])
+@api_login_required
+def api_get_favorite_currencies():
+    """Zwraca listę ulubionych walut zalogowanego użytkownika (max 3)"""
+    try:
+        user_id = session.get('user_id')
+        if not user_id:
+            return jsonify({'error': 'not_authenticated'}), 401
+        
+        favs = FavoriteCurrency.get_for_user(user_id)
+        currencies = [{'currency_code': f.currency_code, 'order': f.order} for f in favs]
+        
+        return jsonify({'favorite_currencies': currencies}), 200
+    except Exception as e:
+        print(f"Error getting favorites: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@ekonomia_bp.route('/ekonomia/api/favorite-currencies', methods=['POST'])
+@api_login_required
+def api_add_favorite_currency():
+    """Dodaj ulubioną walutę (max 3 na użytkownika)"""
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'not_authenticated'}), 401
+    
+    body = request.get_json() or {}
+    currency_code = body.get('currency_code', '').upper()
+    
+    if not currency_code:
+        return jsonify({'error': 'currency_code required'}), 400
+    
+    # Validate currency code format
+    if len(currency_code) < 2 or len(currency_code) > 10:
+        return jsonify({'error': 'invalid currency_code'}), 400
+    
+    try:
+        fav = FavoriteCurrency.create(user_id, currency_code)
+        if fav is None:
+            return jsonify({'error': 'max_favorites_reached', 'message': 'Możesz mieć maksymalnie 3 ulubione waluty'}), 409
+        
+        favs = FavoriteCurrency.get_for_user(user_id)
+        currencies = [{'currency_code': f.currency_code, 'order': f.order} for f in favs]
+        return jsonify({'favorite_currencies': currencies}), 201
+    except Exception as e:
+        print(f"Error adding favorite: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@ekonomia_bp.route('/ekonomia/api/favorite-currencies/<currency_code>', methods=['DELETE'])
+@api_login_required
+def api_delete_favorite_currency(currency_code):
+    """Usuń ulubioną walutę"""
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'not_authenticated'}), 401
+    
+    currency_code = currency_code.upper()
+    
+    try:
+        FavoriteCurrency.delete_by_code(user_id, currency_code)
+        favs = FavoriteCurrency.get_for_user(user_id)
+        currencies = [{'currency_code': f.currency_code, 'order': f.order} for f in favs]
+        return jsonify({'favorite_currencies': currencies}), 200
+    except Exception as e:
+        print(f"Error deleting favorite: {e}")
+        return jsonify({'error': str(e)}), 500

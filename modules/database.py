@@ -295,6 +295,69 @@ class Favorite(db.Model):
         db.session.commit()
 
 
+class FavoriteCurrency(db.Model):
+    """Favorite currencies saved by user for economics page - max 3 per user"""
+    __tablename__ = 'favorite_currencies'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, index=True)
+    currency_code = db.Column(db.String(10), nullable=False)
+    order = db.Column(db.Integer, default=0)  # 0, 1, 2 for display order
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+    user = db.relationship('User', backref='favorite_currencies')
+
+    def __repr__(self):
+        return f'<FavoriteCurrency {self.currency_code} for user {self.user_id}>'
+
+    @staticmethod
+    def create(user_id, currency_code):
+        """Add favorite currency (max 3 per user)"""
+        # Check if already exists
+        existing_fav = FavoriteCurrency.query.filter_by(user_id=user_id, currency_code=currency_code).first()
+        if existing_fav:
+            return existing_fav
+        
+        # Check how many favorites user already has
+        existing_count = FavoriteCurrency.query.filter_by(user_id=user_id).count()
+        if existing_count >= 3:
+            return None  # Max 3 reached
+        
+        # Add new favorite with next order
+        fav = FavoriteCurrency(user_id=user_id, currency_code=currency_code, order=existing_count)
+        db.session.add(fav)
+        db.session.commit()
+        return fav
+
+    @staticmethod
+    def get_for_user(user_id):
+        """Get all favorite currencies for user (max 3), ordered"""
+        return FavoriteCurrency.query.filter_by(user_id=user_id).order_by(FavoriteCurrency.order).all()
+
+    @staticmethod
+    def delete_by_code(user_id, currency_code):
+        """Delete favorite currency by code and reorder"""
+        fav = FavoriteCurrency.query.filter_by(user_id=user_id, currency_code=currency_code).first()
+        if not fav:
+            return None
+        
+        deleted_order = fav.order
+        db.session.delete(fav)
+        db.session.commit()  # Commit BEFORE querying remaining
+        
+        # Reorder remaining favorites
+        remaining = FavoriteCurrency.query.filter_by(user_id=user_id).order_by(FavoriteCurrency.order).all()
+        for idx, f in enumerate(remaining):
+            f.order = idx
+        
+        db.session.commit()
+        return fav
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+
 def init_db(app):
     """Initialize the database with the Flask app"""
     db.init_app(app)

@@ -1,35 +1,5 @@
 [
     {
-        "no": "239/A/NBP/2024",
-        "effectiveDate": "2024-12-10",
-        "mid": 0.3648
-    },
-    {
-        "no": "240/A/NBP/2024",
-        "effectiveDate": "2024-12-11",
-        "mid": 0.3642
-    },
-    {
-        "no": "241/A/NBP/2024",
-        "effectiveDate": "2024-12-12",
-        "mid": 0.3669
-    },
-    {
-        "no": "242/A/NBP/2024",
-        "effectiveDate": "2024-12-13",
-        "mid": 0.3662
-    },
-    {
-        "no": "243/A/NBP/2024",
-        "effectiveDate": "2024-12-16",
-        "mid": 0.3627
-    },
-    {
-        "no": "244/A/NBP/2024",
-        "effectiveDate": "2024-12-17",
-        "mid": 0.3625
-    },
-    {
         "no": "245/A/NBP/2024",
         "effectiveDate": "2024-12-18",
         "mid": 0.3619
@@ -1258,5 +1228,35 @@
         "no": "238/A/NBP/2025",
         "effectiveDate": "2025-12-09",
         "mid": 0.3595
+    },
+    {
+        "no": "239/A/NBP/2025",
+        "effectiveDate": "2025-12-10",
+        "mid": 0.3577
+    },
+    {
+        "no": "240/A/NBP/2025",
+        "effectiveDate": "2025-12-11",
+        "mid": 0.3579
+    },
+    {
+        "no": "241/A/NBP/2025",
+        "effectiveDate": "2025-12-12",
+        "mid": 0.3569
+    },
+    {
+        "no": "242/A/NBP/2025",
+        "effectiveDate": "2025-12-15",
+        "mid": 0.3547
+    },
+    {
+        "no": "243/A/NBP/2025",
+        "effectiveDate": "2025-12-16",
+        "mid": 0.3533
+    },
+    {
+        "no": "244/A/NBP/2025",
+        "effectiveDate": "2025-12-17",
+        "mid": 0.3525
     }
 ]
