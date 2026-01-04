@@ -1,55 +1,5 @@
 [
     {
-        "no": "245/A/NBP/2024",
-        "effectiveDate": "2024-12-18",
-        "mid": 0.5714
-    },
-    {
-        "no": "246/A/NBP/2024",
-        "effectiveDate": "2024-12-19",
-        "mid": 0.5714
-    },
-    {
-        "no": "247/A/NBP/2024",
-        "effectiveDate": "2024-12-20",
-        "mid": 0.5707
-    },
-    {
-        "no": "248/A/NBP/2024",
-        "effectiveDate": "2024-12-23",
-        "mid": 0.5714
-    },
-    {
-        "no": "249/A/NBP/2024",
-        "effectiveDate": "2024-12-24",
-        "mid": 0.5728
-    },
-    {
-        "no": "250/A/NBP/2024",
-        "effectiveDate": "2024-12-27",
-        "mid": 0.573
-    },
-    {
-        "no": "251/A/NBP/2024",
-        "effectiveDate": "2024-12-30",
-        "mid": 0.573
-    },
-    {
-        "no": "252/A/NBP/2024",
-        "effectiveDate": "2024-12-31",
-        "mid": 0.573
-    },
-    {
-        "no": "001/A/NBP/2025",
-        "effectiveDate": "2025-01-02",
-        "mid": 0.5721
-    },
-    {
-        "no": "002/A/NBP/2025",
-        "effectiveDate": "2025-01-03",
-        "mid": 0.5727
-    },
-    {
         "no": "003/A/NBP/2025",
         "effectiveDate": "2025-01-07",
         "mid": 0.5699
@@ -1258,5 +1208,45 @@
         "no": "244/A/NBP/2025",
         "effectiveDate": "2025-12-17",
         "mid": 0.5641
+    },
+    {
+        "no": "245/A/NBP/2025",
+        "effectiveDate": "2025-12-18",
+        "mid": 0.5631
+    },
+    {
+        "no": "246/A/NBP/2025",
+        "effectiveDate": "2025-12-19",
+        "mid": 0.5634
+    },
+    {
+        "no": "247/A/NBP/2025",
+        "effectiveDate": "2025-12-22",
+        "mid": 0.5637
+    },
+    {
+        "no": "248/A/NBP/2025",
+        "effectiveDate": "2025-12-23",
+        "mid": 0.5659
+    },
+    {
+        "no": "249/A/NBP/2025",
+        "effectiveDate": "2025-12-29",
+        "mid": 0.566
+    },
+    {
+        "no": "250/A/NBP/2025",
+        "effectiveDate": "2025-12-30",
+        "mid": 0.5662
+    },
+    {
+        "no": "251/A/NBP/2025",
+        "effectiveDate": "2025-12-31",
+        "mid": 0.5659
+    },
+    {
+        "no": "001/A/NBP/2026",
+        "effectiveDate": "2026-01-02",
+        "mid": 0.5644
     }
 ]
