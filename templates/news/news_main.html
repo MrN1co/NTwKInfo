@@ -4,62 +4,49 @@
 
 {% block news_content %}
 <div class="news-container">
-
-    <div class="news-row">
-        <div class="news-column">
-            <h2>Kryminalki.pl</h2>
-            {% if crime_item %}
-            <div class="news-item">
-                {% if crime_item.image %}
-                        {% if crime_item.link %}
-                            <a href="{{ crime_item.link }}" target="_blank" rel="noopener noreferrer">
-                                <img src="{{ crime_item.image }}" alt="{{ crime_item.title }}" class="news-image">
-                            </a>
-                            <div class="news-image-placeholder" style="display:none;">Brak obrazka</div>
-                        {% else %}
-                            <img src="{{ crime_item.image }}" alt="{{ crime_item.title }}" class="news-image">
-                            <div class="news-image-placeholder" style="display:none;">Brak obrazka</div>
-                        {% endif %}
-                    {% else %}
-                        <div class="news-image-placeholder">Brak obrazka</div>
-                    {% endif %}
-                <div class="news-content">
-                    <h3 class="news-title"><a href="{{ crime_item.link }}" target="_blank" rel="noopener noreferrer">{{ crime_item.title }}</a></h3>
-                    <p class="update-time">Ostatnia aktualizacja: {{ crime_updated or 'brak' }}</p>
-                </div>
-            </div>
-            {% else %}
-                <p>Brak wiadomości kryminalnych.</p>
-            {% endif %}
-        </div>
-
-        <div class="news-column">
-            <h2>PrzegladSportowy</h2>
-            {% if sport_item %}
-            <div class="news-item">
-                {% if sport_item.image %}
-                    {% if sport_item.link %}
-                        <a href="{{ sport_item.link }}" target="_blank" rel="noopener noreferrer">
-                            <img src="{{ sport_item.image }}" alt="{{ sport_item.title }}" class="news-image">
-                        </a>
-                        <div class="news-image-placeholder" style="display:none;">Brak obrazka</div>
-                    {% else %}
-                        <img src="{{ sport_item.image }}" alt="{{ sport_item.title }}" class="news-image">
-                        <div class="news-image-placeholder" style="display:none;">Brak obrazka</div>
-                    {% endif %}
+    {% if crime_item or sport_item %}
+        {% if crime_item %}
+        <div class="news-item">
+            {% if crime_item.image %}
+                {% if crime_item.link %}
+                    <a href="{{ crime_item.link }}" target="_blank" rel="noopener noreferrer">
+                        <img src="{{ crime_item.image }}" alt="{{ crime_item.title }}" class="news-image">
+                    </a>
                 {% else %}
-                    <div class="news-image-placeholder">Brak obrazka</div>
+                    <img src="{{ crime_item.image }}" alt="{{ crime_item.title }}" class="news-image">
                 {% endif %}
-                <div class="news-content">
-                    <h3 class="news-title"><a href="{{ sport_item.link }}" target="_blank" rel="noopener noreferrer">{{ sport_item.title }}</a></h3>
-                    <p class="update-time">Ostatnia aktualizacja: {{ sport_updated or 'brak' }}</p>
-                </div>
-            </div>
             {% else %}
-                <p>Brak wiadomości sportowych.</p>
+                <div class="news-image-placeholder">Brak obrazka</div>
             {% endif %}
+            <div class="news-content">
+                <h3 class="news-title"><a href="{{ crime_item.link }}" target="_blank" rel="noopener noreferrer">{{ crime_item.title }}</a></h3>
+                <p class="update-time">Kryminalki.pl • {{ crime_updated or 'brak' }}</p>
+            </div>
         </div>
-    </div>
+        {% endif %}
+
+        {% if sport_item %}
+        <div class="news-item">
+            {% if sport_item.image %}
+                {% if sport_item.link %}
+                    <a href="{{ sport_item.link }}" target="_blank" rel="noopener noreferrer">
+                        <img src="{{ sport_item.image }}" alt="{{ sport_item.title }}" class="news-image">
+                    </a>
+                {% else %}
+                    <img src="{{ sport_item.image }}" alt="{{ sport_item.title }}" class="news-image">
+                {% endif %}
+            {% else %}
+                <div class="news-image-placeholder">Brak obrazka</div>
+            {% endif %}
+            <div class="news-content">
+                <h3 class="news-title"><a href="{{ sport_item.link }}" target="_blank" rel="noopener noreferrer">{{ sport_item.title }}</a></h3>
+                <p class="update-time">PrzegladSportowy.pl • {{ sport_updated or 'brak' }}</p>
+            </div>
+        </div>
+        {% endif %}
+    {% else %}
+        <p class="error">Brak dostępnych wiadomości. Spróbuj odświeżyć stronę.</p>
+    {% endif %}
 </div>
 {% endblock %}
 

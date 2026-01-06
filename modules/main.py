@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, session, request, flash, redirect, url_for
 from modules.auth import login_required
 from modules.news.collectors import get_kryminalki_news
-from modules.ekonomia.ekonomia import ekonomia
+from modules.ekonomia.ekonomia import ekonomia, get_currency_chart
 
 main_bp = Blueprint('main', __name__)
 
@@ -22,16 +22,26 @@ def economy():
     return ekonomia()
 
 
+@main_bp.route('/ekonomia/chart/<currency_code>')
+def economy_chart(currency_code):
+    return get_currency_chart(currency_code)
+
+
 @main_bp.route('/pogoda')
 def weather():
-    # Redirect to the weather blueprint's page so the weather module
-    # (registered under '/weather') is the single source of truth.
     return redirect(url_for('weather.weather_index'))
 
 
 @main_bp.route('/dashboard')
 @login_required
 def dashboard():
-    username = session.get('user_id', 'Guest')
-    return render_template('main/dashboard.html', username=username)
+    from modules.database import User
+    user_id = session.get('user_id')
+    user = User.query.get(user_id) if user_id else None
+    
+    if not user:
+        flash('User session expired. Please log in again.', 'error')
+        return redirect(url_for('auth.login'))
+    
+    return render_template('auth/dashboard.html', user=user)
 

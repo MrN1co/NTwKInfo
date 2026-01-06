@@ -4,7 +4,7 @@ WAŻNE: Ten moduł TYLKO CZYTA dane z JSON.
 NIGDY nie wywołuje scraperów bezpośrednio - to zadanie daemonów!
 """
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, session, jsonify
 import json
 import os
 from collections import defaultdict
@@ -12,6 +12,8 @@ from datetime import datetime
 import pytz
 from modules.news.collectors import get_kryminalki_news
 from modules.news.collectors import get_przegladsportowy_news
+from modules.auth import login_required
+from .link_history_model import NewsLinkHistory
 
 # Tworzymy Blueprint
 tables_bp = Blueprint('tables', __name__, template_folder='templates')
@@ -155,16 +157,22 @@ def news():
     kryminalki_path = 'data/news/kryminalki/kryminalki.json'
     minut_path = 'data/news/minut/minut.json'
     przegladsportowy_path = 'data/news/przegladsportowy/przegladsportowy.json'
+    policja_krakow_path = 'data/news/policja/krakow.json'
+    policja_malopolska_path = 'data/news/policja/malopolska.json'
     
     kryminalki_data = load_from_json(kryminalki_path, {'news': []})
     minut_data = load_from_json(minut_path, {'news': []})
     przegladsportowy_data = load_from_json(przegladsportowy_path, {'news': []})
+    policja_krakow_data = load_from_json(policja_krakow_path, {'news': []})
+    policja_malopolska_data = load_from_json(policja_malopolska_path, {'news': []})
     
     # Połącz wszystkie wiadomości
     all_news = []
     all_news.extend(kryminalki_data.get('news', []))
     all_news.extend(minut_data.get('news', []))
     all_news.extend(przegladsportowy_data.get('news', []))
+    all_news.extend(policja_krakow_data.get('news', []))
+    all_news.extend(policja_malopolska_data.get('news', []))
     
     # Filtruj po tagach jeśli są wybrane
     if selected_tags:
@@ -186,6 +194,115 @@ def news():
     return render_template('news/news.html', 
                          news_list=all_news,
                          selected_tags=selected_tags)
+
+
+# ---------------------------
+# News history endpoints
+# ---------------------------
+@tables_bp.route('/history/log', methods=['POST'])
+def history_log():
+    """AJAX endpoint: loguje kliknięcie linku wiadomości. Wymagany zalogowany użytkownik."""
+    if 'user_id' not in session:
+        return jsonify({'status': 'error', 'message': 'not logged in'}), 401
+    data = request.get_json() or {}
+    url = data.get('url')
+    if not url:
+        return jsonify({'status': 'error', 'message': 'missing url'}), 400
+    title = data.get('title')
+    source = data.get('source')
+    try:
+        NewsLinkHistory.log_click(user_id=session['user_id'], link_url=url, link_title=title, source=source)
+        return jsonify({'status': 'ok'}), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@tables_bp.route('/history/view')
+@login_required
+def history_view():
+    user_id = session.get('user_id')
+    limit = request.args.get('limit', default=200, type=int)
+    history = NewsLinkHistory.get_user_history(user_id, limit=limit)
+    stats = NewsLinkHistory.get_stats_by_source(user_id)
+    history_data = [
+        {
+            'id': h.id,
+            'url': h.link_url,
+            'title': h.link_title or h.link_url,
+            'clicked_at': h.clicked_at.strftime('%Y-%m-%d %H:%M:%S'),
+            'source': h.source or 'unknown'
+        }
+        for h in history
+    ]
+    total = len(history_data)
+    return render_template('news/history.html', history=history_data, stats=stats, total_clicks=total)
+
+
+@tables_bp.route('/history/api')
+@login_required
+def history_api():
+    user_id = session.get('user_id')
+    limit = request.args.get('limit', default=50, type=int)
+    history = NewsLinkHistory.get_user_history(user_id, limit=limit)
+    data = [
+        {'id': h.id, 'url': h.link_url, 'title': h.link_title or h.link_url, 'clicked_at': h.clicked_at.isoformat(), 'source': h.source or 'unknown'}
+        for h in history
+    ]
+    return jsonify({'status': 'ok', 'total': len(data), 'history': data})
+
+
+@tables_bp.route('/history/clear', methods=['POST'])
+@login_required
+def history_clear():
+    user_id = session.get('user_id')
+    try:
+        NewsLinkHistory.clear_user_history(user_id)
+        return jsonify({'status': 'ok'}), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+@tables_bp.route('/history/delete/<int:entry_id>', methods=['POST'])
+@login_required
+def history_delete(entry_id):
+    user_id = session.get('user_id')
+    ok = NewsLinkHistory.delete_entry(entry_id, user_id)
+    if ok:
+        return jsonify({'status': 'ok'}), 200
+    return jsonify({'status': 'error', 'message': 'not found or forbidden'}), 404
+
+
+@tables_bp.route('/image_proxy')
+def image_proxy():
+    """
+    Proxy dla obrazków z policji - omija blokadę CORS/Referer
+    """
+    import requests
+    from flask import Response
+    
+    image_url = request.args.get('url')
+    if not image_url:
+        return "No URL provided", 400
+    
+    # Tylko dla zaufanych domen (policja)
+    allowed_domains = ['krakow.policja.gov.pl', 'malopolska.policja.gov.pl']
+    if not any(domain in image_url for domain in allowed_domains):
+        return "Domain not allowed", 403
+    
+    try:
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'Referer': image_url.split('/dokumenty')[0] if '/dokumenty' in image_url else image_url
+        }
+        resp = requests.get(image_url, headers=headers, timeout=10)
+        
+        if resp.status_code == 200:
+            return Response(resp.content, mimetype=resp.headers.get('Content-Type', 'image/jpeg'))
+        else:
+            return "Image not found", 404
+    except Exception as e:
+        print(f"Błąd proxy obrazka: {e}")
+        return "Error loading image", 500
 
 
 @tables_bp.route('/news_sport')

@@ -1,0 +1,33 @@
+{% extends "news/news_base.html" %}
+
+{% block title %}Historia kliknięć - NTWKInfo{% endblock %}
+
+{% block news_content %}
+<div class="container-padding">
+	<h2>Twoja historia kliknięć</h2>
+	<p>Łącznie kliknięć: {{ total_clicks }}</p>
+
+	<div class="history-actions">
+		<button id="clear-history" class="top-btn">Wyczyść historię</button>
+	</div>
+
+	<table class="history-table">
+		<thead>
+			<tr><th>#</th><th>Data</th><th>Tytuł</th><th>Źródło</th><th>Akcje</th></tr>
+		</thead>
+		<tbody>
+			{% for h in history %}
+			<tr data-entry-id="{{ h.id }}">
+				<td>{{ loop.index }}</td>
+				<td>{{ h.clicked_at }}</td>
+				<td><a href="{{ h.url }}" class="news-link" target="_blank">{{ h.title }}</a></td>
+				<td>{{ h.source }}</td>
+				<td>
+					<button class="delete-entry top-btn">Usuń</button>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

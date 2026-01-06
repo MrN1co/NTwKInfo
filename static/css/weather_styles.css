@@ -83,6 +83,10 @@ body {
   padding: 0 40px;
 }
 
+.main-content.container-padding {
+  padding-top: 0px;
+}
+
 /* ========== SEARCH BAR ========== */
 
 .search-row {
@@ -135,7 +139,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 28px 32px;
+  padding: 12px 32px 0px 32px;
   min-height: 230px; 
 }
 
@@ -145,37 +149,38 @@ body {
   position: absolute;
   top: 18px;
   right: 22px;
-  width: 30px;
-  height: 30px;
+  width: 46px;
+  height: 46px;
   border-radius: 999px;
   border: 1px solid #c9c6bf;
   background: #f4f2ee;
   color: #b7b0a5;
-  font-size: 16px;
+  font-size: 24px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+
 .favorite-btn.active {
-  background: #f0c3aa;
-  color: #a34d2a;
-  border-color: #dba88a;
+  background: #cad0c5;
+  color: #aa2415;
+  border-color: #5d7419;
 }
 
 /* NAZWA LOKALIZACJI – większa niż wcześniej */
 .current-city {
   font-size: 1.4rem; /* większa nazwa miasta */
   font-weight: 600;
-  margin-bottom: 4px;
+  margin-bottom: 1px;
 }
 
 /* DATA WYBRANEGO DNIA */
 .current-date {
   font-size: 0.95rem;
   color: #7a7a7a;
-  margin-bottom: 12px;
+  margin-bottom: 40px;
 }
 
 .current-main-row {
@@ -191,25 +196,38 @@ body {
   margin-bottom: 8px;
 }
 
+.row {
+  font-size: 15px;
+}
+
 .current-desc {
   font-size: 1rem;
   margin-bottom: 10px;
 }
 
 .current-extra {
-  font-size: 0.8rem;
-  color: #6f6f6f;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 6px; /* odstęp między wierszami */
+  height: 70px;
+}
+
+.current-extra .row {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: #5d5d5d;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px; /* odstęp między nazwą a wartością */
 }
 
 
 .current-right img {
-  width: 130px;       /* większa ikona */
-  height: 130px;
+  width: 170px;       /* większa ikona */
+  height: 170px;
   object-fit: contain;
-  margin-right: 20px; /* odsunięcie od krawędzi */
+  margin-right: 40px; /* odsunięcie od krawędzi */
 }
 
 /* --- kafel wykresu --- */
@@ -223,6 +241,29 @@ body {
   justify-content: center; /* wyśrodkuj pionowo */
   padding: 18px 20px;
   min-height: 280px;       /* zapewnia miejsce do pionowego centrowania */
+}
+
+/* Ensure the chart area keeps a stable height so page sections don't shift */
+.card-chart {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.card-chart canvas,
+.card-chart #chartImg {
+  width: 100% !important;
+  height: 260px !important;       /* fixed visual height to avoid layout reflow */
+  max-height: 260px !important;
+  display: block;
+  object-fit: contain;
+}
+
+.chart-caption {
+  margin-top: 10px;
+  text-align: center;
+  color: #333333;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
 /* Ukryj tytuł wykresu */
@@ -347,11 +388,30 @@ body {
   margin-bottom: 6px;
 }
 
+/* Ikony w kafelkach prognozy — większe na desktopie */
 .day-card img {
-  width: 60px;
-  height: 60px;
-  margin-bottom: 4px;
+  width: 80px;   /* większa ikona */
+  height: 80px;
+  margin-bottom: 6px;
+  object-fit: contain;
 }
+
+/* Na tabletach ikony trochę mniejsze */
+@media (max-width: 1279px) and (min-width: 800px) {
+  .day-card img {
+    width: 75px;
+    height: 75px;
+  }
+}
+
+/* Na telefonach ikony jeszcze bardziej kompaktowe */
+@media (max-width: 799px) {
+  .day-card img {
+    width: 70px;
+    height: 70px;
+  }
+}
+
 
 .day-card .temps {
   font-size: 0.78rem;
@@ -417,6 +477,86 @@ body {
     max-height: 220px;
   }
 }
+/* --- Compact widget layout for index page --- */
+.weather-box--compact {
+  width: 260px;     /* węższe okno */
+  padding: 12px 12px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: #ebebeb; /* opcjonalnie — jak inne kafle */
+}
+
+/* prawa kolumna: miasto + data */
+.weather-box--compact .current-city,
+.weather-box--compact .current-date {
+  text-align: right;
+}
+
+.weather-box--compact .current-city {
+  font-size: 1.3rem;         /* większa czcionka */
+  font-weight: 700;          /* pogrubiona */
+}
+
+.weather-box--compact .current-date {
+  font-size: 0.9rem;
+  color: #5d5d5d;
+  margin-bottom: 4px;
+}
+
+/* główny rząd — 3 kolumny:
+   [IKONA]  [TEMP + OPIS]  [OPADY + CIŚNIENIE] */
+.weather-box--compact .current-main-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 90px;
+  align-items: center;
+  gap: 6px;
+}
+
+/* kolumna lewa — IKONA */
+.weather-box--compact .current-icon-box img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+/* środek — temperatura i opis */
+.weather-box--compact .current-left {
+  text-align: center;
+}
+
+.weather-box--compact .current-temp {
+  font-size: 2.6rem;   /* największa czcionka */
+  font-weight: 800;
+  line-height: 1;
+}
+
+.weather-box--compact .current-desc {
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+
+/* prawa kolumna — opady i ciśnienie */
+.weather-box--compact .current-right {
+  text-align: right;
+}
+
+.weather-box--compact .current-extra {
+  font-size: 0.82rem;
+  color: #6f6f6f;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+@media (max-width: 799px) {
+  .weather-box--compact {
+    width: 100%;
+  }
+}
+
+
 
 /* Mobile 1–799 */
 
@@ -464,4 +604,125 @@ body {
   .footer {
     padding: 14px 16px;
   }
+}
+
+/* Mobile: smaller fixed chart height to keep layout compact */
+@media (max-width: 799px) {
+  .card-chart canvas,
+  .card-chart #chartImg {
+    height: 200px !important;
+    max-height: 200px !important;
+  }
+
+  .card-chart {
+    min-height: 230px !important;
+    padding: 14px 14px !important;
+  }
+}
+
+/* Override lower-specificity rule in global style.css for full weather card icon */
+.card-current #currentIcon {
+  width: 150px;
+  height: 150px;
+}
+
+
+
+/* ===== ULUBIONE MIASTA — KAFEL ===== */
+
+.card-favorites {
+    margin-top: 30px;
+    padding: 20px;
+}
+
+/* Tytuł sekcji */
+.favorites-title {
+    font-family: var(--font-body);
+    font-size: 24px;
+    font-weight: 700;
+    text-align: left;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Lista ulubionych lokalizacji */
+.favorites-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Pojedynczy wiersz ulubionego miasta */
+.fav-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: #ffffff;
+    border-radius: 8px;
+    font-size: 18px;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.25s ease-in-out, transform 0.2s ease;
+}
+
+.fav-row:hover {
+    background: #f0f0f0;
+    transform: scale(1.02);
+}
+
+/* Nazwa miasta */
+.fav-name {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/* Temperatura miasta */
+.fav-temp {
+    font-weight: 400;
+    opacity: 0.85;
+}
+
+/* ===== RESPONSYWNOŚĆ ===== */
+@media (max-width: 768px) {
+    .card-favorites {
+        padding: 16px;
+    }
+
+    .favorites-title {
+        font-size: 20px;
+    }
+
+    .fav-row {
+        font-size: 16px;
+        padding: 10px 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .favorites-title {
+        font-size: 18px;
+    }
+
+    .fav-row {
+        font-size: 15px;
+        padding: 9px 12px;
+    }
+}
+
+
+/* ===== WŁĄCZENIE SCROLLOWANIA STRONY ===== */
+html, body {
+    height: auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+}
+
+/* Nie pozwól, aby kontenery ustawiały sztywną wysokość */
+.page,
+.cards-grid,
+.card-current,
+.card-chart,
+.card-forecast {
+    height: auto !important;
+    overflow: visible !important;
 }

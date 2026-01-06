@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - NTWKInfo{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>Witaj, {{ user.username }}!</h1>
+    <p class="dashboard-subtitle">Zarządzaj swoim kontem NTWKInfo</p>
+  </header>
+
+  <div class="dashboard-grid">
+    <!-- Account Information -->
+    <section class="dashboard-card">
+      <h2>Informacje o koncie</h2>
+      <div class="account-info">
+        <div class="info-row">
+          <span class="label">Nazwa użytkownika:</span>
+          <span class="value">{{ user.username }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Email:</span>
+          <span class="value">{{ user.email }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Status:</span>
+          <span class="value status-active">Aktywne</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Account Actions -->
+    <section class="dashboard-card">
+      <h2>Zarządzanie kontem</h2>
+      <div class="dashboard-actions">
+        <button class="action-btn primary" onclick="showChangePasswordModal()">
+          <span class="icon">🔒</span>
+          Zmień hasło
+        </button>
+        <button class="action-btn secondary" onclick="showEditProfileModal()">
+          <span class="icon">✏️</span>
+          Edytuj profil
+        </button>
+        <button class="action-btn secondary" onclick="showPreferencesModal()">
+          <span class="icon">⚙️</span>
+          Preferencje
+        </button>
+      </div>
+    </section>
+
+    <!-- Quick Links -->
+    <section class="dashboard-card">
+      <h2>Szybkie linki</h2>
+      <div class="quick-links">
+        <a href="{{ url_for('main.index') }}" class="quick-link">
+          <span class="icon">🏠</span>
+          Strona główna
+        </a>
+        <a href="{{ url_for('main.news') }}" class="quick-link">
+          <span class="icon">📰</span>
+          Wiadomości
+        </a>
+        <a href="{{ url_for('main.weather') }}" class="quick-link">
+          <span class="icon">🌤️</span>
+          Pogoda
+        </a>
+        <a href="{{ url_for('auth.logout') }}" class="quick-link logout">
+          <span class="icon">🚪</span>
+          Wyloguj się
+        </a>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Change Password Modal -->
+<div id="changePasswordModal" class="auth-overlay hidden">
+  <div class="auth-modal">
+    <div class="auth-box">
+      <form id="changePasswordForm">
+        <button type="button" class="auth-close" onclick="closeChangePasswordModal()">×</button>
+        <h2>Zmień hasło</h2>
+
+        <label>Obecne hasło</label>
+        <input name="current_password" type="password" placeholder="Wpisz obecne hasło" required>
+
+        <label>Nowe hasło</label>
+        <input name="new_password" type="password" placeholder="Wpisz nowe hasło" required>
+
+        <label>Powtórz nowe hasło</label>
+        <input name="confirm_password" type="password" placeholder="Powtórz nowe hasło" required>
+
+        <button type="submit" class="auth-submit">Zmień hasło</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Załaduj oddzielne pliki -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+{% endblock %}
