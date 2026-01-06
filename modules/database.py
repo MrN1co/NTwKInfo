@@ -38,7 +38,7 @@ class User(db.Model):
     @staticmethod
     def create(username, email, password):
         """Create a new user - uses parameterized queries for safety"""
-        password_hash = generate_password_hash(password)
+        password_hash = generate_password_hash(password, method="pbkdf2:sha256")
         user = User(username=username, email=email, password_hash=password_hash)
         db.session.add(user)
         db.session.commit()
@@ -360,7 +360,8 @@ class FavoriteCurrency(db.Model):
 
 def init_db(app):
     """Initialize the database with the Flask app"""
-    # db.init_app(app)
+    if "sqlalchemy" not in app.extensions:
+        db.init_app(app)
     
     with app.app_context():
         db.create_all()

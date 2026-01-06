@@ -2,6 +2,8 @@
 import os
 import io
 from datetime import datetime, timezone, timedelta
+from flask import jsonify
+
 
 import requests
 import matplotlib
@@ -609,60 +611,72 @@ def plot_png():
 # --------- TEST ENDPOINT: wysłanie maila testowego ---------
 
 @weather_bp.get("/api/test-email")
-@api_login_required
 def test_email():
     """
     Test endpoint: wysyła testowy email z opadami w ulubionych miastach.
     GET /weather/api/test-email
+
+    Zwraca:
+    - 401 jeśli brak logowania (bez redirectu)
+    - 404 jeśli user nie istnieje
+    - 400 jeśli brak ulubionych
+    - 200 jeśli wysłano maila lub jeśli nie ma opadów
+    - 502 jeśli błąd OpenWeather
+    - 500 jeśli błąd wysyłki maila lub inny błąd
     """
     user_id = session.get("user_id")
     if not user_id:
         return jsonify({"error": "not_authenticated"}), 401
-    
+
     user = User.query.get(user_id)
     if not user:
         return jsonify({"error": "user_not_found"}), 404
-    
-    favs = Favorite.get_for_user(user_id)
+
+    favs = Favorite.get_for_user(user_id) or []
     if not favs:
-        return jsonify({"error": "no_favorites", "message": "Dodaj ulubione miasta aby testować"}), 400
-    
+        return jsonify({
+            "error": "no_favorites",
+            "message": "Dodaj ulubione miasta aby testować"
+        }), 400
+
     rainy_cities = []
-    
-    # Sprawdź opady dla każdego ulubionego miasta
+
     for fav in favs:
+        lat = fav.lat if fav.lat is not None else DEFAULT_LAT
+        lon = fav.lon if fav.lon is not None else DEFAULT_LON
+
         try:
-            lat = fav.lat if fav.lat else DEFAULT_LAT
-            lon = fav.lon if fav.lon else DEFAULT_LON
-            
             raw = fetch_daily_forecast(lat, lon, cnt=7, units="metric")
             data = normalize_forecast(raw)
-            
-            # Sprawdzenie opadów na dzisiaj
-            if data["days"] and data["days"][0].get("precip_mm", 0) > 0:
-                rainy_cities.append(fav.city)
+        except requests.HTTPError as e:
+            # dla testów i poprawnego API lepiej jasno powiedzieć "problem z upstreamem"
+            return jsonify({"error": "openweather_error", "details": str(e)}), 502
         except Exception as e:
-            print(f"Błąd sprawdzania prognozy dla {fav.city}: {e}")
-            continue
-    
-    # Wyślij email testowy
-    try:
-        if rainy_cities:
+            return jsonify({"error": "backend_error", "details": str(e)}), 500
+
+        if data.get("days") and float(data["days"][0].get("precip_mm", 0.0)) > 0.0:
+            rainy_cities.append(fav.city)
+
+    # Mail tylko jeśli są opady
+    if rainy_cities:
+        try:
             send_favorite_cities_rain_alert(user.email, rainy_cities)
-            return jsonify({
-                "success": True,
-                "message": f"Email wysłany do {user.email}",
-                "rainy_cities": rainy_cities
-            })
-        else:
+        except Exception as e:
             return jsonify({
                 "success": False,
-                "message": "Brak opadów w żadnym z ulubionych miast",
-                "checked_cities": [f.city for f in favs]
-            })
-    except Exception as e:
+                "error": "email_send_failed",
+                "details": str(e),
+                "message": "Błąd wysyłania emaila"
+            }), 500
+
         return jsonify({
-            "success": False,
-            "error": str(e),
-            "message": "Błąd wysyłania emaila"
-        }), 500
+            "success": True,
+            "message": f"Email wysłany do {user.email}",
+            "rainy_cities": rainy_cities
+        }), 200
+
+    return jsonify({
+        "success": False,
+        "message": "Brak opadów w żadnym z ulubionych miast",
+        "checked_cities": [f.city for f in favs]
+    }), 200
