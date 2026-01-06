@@ -40,7 +40,8 @@ class HistoricalData:
                 current_start = current_end + timedelta(days=1)
 
         df = pd.DataFrame(records)
-        df["date"] = pd.to_datetime(df["date"])
+        if not df.empty:
+            df["date"] = pd.to_datetime(df["date"])
         return df
 
     def get_historical_gold_prices(self, months=36):

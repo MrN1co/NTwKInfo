@@ -133,13 +133,16 @@ base.html) #} {% endblock %} {% block content %}
           <h2 class="exchange-rates__title">Aktualne kursy walut:</h2>
           <div class="exchange-rates__table">
             <div class="exchange-rates__header">
-              <span class="cell">Waluta</span><span class="cell">Kupno</span><span class="cell">Sprzedaż</span>
+                            <span class="cell">Waluta</span><span class="cell">Kurs</span>
             </div>
             <div class="rate-list">
-              <div class="rate-item"><span class="cell">USD</span><span class="cell">4.10</span><span class="cell">4.25</span></div>
-              <div class="rate-item"><span class="cell">EUR</span><span class="cell">4.45</span><span class="cell">4.60</span></div>
-              <div class="rate-item"><span class="cell">GBP</span><span class="cell">5.20</span><span class="cell">5.35</span></div>
-              <div class="rate-item"><span class="cell">CHF</span><span class="cell">4.65</span><span class="cell">4.80</span></div>
+                            {% if homepage_rates %}
+                                {% for rate in homepage_rates %}
+                                <div class="rate-item"><span class="cell">{{ rate.code }}</span><span class="cell">{{ '%.4f'|format(rate.rate) }}</span></div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="rate-item"><span class="cell">Brak</span><span class="cell">danych</span></div>
+                            {% endif %}
             </div>
         </div>
     </section>

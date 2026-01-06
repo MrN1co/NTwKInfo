@@ -28,7 +28,13 @@
             <div class="currency-scroll">
                 {% for waluta, kurs in kurs_walut.items() %}
                 <div class="currency-item">
-                    <div class="card currency-box">
+                    <div
+                        class="card currency-box"
+                        data-currency="{{ waluta }}"
+                        role="button"
+                        tabindex="0"
+                        title="Kliknij aby ustawić jako ulubioną"
+                    >
                         <div class="card-body text-center">
                             <div class="currency-title">
                                 {{ waluta }} na PLN
@@ -114,7 +120,7 @@
             </div>
 
             <h2 class="calc-heading">Cena złota dziś</h2>
-            <p class="gold-price">{{ cena_zlota }} [oz]</p>
+            <p class="gold-price">{{ cena_zlota_formatted }} [oz]</p>
 
             <h2 class="mt-4 calc-heading">
                 Kurs złota [oz] - widok w skali roku
