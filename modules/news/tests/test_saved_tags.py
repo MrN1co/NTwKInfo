@@ -269,6 +269,9 @@ def app():
     
     # Inicjalizujemy bazę danych dla testowej aplikacji
     db.init_app(flask_app)
+    # Zarejestruj blueprinty wymagane przez testy (np. endpointy /auth/api/...)
+    from modules.auth import auth_bp
+    flask_app.register_blueprint(auth_bp, url_prefix='/auth')
     
     with flask_app.app_context():
         db.create_all()  # Tworzy tabele tylko w testowej bazie w pamięci
