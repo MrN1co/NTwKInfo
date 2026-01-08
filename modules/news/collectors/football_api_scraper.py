@@ -8,15 +8,14 @@ import json
 import os
 from dotenv import load_dotenv
 
-# Ładuj zmienne środowiskowe z pliku .env
-load_dotenv()
+#Folder główny 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Klucz API do football-data.org
 API_KEY = os.getenv('FOOTBALL_API_KEY')
 BASE_URL = 'https://api.football-data.org/v4'
-
-# Katalog główny projektu (3 poziomy w górę od tego pliku)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 
 def get_available_competitions():
