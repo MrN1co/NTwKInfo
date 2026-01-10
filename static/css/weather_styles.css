@@ -25,6 +25,24 @@ body {
   border-bottom: 1px solid #e5e2dc;
 }
 
+@media (max-width: 1024px) {
+  .topbar {
+    padding: 16px 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .topbar {
+    padding: 14px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    padding: 12px 16px;
+  }
+}
+
 .logo {
   font-weight: 700;
   font-size: 1.5rem;
@@ -83,6 +101,26 @@ body {
   padding: 0 40px;
 }
 
+@media (max-width: 1024px) {
+  .page {
+    padding: 0 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 0 16px;
+    margin: 10px auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: 0 12px;
+    margin: 8px auto;
+  }
+}
+
 .main-content.container-padding {
   padding-top: 0px;
 }
@@ -115,6 +153,40 @@ body {
   color: #fdfdfd;
 }
 
+@media (max-width: 768px) {
+  .search-row {
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .search-row input {
+    padding: 10px 18px;
+    font-size: 0.85rem;
+  }
+  
+  .search-row button {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-row {
+    gap: 8px;
+  }
+  
+  .search-row input {
+    padding: 9px 16px;
+    font-size: 0.8rem;
+  }
+  
+  .search-row button {
+    padding: 9px 16px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+}
+
 /* ========== DUŻE KAFLE ========== */
 
 .cards-grid {
@@ -132,6 +204,32 @@ body {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
 }
 
+@media (max-width: 1024px) {
+  .cards-grid {
+    gap: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .card {
+    border-radius: 18px;
+    padding: 16px 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    border-radius: 16px;
+    padding: 14px 16px;
+  }
+}
+
 /* --- aktualna pogoda --- */
 
 .card-current {
@@ -141,6 +239,19 @@ body {
   justify-content: space-between;
   padding: 12px 32px 0px 32px;
   min-height: 230px; 
+}
+
+@media (max-width: 768px) {
+  .card-current {
+    padding: 12px 20px 12px 20px;
+    min-height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-current {
+    padding: 12px 16px 12px 16px;
+  }
 }
 
 /* serduszko w prawym górnym rogu */
@@ -160,6 +271,26 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .favorite-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    top: 14px;
+    right: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .favorite-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    top: 12px;
+    right: 12px;
+  }
 }
 
 
@@ -183,6 +314,28 @@ body {
   margin-bottom: 40px;
 }
 
+@media (max-width: 768px) {
+  .current-city {
+    font-size: 1.25rem;
+  }
+  
+  .current-date {
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .current-city {
+    font-size: 1.15rem;
+  }
+  
+  .current-date {
+    font-size: 0.8rem;
+    margin-bottom: 16px;
+  }
+}
+
 .current-main-row {
   display: flex;
   justify-content: space-between;
@@ -194,6 +347,30 @@ body {
   font-size: 3.8rem;
   font-weight: 700;
   margin-bottom: 8px;
+}
+
+@media (max-width: 768px) {
+  .current-main-row {
+    gap: 20px;
+  }
+  
+  .current-temp {
+    font-size: 3rem;
+    margin-bottom: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .current-main-row {
+    gap: 12px;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  
+  .current-temp {
+    font-size: 2.5rem;
+    margin-bottom: 4px;
+  }
 }
 
 .row {
@@ -222,12 +399,55 @@ body {
   gap: 6px; /* odstęp między nazwą a wartością */
 }
 
+@media (max-width: 768px) {
+  .current-desc {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+  
+  .current-extra {
+    gap: 4px;
+    height: auto;
+  }
+  
+  .current-extra .row {
+    font-size: 0.9rem;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .current-desc {
+    font-size: 0.85rem;
+  }
+  
+  .current-extra .row {
+    font-size: 0.85rem;
+  }
+}
+
 
 .current-right img {
   width: 170px;       /* większa ikona */
   height: 170px;
   object-fit: contain;
   margin-right: 40px; /* odsunięcie od krawędzi */
+}
+
+@media (max-width: 768px) {
+  .current-right img {
+    width: 130px;
+    height: 130px;
+    margin-right: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .current-right img {
+    width: 100px;
+    height: 100px;
+    margin-right: 0;
+  }
 }
 
 /* --- kafel wykresu --- */
@@ -241,6 +461,20 @@ body {
   justify-content: center; /* wyśrodkuj pionowo */
   padding: 18px 20px;
   min-height: 280px;       /* zapewnia miejsce do pionowego centrowania */
+}
+
+@media (max-width: 768px) {
+  .card-chart {
+    padding: 14px 16px;
+    min-height: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-chart {
+    padding: 12px 14px;
+    min-height: 220px;
+  }
 }
 
 /* Ensure the chart area keeps a stable height so page sections don't shift */
@@ -264,6 +498,20 @@ body {
   color: #333333;
   font-weight: 600;
   font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .chart-caption {
+    font-size: 0.85rem;
+    margin-top: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chart-caption {
+    font-size: 0.8rem;
+    margin-top: 6px;
+  }
 }
 
 /* Ukryj tytuł wykresu */
@@ -373,6 +621,42 @@ body {
   transition: all 0.2s ease;
 }
 
+@media (max-width: 1024px) {
+  .forecast-strip {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .forecast-strip {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  
+  .day-card {
+    padding: 12px 8px 10px;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .forecast-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .forecast-strip {
+    grid-template-columns: 1fr;
+  }
+  
+  .day-card {
+    padding: 10px;
+    border-radius: 14px;
+  }
+}
+
 .day-card:hover {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
@@ -409,6 +693,21 @@ body {
   .day-card img {
     width: 70px;
     height: 70px;
+  }
+}
+
+@media (max-width: 768px) {
+  .day-card img {
+    width: 65px;
+    height: 65px;
+    margin-bottom: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .day-card img {
+    width: 60px;
+    height: 60px;
   }
 }
 
@@ -576,21 +875,6 @@ body {
      bez menu tekstowego */
   .nav-links {
     display: none;
-  }
-
-  .page {
-    padding: 0 16px;
-    margin-top: 16px;
-  }
-
-  /* na mobile duże kafle jeden pod drugim */
-  .cards-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* prognoza 7 dni jako pionowa lista (jak w makiecie) */
-  .forecast-strip {
-    grid-template-columns: 1fr;
   }
 
   .card-favorites {
