@@ -30,14 +30,16 @@ def test_test_email_endpoint_sends_alert_when_rain(client, monkeypatch):
     monkeypatch.setattr(wa, "normalize_forecast", lambda raw: {"days": [{"precip_mm": 1.0}]})
 
     # mock wysyłki maila
-    called = {"sent": 0, "to": None, "cities": None}
+    called = {"sent": 0, "to": None, "rainy": None, "cold": None, "snowy": None}
 
-    def fake_send_email(to_email, rainy_cities):
+    def fake_send_email(to_email, rainy_cities, cold_cities, snowy_cities):
         called["sent"] += 1
         called["to"] = to_email
-        called["cities"] = rainy_cities
+        called["rainy"] = rainy_cities
+        called["cold"] = cold_cities
+        called["snowy"] = snowy_cities
 
-    monkeypatch.setattr(wa, "send_favorite_cities_rain_alert", fake_send_email)
+    monkeypatch.setattr(wa, "send_favorite_cities_weather_alert", fake_send_email)
 
     r = client.get("/weather/api/test-email")
     assert r.status_code == 200
@@ -45,7 +47,7 @@ def test_test_email_endpoint_sends_alert_when_rain(client, monkeypatch):
     assert data["success"] is True
     assert called["sent"] == 1
     assert called["to"] == "u@test.com"
-    assert "Kraków" in called["cities"]
+    assert "Kraków" in called["rainy"]
 
 
 def test_test_email_endpoint_returns_401_when_not_logged_in(client):

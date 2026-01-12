@@ -99,7 +99,7 @@ def test_send_email_does_nothing_when_no_rain(monkeypatch):
 
     monkeypatch.setattr(wa.smtplib, "SMTP", DummySMTP)
 
-    wa.send_favorite_cities_rain_alert("x@test.com", rainy_cities=[])
+    wa.send_favorite_cities_weather_alert("x@test.com", rainy_cities=[], cold_cities=[], snowy_cities=[])
     assert called["smtp"] == 0, "Nie powinno odpalać SMTP, gdy lista miast jest pusta"
 
 
@@ -121,5 +121,5 @@ def test_send_email_calls_smtp_when_rain(monkeypatch):
     monkeypatch.setattr(wa, "my_email", "from@test.com")
     monkeypatch.setattr(wa, "password", "pass")
 
-    wa.send_favorite_cities_rain_alert("x@test.com", rainy_cities=["Kraków", "Gdańsk"])
+    wa.send_favorite_cities_weather_alert("x@test.com", rainy_cities=["Kraków", "Gdańsk"], cold_cities=[], snowy_cities=[])
     assert sent["sendmail"] == 1
