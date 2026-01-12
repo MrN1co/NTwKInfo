@@ -4,11 +4,7 @@ Poniższa tabela zawiera plan testów dla modułu `news` podzielony na sekcje: U
 
 | ID | Typ | Co testujemy | Scenariusz / plik testowy | Status |
 |---|---:|---|---|---|
-| UT-01 | Unit | Ładowanie JSON z wiadomościami | Parsowanie plików JSON, obsługa brakujących plików, struktury danych — [tests/unit/news/test_json_loader.py](tests/unit/news/test_json_loader.py) | Wykonany |
-| UT-02 | Unit | Filtrowanie wiadomości po tagach | Filtracja listy wiadomości, wiele tagów, brak tagów, puste wyniki — [tests/unit/news/test_news_filter.py](tests/unit/news/test_news_filter.py) | Wykonany |
-| UT-03 | Unit | Sortowanie wiadomości | Sortowanie po timestamp (malejąco), obsługa wiadomości bez daty — [tests/unit/news/test_news_sort.py](tests/unit/news/test_news_sort.py) | Wykonany |
-| UT-04 | Unit | Model `NewsLinkHistory` (ORM) | CRUD operacje: tworzenie, odczyt, usuwanie wpisów historii; relacje z User — [tests/unit/news/test_link_history_model.py](tests/unit/news/test_link_history_model.py) | Wykonany |
-| UT-05 | Unit | Proxy obrazków — walidacja domeny | Whitelist zaufanych domen (policja.gov.pl), blokowanie niezaufanych — [tests/unit/news/test_image_proxy.py](tests/unit/news/test_image_proxy.py) | Wykonany |
+| UT-01 | Unit | 
 | IT-01 | Integration | Widok główny `/news` (HTML) | `GET /news` → status 200, content-type HTML, renderuje listę wiadomości; obsługa filtrów `?tags=...` — [tests/integration/test_news_integration.py](tests/integration/test_news_integration.py) | Wykonany |
 | IT-02 | Integration | Widok `/news_sport` (HTML) | `GET /news_sport` → status 200, HTML; fallback do scrapera gdy JSON pusty — [tests/integration/test_news_integration.py](tests/integration/test_news_integration.py) | Wykonany |
 | IT-03 | Integration | Widok `/tables` z konkurencjami (HTML) | `GET /tables?competition=EKS/ATP/WTA/NBA` → status 200, HTML; parametr `season` — [tests/integration/test_news_integration.py](tests/integration/test_news_integration.py) | Wykonany |
