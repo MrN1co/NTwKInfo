@@ -14,10 +14,13 @@ import numpy as np
 import smtplib
 from email.mime.text import MIMEText
 
-from flask import Blueprint, request, jsonify, render_template, send_file, abort, session
+from flask import Blueprint, request, jsonify, render_template, send_file, abort, session, current_app
 from dotenv import load_dotenv
 from modules.database import Favorite
 from modules.auth import api_login_required
+
+# Globalna lista wysłanych e-maili dla testów
+sent_emails = []
 import time
 from threading import Lock
 import logging
@@ -142,6 +145,23 @@ def send_favorite_cities_weather_alert(user_email, rainy_cities, cold_cities, sn
     msg = MIMEText(message_text, "plain", "utf-8")
     msg['Subject'] = subject
     msg['From'] = my_email
+
+    # W trybie testowym, dodaj do listy zamiast wysyłać
+    if current_app.config['TESTING']:
+        sent_emails.append({
+            'to': user_email,
+            'subject': subject,
+            'body': message_text
+        })
+        alert_details = []
+        if rainy_cities:
+            alert_details.append(f"deszcz w {len(rainy_cities)} miastach")
+        if snowy_cities:
+            alert_details.append(f"śnieg w {len(snowy_cities)} miastach")
+        if cold_cities:
+            alert_details.append(f"mróz w {len(cold_cities)} miastach")
+        print(f"✓ Mail 'wysłany' do {user_email} z alertami: {', '.join(alert_details)} (test mode).")
+        return
 
     try:
         with smtplib.SMTP("smtp.gmail.com", 587, timeout=20) as connection:
@@ -675,88 +695,95 @@ def plot_png():
 
 # --------- TEST ENDPOINT: wysłanie maila testowego ---------
 
-# @weather_bp.get("/api/test-email")
-# def test_email():
-#     """
-#     Test endpoint: wysyła testowy email z opadami w ulubionych miastach.
-#     GET /weather/api/test-email
+@weather_bp.get("/api/test-email")
+def test_email():
+    """
+    Test endpoint: wysyła testowy email z opadami w ulubionych miastach.
+    GET /weather/api/test-email
 
-#     Zwraca:
-#     - 401 jeśli brak logowania (bez redirectu)
-#     - 404 jeśli user nie istnieje
-#     - 400 jeśli brak ulubionych
-#     - 200 jeśli wysłano maila lub jeśli nie ma opadów
-#     - 502 jeśli błąd OpenWeather
-#     - 500 jeśli błąd wysyłki maila lub inny błąd
-#     """
-#     user_id = session.get("user_id")
-#     if not user_id:
-#         return jsonify({"error": "not_authenticated"}), 401
+    Zwraca:
+    - 401 jeśli brak logowania (bez redirectu)
+    - 404 jeśli user nie istnieje
+    - 400 jeśli brak ulubionych
+    - 200 jeśli wysłano maila lub jeśli nie ma opadów
+    - 502 jeśli błąd OpenWeather
+    - 500 jeśli błąd wysyłki maila lub inny błąd
+    """
+    user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({"error": "not_authenticated"}), 401
 
-#     user = User.query.get(user_id)
-#     if not user:
-#         return jsonify({"error": "user_not_found"}), 404
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "user_not_found"}), 404
 
-#     favs = Favorite.get_for_user(user_id) or []
-#     if not favs:
-#         return jsonify({
-#             "error": "no_favorites",
-#             "message": "Dodaj ulubione miasta aby testować"
-#         }), 400
+    favs = Favorite.get_for_user(user_id) or []
+    if not favs:
+        return jsonify({
+            "error": "no_favorites",
+            "message": "Dodaj ulubione miasta aby testować"
+        }), 400
 
-#     rainy_cities = []
-#     cold_cities = []
+    rainy_cities = []
+    cold_cities = []
+    snowy_cities = []
 
-#     for fav in favs:
-#         lat = fav.lat if fav.lat is not None else DEFAULT_LAT
-#         lon = fav.lon if fav.lon is not None else DEFAULT_LON
+    for fav in favs:
+        lat = fav.lat if fav.lat is not None else DEFAULT_LAT
+        lon = fav.lon if fav.lon is not None else DEFAULT_LON
 
-#         try:
-#             raw = fetch_daily_forecast(lat, lon, cnt=7, units="metric")
-#             data = normalize_forecast(raw)
-#         except requests.HTTPError as e:
-#             # dla testów i poprawnego API lepiej jasno powiedzieć "problem z upstreamem"
-#             return jsonify({"error": "openweather_error", "details": str(e)}), 502
-#         except Exception as e:
-#             return jsonify({"error": "backend_error", "details": str(e)}), 500
+        try:
+            raw = fetch_daily_forecast(lat, lon, cnt=7, units="metric")
+            data = normalize_forecast(raw)
+        except requests.HTTPError as e:
+            # dla testów i poprawnego API lepiej jasno powiedzieć "problem z upstreamem"
+            return jsonify({"error": "openweather_error", "details": str(e)}), 502
+        except Exception as e:
+            return jsonify({"error": "backend_error", "details": str(e)}), 500
 
-#         if data.get("days") and float(data["days"][0].get("precip_mm", 0.0)) > 0.0:
-#             rainy_cities.append(fav.city)
+        if data.get("days") and float(data["days"][0].get("precip_mm", 0.0)) > 0.0:
+            rainy_cities.append(fav.city)
 
-#         if data.get("days") and data["days"][0].get("t_min") is not None and float(data["days"][0].get("t_min")) < 0:
-#             cold_cities.append(fav.city)
+        if data.get("days") and data["days"][0].get("snow_mm", 0.0) > 0.0:
+            snowy_cities.append(fav.city)
 
-#     # Wysyłanie maili
-#     sent_alert = False
+        if data.get("days") and data["days"][0].get("t_min") is not None and float(data["days"][0].get("t_min")) < 0:
+            cold_cities.append(fav.city)
 
-#     if rainy_cities or cold_cities:
-#         try:
-#             send_favorite_cities_weather_alert(user.email, rainy_cities, cold_cities)
-#             sent_alert = True
-#         except Exception as e:
-#             return jsonify({
-#                 "success": False,
-#                 "error": "email_send_failed",
-#                 "details": str(e),
-#                 "message": "Błąd wysyłania emaila"
-#             }), 500
+    # Wysyłanie maili
+    sent_alert = False
 
-#     if sent_alert:
-#         message_parts = [f"Email wysłany do {user.email}"]
-#         if rainy_cities:
-#             message_parts.append(f"opady w {len(rainy_cities)} miastach")
-#         if cold_cities:
-#             message_parts.append(f"mróz w {len(cold_cities)} miastach")
-#         message = " - ".join(message_parts)
-#         return jsonify({
-#             "success": True,
-#             "message": message,
-#             "rainy_cities": rainy_cities,
-#             "cold_cities": cold_cities
-#         }), 200
+    if rainy_cities or cold_cities or snowy_cities:
+        try:
+            send_favorite_cities_weather_alert(user.email, rainy_cities, cold_cities, snowy_cities)
+            sent_alert = True
+        except Exception as e:
+            return jsonify({
+                "success": False,
+                "error": "email_send_failed",
+                "details": str(e),
+                "message": "Błąd wysyłania emaila"
+            }), 500
 
-#     return jsonify({
-#         "success": False,
-#         "message": "Brak opadów ani mrozu w ulubionych miastach",
-#         "checked_cities": [f.city for f in favs]
-#     }), 200
+    if sent_alert:
+        message_parts = [f"Email wysłany do {user.email}"]
+        if rainy_cities:
+            message_parts.append(f"opady w {len(rainy_cities)} miastach")
+        if snowy_cities:
+            message_parts.append(f"śnieg w {len(snowy_cities)} miastach")
+        if cold_cities:
+            message_parts.append(f"mróz w {len(cold_cities)} miastach")
+        message = " - ".join(message_parts)
+        return jsonify({
+            "success": True,
+            "message": message,
+            "rainy_cities": rainy_cities,
+            "snowy_cities": snowy_cities,
+            "cold_cities": cold_cities
+        }), 200
+
+    return jsonify({
+        "success": False,
+        "message": "Brak opadów ani mrozu w ulubionych miastach",
+        "checked_cities": [f.city for f in favs]
+    }), 200
