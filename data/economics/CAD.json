@@ -1,30 +1,5 @@
 [
     {
-        "no": "003/A/NBP/2025",
-        "effectiveDate": "2025-01-07",
-        "mid": 2.8506
-    },
-    {
-        "no": "004/A/NBP/2025",
-        "effectiveDate": "2025-01-08",
-        "mid": 2.8778
-    },
-    {
-        "no": "005/A/NBP/2025",
-        "effectiveDate": "2025-01-09",
-        "mid": 2.8868
-    },
-    {
-        "no": "006/A/NBP/2025",
-        "effectiveDate": "2025-01-10",
-        "mid": 2.874
-    },
-    {
-        "no": "007/A/NBP/2025",
-        "effectiveDate": "2025-01-13",
-        "mid": 2.9028
-    },
-    {
         "no": "008/A/NBP/2025",
         "effectiveDate": "2025-01-14",
         "mid": 2.8977
@@ -1248,5 +1223,35 @@
         "no": "001/A/NBP/2026",
         "effectiveDate": "2026-01-02",
         "mid": 2.6212
+    },
+    {
+        "no": "002/A/NBP/2026",
+        "effectiveDate": "2026-01-05",
+        "mid": 2.6163
+    },
+    {
+        "no": "003/A/NBP/2026",
+        "effectiveDate": "2026-01-07",
+        "mid": 2.6087
+    },
+    {
+        "no": "004/A/NBP/2026",
+        "effectiveDate": "2026-01-08",
+        "mid": 2.5993
+    },
+    {
+        "no": "005/A/NBP/2026",
+        "effectiveDate": "2026-01-09",
+        "mid": 2.6081
+    },
+    {
+        "no": "006/A/NBP/2026",
+        "effectiveDate": "2026-01-12",
+        "mid": 2.5963
+    },
+    {
+        "no": "007/A/NBP/2026",
+        "effectiveDate": "2026-01-13",
+        "mid": 2.6006
     }
 ]

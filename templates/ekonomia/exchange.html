@@ -120,10 +120,10 @@
             </div>
 
             <h2 class="calc-heading">Cena złota dziś</h2>
-            <p class="gold-price">{{ cena_zlota_formatted }} [oz]</p>
+            <p class="gold-price">{{ cena_zlota_formatted }} PLN/oz</p>
 
             <h2 class="mt-4 calc-heading">
-                Kurs złota [oz] - widok w skali roku
+                Kurs złota PLN/oz - widok w skali roku
             </h2>
             <div class="d-flex justify-content-center mb-4">
                 <img
@@ -163,6 +163,7 @@
             window.ECON_DATA = {
                 currency_rates: {{ currency_rates | tojson | safe }}
             };
+            window.IS_AUTHENTICATED = {{ is_authenticated | tojson }};
         </script>
         <script src="{{ url_for('static', filename='js/economic-calc.js') }}"></script>
 

@@ -201,46 +201,57 @@
 
     // Favorite currency functionality (inspired by weather favorites)
     function setupFavoriteCurrency() {
-        console.log('setupFavoriteCurrency called');
-        
+        if (!window.IS_AUTHENTICATED) {
+            // Anonymous users: do not attach any click handlers; clicking does nothing
+            return;
+        }
+        console.log("setupFavoriteCurrency called");
+
         // Helper: fetch with X-Requested-With header for AJAX
         const apiCall = (url, options = {}) => {
             return fetch(url, {
-                credentials: 'same-origin',
+                credentials: "same-origin",
                 ...options,
                 headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    ...(options.headers || {})
-                }
+                    "X-Requested-With": "XMLHttpRequest",
+                    ...(options.headers || {}),
+                },
             });
         };
-        
+
         // Try multiple times to find boxes in case of slow rendering
         function initFavoritesSetup() {
-            const container = document.querySelector('.currency-scroll');
-            const currencyBoxes = document.querySelectorAll('.currency-box[data-currency]');
-            
-            console.log('Container found:', !!container);
-            console.log('Currency boxes found:', currencyBoxes.length);
-            
+            const container = document.querySelector(".currency-scroll");
+            const currencyBoxes = document.querySelectorAll(
+                ".currency-box[data-currency]"
+            );
+
+            console.log("Container found:", !!container);
+            console.log("Currency boxes found:", currencyBoxes.length);
+
             if (currencyBoxes.length === 0 || !container) {
-                console.warn('setupFavoriteCurrency: no boxes or container found, retrying...');
+                console.warn(
+                    "setupFavoriteCurrency: no boxes or container found, retrying..."
+                );
                 setTimeout(initFavoritesSetup, 100);
                 return;
             }
 
-            console.log('Currency boxes found:', Array.from(currencyBoxes).map(b => b.dataset.currency));
+            console.log(
+                "Currency boxes found:",
+                Array.from(currencyBoxes).map((b) => b.dataset.currency)
+            );
 
             // Load available currencies from API (10 currencies with rates)
             async function loadAvailableCurrencies() {
                 try {
-                    const res = await apiCall('/ekonomia/api/exchange-rates');
+                    const res = await apiCall("/ekonomia/api/exchange-rates");
                     if (!res.ok) return [];
                     const data = await res.json();
-                    console.log('Available currencies loaded:', data);
+                    console.log("Available currencies loaded:", data);
                     return data || [];
                 } catch (e) {
-                    console.warn('Failed to fetch available currencies', e);
+                    console.warn("Failed to fetch available currencies", e);
                     return [];
                 }
             }
@@ -253,57 +264,68 @@
                 try {
                     // Load available currencies first if not cached
                     if (availableCurrenciesCache.length === 0) {
-                        availableCurrenciesCache = await loadAvailableCurrencies();
+                        availableCurrenciesCache =
+                            await loadAvailableCurrencies();
                     }
 
-                    const res = await apiCall('/ekonomia/api/favorite-currencies');
+                    const res = await apiCall(
+                        "/ekonomia/api/favorite-currencies"
+                    );
                     if (!res.ok) return [];
                     const data = await res.json();
                     const favs = data.favorite_currencies || [];
                     reorderCurrenciesToTop(favs, availableCurrenciesCache);
                     return favs;
                 } catch (e) {
-                    console.warn('Failed to fetch favorite currencies', e);
+                    console.warn("Failed to fetch favorite currencies", e);
                     return [];
                 }
             }
 
             // Move selected currencies to top with formatted display
             function reorderCurrenciesToTop(favs, availableCurrencies) {
-                console.log('Reordering currencies to top with favorites:', favs, availableCurrencies);
+                console.log(
+                    "Reordering currencies to top with favorites:",
+                    favs,
+                    availableCurrencies
+                );
                 if (!favs || favs.length === 0) return;
 
                 // Create a map for quick lookup: code -> rate
                 const rateMap = {};
-                availableCurrencies.forEach(curr => {
+                availableCurrencies.forEach((curr) => {
                     rateMap[curr.code] = curr.rate;
                 });
 
-                console.log('Reordering favorites:', favs);
-                console.log('Available rates:', rateMap);
+                console.log("Reordering favorites:", favs);
+                console.log("Available rates:", rateMap);
 
                 // Get the currency-item containers (not boxes themselves)
-                const items = Array.from(container.querySelectorAll('.currency-item'));
-                
+                const items = Array.from(
+                    container.querySelectorAll(".currency-item")
+                );
+
                 // Update the first 3 items with favorite currencies
                 favs.forEach((favCurrency, index) => {
                     if (index < 3 && items[index]) {
                         const rate = rateMap[favCurrency.currency_code] || 0;
-                        const box = items[index].querySelector('.currency-box');
-                        
+                        const box = items[index].querySelector(".currency-box");
+
                         if (box) {
                             // Find and update only the text content, preserve all HTML structure
-                            const titleElem = box.querySelector('.currency-title');
-                            const valueElem = box.querySelector('.currency-value');
-                            
+                            const titleElem =
+                                box.querySelector(".currency-title");
+                            const valueElem =
+                                box.querySelector(".currency-value");
+
                             if (titleElem) {
                                 titleElem.textContent = `${favCurrency.currency_code} na PLN`;
                             }
-                            
+
                             if (valueElem) {
                                 valueElem.textContent = `${rate.toFixed(2)} zł`;
                             }
-                            
+
                             // Update data-currency attribute
                             box.dataset.currency = favCurrency.currency_code;
                         }
@@ -313,8 +335,8 @@
 
             // Create modal for selecting favorites
             function createFavoritesModal() {
-                const modal = document.createElement('div');
-                modal.id = 'favoritesModal';
+                const modal = document.createElement("div");
+                modal.id = "favoritesModal";
                 modal.style.cssText = `
                     position: fixed;
                     top: 0;
@@ -346,53 +368,65 @@
             const modal = createFavoritesModal();
 
             // Show modal on currency-box click
-            currencyBoxes.forEach(box => {
-                box.style.cursor = 'pointer';
-                box.addEventListener('click', async function(e) {
+            currencyBoxes.forEach((box) => {
+                box.style.cursor = "pointer";
+                box.addEventListener("click", async function (e) {
                     e.stopPropagation();
-                    console.log('Currency box clicked:', this.dataset.currency);
-                    
+                    console.log("Currency box clicked:", this.dataset.currency);
+
                     // Populate checkboxes
-                    const checkboxContainer = document.getElementById('favoritesCheckboxes');
-                    checkboxContainer.innerHTML = 'Ładowanie walut...';
+                    const checkboxContainer = document.getElementById(
+                        "favoritesCheckboxes"
+                    );
+                    checkboxContainer.innerHTML = "Ładowanie walut...";
 
                     // Get available currencies and current favorites
                     try {
                         // Load available currencies if not cached
                         if (availableCurrenciesCache.length === 0) {
-                            availableCurrenciesCache = await loadAvailableCurrencies();
+                            availableCurrenciesCache =
+                                await loadAvailableCurrencies();
                         }
 
-                        const favRes = await apiCall('/ekonomia/api/favorite-currencies');
-                        const favData = favRes.ok ? await favRes.json() : { favorite_currencies: [] };
-                        
+                        const favRes = await apiCall(
+                            "/ekonomia/api/favorite-currencies"
+                        );
+                        const favData = favRes.ok
+                            ? await favRes.json()
+                            : { favorite_currencies: [] };
+
                         const availableCurrencies = availableCurrenciesCache;
-                        const selectedCodes = favData.favorite_currencies.map(f => f.currency_code);
+                        const selectedCodes = favData.favorite_currencies.map(
+                            (f) => f.currency_code
+                        );
 
                         // Create checkboxes for available currencies
-                        checkboxContainer.innerHTML = '';
-                        availableCurrencies.forEach(curr => {
+                        checkboxContainer.innerHTML = "";
+                        availableCurrencies.forEach((curr) => {
                             const code = curr.code;
                             const rate = curr.rate;
-                            
-                            const label = document.createElement('label');
-                            label.style.cssText = 'display: flex; align-items: center; margin: 10px 0; cursor: pointer; font-size: 14px;';
-                            
-                            const checkbox = document.createElement('input');
-                            checkbox.type = 'checkbox';
+
+                            const label = document.createElement("label");
+                            label.style.cssText =
+                                "display: flex; align-items: center; margin: 10px 0; cursor: pointer; font-size: 14px;";
+
+                            const checkbox = document.createElement("input");
+                            checkbox.type = "checkbox";
                             checkbox.value = code;
                             checkbox.checked = selectedCodes.includes(code);
-                            checkbox.style.marginRight = '10px';
-                            checkbox.style.cursor = 'pointer';
-                            checkbox.style.width = '18px';
-                            checkbox.style.height = '18px';
+                            checkbox.style.marginRight = "10px";
+                            checkbox.style.cursor = "pointer";
+                            checkbox.style.width = "18px";
+                            checkbox.style.height = "18px";
 
                             // Limit to 3 selections
-                            checkbox.addEventListener('change', function() {
-                                const checked = document.querySelectorAll('#favoritesCheckboxes input:checked');
+                            checkbox.addEventListener("change", function () {
+                                const checked = document.querySelectorAll(
+                                    "#favoritesCheckboxes input:checked"
+                                );
                                 if (checked.length > 3) {
                                     this.checked = false;
-                                    alert('Możesz wybrać maksymalnie 3 waluty');
+                                    alert("Możesz wybrać maksymalnie 3 waluty");
                                 }
                             });
 
@@ -403,65 +437,94 @@
                         });
 
                         // Show modal
-                        modal.style.display = 'flex';
-                        console.log('Modal displayed with', availableCurrencies.length, 'currencies');
+                        modal.style.display = "flex";
+                        console.log(
+                            "Modal displayed with",
+                            availableCurrencies.length,
+                            "currencies"
+                        );
                     } catch (err) {
-                        console.error('Error populating modal:', err);
-                        checkboxContainer.innerHTML = '<div style="color: red;">Błąd przy ładowaniu walut</div>';
+                        console.error("Error populating modal:", err);
+                        checkboxContainer.innerHTML =
+                            '<div style="color: red;">Błąd przy ładowaniu walut</div>';
                     }
                 });
             });
 
             // Close modal on background click
-            modal.addEventListener('click', function(e) {
+            modal.addEventListener("click", function (e) {
                 if (e.target === modal) {
-                    modal.style.display = 'none';
+                    modal.style.display = "none";
                 }
             });
 
             // Close modal
-            document.getElementById('closeFavModal').addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
+            document
+                .getElementById("closeFavModal")
+                .addEventListener("click", () => {
+                    modal.style.display = "none";
+                });
 
             // Save favorites
-            document.getElementById('saveFavModal').addEventListener('click', async () => {
-                const checked = Array.from(document.querySelectorAll('#favoritesCheckboxes input:checked')).map(cb => cb.value);
-                
-                try {
-                    // Get current favorites
-                    const res = await apiCall('/ekonomia/api/favorite-currencies');
-                    const data = res.ok ? await res.json() : { favorite_currencies: [] };
-                    const currentCodes = data.favorite_currencies.map(f => f.currency_code);
+            document
+                .getElementById("saveFavModal")
+                .addEventListener("click", async () => {
+                    const checked = Array.from(
+                        document.querySelectorAll(
+                            "#favoritesCheckboxes input:checked"
+                        )
+                    ).map((cb) => cb.value);
 
-                    // Delete removed ones
-                    for (const code of currentCodes) {
-                        if (!checked.includes(code)) {
-                            await apiCall(`/ekonomia/api/favorite-currencies/${code}`, {
-                                method: 'DELETE'
-                            });
+                    try {
+                        // Get current favorites
+                        const res = await apiCall(
+                            "/ekonomia/api/favorite-currencies"
+                        );
+                        const data = res.ok
+                            ? await res.json()
+                            : { favorite_currencies: [] };
+                        const currentCodes = data.favorite_currencies.map(
+                            (f) => f.currency_code
+                        );
+
+                        // Delete removed ones
+                        for (const code of currentCodes) {
+                            if (!checked.includes(code)) {
+                                await apiCall(
+                                    `/ekonomia/api/favorite-currencies/${code}`,
+                                    {
+                                        method: "DELETE",
+                                    }
+                                );
+                            }
                         }
-                    }
 
-                    // Add new ones
-                    for (const code of checked) {
-                        if (!currentCodes.includes(code)) {
-                            await apiCall('/ekonomia/api/favorite-currencies', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ currency_code: code })
-                            });
+                        // Add new ones
+                        for (const code of checked) {
+                            if (!currentCodes.includes(code)) {
+                                await apiCall(
+                                    "/ekonomia/api/favorite-currencies",
+                                    {
+                                        method: "POST",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                        },
+                                        body: JSON.stringify({
+                                            currency_code: code,
+                                        }),
+                                    }
+                                );
+                            }
                         }
-                    }
 
-                    // Reload favorites
-                    loadFavorites();
-                    modal.style.display = 'none';
-                } catch (err) {
-                    console.error('Error saving favorites:', err);
-                    alert('Błąd przy zapisywaniu ulubionych');
-                }
-            });
+                        // Reload favorites
+                        loadFavorites();
+                        modal.style.display = "none";
+                    } catch (err) {
+                        console.error("Error saving favorites:", err);
+                        alert("Błąd przy zapisywaniu ulubionych");
+                    }
+                });
 
             // Load on page load
             (async () => {
@@ -476,7 +539,6 @@
         // Start initialization
         initFavoritesSetup();
     }
-
 
     if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", function () {

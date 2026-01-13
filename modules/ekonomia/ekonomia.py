@@ -80,6 +80,52 @@ def load_gold_json():
         return None
 
 
+def get_json_rate_for_today_or_latest(currency_code):
+    """Return today's rate from local JSON for `currency_code`,
+    or the latest available if today's entry is missing.
+
+    Uses `load_currency_json` and does not call external APIs.
+    Returns float rate or None.
+    """
+    df = load_currency_json(currency_code)
+    if df is None or df.empty:
+        return None
+    try:
+        today = date.today()
+        today_rows = df[df['date'].dt.date == today]
+        if not today_rows.empty:
+            return float(today_rows['rate'].iloc[-1])
+        # fallback to latest available entry
+        return float(df['rate'].iloc[-1])
+    except Exception:
+        try:
+            return float(df['rate'].iloc[-1])
+        except Exception:
+            return None
+
+
+def list_currency_codes_from_json():
+    """List currency codes available in local JSON files under data/economics.
+    Excludes non-currency files like gold.json. Returns uppercase codes.
+    """
+    codes = []
+    try:
+        base_dir = os.path.join('data', 'economics')
+        if not os.path.isdir(base_dir):
+            return codes
+        for name in os.listdir(base_dir):
+            if not name.lower().endswith('.json'):
+                continue
+            if name.lower() == 'gold.json':
+                continue
+            code = os.path.splitext(name)[0].upper()
+            if code:
+                codes.append(code)
+        return sorted(set(codes))
+    except Exception:
+        return codes
+
+
 def format_pl_number(value):
     """Format number with Polish separators (space thousands, comma decimals)."""
     try:
@@ -183,12 +229,9 @@ def ekonomia():
         with open(last_update_file, 'w') as f:
             f.write(datetime.now().isoformat())
     
-    # Static exchange rates for main currencies
-    kurs_walut = {
-        'EUR': 4.24,
-        'CHF': 4.57,
-        'USD': 3.64
-    }
+    # Default tiles for anonymous: JSON-first (fallback to API) latest rates
+    homepage_rates = get_homepage_rates(["EUR", "CHF", "USD"])  # JSON snapshots first, then API
+    kurs_walut = {r["code"]: r["rate"] for r in homepage_rates}
         
     # Generate default currency chart (EUR)
     wykres_waluty = generate_currency_plot('EUR', '#6c7c40')
@@ -196,7 +239,14 @@ def ekonomia():
     # Load gold prices from JSON and generate chart
     gold_df = load_gold_json()
     mgr = Manager()
-    wykres_zlota = mgr.create_plot_image(gold_df, x_col='date', y_col='price', color='#6c7c40', y_label='Cena (PLN)', x_label='Data')
+    wykres_zlota = mgr.create_plot_image(
+        gold_df,
+        x_col='date',
+        y_col='price',
+        color='#6c7c40',
+        y_label='Cena PLN/oz',
+        x_label='Data'
+    )
 
     # Get gold price and convert from PLN per gram to PLN per troy ounce
     # 1 troy ounce = 31.1034768 grams
@@ -206,20 +256,23 @@ def ekonomia():
 
     # Get currency list and rates for calculator
     mgr = Manager()
+    # Keep API-based list for calculator and selects
     currency_codes = mgr.list_currencies()
     raw_rates = mgr.currencies.get_current_rates()
-    # Normalize to uppercase and add PLN=1
     currency_rates = {k.upper(): v for k, v in raw_rates.items()}
     currency_rates['PLN'] = 1.0
 
-    # Prepare currencies for table (exclude main ones)
+    # Prepare table purely from local JSONs (exclude main ones)
     excluded_currencies = {'EUR', 'CHF', 'USD'}
+    json_codes = list_currency_codes_from_json() or [c.upper() for c in currency_codes]
     all_currencies_for_tiles = {}
-    for code in currency_codes:
-        if code.upper() not in excluded_currencies:
-            rate = currency_rates.get(code.upper())
-            if rate:
-                all_currencies_for_tiles[code.upper()] = rate
+    for code in json_codes:
+        uc = code.upper()
+        if uc in excluded_currencies:
+            continue
+        rate = get_json_rate_for_today_or_latest(uc)
+        if rate is not None:
+            all_currencies_for_tiles[uc] = rate
 
     return render_template('ekonomia/exchange.html',
                            kurs_walut=kurs_walut,
@@ -229,7 +282,8 @@ def ekonomia():
                            cena_zlota_formatted=cena_zlota_formatted,
                            currency_codes=currency_codes,
                            currency_rates=currency_rates,
-                           all_currencies_for_tiles=all_currencies_for_tiles)
+                           all_currencies_for_tiles=all_currencies_for_tiles,
+                           is_authenticated=(session.get('user_id') is not None))
 
 @ekonomia_bp.route('/ekonomia/chart/<currency_code>')
 def get_currency_chart(currency_code):

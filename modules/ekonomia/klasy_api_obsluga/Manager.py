@@ -71,7 +71,8 @@ class Manager:
         if y_label:
             ax.set_ylabel(y_label, color='#2B370A')
         else:
-            ax.set_ylabel('Gold price [t oz]' if y_col == 'price' else y_col, color='#2B370A')
+            # Default to PLN per ounce for gold price series
+            ax.set_ylabel('Cena złota [PLN/oz]' if y_col == 'price' else y_col, color='#2B370A')
         fig.autofmt_xdate()
         buf = io.BytesIO()
         plt.savefig(buf, format='png', bbox_inches='tight', facecolor=fig.get_facecolor())
