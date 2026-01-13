@@ -46,6 +46,43 @@
     background-color: var(--color-secondary);
 }
 
+/* Mały przycisk obok dużych przycisków w nagłówku wiadomości */
+.top-btn.small {
+    flex: 0 0 auto;
+    padding: 8px 10px;
+    font-size: 0.95rem;
+    width: auto;
+    min-width: 40px;
+    max-width: 60px;
+    border-radius: 8px;
+}
+
+.top-btn.small:hover {
+    background-color: var(--color-secondary);
+}
+
+/* Drobne dopracowanie dla przycisku-ikony zegara */
+.top-btn.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 0;
+}
+
+.top-btn.icon-btn svg {
+    width: 18px;
+    height: 18px;
+    color: var(--color-white);
+}
+
+.top-btn.icon-btn:hover svg {
+    color: var(--color-white);
+}
+
 /* --- TABELE SPORTOWE --- */
 table {
     width: 100%;
@@ -257,6 +294,36 @@ body.news-page .main-content {
     gap: 10px;
     margin: 20px 0;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.save-tags-btn {
+    padding: 8px 12px;
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.save-tags-btn:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.save-tags-btn.active {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.save-tags-btn svg {
+    width: 20px;
+    height: 20px;
 }
 
 .tag-btn {
@@ -282,6 +349,43 @@ body.news-page .main-content {
     color: var(--color-primary);
     border-color: var(--color-primary);
     font-weight: 600;
+}
+
+/* Responsywność dla tagów na mobilach */
+@media (max-width: 992px) {
+    .tag-filters {
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 15px 0;
+    }
+
+    .tag-btn {
+        padding: 6px 14px;
+        font-size: 0.85rem;
+    }
+
+    .save-tags-btn {
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .tag-filters {
+        gap: 6px;
+        margin: 12px 0;
+        padding: 0 10px;
+    }
+
+    .tag-btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+        flex: 0 0 auto;
+    }
+
+    .save-tags-btn {
+        padding: 5px 8px;
+        margin-right: 5px;
+    }
 }
 
 /* Odstępy między wiadomościami */
@@ -370,7 +474,6 @@ body.news-page .main-content {
     }
 }
 
-}
 
 .news-image-placeholder {
     width: 100%;

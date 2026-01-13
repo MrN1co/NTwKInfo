@@ -45,9 +45,12 @@
           <span class="icon">⚙️</span>
           Preferencje
         </button>
+        <button class="action-btn secondary" id="testWeatherAlertsBtn" onclick="testWeatherAlerts()">
+          <span class="icon">📧</span>
+          Testuj alerty pogodowe
+        </button>
       </div>
     </section>
-
 
     <!-- Quick Links -->
     <section class="dashboard-card">
@@ -81,235 +84,24 @@
       <form id="changePasswordForm">
         <button type="button" class="auth-close" onclick="closeChangePasswordModal()">×</button>
         <h2>Zmień hasło</h2>
-        
+
         <label>Obecne hasło</label>
         <input name="current_password" type="password" placeholder="Wpisz obecne hasło" required>
-        
+
         <label>Nowe hasło</label>
         <input name="new_password" type="password" placeholder="Wpisz nowe hasło" required>
-        
+
         <label>Powtórz nowe hasło</label>
         <input name="confirm_password" type="password" placeholder="Powtórz nowe hasło" required>
-        
+
         <button type="submit" class="auth-submit">Zmień hasło</button>
       </form>
     </div>
   </div>
 </div>
 
-<style>
-.dashboard-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
+<!-- Załaduj oddzielne pliki -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 
-.dashboard-header {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.dashboard-header h1 {
-  font-size: 36px;
-  color: var(--color-primary);
-  margin-bottom: 10px;
-}
-
-.dashboard-subtitle {
-  color: var(--color-text-secondary);
-  font-size: 18px;
-}
-
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-}
-
-.dashboard-card {
-  background: white;
-  border: 1px solid var(--color-border);
-  border-radius: 16px;
-  padding: 25px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.dashboard-card h2 {
-  color: var(--color-primary);
-  font-size: 20px;
-  margin-bottom: 20px;
-  border-bottom: 2px solid var(--color-accent);
-  padding-bottom: 10px;
-}
-
-.info-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--color-accent);
-}
-
-.info-row:last-child {
-  border-bottom: none;
-}
-
-.label {
-  font-weight: 500;
-  color: var(--color-text-secondary);
-}
-
-.value {
-  color: var(--color-black);
-  font-weight: 500;
-}
-
-.status-active {
-  color: #28a745;
-}
-
-.dashboard-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.action-btn {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 18px;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.action-btn.primary {
-  background: var(--color-primary);
-  color: white;
-}
-
-.action-btn.secondary {
-  background: var(--color-accent);
-  color: var(--color-primary);
-}
-
-.action-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.activity-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.activity-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--color-accent);
-}
-
-.activity-item:last-child {
-  border-bottom: none;
-}
-
-.activity-time {
-  font-size: 12px;
-  color: var(--color-text-secondary);
-}
-
-.activity-desc {
-  font-weight: 500;
-}
-
-.quick-links {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.quick-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  border-radius: 8px;
-  text-decoration: none;
-  color: var(--color-black);
-  transition: background 0.2s;
-}
-
-.quick-link:hover {
-  background: var(--color-accent);
-}
-
-.quick-link.logout {
-  color: #dc3545;
-}
-
-.quick-link.logout:hover {
-  background: #f8d7da;
-}
-
-.icon {
-  font-size: 18px;
-}
-
-@media (max-width: 768px) {
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .dashboard-header h1 {
-    font-size: 28px;
-  }
-  
-  .info-row {
-    flex-direction: column;
-    gap: 4px;
-    align-items: flex-start;
-  }
-}
-</style>
-
-<script>
-function showChangePasswordModal() {
-  document.getElementById('changePasswordModal').classList.remove('hidden');
-}
-
-function closeChangePasswordModal() {
-  document.getElementById('changePasswordModal').classList.add('hidden');
-}
-
-function showEditProfileModal() {
-  alert('Funkcja w przygotowaniu');
-}
-
-function showPreferencesModal() {
-  alert('Funkcja w przygotowaniu');
-}
-
-// Handle change password form
-document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  
-  const formData = new FormData(this);
-  const newPassword = formData.get('new_password');
-  const confirmPassword = formData.get('confirm_password');
-  
-  if (newPassword !== confirmPassword) {
-    alert('Nowe hasła nie są identyczne');
-    return;
-  }
-  
-  // TODO: Implement password change via AJAX
-  alert('Funkcja zmiany hasła w przygotowaniu');
-});
-</script>
 {% endblock %}

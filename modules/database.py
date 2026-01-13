@@ -30,6 +30,7 @@ class User(db.Model):
     sessions = db.relationship('Session', back_populates='user', cascade='all, delete-orphan')
     api_logs = db.relationship('APILog', back_populates='user', cascade='all, delete-orphan')
     posts = db.relationship('Post', back_populates='author', cascade='all, delete-orphan')
+    saved_tags = db.relationship('SavedTag', back_populates='user', cascade='all, delete-orphan')
     
     def __repr__(self):
         return f'<User {self.username}>'
@@ -37,7 +38,7 @@ class User(db.Model):
     @staticmethod
     def create(username, email, password):
         """Create a new user - uses parameterized queries for safety"""
-        password_hash = generate_password_hash(password)
+        password_hash = generate_password_hash(password, method="pbkdf2:sha256")
         user = User(username=username, email=email, password_hash=password_hash)
         db.session.add(user)
         db.session.commit()
@@ -147,6 +148,63 @@ class Post(db.Model):
         db.session.commit()
 
 
+class SavedTag(db.Model):
+    """SavedTag model - stores user's saved news tags"""
+    __tablename__ = 'tagi'
+    
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True, nullable=False)
+    tag = db.Column(db.String(32), primary_key=True, nullable=False)
+    
+    # Relationships
+    user = db.relationship('User', back_populates='saved_tags')
+    
+    def __repr__(self):
+        return f'<SavedTag user_id={self.user_id} tag={self.tag}>'
+    
+    @staticmethod
+    def get_user_tags(user_id):
+        """Get all tags for a user"""
+        tags = SavedTag.query.filter_by(user_id=user_id).all()
+        return [tag.tag for tag in tags]
+    
+    @staticmethod
+    def save_tags(user_id, tags):
+        """Save tags for a user - replaces all existing tags"""
+        # Remove all existing tags for user
+        SavedTag.query.filter_by(user_id=user_id).delete()
+        
+        # Add new tags
+        for tag in tags:
+            saved_tag = SavedTag(user_id=user_id, tag=tag)
+            db.session.add(saved_tag)
+        
+        db.session.commit()
+        return tags
+    
+    @staticmethod
+    def add_tag(user_id, tag):
+        """Add a single tag for a user"""
+        existing = SavedTag.query.filter_by(user_id=user_id, tag=tag).first()
+        if not existing:
+            saved_tag = SavedTag(user_id=user_id, tag=tag)
+            db.session.add(saved_tag)
+            db.session.commit()
+        return tag
+    
+    @staticmethod
+    def remove_tag(user_id, tag):
+        """Remove a single tag for a user"""
+        SavedTag.query.filter_by(user_id=user_id, tag=tag).delete()
+        db.session.commit()
+        return tag
+    
+    @staticmethod
+    def clear_tags(user_id):
+        """Clear all tags for a user"""
+        SavedTag.query.filter_by(user_id=user_id).delete()
+        db.session.commit()
+
+
 class APILog(db.Model):
     """API logging model - tracks API requests for monitoring"""
     __tablename__ = 'api_logs'
@@ -239,7 +297,8 @@ class Favorite(db.Model):
 
 def init_db(app):
     """Initialize the database with the Flask app"""
-    db.init_app(app)
+    if "sqlalchemy" not in app.extensions:
+        db.init_app(app)
     
     with app.app_context():
         db.create_all()

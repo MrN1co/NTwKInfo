@@ -9,10 +9,19 @@
 {% block content %}
 <div class="top-buttons container-padding">
     <a href="{{ url_for('tables.news') }}" class="top-btn">Wiadomości</a>
-    <a href="{{ url_for('tables.tables') }}" class="top-btn">Wyniki sportowe</a>
+    <a href="{{ url_for('tables.tables') }}" class="top-btn">Tabele</a>
+    {% if session.get('user_id') %}
+    <a href="{{ url_for('tables.history_view') }}" class="top-btn small icon-btn" title="Historia kliknięć" aria-label="Historia kliknięć">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+        <path d="M12 7v6l4 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/>
+      </svg>
+    </a>
+    {% endif %}
 </div>
 
 {% block news_content %}
 <iframe id="main-iframe" src="{{ iframe_src }}" scrolling="yes" title="News content"></iframe>
 {% endblock %}
+<script src="{{ url_for('static', filename='js/news-history.js') }}"></script>
 {% endblock %}

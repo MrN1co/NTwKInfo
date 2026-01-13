@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}NTWKInfo - Bądź na czasie{% endblock %}</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/NTWK_icon.ico') }}" type="image/x-icon" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
   {% block head %}{% endblock %}
@@ -58,6 +59,17 @@
   </div>
 
 </div>
+
+<div id="logoutModal" class="auth-overlay hidden">
+  <div class="auth-modal">
+    <div class="auth-box logout-modal">
+      <h2>✓ Wylogowanie pomyślne</h2>
+      <p>Zostałeś pomyślnie wylogowany z systemu.</p>
+      <button type="button" class="auth-submit" onclick="closeLogoutModal()">OK</button>
+    </div>
+  </div>
+</div>
+
 <body{% if request.path.startswith('/news/') %} class="news-page"{% endif %}>
     
   <header class="header">
