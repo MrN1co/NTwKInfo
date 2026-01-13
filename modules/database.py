@@ -38,7 +38,7 @@ class User(db.Model):
     @staticmethod
     def create(username, email, password):
         """Create a new user - uses parameterized queries for safety"""
-        password_hash = generate_password_hash(password, method="pbkdf2:sha256")
+        password_hash = generate_password_hash(password)
         user = User(username=username, email=email, password_hash=password_hash)
         db.session.add(user)
         db.session.commit()
