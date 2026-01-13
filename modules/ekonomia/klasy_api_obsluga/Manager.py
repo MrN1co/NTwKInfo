@@ -1,7 +1,6 @@
 from modules.ekonomia.klasy_api_obsluga.APIClient import APIClient
 from modules.ekonomia.klasy_api_obsluga.CurrencyRates import CurrencyRates
 from modules.ekonomia.klasy_api_obsluga.GoldPrices import GoldPrices
-from modules.ekonomia.klasy_api_obsluga.HistoricalData import HistoricalData
 import matplotlib
 # Use non-interactive Agg backend for server-side rendering
 matplotlib.use('Agg')
@@ -13,7 +12,6 @@ class Manager:
         self.client = APIClient()
         self.currencies = CurrencyRates(self.client)
         self.gold = GoldPrices(self.client)
-        self.history = HistoricalData(self.client)
 
     def update_all(self):
         """Update currency rates and gold prices"""

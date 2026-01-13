@@ -29,11 +29,9 @@ class TestManager:
         assert hasattr(manager, 'client')
         assert hasattr(manager, 'currencies')
         assert hasattr(manager, 'gold')
-        assert hasattr(manager, 'history')
         assert manager.client is not None
         assert manager.currencies is not None
         assert manager.gold is not None
-        assert manager.history is not None
 
     def test_update_all_success(self):
         """Test pomyślnej aktualizacji wszystkich danych"""

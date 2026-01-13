@@ -262,17 +262,12 @@ def ekonomia():
     currency_rates = {k.upper(): v for k, v in raw_rates.items()}
     currency_rates['PLN'] = 1.0
 
-    # Prepare table purely from local JSONs (exclude main ones)
-    excluded_currencies = {'EUR', 'CHF', 'USD'}
-    json_codes = list_currency_codes_from_json() or [c.upper() for c in currency_codes]
+    # Prepare currencies for table (include all)
     all_currencies_for_tiles = {}
-    for code in json_codes:
-        uc = code.upper()
-        if uc in excluded_currencies:
-            continue
-        rate = get_json_rate_for_today_or_latest(uc)
-        if rate is not None:
-            all_currencies_for_tiles[uc] = rate
+    for code in currency_codes:
+        rate = currency_rates.get(code.upper())
+        if rate:
+            all_currencies_for_tiles[code.upper()] = rate
 
     return render_template('ekonomia/exchange.html',
                            kurs_walut=kurs_walut,
