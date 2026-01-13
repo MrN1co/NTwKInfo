@@ -203,7 +203,4 @@ Szczegóły: `doc/testing.md`
 
 ---
 
-### Co mogę zrobić dalej?
-- Utworzyć PR z tą zmianą w nowej gałęzi `docs/homepage-module-docs` i podesłać link do PR. Jeśli chcesz, mogę to zrobić teraz.
-
 ---
