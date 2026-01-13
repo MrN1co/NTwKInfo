@@ -120,6 +120,8 @@ def test_send_email_calls_smtp_when_rain(monkeypatch):
     monkeypatch.setattr(wa.smtplib, "SMTP", DummySMTP)
     monkeypatch.setattr(wa, "my_email", "from@test.com")
     monkeypatch.setattr(wa, "password", "pass")
+    # Mock current_app to avoid app context error
+    monkeypatch.setattr(wa, "current_app", type('MockApp', (), {'config': {'TESTING': False}})())
 
     wa.send_favorite_cities_weather_alert("x@test.com", rainy_cities=["Kraków", "Gdańsk"], cold_cities=[], snowy_cities=[])
     assert sent["sendmail"] == 1
