@@ -53,9 +53,7 @@ class TestNewsHTMLEndpoints:
     def test_history_view_renders_for_logged_user(self, client, app):
         """Test: /history/view renderuje HTML dla zalogowanego użytkownika"""
         with app.app_context():
-            user = User(username='test', email='test@example.com', password_hash='hash')
-            db.session.add(user)
-            db.session.commit()
+            user = User.query.filter_by(email='test@example.com').first()
             user_id = user.id
 
         with client.session_transaction() as sess:
@@ -77,9 +75,7 @@ class TestNewsHTMLEndpoints:
     def test_history_api_returns_valid_json(self, client, app):
         """Test: /history/api zwraca JSON z poprawną strukturą"""
         with app.app_context():
-            user = User(username='test', email='test@example.com', password_hash='hash')
-            db.session.add(user)
-            db.session.commit()
+            user = User.query.filter_by(email='test@example.com').first()
             user_id = user.id
 
         with client.session_transaction() as sess:
@@ -104,9 +100,7 @@ class TestNewsHTMLEndpoints:
     def test_history_log_creates_entry(self, client, app):
         """Test: /history/log tworzy wpis w bazie"""
         with app.app_context():
-            user = User(username='test', email='test@example.com', password_hash='hash')
-            db.session.add(user)
-            db.session.commit()
+            user = User.query.filter_by(email='test@example.com').first()
             user_id = user.id
 
         with client.session_transaction() as sess:
@@ -132,9 +126,7 @@ class TestNewsHTMLEndpoints:
     def test_history_clear_removes_entries(self, client, app):
         """Test: /history/clear usuwa historię użytkownika"""
         with app.app_context():
-            user = User(username='test', email='test@example.com', password_hash='hash')
-            db.session.add(user)
-            db.session.commit()
+            user = User.query.filter_by(email='test@example.com').first()
             user_id = user.id
             
             # Dodaj historię
@@ -162,9 +154,7 @@ class TestNewsHTMLEndpoints:
     def test_history_delete_removes_entry(self, client, app):
         """Test: /history/delete/<id> usuwa wpis"""
         with app.app_context():
-            user = User(username='test', email='test@example.com', password_hash='hash')
-            db.session.add(user)
-            db.session.commit()
+            user = User.query.filter_by(email='test@example.com').first()
             user_id = user.id
             
             entry = NewsLinkHistory(
