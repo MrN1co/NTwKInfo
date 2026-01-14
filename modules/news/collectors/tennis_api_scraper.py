@@ -7,8 +7,9 @@ import requests
 import os
 from dotenv import load_dotenv
 
-# Ładuj zmienne środowiskowe z pliku .env
-load_dotenv()
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Klucz API z RapidAPI dla Tennis API
 RAPIDAPI_KEY = os.getenv('RAPIDAPI_KEY')
