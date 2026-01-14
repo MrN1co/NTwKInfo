@@ -289,20 +289,185 @@ Szczegóły: [`doc/testing.md`](../testing.md)
 
 ### 10.1 Unit tests (pytest)
 
-**TU UZUPEŁNIĆ:** co testujecie jednostkowo (np. funkcje services, walidacja).
+Testy jednostkowe znajdują się w `tests/unit/ekonomia/` i obejmują:
+
+-   **`test_api_client.py`** — testy klasy `APIClient`:
+
+    -   Inicjalizacja z domyślnym i niestandardowym base_url
+    -   Pobieranie danych JSON (sukces, błąd HTTP, wyjątki)
+    -   Obsługa błędów sieciowych i timeoutów
+
+-   **`test_currency_rates.py`** — testy klasy `CurrencyRates`:
+
+    -   Pobieranie listy walut z API NBP
+    -   Pobieranie aktualnych kursów (tabele A, B, C)
+    -   Mapowanie kursów do formatu słownikowego
+    -   Obsługa błędów API (brak danych, nieprawidłowa odpowiedź)
+
+-   **`test_gold_prices.py`** — testy klasy `GoldPrices`:
+
+    -   Pobieranie aktualnej ceny złota
+    -   Walidacja formatu odpowiedzi API
+    -   Obsługa błędów i braków danych
+
+-   **`test_manager.py`** — testy klasy `Manager`:
+
+    -   Inicjalizacja komponentów (APIClient, CurrencyRates, GoldPrices)
+    -   Metoda `update_all()` — koordynacja aktualizacji kursów i cen złota
+    -   Generowanie wykresów (`create_plot_image`) z DataFrame'ów
+    -   Pobieranie listy dostępnych walut
+
+-   **`test_fetch_nbp.py`** — testy modułu `fetch_nbp`:
+
+    -   Funkcje pomocnicze do dzielenia zakresu dat na chunki 93-dniowe (limit API NBP)
+    -   Ładowanie i łączenie danych JSON (aktualizacja istniejących plików)
+    -   Obcinanie danych starszych niż rok
+    -   Obsługa błędów zapisu i parsowania JSON
+
+-   **`test_homepage_rates.py`** — testy integracji z widokami homepage:
+    -   Funkcje pomocnicze do ładowania danych JSON (`load_currency_json`, `load_gold_json`)
+    -   Przygotowanie danych do wyświetlenia na stronie głównej
+
+Testy wykorzystują `unittest.mock` (Mock, patch, MagicMock) do izolacji komponentów i symulacji odpowiedzi API.
 
 ### 10.2 Integration tests (HTML/API)
 
-**TU UZUPEŁNIĆ:** które endpointy są testowane integracyjnie.
+Testy integracyjne znajdują się w `tests/integration/test_ekonomia_integration.py` i weryfikują:
+
+-   **GET `/ekonomia`** — widok główny modułu:
+
+    -   Zwraca HTML z odpowiednim content-type
+    -   Zawiera kluczowe elementy interfejsu (nagłówki, tabele walut)
+
+-   **GET `/ekonomia/api/exchange-rates`** — lista dostępnych walut z kursami:
+
+    -   Zwraca JSON z tablicą obiektów walut
+    -   Każdy obiekt zawiera `code` i `rate`
+    -   Zawiera główne waluty (EUR, USD, GBP, CHF)
+
+-   **GET `/ekonomia/chart/<currency_code>`** — endpoint generowania wykresów:
+
+    -   Zwraca JSON ze strukturą `{'success': bool, 'message': str, 'chart': str}`
+    -   Wykres w formacie base64 PNG
+    -   Obsługa błędów dla nieistniejących kodów walut
+
+-   **GET `/ekonomia/api/favorite-currencies`** — ulubione waluty (wymaga autoryzacji):
+
+    -   Zwraca 401 Unauthorized dla niezalogowanych użytkowników
+    -   Zwraca JSON z listą ulubionych walut dla zalogowanych
+    -   Maksymalnie 3 ulubione waluty
+
+-   **POST `/ekonomia/api/favorite-currencies`** — dodawanie ulubionej waluty (wymaga autoryzacji):
+
+    -   Zwraca 401 Unauthorized dla niezalogowanych
+    -   Zwraca 201 Created po pomyślnym dodaniu
+    -   Zwraca 409 Conflict przy próbie dodania 4. waluty (limit 3)
+    -   Walidacja żądania (brak currency_code → 400 Bad Request)
+
+-   **DELETE `/ekonomia/api/favorite-currencies/<currency_code>`** — usuwanie ulubionej waluty (wymaga autoryzacji):
+    -   Zwraca 401 Unauthorized dla niezalogowanych
+    -   Zwraca 200 OK po pomyślnym usunięciu
+    -   Zwraca 404 Not Found dla nieistniejącej waluty
+
+Testy integracyjne używają fixture `client` z aplikacji Flask i mockują warstwę serwisową (`Manager`), ale testują rzeczywiste routing, walidację, autoryzację i interakcję z bazą danych.
 
 ### 10.3 Acceptance tests (Playwright)
 
 Wymaganie: **min. 1 test Playwright na każde User Story modułu**.
 
-**TU UZUPEŁNIĆ:** lista testów akceptacyjnych + mapowanie do US.
+Testy akceptacyjne (E2E) znajdują się w `tests/e2e/` i realizują pełne scenariusze użytkownika:
+
+| Test                                             | Plik                                       | User Stories       | Scenariusz                                                                                            |
+| ------------------------------------------------ | ------------------------------------------ | ------------------ | ----------------------------------------------------------------------------------------------------- |
+| `test_anonymous_user_views_daily_exchange_rates` | `test_anonymous_exchange_rates.py`         | SCRUM-32           | Niezalogowany użytkownik widzi kursy głównych walut (USD, EUR, CHF) bez logowania                     |
+| `test_anonymous_user_views_gold_price`           | `test_anonymous_gold_price.py`             | SCRUM-34           | Niezalogowany użytkownik widzi aktualną cenę złota [oz] i wykres w skali roku                         |
+| `test_user_converts_currencies_with_calculator`  | `test_currency_calculator.py`              | SCRUM-37, SCRUM-38 | Użytkownik wybiera waluty z listy dropdown, wpisuje kwotę i widzi przeliczenie                        |
+| `test_user_gets_instant_currency_conversion`     | `test_currency_calculator.py`              | SCRUM-39           | Przeliczanie odbywa się natychmiast po wpisaniu kwoty (bez kliknięcia przycisku)                      |
+| `test_user_converts_currencies_in_calculator`    | `test_logged_user_currency_preferences.py` | SCRUM-40           | Użytkownik widzi kurs użyty do przeliczenia w kalkulatorze                                            |
+| `test_user_views_currency_trend_charts`          | `test_currency_charts.py`                  | SCRUM-41           | Użytkownik widzi wykresy zmian kursu walut (PNG base64), zmienia walutę i widzi zaktualizowany wykres |
+| `test_daily_exchange_rates`                      | `test_daily_exchange_rates.py`             | SCRUM-42           | Zalogowany użytkownik ma dostęp do dziennych kursów wszystkich walut z tabeli                         |
+
+**User Stories nie pokryte testami E2E:**
+
+-   **SCRUM-36** — zapisywanie ulubionych walut (testowane w testach integracyjnych API)
+-   **SCRUM-33** — ustawianie domyślnej waluty (funkcjonalność nie zrealizowana)
+-   **SCRUM-35** — historia ostatnich przeliczeń (nie zrealizowane)
+-   **SCRUM-31** — powiadomienia o zmianach kursu (nie zrealizowane)
+
+Wszystkie testy E2E używają struktury **Given / When / Then**, wykorzystują `expect()` z Playwright oraz weryfikują rzeczywiste interakcje użytkownika z przeglądarką (Chrome headless).
 
 ---
 
 ## 11. Ograniczenia, ryzyka, dalszy rozwój
 
-**TU UZUPEŁNIĆ:** lista ograniczeń i propozycje usprawnień.
+### 11.1 Obecne ograniczenia
+
+**Zależność od NBP API:**
+Cały moduł opiera się na publicznym API Narodowego Banku Polskiego. Jeśli NBP ma awarię albo zmieni format danych, aplikacja przestanie działać poprawnie. Co prawda mamy lokalny cache w postaci plików JSON, więc użytkownicy nadal będą widzieć ostatnio zapisane dane, ale przestaną się one aktualizować.
+
+**Brak danych w czasie rzeczywistym:**
+NBP publikuje kursy raz dziennie (zazwyczaj około godziny 12:00), więc nasze dane nie są real-time. Dla kogoś, kto chce śledzić szybkie zmiany kursów walut (np. tradera), to nie wystarczy. Pokazujemy kursy "dzienne", a nie te z ostatniej minuty.
+
+**Przechowywanie w JSON zamiast w bazie:**
+Wszystkie historyczne kursy trzymamy w plikach JSON w folderze `data/economics/`. To proste rozwiązanie, ale ma swoje problemy — trudniej zrobić backup, trudniej zapytać o konkretny zakres dat, i wszystko trzeba wczytywać do pamięci. Przy większej ilości danych (np. gdybyśmy chcieli trzymać historię za kilka lat) to może być problem.
+
+**Limit 3 ulubione waluty:**
+Arbitralnie ustawiliśmy, że użytkownik może zapisać maksymalnie 3 ulubione waluty. To może być za mało dla kogoś, kto śledzi więcej walut (np. robi interesy w kilku krajach). Dlaczego akurat 3? Bo tak zadecydowaliśmy podczas implementacji, ale nie ma technicznego powodu, żeby nie zwiększyć tego limitu.
+
+**Wykresy nieinteraktywne:**
+Wykresy generujemy po stronie serwera (matplotlib) i wysyłamy jako obrazki PNG w base64. Użytkownik nie może na nich kliknąć, przybliżyć, zobaczyć dokładnych wartości. To działa, ale jest mało elastyczne i zużywa więcej zasobów serwera niż gdyby wykresy powstawały w przeglądarce (np. przez Chart.js).
+
+**Brak historii przeliczeń:**
+Użytkownik może sobie przeliczyć waluty w kalkulatorze, ale nigdzie nie zapisujemy tych operacji. Gdyby chciał wrócić do wcześniejszego przeliczenia albo zobaczyć, ile razy przeliczał EUR na PLN, to nie ma jak. To jest feature z backlogu (SCRUM-35), który nie został zrealizowany.
+
+**Brak powiadomień o zmianach kursów:**
+Nie ma możliwości ustawienia alertu typu "powiadom mnie, gdy EUR przekroczy 4.50 PLN". To również jest w backlogu (SCRUM-31), ale wymagałoby osobnego systemu powiadomień (email, push notifications), więc zostawiliśmy to na później.
+
+**Limit 93 dni w jednym zapytaniu do NBP:**
+API NBP ma ograniczenie — nie możemy pobrać więcej niż 93 dni danych w jednym zapytaniu. Nasz kod (`fetch_nbp.py`) radzi sobie z tym, dzieląc żądania na mniejsze kawałki, ale to oznacza więcej requestów i dłuższy czas aktualizacji przy pierwszym uruchomieniu.
+
+### 11.2 Ryzyka
+
+**Zmiana API NBP bez zapowiedzi:**
+Jeśli NBP zdecyduje się zmienić strukturę odpowiedzi API (np. zmieni nazwy pól z `mid` na `rate`), nasz kod przestanie działać. Nie mamy kontroli nad tym API, więc musimy być gotowi na szybką reakcję. Teoretycznie moglibyśmy dodać testy monitorujące strukturę odpowiedzi i alerty, gdy coś się zmieni.
+
+**Problem z wydajnością przy wielu użytkownikach:**
+Jeśli nagle przybędzie dużo użytkowników i wszyscy będą generować wykresy jednocześnie, serwer może się przeciążyć (generowanie wykresów matplotlib jest CPU-intensive). Obecnie nie mamy cache'owania wykresów — każde wywołanie `/ekonomia/chart/<code>` generuje wykres od nowa.
+
+**Brak walidacji kodu waluty:**
+W niektórych miejscach (np. w endpoincie wykresu) nie sprawdzamy dokładnie, czy podany kod waluty jest poprawny przed wysłaniem requestu do API. To może prowadzić do niepotrzebnych błędów 404 z NBP zamiast eleganckich komunikatów dla użytkownika.
+
+### 11.3 Propozycje dalszego rozwoju
+
+**Migracja z JSON do bazy danych:**
+Przenieść historyczne kursy z plików JSON do tabeli PostgreSQL. To umożliwi łatwiejsze zapytania (np. "pokaż mi wszystkie dni, kiedy EUR był powyżej 4.50"), lepszą wydajność i prostsze backupy. Moduł nadal może działać z cache'em, ale jako główne źródło prawdy będzie baza.
+
+**Implementacja brakujących User Stories:**
+
+-   SCRUM-35 (historia przeliczeń) — dodać tabelę `conversion_history` w bazie, gdzie zapiszemy każde przeliczenie użytkownika wraz z datą, walutami i kwotami.
+-   SCRUM-31 (powiadomienia o zmianach) — dodać tabelę `currency_alerts`, gdzie użytkownik może ustawić próg (np. "EUR > 4.50") i dostać email/powiadomienie push, gdy warunek zostanie spełniony.
+-   SCRUM-33 (domyślne waluty) — dodać kolumny `default_currency_from` i `default_currency_to` do tabeli `users`, żeby zapamiętać ustawienia kalkulatora.
+
+**Interaktywne wykresy:**
+Zamienić matplotlib na bibliotekę frontend'ową (Chart.js, Plotly, D3.js). Wykresy generowałyby się w przeglądarce, byłyby interaktywne (zoom, tooltips z dokładnymi wartościami, wybór zakresu dat) i odciążyłyby serwer.
+
+**Cache wykresów:**
+Dodać Redis lub prosty cache w pamięci, żeby wykresy generowane dla popularnych walut (EUR, USD) były zapisywane na np. 1 godzinę. To zmniejszy obciążenie serwera i przyspieszy ładowanie dla użytkowników.
+
+**Więcej źródeł danych:**
+Dodać integrację z innymi API (np. Open Exchange Rates, Fixer.io) jako fallback, gdyby NBP nie działał. Albo dodać kryptowaluty (Bitcoin, Ethereum) dla użytkowników zainteresowanych rynkiem crypto.
+
+**Export danych:**
+Dodać przycisk "Eksportuj do CSV" lub "Pobierz PDF", żeby użytkownik mógł zapisać sobie tabelę kursów lub wykres na dysk. Przydatne dla osób prowadzących rozliczenia firmowe.
+
+**Porównywanie walut:**
+Dodać widok, gdzie użytkownik może wybrać kilka walut (np. EUR, USD, GBP) i zobaczyć ich kursy na jednym wspólnym wykresie. To ułatwiłoby analizę trendów i korelacji między walutami.
+
+**Zwiększenie limitu ulubionych walut:**
+Podnieść limit z 3 do np. 10 ulubionych walut albo uczynić go konfigurowalnym przez użytkownika (premium feature?).
+
+**Powiadomienia push w aplikacji:**
+Dodać WebSocket lub Server-Sent Events, żeby użytkownik na otwartej stronie ekonomii dostawał powiadomienia w czasie rzeczywistym o dużych zmianach kursów (np. "EUR wzrósł o 5% w ciągu godziny!").
+
+**Testy obciążeniowe:**
+Przeprowadzić testy wydajnościowe (np. Locust, JMeter), żeby sprawdzić, jak moduł radzi sobie z setkami jednoczesnych użytkowników i zidentyfikować bottlenecki przed wdrożeniem produkcyjnym.
