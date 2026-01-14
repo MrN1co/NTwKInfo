@@ -66,18 +66,26 @@ def fetch_nbprates(currency_code):
 
 
 def fetch_gold():
+    """Pobiera ceny złota z NBP API i zwraca listę słowników
+    z polami 'date' oraz 'price' (cena w PLN za uncję trojańską)."""
+    url = 'https://api.nbp.pl/api/cenyzlota'
+    
     end_date = datetime.today()
     start_date = end_date - timedelta(days=365)
     
-    url = f"https://api.nbp.pl/api/cenyzlota/{start_date.strftime('%Y-%m-%d')}/{end_date.strftime('%Y-%m-%d')}/?format=json"
-    res = requests.get(url)
-    if res.status_code != 200:
-        print("Nie udało się pobrać cen złota")
-        return []
-    data = res.json()
+    # Format daty dla API NBP
+    start_str = start_date.strftime('%Y-%m-%d')
+    end_str = end_date.strftime('%Y-%m-%d')
     
-    gold_data = [ {'date': r['data'], 'price': r['cena']} for r in data ]
-    return gold_data
+    try:
+        r = requests.get(f'{url}/{start_str}/{end_str}/?format=json', timeout=15)
+        r.raise_for_status()
+        data = r.json()
+        # NBP podaje cenę za gram, konwertujemy na uncję trojańską (1 oz = 31.1035 g)
+        return [{'date': item['data'], 'price': round(item['cena'] * 31.1035, 2)} for item in data]
+    except requests.exceptions.RequestException as e:
+        print(f"Nie udało się pobrać cen złota: {e}")
+        return []
 
 def update_json(file_path, new_data, key_date):
     """Łączy nowe dane z istniejącym JSON-em, usuwa powtarzające się daty"""

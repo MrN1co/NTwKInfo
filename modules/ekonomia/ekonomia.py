@@ -248,10 +248,9 @@ def ekonomia():
         x_label='Data'
     )
 
-    # Get gold price and convert from PLN per gram to PLN per troy ounce
-    # 1 troy ounce = 31.1034768 grams
+    # Get gold price (już w uncjach w JSON)
     current_gold = mgr.gold.get_current_price()
-    cena_zlota = round(current_gold * 31.1034768, 2) if current_gold else 0
+    cena_zlota = round(current_gold, 2) if current_gold else 0
     cena_zlota_formatted = format_pl_number(cena_zlota)
 
     # Get currency list and rates for calculator
