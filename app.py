@@ -2,6 +2,7 @@ from flask import Flask
 import os
 
 from dotenv import load_dotenv
+from flask_wtf.csrf import CSRFProtect
 
 from modules.auth import auth_bp
 from modules.main import main_bp
@@ -13,6 +14,8 @@ from modules.scheduler import init_scheduler
 from modules.news.news import init_news_module
 
 from config import DevelopmentConfig, TestingConfig, ProductionConfig
+
+csrf = CSRFProtect()
 
 # =========================
 # ZMIANA 1:
@@ -42,6 +45,11 @@ def create_app(config_object=None):
         app.config.from_object(config_object)
     else:
         app.config.from_object(DevelopmentConfig)
+
+    # =========================
+    # Inicjalizacja CSRF Protection
+    # =========================
+    csrf.init_app(app)
 
     # =========================
     # Inicjalizacja bazy

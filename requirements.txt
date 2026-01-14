@@ -5,6 +5,10 @@ Flask>=2.3.0
 Flask-SQLAlchemy>=3.0.0
 SQLAlchemy>=2.0.0
 
+# CSRF Protection
+Flask-WTF>=1.1.0
+WTForms>=3.0.0
+
 # Environment variables management
 python-dotenv>=1.0.0
 

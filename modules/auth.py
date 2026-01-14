@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session, jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
+from flask_wtf.csrf import validate_csrf
+from wtforms.csrf.core import BadCSRFData
 from modules.database import db, User
 import functools
 
@@ -35,6 +37,15 @@ def api_login_required(view):
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        # Validate CSRF token
+        try:
+            validate_csrf(request.form.get('csrf_token'))
+        except BadCSRFData:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return jsonify({'success': False, 'message': 'CSRF token invalid or missing'}), 400
+            flash('CSRF token invalid or expired', 'error')
+            return redirect(url_for('main.index'))
+        
         username = request.form.get('username', '')
         password = request.form.get('password', '')
         
@@ -62,6 +73,15 @@ def login():
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
+        # Validate CSRF token
+        try:
+            validate_csrf(request.form.get('csrf_token'))
+        except BadCSRFData:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return jsonify({'success': False, 'message': 'CSRF token invalid or missing'}), 400
+            flash('CSRF token invalid or expired', 'error')
+            return redirect(url_for('main.index'))
+        
         username = request.form.get('username', '')
         email = request.form.get('email', f'{username}@example.com')
         password = request.form.get('password', '')
