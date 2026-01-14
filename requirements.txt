@@ -62,6 +62,9 @@ pytest-playwright>=0.7.0
 # Task scheduling (for daily email alerts)
 APScheduler>=3.10.0
 
+# Task scheduling (for daily email alerts)
+APScheduler>=3.10.0
+
 
 #------------------------------------------------|
 #Moduł wiadomości i sportu:
