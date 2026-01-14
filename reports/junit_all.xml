@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="71.131" timestamp="2026-01-12T17:47:26.344113+01:00" hostname="DESKTOP-8IARF5I"><testcase classname="tests.e2e.test_anonymous_exchange_rates" name="test_anonymous_user_views_daily_exchange_rates[chromium]" time="35.901"><failure message="playwright._impl._errors.TimeoutError: Page.goto: Timeout 30000ms exceeded.&#10;Call log:&#10;  - navigating to &quot;http://127.0.0.1:5001/ekonomia&quot;, waiting until &quot;load&quot;">page = &lt;Page url='about:blank'&gt;
+e2e_server = 'http://127.0.0.1:5001'
+
+    def test_anonymous_user_views_daily_exchange_rates(page: Page, e2e_server):
+        """
+        Test akceptacyjny (E2E): Niezalogowany użytkownik widzi kursy walut
+        bez konieczności logowania.
+        """
+    
+        # GIVEN: użytkownik niezalogowany otwiera stronę
+&gt;       page.goto(f"{e2e_server}/ekonomia")
+
+tests\e2e\test_anonymous_exchange_rates.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\playwright\sync_api\_generated.py:9050: in goto
+    self._sync(
+venv\Lib\site-packages\playwright\_impl\_page.py:552: in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\Lib\site-packages\playwright\_impl\_frame.py:153: in goto
+    await self._channel.send(
+venv\Lib\site-packages\playwright\_impl\_connection.py:69: in send
+    return await self._connection.wrap_api_call(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;playwright._impl._connection.Connection object at 0x0000026D7D0177D0&gt;
+cb = &lt;function Channel.send.&lt;locals&gt;.&lt;lambda&gt; at 0x0000026D7D6C44A0&gt;
+is_internal = False, title = None
+
+    async def wrap_api_call(
+        self, cb: Callable[[], Any], is_internal: bool = False, title: str = None
+    ) -&gt; Any:
+        if self._api_zone.get():
+            return await cb()
+        task = asyncio.current_task(self._loop)
+        st: List[inspect.FrameInfo] = getattr(
+            task, "__pw_stack__", None
+        ) or inspect.stack(0)
+    
+        parsed_st = _extract_stack_trace_information_from_stack(st, is_internal, title)
+        self._api_zone.set(parsed_st)
+        try:
+            return await cb()
+        except Exception as error:
+&gt;           raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E           playwright._impl._errors.TimeoutError: Page.goto: Timeout 30000ms exceeded.
+E           Call log:
+E             - navigating to "http://127.0.0.1:5001/ekonomia", waiting until "load"
+
+venv\Lib\site-packages\playwright\_impl\_connection.py:559: TimeoutError</failure></testcase><testcase classname="tests.e2e.test_anonymous_gold_price" name="test_anonymous_user_views_gold_price[chromium]" time="30.288"><failure message="playwright._impl._errors.TimeoutError: Page.goto: Timeout 30000ms exceeded.&#10;Call log:&#10;  - navigating to &quot;http://127.0.0.1:5001/ekonomia&quot;, waiting until &quot;load&quot;">page = &lt;Page url='about:blank'&gt;
+e2e_server = 'http://127.0.0.1:5001'
+
+    def test_anonymous_user_views_gold_price(page: Page, e2e_server):
+        """
+        Test akceptacyjny (E2E): Niezalogowany użytkownik widzi aktualną
+        cenę złota na stronie ekonomii.
+        """
+    
+        # GIVEN: użytkownik niezalogowany otwiera stronę ekonomii
+&gt;       page.goto(f"{e2e_server}/ekonomia")
+
+tests\e2e\test_anonymous_gold_price.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\playwright\sync_api\_generated.py:9050: in goto
+    self._sync(
+venv\Lib\site-packages\playwright\_impl\_page.py:552: in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\Lib\site-packages\playwright\_impl\_frame.py:153: in goto
+    await self._channel.send(
+venv\Lib\site-packages\playwright\_impl\_connection.py:69: in send
+    return await self._connection.wrap_api_call(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;playwright._impl._connection.Connection object at 0x0000026D7D0177D0&gt;
+cb = &lt;function Channel.send.&lt;locals&gt;.&lt;lambda&gt; at 0x0000026D7D6C6A20&gt;
+is_internal = False, title = None
+
+    async def wrap_api_call(
+        self, cb: Callable[[], Any], is_internal: bool = False, title: str = None
+    ) -&gt; Any:
+        if self._api_zone.get():
+            return await cb()
+        task = asyncio.current_task(self._loop)
+        st: List[inspect.FrameInfo] = getattr(
+            task, "__pw_stack__", None
+        ) or inspect.stack(0)
+    
+        parsed_st = _extract_stack_trace_information_from_stack(st, is_internal, title)
+        self._api_zone.set(parsed_st)
+        try:
+            return await cb()
+        except Exception as error:
+&gt;           raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E           playwright._impl._errors.TimeoutError: Page.goto: Timeout 30000ms exceeded.
+E           Call log:
+E             - navigating to "http://127.0.0.1:5001/ekonomia", waiting until "load"
+
+venv\Lib\site-packages\playwright\_impl\_connection.py:559: TimeoutError</failure></testcase><testcase time="0.221" /></testsuite></testsuites>

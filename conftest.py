@@ -1,7 +1,6 @@
 import pytest
 import threading
 from werkzeug.serving import make_server
-from app import create_app
 from modules.database import db, init_db
 import modules.weather_app as weather_app
 from config import TestingConfig
@@ -18,6 +17,7 @@ def app():
     scope="function" oznacza, że fixture będzie tworzona
     osobno dla każdego testu (zalecane przy bazie danych).
     """
+    from app import create_app
     app = create_app(TestingConfig)
 
     with app.app_context():
