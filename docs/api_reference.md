@@ -472,6 +472,47 @@ curl -X DELETE -b "session=xxx" \
 -   mapowanie endpoint → test integracyjny,
 -   informacje o mockowaniu zewnętrznych API.
 
+### 7.1 Moduł Ekonomia
+
+Wszystkie endpointy modułu ekonomia są pokryte testami integracyjnymi w pliku `tests/integration/test_ekonomia_integration.py`.
+
+**Mapowanie endpoint → test integracyjny:**
+
+| Endpoint                                            | Metoda | Test integracyjny                                                                                                                                              | Zakres weryfikacji                                                                                    |
+| --------------------------------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `/ekonomia`                                         | GET    | `test_ekonomia_main_page_returns_html`                                                                                                                         | Zwraca HTML z odpowiednim content-type, zawiera elementy modułu                                       |
+| `/ekonomia/api/exchange-rates`                      | GET    | `test_ekonomia_api_exchange_rates_returns_json`                                                                                                                | Zwraca JSON z listą walut, weryfikacja struktury (`code`, `rate`), obecność głównych walut (EUR, USD) |
+| `/ekonomia/chart/<currency_code>`                   | GET    | `test_ekonomia_chart_endpoint_returns_image`                                                                                                                   | Zwraca JSON ze strukturą `{'success': bool, 'message': str, 'chart': str}`, wykres w base64 PNG       |
+| `/ekonomia/api/favorite-currencies`                 | GET    | `test_favorite_currencies_get_requires_authentication`                                                                                                         | Zwraca 401 dla niezalogowanych, zwraca JSON z listą dla zalogowanych                                  |
+| `/ekonomia/api/favorite-currencies`                 | POST   | `test_favorite_currencies_post_requires_authentication`<br/>`test_favorite_currencies_post_validates_input`<br/>`test_favorite_currencies_post_enforces_limit` | Zwraca 401 dla niezalogowanych, 201 po dodaniu, 409 przy limicie (max 3), 400 dla błędnych danych     |
+| `/ekonomia/api/favorite-currencies/<currency_code>` | DELETE | `test_favorite_currencies_delete_requires_authentication`<br/>`test_favorite_currencies_delete_removes_currency`                                               | Zwraca 401 dla niezalogowanych, 200 po usunięciu, 404 dla nieistniejącej waluty                       |
+
+**Mockowanie zewnętrznych API:**
+
+Wszystkie testy integracyjne modułu ekonomia **mockują** klasę `Manager` z `modules.ekonomia.ekonomia`, która jest odpowiedzialna za komunikację z NBP API. Dzięki temu:
+
+-   Testy są szybkie i nie zależą od dostępności zewnętrznego API
+-   Możemy symulować różne scenariusze (sukces, błędy, brak danych)
+-   Testujemy logikę aplikacji bez testowania NBP API
+
+Przykład mockowania:
+
+```python
+with patch('modules.ekonomia.ekonomia.Manager') as mock_manager:
+    mock_manager.return_value.currencies.get_current_rates.return_value = {
+        'eur': 4.32, 'usd': 4.05, 'gbp': 5.15
+    }
+    response = client.get('/ekonomia/api/exchange-rates')
+```
+
+**Obsługa bazy danych:**
+
+Testy integracyjne używają fixture `client` z Flask, który automatycznie konfiguruje testową bazę danych (SQLite in-memory lub osobna instancja). Model `FavoriteCurrency` i jego relacje z `User` są testowane z rzeczywistą bazą danych, co pozwala weryfikować:
+
+-   Autoryzację (sesje użytkowników)
+-   Ograniczenia bazodanowe (limit 3 ulubionych walut)
+-   Operacje CRUD na ulubionych walutach
+
 ---
 
 ## 8. Uwagi końcowe

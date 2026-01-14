@@ -406,25 +406,19 @@ Wszystkie testy E2E używają struktury **Given / When / Then**, wykorzystują `
 Cały moduł opiera się na publicznym API Narodowego Banku Polskiego. Jeśli NBP ma awarię albo zmieni format danych, aplikacja przestanie działać poprawnie. Co prawda mamy lokalny cache w postaci plików JSON, więc użytkownicy nadal będą widzieć ostatnio zapisane dane, ale przestaną się one aktualizować.
 
 **Brak danych w czasie rzeczywistym:**
-NBP publikuje kursy raz dziennie (zazwyczaj około godziny 12:00), więc nasze dane nie są real-time. Dla kogoś, kto chce śledzić szybkie zmiany kursów walut (np. tradera), to nie wystarczy. Pokazujemy kursy "dzienne", a nie te z ostatniej minuty.
+NBP publikuje kursy raz dziennie (zazwyczaj około godziny 12:00), więc nasze dane nie są real-time. Dla kogoś, kto chce śledzić szybkie zmiany kursów walut, to nie wystarczy. Pokazujemy kursy "dzienne", a nie te z ostatniej minuty.
 
 **Przechowywanie w JSON zamiast w bazie:**
-Wszystkie historyczne kursy trzymamy w plikach JSON w folderze `data/economics/`. To proste rozwiązanie, ale ma swoje problemy — trudniej zrobić backup, trudniej zapytać o konkretny zakres dat, i wszystko trzeba wczytywać do pamięci. Przy większej ilości danych (np. gdybyśmy chcieli trzymać historię za kilka lat) to może być problem.
-
-**Limit 3 ulubione waluty:**
-Arbitralnie ustawiliśmy, że użytkownik może zapisać maksymalnie 3 ulubione waluty. To może być za mało dla kogoś, kto śledzi więcej walut (np. robi interesy w kilku krajach). Dlaczego akurat 3? Bo tak zadecydowaliśmy podczas implementacji, ale nie ma technicznego powodu, żeby nie zwiększyć tego limitu.
-
-**Wykresy nieinteraktywne:**
-Wykresy generujemy po stronie serwera (matplotlib) i wysyłamy jako obrazki PNG w base64. Użytkownik nie może na nich kliknąć, przybliżyć, zobaczyć dokładnych wartości. To działa, ale jest mało elastyczne i zużywa więcej zasobów serwera niż gdyby wykresy powstawały w przeglądarce (np. przez Chart.js).
+Wszystkie historyczne kursy trzymamy w plikach JSON w folderze `data/economics/`. To proste rozwiązanie, ale ma swoje problemy - trudniej zrobić backup, trudniej zapytać o konkretny zakres dat, i wszystko trzeba wczytywać do pamięci. Przy większej ilości danych (np. gdybyśmy chcieli trzymać historię za kilka lat) to może być problem.
 
 **Brak historii przeliczeń:**
 Użytkownik może sobie przeliczyć waluty w kalkulatorze, ale nigdzie nie zapisujemy tych operacji. Gdyby chciał wrócić do wcześniejszego przeliczenia albo zobaczyć, ile razy przeliczał EUR na PLN, to nie ma jak. To jest feature z backlogu (SCRUM-35), który nie został zrealizowany.
 
 **Brak powiadomień o zmianach kursów:**
-Nie ma możliwości ustawienia alertu typu "powiadom mnie, gdy EUR przekroczy 4.50 PLN". To również jest w backlogu (SCRUM-31), ale wymagałoby osobnego systemu powiadomień (email, push notifications), więc zostawiliśmy to na później.
+Nie ma możliwości ustawienia alertu typu "powiadom mnie, gdy EUR przekroczy 4.50 PLN". To również jest w backlogu (SCRUM-31), ale wymagałoby osobnego systemu powiadomień (email, push notifications), więc zostawiliśmy to na późniejsze usprawnienia strony.
 
 **Limit 93 dni w jednym zapytaniu do NBP:**
-API NBP ma ograniczenie — nie możemy pobrać więcej niż 93 dni danych w jednym zapytaniu. Nasz kod (`fetch_nbp.py`) radzi sobie z tym, dzieląc żądania na mniejsze kawałki, ale to oznacza więcej requestów i dłuższy czas aktualizacji przy pierwszym uruchomieniu.
+API NBP ma ograniczenie - nie możemy pobrać więcej niż 93 dni danych w jednym zapytaniu. Nasz kod (`fetch_nbp.py`) radzi sobie z tym, dzieląc żądania na mniejsze kawałki, ale to oznacza więcej requestów i dłuższy czas aktualizacji przy pierwszym uruchomieniu.
 
 ### 11.2 Ryzyka
 
@@ -432,10 +426,7 @@ API NBP ma ograniczenie — nie możemy pobrać więcej niż 93 dni danych w jed
 Jeśli NBP zdecyduje się zmienić strukturę odpowiedzi API (np. zmieni nazwy pól z `mid` na `rate`), nasz kod przestanie działać. Nie mamy kontroli nad tym API, więc musimy być gotowi na szybką reakcję. Teoretycznie moglibyśmy dodać testy monitorujące strukturę odpowiedzi i alerty, gdy coś się zmieni.
 
 **Problem z wydajnością przy wielu użytkownikach:**
-Jeśli nagle przybędzie dużo użytkowników i wszyscy będą generować wykresy jednocześnie, serwer może się przeciążyć (generowanie wykresów matplotlib jest CPU-intensive). Obecnie nie mamy cache'owania wykresów — każde wywołanie `/ekonomia/chart/<code>` generuje wykres od nowa.
-
-**Brak walidacji kodu waluty:**
-W niektórych miejscach (np. w endpoincie wykresu) nie sprawdzamy dokładnie, czy podany kod waluty jest poprawny przed wysłaniem requestu do API. To może prowadzić do niepotrzebnych błędów 404 z NBP zamiast eleganckich komunikatów dla użytkownika.
+Jeśli nagle przybędzie dużo użytkowników i wszyscy będą generować wykresy jednocześnie, serwer może się przeciążyć (generowanie wykresów matplotlib jest CPU-intensive). Obecnie nie mamy cache'owania wykresów - każde wywołanie `/ekonomia/chart/<code>` generuje wykres od nowa.
 
 ### 11.3 Propozycje dalszego rozwoju
 
@@ -446,28 +437,9 @@ Przenieść historyczne kursy z plików JSON do tabeli PostgreSQL. To umożliwi 
 
 -   SCRUM-35 (historia przeliczeń) — dodać tabelę `conversion_history` w bazie, gdzie zapiszemy każde przeliczenie użytkownika wraz z datą, walutami i kwotami.
 -   SCRUM-31 (powiadomienia o zmianach) — dodać tabelę `currency_alerts`, gdzie użytkownik może ustawić próg (np. "EUR > 4.50") i dostać email/powiadomienie push, gdy warunek zostanie spełniony.
--   SCRUM-33 (domyślne waluty) — dodać kolumny `default_currency_from` i `default_currency_to` do tabeli `users`, żeby zapamiętać ustawienia kalkulatora.
-
-**Interaktywne wykresy:**
-Zamienić matplotlib na bibliotekę frontend'ową (Chart.js, Plotly, D3.js). Wykresy generowałyby się w przeglądarce, byłyby interaktywne (zoom, tooltips z dokładnymi wartościami, wybór zakresu dat) i odciążyłyby serwer.
 
 **Cache wykresów:**
 Dodać Redis lub prosty cache w pamięci, żeby wykresy generowane dla popularnych walut (EUR, USD) były zapisywane na np. 1 godzinę. To zmniejszy obciążenie serwera i przyspieszy ładowanie dla użytkowników.
 
 **Więcej źródeł danych:**
-Dodać integrację z innymi API (np. Open Exchange Rates, Fixer.io) jako fallback, gdyby NBP nie działał. Albo dodać kryptowaluty (Bitcoin, Ethereum) dla użytkowników zainteresowanych rynkiem crypto.
-
-**Export danych:**
-Dodać przycisk "Eksportuj do CSV" lub "Pobierz PDF", żeby użytkownik mógł zapisać sobie tabelę kursów lub wykres na dysk. Przydatne dla osób prowadzących rozliczenia firmowe.
-
-**Porównywanie walut:**
-Dodać widok, gdzie użytkownik może wybrać kilka walut (np. EUR, USD, GBP) i zobaczyć ich kursy na jednym wspólnym wykresie. To ułatwiłoby analizę trendów i korelacji między walutami.
-
-**Zwiększenie limitu ulubionych walut:**
-Podnieść limit z 3 do np. 10 ulubionych walut albo uczynić go konfigurowalnym przez użytkownika (premium feature?).
-
-**Powiadomienia push w aplikacji:**
-Dodać WebSocket lub Server-Sent Events, żeby użytkownik na otwartej stronie ekonomii dostawał powiadomienia w czasie rzeczywistym o dużych zmianach kursów (np. "EUR wzrósł o 5% w ciągu godziny!").
-
-**Testy obciążeniowe:**
-Przeprowadzić testy wydajnościowe (np. Locust, JMeter), żeby sprawdzić, jak moduł radzi sobie z setkami jednoczesnych użytkowników i zidentyfikować bottlenecki przed wdrożeniem produkcyjnym.
+Dodać kryptowaluty (Bitcoin, Ethereum) dla użytkowników zainteresowanych rynkiem crypto.git
