@@ -85,8 +85,10 @@ def create_app(config_object=None):
     if not app.config.get("TESTING"):
         print("Inicjalizacja schedulerów i modułów...")
         init_scheduler(app)
-        init_news_module()
-
+        # Przy poprawkach to zaginęło, ale dodaję z powrotem, bo się wyczerpuje limit API
+        # i wyskakują błędy na stronie, brzydko wygląda.
+        if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
+            init_news_module()
     return app
 
 
