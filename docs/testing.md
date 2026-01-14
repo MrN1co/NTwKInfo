@@ -115,11 +115,24 @@ pytest tests/e2e
 
 | ID    | Typ testu   | Co testujemy            | Scenariusz / funkcja                              | Status |
 |-------|-------------|-------------------------|---------------------------------------------------|--------|
-| UT-01 | Unit        | Normalizacja danych     | **TU UZUPEŁNIĆ** (np. `normalize_forecast()`)     | ⬜     |
-| UT-02 | Unit        | Walidacja wejścia       | **TU UZUPEŁNIĆ** (np. `validate_location()`)      | ⬜     |
-| IT-01 | Integration | Endpoint HTML           | **TU UZUPEŁNIĆ** (np. `/weather/pogoda`)          | ⬜     |
-| IT-02 | Integration | Endpoint API            | **TU UZUPEŁNIĆ** (np. `/weather/api/forecast`)    | ⬜     |
-| E2E-01| E2E         | User Story              | **TU UZUPEŁNIĆ** (np. „Niezalogowany widzi pogodę”)| ⬜    |
+| UT-01 | Unit        | Normalizacja danych     | `normalize_forecast()` - przetwarzanie surowych danych pogodowych na znormalizowany format | ✅     |
+| UT-02 | Unit        | Funkcje pomocnicze      | `_cache_set()`, `_cache_get()` - zarządzanie pamięcią podręczną | ✅     |
+| UT-03 | Unit        | Wysyłka e-maili         | `send_favorite_cities_weather_alert()` - wysyłka alertów pogodowych | ✅     |
+| IT-01 | Integration | Endpoint HTML           | `/weather/pogoda` - renderowanie strony HTML z pogodą | ✅     |
+| IT-02 | Integration | Endpoint API            | `/weather/api/forecast` - zwracanie prognozy w formacie JSON | ✅     |
+| IT-03 | Integration | Walidacja parametrów    | `/weather/api/forecast` - obsługa błędnych parametrów lat/lon | ✅     |
+| IT-04 | Integration | Geokodowanie            | `/weather/api/geocode` - wyszukiwanie współrzędnych na podstawie nazwy miasta | ✅     |
+| IT-05 | Integration | Prognoza godzinowa      | `/weather/api/hourly` - zwracanie danych godzinowych | ✅     |
+| IT-06 | Integration | Generowanie wykresów    | `/weather/plot.png` - zwracanie wykresu pogodowego jako PNG | ✅     |
+| IT-07 | Integration | Test e-maili            | `/weather/api/test-email` - test wysyłki alertów pogodowych | ✅     |
+| E2E-01| E2E         | User Story 1              | „Niezalogowany użytkownik widzi pogodę dla Krakowa” | ✅    |
+| E2E-02| E2E         | User Story 2              | „Niezalogowany użytkownik może wyszukać pogodę dla innego miasta” | ✅    |
+| E2E-03| E2E         | User Story 3              | „Zalogowany użytkownik widzi sekcję ulubionych miast” | ✅    |
+| E2E-04| E2E         | User Story 4             | „Zalogowany użytkownik może dodać miasto do ulubionych” | ✅    |
+| E2E-05| E2E         | User Story 5             | „Użytkownik otrzymuje alerty pogodowe na e-mail” | ✅    |
+| E2E-06| E2E         | User Story 6             | „Wyświetlanie ikon pogodowych” | ✅    |
+| E2E-07| E2E         | User Story 7             | „Wyświetlanie prognozy 7-dniowej” | ✅    |
+| E2E-08| E2E         | User Story 8             | „Wyświetlanie wykresów pogodowych” | ✅    |
 
 ---
 

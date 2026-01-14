@@ -5,24 +5,22 @@
 > (zarówno HTML, jak i API JSON).  
 > Jest podstawą do **testów integracyjnych** oraz formalnym **kontraktem API** dla całego projektu.
 
-> **Instrukcja:**
->
-> -   Opisz **wszystkie endpointy aplikacji** (HTML i JSON).
-> -   Każdy endpoint musi mieć **kompletny i jednoznaczny opis**.
-> -   **Nie opisuj tutaj architektury modułów** – do tego służą pliki w `doc/architecture/<module>.md`.
-> -   Dokument ten powinien umożliwić napisanie **testów integracyjnych bez zaglądania do kodu**.
+> **Instrukcja:**  
+> - Opisz **wszystkie endpointy aplikacji** (HTML i JSON).  
+> - Każdy endpoint musi mieć **kompletny i jednoznaczny opis**.  
+> - **Nie opisuj tutaj architektury modułów** – do tego służą pliki w `doc/architecture/<module>.md`.  
+> - Dokument ten powinien umożliwić napisanie **testów integracyjnych bez zaglądania do kodu**.
 
 ---
 
 ## 1. Informacje ogólne
 
 **TU UZUPEŁNIĆ (jeśli dotyczy):**
-
--   **Base URL (lokalnie):** `http://localhost:5000`
--   **Base URL (produkcyjnie):** **TU UZUPEŁNIĆ**
--   **Format danych (API):** JSON
--   **Kodowanie:** UTF-8
--   **Framework:** Flask
+- **Base URL (lokalnie):** `http://localhost:5000`
+- **Base URL (produkcyjnie):** **TU UZUPEŁNIĆ**
+- **Format danych (API):** JSON
+- **Kodowanie:** UTF-8
+- **Framework:** Flask
 
 ---
 
@@ -32,20 +30,18 @@
 > Jeśli w projekcie stosujecie jednolity format odpowiedzi API, opiszcie go tutaj.
 
 ### 2.1 Sukces (przykład)
-
 ```json
 {
-    "status": "success",
-    "data": {}
+  "status": "success",
+  "data": {}
 }
 ```
 
 ### 2.2 Błąd (przykład)
-
 ```json
 {
-    "status": "error",
-    "message": "Opis błędu"
+  "status": "error",
+  "message": "Opis błędu"
 }
 ```
 
@@ -60,7 +56,7 @@
 | Metoda | Endpoint                                   | Typ  | Krótki opis              | Moduł    |
 | -----: | ------------------------------------------ | ---- | ------------------------ | -------- |
 |    GET | `/`                                        | HTML | Strona główna aplikacji  | Home     |
-|    GET | `/weather`                                 | HTML | Widok bieżącej pogody    | Weather  |
+|    GET | `/weather/pogoda`                    | HTML | Widok bieżącej pogody    | Weather  |
 |    GET | `/api/weather/forecast`                    | JSON | Dane pogodowe            | Weather  |
 |   POST | `/api/weather/favorites`                   | JSON | Zapis ulubionych miast   | Weather  |
 |    GET | `/ekonomia`                                | HTML | Kursy walut i ceny złota | Ekonomia |
@@ -71,6 +67,21 @@
 | DELETE | `/ekonomia/api/favorite-currencies/<code>` | JSON | Usuń ulubioną walutę     | Ekonomia |
 |    GET | `/news`                                    | HTML | Lista wiadomości         | News     |
 |    GET | `/api/news/latest`                         | JSON | Najnowsze wiadomości     | News     |
+| Metoda | Endpoint | Typ | Krótki opis | Moduł |
+|------:|----------|-----|-------------|-------|
+| GET | `/` | HTML | Strona główna aplikacji | Home |
+| GET | `/weather/pogoda` | HTML | Widok bieżącej pogody | Weather |
+| GET | `/weather/api/forecast` | JSON | 7-dniowa prognoza pogody | Weather |
+| GET | `/weather/api/favorites` | JSON | Lista ulubionych miast | Weather |
+| POST | `/weather/api/favorites` | JSON | Dodanie ulubionego miasta | Weather |
+| DELETE | `/weather/api/favorites` | JSON | Usunięcie ulubionego miasta | Weather |
+| GET | `/weather/api/geocode` | JSON | Wyszukiwanie miast | Weather |
+| GET | `/weather/api/hourly` | JSON | Godzinowa prognoza pogody | Weather |
+| GET | `/weather/plot.png` | PNG | Wykres prognozy pogody | Weather |
+| GET | `/economy` | HTML | Widok danych ekonomicznych | Economy |
+| GET | `/api/economy/rates` | JSON | Kursy walut | Economy |
+| GET | `/news` | HTML | Lista wiadomości | News |
+| GET | `/api/news/latest` | JSON | Najnowsze wiadomości | News |
 
 ---
 
@@ -84,12 +95,12 @@
 
 ### 4.1 GET `/`
 
-**Moduł:** Home
+**Moduł:** Home  
 
 **Opis:**  
 **TU UZUPEŁNIĆ** – krótki opis celu widoku.
 
-**Parametry:** brak
+**Parametry:** brak  
 
 **Odpowiedź:**  
 Renderowany widok HTML.
@@ -98,55 +109,21 @@ Renderowany widok HTML.
 
 ---
 
-### 4.2 GET `/weather`
+### 4.2 GET `/weather/pogoda`
 
-**Moduł:** Weather
+**Moduł:** Weather  
 
 **Opis:**  
-**TU UZUPEŁNIĆ** – co dokładnie pokazuje widok pogodowy.
+Widok pogodowy dostosowany do stanu autentykacji użytkownika. Dla zalogowanych użytkowników pokazuje dedykowany widok z sekcją ulubionych miast. Dla użytkowników anonimowych wyświetla standardowy widok pogodowy.
 
 **Parametry (query):**
-
--   `city` (string, opcjonalny) – **TU UZUPEŁNIĆ**
-
-**Odpowiedź:**  
-Renderowany widok HTML.
-
-**Powiązana User Story:** **TU UZUPEŁNIĆ**
-
----
-
-### 4.3 GET `/ekonomia`
-
-**Moduł:** Ekonomia
-
-**Opis:**  
-Widok modułu ekonomii z aktualnymi kursami walut (EUR, USD, CHF), ceną złota, wykresami zmian kursów oraz kalkulatorem walutowym. Dla zalogowanych użytkowników wyświetla także ich ulubione waluty (maksymalnie 3).
-
-**Parametry:** brak
+- brak
 
 **Odpowiedź:**  
-Renderowany widok HTML z tabelą walut, wykresami (w formacie base64), kursami i kalkulatorem.
+- Dla zalogowanych użytkowników: HTML `weather-login.html` (zawiera sekcję ulubionych miast)
+- Dla użytkowników anonimowych: HTML `weather.html` (widok podstawowy)
 
-**Powiązane User Stories:** SCRUM-32, SCRUM-34, SCRUM-37, SCRUM-38, SCRUM-39, SCRUM-40, SCRUM-41, SCRUM-42
-
----
-
-### 4.2 GET `/weather`
-
-**Moduł:** Weather
-
-**Opis:**  
-**TU UZUPEŁNIĆ** – co dokładnie pokazuje widok pogodowy.
-
-**Parametry (query):**
-
--   `city` (string, opcjonalny) – **TU UZUPEŁNIĆ**
-
-**Odpowiedź:**  
-Renderowany widok HTML.
-
-**Powiązana User Story:** **TU UZUPEŁNIĆ**
+**Powiązana User Story:** Wyświetlenie prognozy pogody, zarządzanie ulubionymi miastami dla zalogowanych użytkowników
 
 ---
 
@@ -154,108 +131,216 @@ Renderowany widok HTML.
 
 > **Instrukcja:**  
 > Każdy endpoint API musi być opisany w sposób umożliwiający:
->
-> -   przygotowanie testów integracyjnych,
-> -   przygotowanie klienta API,
-> -   weryfikację zgodności implementacji z dokumentacją.
+> - przygotowanie testów integracyjnych,
+> - przygotowanie klienta API,
+> - weryfikację zgodności implementacji z dokumentacją.
 
 ---
 
-### 5.1 GET `/api/weather/forecast`
+### 5.1 GET `/weather/api/forecast`
 
-**Moduł:** Weather
+**Moduł:** Weather  
 
 **Opis:**  
-**TU UZUPEŁNIĆ** – jakie dane zwraca endpoint i w jakim celu.
+Zwraca 7-dniową prognozę pogody w postaci kafelków dziennych. Dane pobierane są z OpenWeather API. Domyślną lokalizacją jest Kraków (50.0647°N, 19.9450°E). Endpoint zawiera wbudowaną cache na 1 minutę.
 
 **Parametry (query):**
-
--   `city` (string, wymagany) – nazwa miasta
+- `lat` (float, opcjonalny) – szerokość geograficzna; domyślnie 50.0647 (Kraków)
+- `lon` (float, opcjonalny) – długość geograficzna; domyślnie 19.9450 (Kraków)
+- `label` (string, opcjonalny) – nazwa miasta do wyświetlenia; jeśli nie podana, przy domyślnych współrzędnych używa się "Kraków"
 
 **Przykład zapytania:**
-
 ```bash
-curl "http://localhost:5000/api/weather/forecast?city=Krakow"
+curl "http://localhost:5000/weather/api/forecast?lat=52.2297&lon=21.0122&label=Warszawa"
 ```
 
 **Przykład odpowiedzi:**
-
 ```json
 {
-    "status": "success",
-    "data": {
-        "city": "Krakow",
-        "temperature": 12.5,
-        "condition": "Cloudy"
+  "city": "Warszawa",
+  "days": [
+    {
+      "day_name": "Czwartek",
+      "date": "2025-01-16",
+      "temp_min": -2.5,
+      "temp_max": 3.2,
+      "condition": "Pochmurnie",
+      "condition_code": "04d",
+      "precip_mm": 0.5,
+      "wind_kmh": 12.0
     }
+  ]
 }
 ```
 
 **Kody odpowiedzi:**
+- `200` – OK, prognoza zwrócona  
+- `400` – błędne parametry lat/lon  
+- `502` – błąd OpenWeather API  
+- `500` – błąd backendu  
 
--   `200` – OK
--   `400` – niepoprawne dane wejściowe
--   `500` – błąd serwera
-
-**Powiązana User Story:** **TU UZUPEŁNIĆ**
-
----
-
-### 5.2 POST `/api/weather/favorites`
-
-**Moduł:** Weather
-
-**Opis:**  
-**TU UZUPEŁNIĆ** – zapis ulubionego miasta użytkownika.
-
-**Body (JSON):**
-
-```json
-{
-    "city": "Krakow"
-}
-```
-
-**Odpowiedź:**
-
-```json
-{
-    "status": "success",
-    "message": "City added to favorites"
-}
-```
-
-**Kody odpowiedzi:**  
-**TU UZUPEŁNIĆ**
-
-**Powiązana User Story:** **TU UZUPEŁNIĆ**
+**Powiązana User Story:** Wyświetlenie 7-dniowej prognozy pogody
 
 ---
 
-### 5.3 GET `/ekonomia/api/exchange-rates`
+### 5.2 GET `/weather/api/favorites`
 
-**Moduł:** Ekonomia
+**Moduł:** Weather  
 
 **Opis:**  
-Zwraca listę dostępnych walut z aktualnymi kursami (z publicznego API NBP). Endpoint dostępny dla wszystkich użytkowników (zalogowanych i anonimowych).
+Zwraca listę ulubionych miast dla zalogowanego użytkownika. Endpoint wymaga autentykacji sesji.
 
-**Parametry:** brak
+**Autentykacja:** Wymagana – sesja użytkownika
+
+**Parametry (query):**
+- brak
 
 **Przykład zapytania:**
-
 ```bash
-curl "http://localhost:5000/ekonomia/api/exchange-rates"
+curl "http://localhost:5000/weather/api/favorites" -H "Cookie: session=..."
 ```
 
 **Przykład odpowiedzi:**
+```json
+{
+  "favorites": [
+    {
+      "id": 1,
+      "city": "Kraków",
+      "lat": 50.0647,
+      "lon": 19.9450
+    },
+    {
+      "id": 2,
+      "city": "Warszawa",
+      "lat": 52.2297,
+      "lon": 21.0122
+    }
+  ]
+}
+```
 
+**Kody odpowiedzi:**
+- `200` – OK, lista ulubionych zwrócona  
+- `401` – użytkownik nie zalogowany  
+
+**Powiązana User Story:** Wyświetlenie listy ulubionych miast
+
+---
+
+### 5.3 POST `/weather/api/favorites`
+
+**Moduł:** Weather  
+
+**Opis:**  
+Dodaje nowe ulubione miasto dla zalogowanego użytkownika. Endpoint uniemożliwia dodanie duplikatów miasta dla tego samego użytkownika.
+
+**Autentykacja:** Wymagana – sesja użytkownika (dekorator `@api_login_required`)
+
+**Body (JSON):**
+```json
+{
+  "city": "Gdańsk",
+  "lat": 54.3520,
+  "lon": 18.6466
+}
+```
+
+**Parametry Body:**
+- `city` (string, wymagany) – nazwa miasta
+- `lat` (float, opcjonalny) – szerokość geograficzna
+- `lon` (float, opcjonalny) – długość geograficzna
+
+**Przykład odpowiedzi (sukces):**
+```json
+{
+  "id": 3,
+  "city": "Gdańsk",
+  "lat": 54.3520,
+  "lon": 18.6466
+}
+```
+
+**Kody odpowiedzi:**
+- `201` – Created, miasto dodane
+- `400` – brak pola `city` w body  
+- `401` – użytkownik nie zalogowany  
+- `409` – miasto już istnieje w ulubionych tego użytkownika
+
+**Powiązana User Story:** Dodanie miasta do ulubionych
+
+---
+
+### 5.4 DELETE `/weather/api/favorites`
+
+**Moduł:** Weather  
+
+**Opis:**  
+Usuwa ulubione miasto dla zalogowanego użytkownika. Można usunąć po ID lub nazwie miasta.
+
+**Autentykacja:** Wymagana – sesja użytkownika (dekorator `@api_login_required`)
+
+**Body (JSON):**
+```json
+{
+  "id": 3
+}
+```
+
+Lub:
+```json
+{
+  "city": "Gdańsk"
+}
+```
+
+**Parametry Body:**
+- `id` (int, opcjonalny) – ID ulubionego miasta
+- `city` (string, opcjonalny) – nazwa miasta
+
+(Wymagany co najmniej jeden z parametrów)
+
+**Przykład odpowiedzi (sukces):**
+```json
+{
+  "ok": true
+}
+```
+
+**Kody odpowiedzi:**
+- `200` – OK, miasto usunięte
+- `400` – brak pola `id` i `city`  
+- `401` – użytkownik nie zalogowany  
+- `404` – miasto nie znalezione
+
+**Powiązana User Story:** Usunięcie miasta z ulubionych
+
+---
+
+### 5.5 GET `/weather/api/geocode`
+
+**Moduł:** Weather  
+
+**Opis:**  
+Wyszukuje miasta po nazwie. Zwraca listę lokalizacji ze współrzędnymi geograficznymi. Dane pobierane z OpenWeather Geocoding API. Maksymalnie 5 wyników.
+
+**Parametry (query):**
+- `q` (string, wymagany) – nazwa miasta do wyszukania
+
+**Przykład zapytania:**
+```bash
+curl "http://localhost:5000/weather/api/geocode?q=Warszawa"
+```
+
+**Przykład odpowiedzi:**
 ```json
 [
-    { "code": "EUR", "rate": 4.24 },
-    { "code": "USD", "rate": 3.64 },
-    { "code": "CHF", "rate": 4.57 },
-    { "code": "GBP", "rate": 4.87 },
-    { "code": "JPY", "rate": 0.025 }
+  {
+    "name": "Warszawa",
+    "lat": 52.2297,
+    "lon": 21.0122,
+    "country": "PL"
+  }
 ]
 ```
 
@@ -456,6 +541,33 @@ curl -X DELETE -b "session=xxx" \
 **Obsługa błędów autoryzacji:**
 
 -   `401 Unauthorized` – brak ważnej sesji lub użytkownik nie zalogowany
+### 6.1 Moduł Weather
+
+**Typ autentykacji:** Sesja (session-based authentication)
+
+**Endpointy wymagające uwierzytelnienia:**
+
+| Endpoint | Metoda | Wymagane | Opis |
+|----------|--------|----------|-------|
+| `/weather/api/favorites` | GET | Tak | Pobieranie ulubionych miast użytkownika |
+| `/weather/api/favorites` | POST | Tak | Dodawanie ulubionego miasta |
+| `/weather/api/favorites` | DELETE | Tak | Usuwanie ulubionego miasta |
+
+**Endpointy publiczne (brak wymaganej autentykacji):**
+
+| Endpoint | Metoda | Opis |
+|----------|--------|-------|
+| `/weather/pogoda` | GET | Widok pogodowy (dostosowany do stanu autentykacji) |
+| `/weather/api/forecast` | GET | Prognoza pogody |
+| `/weather/api/geocode` | GET | Wyszukiwanie miast |
+| `/weather/api/hourly` | GET | Prognoza godzinowa |
+| `/weather/plot.png` | GET | Wykres pogody |
+
+**Obsługa sesji:**
+- Sesja jest przechowywana w ciasteczku `session`
+- Identyfikator użytkownika dostępny w obiekcie `session['user_id']`
+- Dla endpointów wymagających autentykacji zwracany jest kod `401` jeśli `session['user_id']` nie istnieje
+- Uwierzytelnianie jest obsługiwane przez dekorator `@api_login_required`
 
 ---
 
@@ -512,16 +624,22 @@ Testy integracyjne używają fixture `client` z Flask, który automatycznie konf
 -   Autoryzację (sesje użytkowników)
 -   Ograniczenia bazodanowe (limit 3 ulubionych walut)
 -   Operacje CRUD na ulubionych walutach
+> - musi mieć **co najmniej jeden test integracyjny**,
+> - powinien być jednoznacznie testowalny na podstawie tej dokumentacji.
+
+**TU UZUPEŁNIĆ (opcjonalnie):**
+- mapowanie endpoint → test integracyjny,
+- informacje o mockowaniu zewnętrznych API.
 
 ---
 
 ## 8. Uwagi końcowe
 
--   `api_reference.md` jest **jedynym miejscem**, gdzie opisuje się szczegóły requestów i response’ów.
--   Dokumentacja modułów (`doc/architecture/<module>.md`) zawiera wyłącznie:
-    -   kontekst,
-    -   rolę endpointów,
-    -   powiązanie z User Stories.
--   Zmiana w API **wymaga aktualizacji tego pliku**.
+- `api_reference.md` jest **jedynym miejscem**, gdzie opisuje się szczegóły requestów i response’ów.
+- Dokumentacja modułów (`doc/architecture/<module>.md`) zawiera wyłącznie:
+  - kontekst,
+  - rolę endpointów,
+  - powiązanie z User Stories.
+- Zmiana w API **wymaga aktualizacji tego pliku**.
 
 ---

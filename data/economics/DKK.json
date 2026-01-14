@@ -1,10 +1,20 @@
 [
     {
+<<<<<<< HEAD
+=======
+        "no": "007/A/NBP/2025",
+        "effectiveDate": "2025-01-13",
+        "mid": 0.5725
+    },
+    {
+>>>>>>> main
         "no": "008/A/NBP/2025",
         "effectiveDate": "2025-01-14",
         "mid": 0.5728
     },
     {
+=======
+>>>>>>> Stashed changes
         "no": "009/A/NBP/2025",
         "effectiveDate": "2025-01-15",
         "mid": 0.5711
@@ -1248,10 +1258,13 @@
         "no": "006/A/NBP/2026",
         "effectiveDate": "2026-01-12",
         "mid": 0.5634
+<<<<<<< HEAD
     },
     {
         "no": "007/A/NBP/2026",
         "effectiveDate": "2026-01-13",
         "mid": 0.5636
+=======
+>>>>>>> main
     }
 ]

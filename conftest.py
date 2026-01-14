@@ -1,8 +1,9 @@
 import pytest
 import threading
 from werkzeug.serving import make_server
+from werkzeug.security import generate_password_hash
 from app import create_app
-from modules.database import db, init_db
+from modules.database import db, init_db, User
 import modules.weather_app as weather_app
 from config import TestingConfig
 
@@ -18,11 +19,16 @@ def app():
     scope="function" oznacza, że fixture będzie tworzona
     osobno dla każdego testu (zalecane przy bazie danych).
     """
+    from app import create_app
     app = create_app(TestingConfig)
 
     with app.app_context():
         db.drop_all()
         init_db(app)
+        # Dodaj użytkownika testowego
+        test_user = User(username='testuser', email='test@example.com', password_hash=generate_password_hash('testpass'))
+        db.session.add(test_user)
+        db.session.commit()
         yield app
         db.session.remove()
         db.drop_all()
@@ -78,5 +84,17 @@ def clear_weather_cache():
     weather_app._OW_CACHE.clear()
     yield
     weather_app._OW_CACHE.clear()
+
+# =========================
+# FIXTURE czyszczenia sent_emails
+# =========================
+@pytest.fixture(autouse=True)
+def clear_sent_emails():
+    '''
+    Czyści listę wysłanych e-maili przed każdym testem.
+    '''
+    weather_app.sent_emails.clear()
+    yield
+    weather_app.sent_emails.clear()
 
 # =========================

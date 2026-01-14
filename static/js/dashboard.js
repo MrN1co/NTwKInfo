@@ -30,3 +30,24 @@ document.getElementById('changePasswordForm').addEventListener('submit', functio
   // TODO: Implement password change via AJAX
   alert('Funkcja zmiany hasła w przygotowaniu');
 });
+
+function testWeatherAlerts() {
+  fetch('/weather/api/test-email', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success !== false) {
+      alert('Test alertów pogodowych wykonany. Sprawdź konsolę serwera.');
+    } else {
+      alert('Błąd: ' + data.message);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Wystąpił błąd podczas testowania alertów.');
+  });
+}

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="16" time="129.672" timestamp="2026-01-12T18:07:07.777054+01:00" hostname="DESKTOP-8IARF5I"><testcase classname="tests.unit.main.test_helpers.TestHelpers" name="test_select_featured_with_items" time="0.006" /><testcase classname="tests.unit.main.test_helpers.TestHelpers" name="test_select_featured_empty" time="0.002" /><testcase classname="tests.unit.main.test_helpers.TestHelpers" name="test_summarize_short" time="0.003" /><testcase classname="tests.unit.main.test_helpers.TestHelpers" name="test_summarize_trim" time="0.002" /><testcase classname="tests.unit.main.test_helpers.TestHelpers" name="test_format_published_iso" time="0.003" /><testcase classname="tests.unit.main.test_helpers.TestHelpers" name="test_format_published_simple" time="0.001" /><testcase classname="tests.unit.main.test_helpers.TestHelpers" name="test_format_published_invalid" time="0.003" /><testcase classname="tests.integration.main.test_main_integration" name="test_index_renders_with_news_and_rates" time="0.052" /><testcase classname="tests.integration.main.test_main_integration" name="test_index_renders_empty_news" time="0.045" /><testcase classname="tests.integration.main.test_main_integration" name="test_helper_redirects" time="0.009" /><testcase classname="tests.e2e.test_homepage_user_stories.TestHomepageUserStories" name="test_register_and_login[chromium]" time="40.864"><failure message="playwright._impl._errors.TimeoutError: Page.click: Timeout 30000ms exceeded.&#10;Call log:&#10;  - waiting for locator(&quot;.header__cta-button&quot;)">self = &lt;test_homepage_user_stories.TestHomepageUserStories object at 0x000002AEF5592D90&gt;
+page = &lt;Page url='http://127.0.0.1:5001/'&gt;
+e2e_server = 'http://127.0.0.1:5001'
+
+    def test_register_and_login(self, page, e2e_server):
+        server = e2e_server
+        page.goto(server)
+        # Open auth modal
+&gt;       page.click('.header__cta-button')
+
+tests\e2e\test_homepage_user_stories.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\playwright\sync_api\_generated.py:9958: in click
+    self._sync(
+venv\Lib\site-packages\playwright\_impl\_page.py:854: in click
+    return await self._main_frame._click(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\Lib\site-packages\playwright\_impl\_frame.py:566: in _click
+    await self._channel.send("click", self._timeout, locals_to_params(locals()))
+venv\Lib\site-packages\playwright\_impl\_connection.py:69: in send
+    return await self._connection.wrap_api_call(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;playwright._impl._connection.Connection object at 0x000002AEF5578450&gt;
+cb = &lt;function Channel.send.&lt;locals&gt;.&lt;lambda&gt; at 0x000002AEF58051C0&gt;
+is_internal = False, title = None
+
+    async def wrap_api_call(
+        self, cb: Callable[[], Any], is_internal: bool = False, title: str = None
+    ) -&gt; Any:
+        if self._api_zone.get():
+            return await cb()
+        task = asyncio.current_task(self._loop)
+        st: List[inspect.FrameInfo] = getattr(
+            task, "__pw_stack__", None
+        ) or inspect.stack(0)
+    
+        parsed_st = _extract_stack_trace_information_from_stack(st, is_internal, title)
+        self._api_zone.set(parsed_st)
+        try:
+            return await cb()
+        except Exception as error:
+&gt;           raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E           playwright._impl._errors.TimeoutError: Page.click: Timeout 30000ms exceeded.
+E           Call log:
+E             - waiting for locator(".header__cta-button")
+
+venv\Lib\site-packages\playwright\_impl\_connection.py:559: TimeoutError</failure></testcase><testcase classname="tests.e2e.test_homepage_user_stories.TestHomepageUserStories" name="test_personalization_and_saved_tags[chromium]" time="36.057"><failure message="playwright._impl._errors.TimeoutError: Page.click: Timeout 30000ms exceeded.&#10;Call log:&#10;  - waiting for locator(&quot;.header__cta-button&quot;)">self = &lt;test_homepage_user_stories.TestHomepageUserStories object at 0x000002AEF5593790&gt;
+page = &lt;Page url='http://127.0.0.1:5001/'&gt;
+e2e_server = 'http://127.0.0.1:5001'
+
+    def test_personalization_and_saved_tags(self, page, e2e_server):
+        server = e2e_server
+        username = 'tags_user'
+        # Create &amp; login first via direct register (reuse UI)
+        page.goto(server)
+&gt;       page.click('.header__cta-button')
+
+tests\e2e\test_homepage_user_stories.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\playwright\sync_api\_generated.py:9958: in click
+    self._sync(
+venv\Lib\site-packages\playwright\_impl\_page.py:854: in click
+    return await self._main_frame._click(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\Lib\site-packages\playwright\_impl\_frame.py:566: in _click
+    await self._channel.send("click", self._timeout, locals_to_params(locals()))
+venv\Lib\site-packages\playwright\_impl\_connection.py:69: in send
+    return await self._connection.wrap_api_call(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;playwright._impl._connection.Connection object at 0x000002AEF5578450&gt;
+cb = &lt;function Channel.send.&lt;locals&gt;.&lt;lambda&gt; at 0x000002AEF55CE8E0&gt;
+is_internal = False, title = None
+
+    async def wrap_api_call(
+        self, cb: Callable[[], Any], is_internal: bool = False, title: str = None
+    ) -&gt; Any:
+        if self._api_zone.get():
+            return await cb()
+        task = asyncio.current_task(self._loop)
+        st: List[inspect.FrameInfo] = getattr(
+            task, "__pw_stack__", None
+        ) or inspect.stack(0)
+    
+        parsed_st = _extract_stack_trace_information_from_stack(st, is_internal, title)
+        self._api_zone.set(parsed_st)
+        try:
+            return await cb()
+        except Exception as error:
+&gt;           raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E           playwright._impl._errors.TimeoutError: Page.click: Timeout 30000ms exceeded.
+E           Call log:
+E             - waiting for locator(".header__cta-button")
+
+venv\Lib\site-packages\playwright\_impl\_connection.py:559: TimeoutError</failure></testcase><testcase classname="tests.e2e.test_homepage_user_stories.TestHomepageUserStories" name="test_calendar_date_and_facts[chromium]" time="35.271"><failure message="playwright._impl._errors.TimeoutError: Page.wait_for_selector: Timeout 30000ms exceeded.&#10;Call log:&#10;  - waiting for locator(&quot;#calendarDate&quot;) to be visible">self = &lt;test_homepage_user_stories.TestHomepageUserStories object at 0x000002AEF55981D0&gt;
+page = &lt;Page url='http://127.0.0.1:5001/'&gt;
+e2e_server = 'http://127.0.0.1:5001'
+
+    def test_calendar_date_and_facts(self, page, e2e_server):
+        server = e2e_server
+        # Intercept holidays fetch and return a mock JSON
+        def route_handler(route, request):
+            route.fulfill(status=200, content_type='application/json', body='[{"name":"Dzień Testowy"}]')
+    
+        # Pattern used by script-calendar.js: https://pniedzwiedzinski.github.io/kalendarz-swiat-nietypowych/&lt;month&gt;/&lt;day&gt;.json
+        page.route('https://pniedzwiedzinski.github.io/kalendarz-swiat-nietypowych/*/*', route_handler)
+    
+        page.goto(server)
+        # Wait for calendar JS to run
+&gt;       page.wait_for_selector('#calendarDate')
+
+tests\e2e\test_homepage_user_stories.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+venv\Lib\site-packages\playwright\sync_api\_generated.py:8213: in wait_for_selector
+    self._sync(
+venv\Lib\site-packages\playwright\_impl\_page.py:419: in wait_for_selector
+    return await self._main_frame.wait_for_selector(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+venv\Lib\site-packages\playwright\_impl\_frame.py:369: in wait_for_selector
+    await self._channel.send(
+venv\Lib\site-packages\playwright\_impl\_connection.py:69: in send
+    return await self._connection.wrap_api_call(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;playwright._impl._connection.Connection object at 0x000002AEF5578450&gt;
+cb = &lt;function Channel.send.&lt;locals&gt;.&lt;lambda&gt; at 0x000002AEF601C540&gt;
+is_internal = False, title = None
+
+    async def wrap_api_call(
+        self, cb: Callable[[], Any], is_internal: bool = False, title: str = None
+    ) -&gt; Any:
+        if self._api_zone.get():
+            return await cb()
+        task = asyncio.current_task(self._loop)
+        st: List[inspect.FrameInfo] = getattr(
+            task, "__pw_stack__", None
+        ) or inspect.stack(0)
+    
+        parsed_st = _extract_stack_trace_information_from_stack(st, is_internal, title)
+        self._api_zone.set(parsed_st)
+        try:
+            return await cb()
+        except Exception as error:
+&gt;           raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+E           playwright._impl._errors.TimeoutError: Page.wait_for_selector: Timeout 30000ms exceeded.
+E           Call log:
+E             - waiting for locator("#calendarDate") to be visible
+
+venv\Lib\site-packages\playwright\_impl\_connection.py:559: TimeoutError</failure></testcase><testcase classname="tests.e2e.test_homepage_user_stories.TestHomepageUserStories" name="test_responsiveness[chromium]" time="5.058"><failure message="AssertionError: assert None is not None&#10; +  where None = query_selector('.left-column')&#10; +    where query_selector = &lt;Page url='http://127.0.0.1:5001/'&gt;.query_selector">self = &lt;test_homepage_user_stories.TestHomepageUserStories object at 0x000002AEF55984D0&gt;
+page = &lt;Page url='http://127.0.0.1:5001/'&gt;
+e2e_server = 'http://127.0.0.1:5001'
+
+    def test_responsiveness(self, page, e2e_server):
+        server = e2e_server
+        # Desktop
+        page.set_viewport_size({'width': 1280, 'height': 800})
+        page.goto(server)
+&gt;       assert page.query_selector('.left-column') is not None
+E       AssertionError: assert None is not None
+E        +  where None = query_selector('.left-column')
+E        +    where query_selector = &lt;Page url='http://127.0.0.1:5001/'&gt;.query_selector
+
+tests\e2e\test_homepage_user_stories.py:105: AssertionError</failure></testcase><testcase classname="tests.e2e.test_homepage_user_stories.TestHomepageUserStories" name="test_anonymous_access[chromium]" time="5.422"><failure message="AssertionError: assert None is not None&#10; +  where None = query_selector('.header__cta-button')&#10; +    where query_selector = &lt;Page url='http://127.0.0.1:5001/'&gt;.query_selector">self = &lt;test_homepage_user_stories.TestHomepageUserStories object at 0x000002AEF5598B10&gt;
+page = &lt;Page url='http://127.0.0.1:5001/'&gt;
+e2e_server = 'http://127.0.0.1:5001'
+
+    def test_anonymous_access(self, page, e2e_server):
+        server = e2e_server
+        page.goto(server)
+        # As anonymous: login button visible, no user button
+&gt;       assert page.query_selector('.header__cta-button') is not None
+E       AssertionError: assert None is not None
+E        +  where None = query_selector('.header__cta-button')
+E        +    where query_selector = &lt;Page url='http://127.0.0.1:5001/'&gt;.query_selector
+
+tests\e2e\test_homepage_user_stories.py:117: AssertionError</failure></testcase><testcase classname="tests.e2e.test_homepage_user_stories.TestHomepageUserStories" name="test_ui_consistency[chromium]" time="5.588"><failure message="AssertionError: assert None is not None&#10; +  where None = query_selector('.header')&#10; +    where query_selector = &lt;Page url='http://127.0.0.1:5001/'&gt;.query_selector">self = &lt;test_homepage_user_stories.TestHomepageUserStories object at 0x000002AEF5599150&gt;
+page = &lt;Page url='http://127.0.0.1:5001/'&gt;
+e2e_server = 'http://127.0.0.1:5001'
+
+    def test_ui_consistency(self, page, e2e_server):
+        server = e2e_server
+        page.goto(server)
+        # Check header and footer exist and base CSS loaded
+&gt;       assert page.query_selector('.header') is not None
+E       AssertionError: assert None is not None
+E        +  where None = query_selector('.header')
+E        +    where query_selector = &lt;Page url='http://127.0.0.1:5001/'&gt;.query_selector
+
+tests\e2e\test_homepage_user_stories.py:124: AssertionError</failure></testcase></testsuite></testsuites>
