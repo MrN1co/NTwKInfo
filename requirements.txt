@@ -9,7 +9,7 @@ SQLAlchemy>=2.0.0
 python-dotenv>=1.0.0
 
 # WSGI utility library (included with Flask but specified for clarity)
-Werkzeug>=2.3.0
+Werkzeug>=2.3.0,<3.0.0
 
 # Template engine (included with Flask)
 Jinja2>=3.1.0
@@ -56,6 +56,11 @@ matplotlib>=3.8.0
 # Testing dependencies (for development)
 pytest>=7.0.0
 pytest-flask>=1.2.0
+playwright>=1.0.0
+pytest-playwright>=0.7.0
+
+# Task scheduling (for daily email alerts)
+APScheduler>=3.10.0
 
 # Task scheduling (for daily email alerts)
 APScheduler>=3.10.0

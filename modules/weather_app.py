@@ -2,6 +2,8 @@
 import os
 import io
 from datetime import datetime, timezone, timedelta
+from flask import jsonify
+
 
 import requests
 import matplotlib
@@ -12,10 +14,13 @@ import numpy as np
 import smtplib
 from email.mime.text import MIMEText
 
-from flask import Blueprint, request, jsonify, render_template, send_file, abort, session
+from flask import Blueprint, request, jsonify, render_template, send_file, abort, session, current_app
 from dotenv import load_dotenv
 from modules.database import Favorite
 from modules.auth import api_login_required
+
+# Globalna lista wysłanych e-maili dla testów
+sent_emails = []
 import time
 from threading import Lock
 import logging
@@ -60,36 +65,117 @@ def _cache_set(key, data):
 
 
 # ======================= WYSYŁANIE MAILI =======================
-def send_favorite_cities_rain_alert(user_email, rainy_cities):
-    """
-    Wysyła e-mail z listą ulubionych miast, w których pada deszcz.
-    rainy_cities: lista miast (stringów) w których pada deszcz.
-    """
-    if not rainy_cities:
-        return  # Nie wysyłaj maila jeśli nie ma opadów w żadnym mieście
+# def send_favorite_cities_rain_alert(user_email, rainy_cities):
+#     """
+#     Wysyła e-mail z listą ulubionych miast, w których pada deszcz.
+#     rainy_cities: lista miast (stringów) w których pada deszcz.
+#     """
+#     if not rainy_cities:
+#         return  # Nie wysyłaj maila jeśli nie ma opadów w żadnym mieście
     
-    cities_list = "\n".join([f"• {city}" for city in rainy_cities])
-    message_text = f"""Cześć!
+#     cities_list = "\n".join([f"• {city}" for city in rainy_cities])
+#     message_text = f"""Cześć!
 
-Dziś prognozowane są opady w Twoich ulubionych miastach:
+# Dziś prognozowane są opady w Twoich ulubionych miastach:
 
-{cities_list}
+# {cities_list}
 
-Pamiętaj, aby przygotować się i zabrać parasol!
+# Pamiętaj, aby przygotować się i zabrać parasol!
 
-Pozdrawiamy,
-NTwKInfo
-"""
+# Pozdrawiamy,
+# NTwKInfo
+# """
+#     msg = MIMEText(message_text, "plain", "utf-8")
+#     msg['Subject'] = "Alert pogodowy"
+#     msg['From'] = my_email
+
+#     try:
+#         with smtplib.SMTP("smtp.gmail.com", 587, timeout=20) as connection:
+#             connection.starttls()
+#             connection.login(user=my_email, password=password)
+#             connection.sendmail(from_addr=my_email, to_addrs=user_email, msg=msg.as_string())
+#             print(f"✓ Mail wysłany do {user_email} z alertem o opadach w {len(rainy_cities)} miastach.")
+#     except Exception as e:
+#         print(f"✗ Błąd wysyłania maila do {user_email}: {e}")
+
+
+def send_favorite_cities_weather_alert(user_email, rainy_cities, cold_cities, snowy_cities=None):
+    """
+    Wysyła e-mail z alertami pogodowymi: opady deszczu, śniegu i/lub mróz w ulubionych miastach.
+    rainy_cities: lista miast z opadami deszczu.
+    snowy_cities: lista miast z opadami śniegu.
+    cold_cities: lista miast z temperaturą min < 0°C.
+    """
+    if snowy_cities is None:
+        snowy_cities = []
+    if not rainy_cities and not cold_cities and not snowy_cities:
+        return  # Nie wysyłaj maila jeśli nie ma alertów
+    
+    message_parts = ["Cześć!"]
+    
+    if rainy_cities:
+        cities_list = "\n".join([f"• {city}" for city in rainy_cities])
+        message_parts.append(f"\nDziś prognozowane są opady deszczu w Twoich ulubionych miastach:\n\n{cities_list}\n\nPamiętaj, aby przygotować się i zabrać parasol!")
+    
+    if snowy_cities:
+        cities_list = "\n".join([f"• {city}" for city in snowy_cities])
+        message_parts.append(f"\nDziś prognozowane są opady śniegu w Twoich ulubionych miastach:\n\n{cities_list}\n\nPamiętaj, aby przygotować się na śnieg i zadbać o odpowiednie ubranie!")
+    
+    if cold_cities:
+        cities_list = "\n".join([f"• {city}" for city in cold_cities])
+        message_parts.append(f"\nDziś prognozowana jest temperatura poniżej 0°C w Twoich ulubionych miastach:\n\n{cities_list}\n\nPamiętaj, aby przygotować się na mróz i zadbać o odpowiednie ubranie!")
+    
+    message_parts.append("\nPozdrawiamy,\nNTwKInfo")
+    
+    message_text = "\n".join(message_parts)
+    
+    subject = "Alert pogodowy"
+    alerts = []
+    if rainy_cities:
+        alerts.append("Opady deszczu")
+    if snowy_cities:
+        alerts.append("Opady śniegu")
+    if cold_cities:
+        alerts.append("Mróz")
+    if len(alerts) > 1:
+        subject += " - " + " i ".join(alerts)
+    elif alerts:
+        subject += " - " + alerts[0]
+    
     msg = MIMEText(message_text, "plain", "utf-8")
-    msg['Subject'] = "Alert pogodowy"
+    msg['Subject'] = subject
     msg['From'] = my_email
+
+    # W trybie testowym, dodaj do listy zamiast wysyłać
+    if current_app.config['TESTING']:
+        sent_emails.append({
+            'to': user_email,
+            'subject': subject,
+            'body': message_text
+        })
+        alert_details = []
+        if rainy_cities:
+            alert_details.append(f"deszcz w {len(rainy_cities)} miastach")
+        if snowy_cities:
+            alert_details.append(f"śnieg w {len(snowy_cities)} miastach")
+        if cold_cities:
+            alert_details.append(f"mróz w {len(cold_cities)} miastach")
+        print(f"✓ Mail 'wysłany' do {user_email} z alertami: {', '.join(alert_details)} (test mode).")
+        return
 
     try:
         with smtplib.SMTP("smtp.gmail.com", 587, timeout=20) as connection:
             connection.starttls()
             connection.login(user=my_email, password=password)
             connection.sendmail(from_addr=my_email, to_addrs=user_email, msg=msg.as_string())
-            print(f"✓ Mail wysłany do {user_email} z alertem o opadach w {len(rainy_cities)} miastach.")
+            alert_details = []
+            if rainy_cities:
+                alert_details.append(f"deszcz w {len(rainy_cities)} miastach")
+            if snowy_cities:
+                alert_details.append(f"śnieg w {len(snowy_cities)} miastach")
+            if cold_cities:
+                alert_details.append(f"mróz w {len(cold_cities)} miastach")
+            print(f"✓ Mail wysłany do {user_email} z alertami: {', '.join(alert_details)}.")
     except Exception as e:
         print(f"✗ Błąd wysyłania maila do {user_email}: {e}")
 
@@ -179,7 +265,8 @@ def normalize_forecast(raw: dict) -> dict:
             "t_max": temp.get("max"),
             "t_day": temp.get("day"),
             "pressure": item.get("pressure"),
-            "precip_mm": float(item.get("rain", 0.0)),
+            "precip_mm": float(item.get("rain", 0.0)) + float(item.get("snow", 0.0)),
+            "snow_mm": float(item.get("snow", 0.0)),
             "icon": weather.get("icon"),
             "description": weather.get("description"),
         })
@@ -609,60 +696,94 @@ def plot_png():
 # --------- TEST ENDPOINT: wysłanie maila testowego ---------
 
 @weather_bp.get("/api/test-email")
-@api_login_required
 def test_email():
     """
     Test endpoint: wysyła testowy email z opadami w ulubionych miastach.
     GET /weather/api/test-email
+
+    Zwraca:
+    - 401 jeśli brak logowania (bez redirectu)
+    - 404 jeśli user nie istnieje
+    - 400 jeśli brak ulubionych
+    - 200 jeśli wysłano maila lub jeśli nie ma opadów
+    - 502 jeśli błąd OpenWeather
+    - 500 jeśli błąd wysyłki maila lub inny błąd
     """
     user_id = session.get("user_id")
     if not user_id:
         return jsonify({"error": "not_authenticated"}), 401
-    
+
     user = User.query.get(user_id)
     if not user:
         return jsonify({"error": "user_not_found"}), 404
-    
-    favs = Favorite.get_for_user(user_id)
+
+    favs = Favorite.get_for_user(user_id) or []
     if not favs:
-        return jsonify({"error": "no_favorites", "message": "Dodaj ulubione miasta aby testować"}), 400
-    
+        return jsonify({
+            "error": "no_favorites",
+            "message": "Dodaj ulubione miasta aby testować"
+        }), 400
+
     rainy_cities = []
-    
-    # Sprawdź opady dla każdego ulubionego miasta
+    cold_cities = []
+    snowy_cities = []
+
     for fav in favs:
+        lat = fav.lat if fav.lat is not None else DEFAULT_LAT
+        lon = fav.lon if fav.lon is not None else DEFAULT_LON
+
         try:
-            lat = fav.lat if fav.lat else DEFAULT_LAT
-            lon = fav.lon if fav.lon else DEFAULT_LON
-            
             raw = fetch_daily_forecast(lat, lon, cnt=7, units="metric")
             data = normalize_forecast(raw)
-            
-            # Sprawdzenie opadów na dzisiaj
-            if data["days"] and data["days"][0].get("precip_mm", 0) > 0:
-                rainy_cities.append(fav.city)
+        except requests.HTTPError as e:
+            # dla testów i poprawnego API lepiej jasno powiedzieć "problem z upstreamem"
+            return jsonify({"error": "openweather_error", "details": str(e)}), 502
         except Exception as e:
-            print(f"Błąd sprawdzania prognozy dla {fav.city}: {e}")
-            continue
-    
-    # Wyślij email testowy
-    try:
-        if rainy_cities:
-            send_favorite_cities_rain_alert(user.email, rainy_cities)
-            return jsonify({
-                "success": True,
-                "message": f"Email wysłany do {user.email}",
-                "rainy_cities": rainy_cities
-            })
-        else:
+            return jsonify({"error": "backend_error", "details": str(e)}), 500
+
+        if data.get("days") and float(data["days"][0].get("precip_mm", 0.0)) > 0.0:
+            rainy_cities.append(fav.city)
+
+        if data.get("days") and data["days"][0].get("snow_mm", 0.0) > 0.0:
+            snowy_cities.append(fav.city)
+
+        if data.get("days") and data["days"][0].get("t_min") is not None and float(data["days"][0].get("t_min")) < 0:
+            cold_cities.append(fav.city)
+
+    # Wysyłanie maili
+    sent_alert = False
+
+    if rainy_cities or cold_cities or snowy_cities:
+        try:
+            send_favorite_cities_weather_alert(user.email, rainy_cities, cold_cities, snowy_cities)
+            sent_alert = True
+        except Exception as e:
             return jsonify({
                 "success": False,
-                "message": "Brak opadów w żadnym z ulubionych miast",
-                "checked_cities": [f.city for f in favs]
-            })
-    except Exception as e:
+                "error": "email_send_failed",
+                "details": str(e),
+                "message": "Błąd wysyłania emaila"
+            }), 500
+
+    if sent_alert:
+        message_parts = [f"Email wysłany do {user.email}"]
+        if rainy_cities:
+            message_parts.append(f"opady w {len(rainy_cities)} miastach")
+        if snowy_cities:
+            message_parts.append(f"śnieg w {len(snowy_cities)} miastach")
+        if cold_cities:
+            message_parts.append(f"mróz w {len(cold_cities)} miastach")
+        message = " - ".join(message_parts)
         return jsonify({
-            "success": False,
-            "error": str(e),
-            "message": "Błąd wysyłania emaila"
-        }), 500
+            "success": True,
+            "message": message,
+            "rainy_cities": rainy_cities,
+            "snowy_cities": snowy_cities,
+            "cold_cities": cold_cities
+        }), 200
+
+    return jsonify({
+        "success": False,
+        "message": "Brak opadów ani mrozu w ulubionych miastach",
+        "checked_cities": [f.city for f in favs]
+    }), 200
