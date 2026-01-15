@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session, jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_wtf.csrf import validate_csrf
-from wtforms.csrf.core import BadCSRFData
 from modules.database import db, User
 import functools
 
@@ -40,7 +39,7 @@ def login():
         # Validate CSRF token
         try:
             validate_csrf(request.form.get('csrf_token'))
-        except BadCSRFData:
+        except:
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 return jsonify({'success': False, 'message': 'CSRF token invalid or missing'}), 400
             flash('CSRF token invalid or expired', 'error')

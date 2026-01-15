@@ -17,7 +17,7 @@
   <!-- LOGOWANIE -->
   <div id="loginForm" class="auth-box">
     <form method="post" action="{{ url_for('auth.login') }}">
-      {{ csrf_token() }}
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <button type="button" class="auth-close">×</button>
       <h2>Zaloguj się</h2>
       <p class="auth-switch">Nie masz konta?
@@ -37,7 +37,7 @@
   <!-- REJESTRACJA -->
   <div id="registerForm" class="auth-box hidden">
     <form method="post" action="{{ url_for('auth.register') }}">
-      {{ csrf_token() }}
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <button type="button" class="auth-close">×</button>
       <h2>Zarejestruj się</h2>
       <p class="auth-switch">Masz konto?
