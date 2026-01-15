@@ -1,7 +1,6 @@
 from modules.ekonomia.klasy_api_obsluga.APIClient import APIClient
 from modules.ekonomia.klasy_api_obsluga.CurrencyRates import CurrencyRates
 from modules.ekonomia.klasy_api_obsluga.GoldPrices import GoldPrices
-from modules.ekonomia.klasy_api_obsluga.HistoricalData import HistoricalData
 import matplotlib
 # Use non-interactive Agg backend for server-side rendering
 matplotlib.use('Agg')
@@ -13,7 +12,6 @@ class Manager:
         self.client = APIClient()
         self.currencies = CurrencyRates(self.client)
         self.gold = GoldPrices(self.client)
-        self.history = HistoricalData(self.client)
 
     def update_all(self):
         """Update currency rates and gold prices"""
@@ -71,7 +69,8 @@ class Manager:
         if y_label:
             ax.set_ylabel(y_label, color='#2B370A')
         else:
-            ax.set_ylabel('Gold price [t oz]' if y_col == 'price' else y_col, color='#2B370A')
+            # Default to PLN per ounce for gold price series
+            ax.set_ylabel('Cena złota [PLN/oz]' if y_col == 'price' else y_col, color='#2B370A')
         fig.autofmt_xdate()
         buf = io.BytesIO()
         plt.savefig(buf, format='png', bbox_inches='tight', facecolor=fig.get_facecolor())

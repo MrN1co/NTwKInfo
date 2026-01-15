@@ -140,11 +140,21 @@ pytest tests/e2e
 
 | ID    | Typ testu   | Co testujemy            | Scenariusz / funkcja                              | Status |
 |-------|-------------|-------------------------|---------------------------------------------------|--------|
-| UT-01 | Unit        | Przetwarzanie danych    | **TU UZUPEŁNIĆ** (np. `normalize_rates()`)        | ⬜     |
-| UT-02 | Unit        | Logika biznesowa        | **TU UZUPEŁNIĆ** (np. `select_top_changes()`)     | ⬜     |
-| IT-01 | Integration | Endpoint HTML           | **TU UZUPEŁNIĆ** (np. `/economy`)                 | ⬜     |
-| IT-02 | Integration | Endpoint API            | **TU UZUPEŁNIĆ** (np. `/api/economy/rates`)       | ⬜     |
-| E2E-01| E2E         | User Story              | **TU UZUPEŁNIĆ** (np. „Użytkownik widzi kursy walut”)| ⬜   |
+| UT-01 | Unit        | Inicjalizacja i atrybuty `Manager` | Walidacja pól, domyślne obiekty i klienta — [modules/ekonomia/tests/test_manager.py](../modules/ekonomia/tests/test_manager.py) | ✅ |
+| UT-02 | Unit        | Aktualizacja danych (`Manager.update_all`) | Mockowanie źródeł → zwraca aktualne kursy i cenę złota — [modules/ekonomia/tests/test_manager.py](../modules/ekonomia/tests/test_manager.py) | ✅ |
+| UT-03 | Unit        | Lista walut (`Manager.list_currencies`) | Filtracja, unikalność kodów, obsługa tabel — [modules/ekonomia/tests/test_manager.py](../modules/ekonomia/tests/test_manager.py) | ✅ |
+| UT-04 | Unit        | Generowanie wykresów (`Manager.create_plot_image`) | Różne DataFrame (puste/None/kolumny niestandardowe) → base64 PNG — [modules/ekonomia/tests/test_manager.py](../modules/ekonomia/tests/test_manager.py) | ✅ |
+| UT-05 | Unit        | Klient API (`APIClient.get_json`) | Obsługa poprawnej odpowiedzi, timeout, błędy HTTP — [modules/ekonomia/tests/test_api_client.py](../modules/ekonomia/tests/test_api_client.py) | ✅ |
+| UT-06 | Unit        | Pobieranie kursów i listy (`CurrencyRates`) | Parsowanie odpowiedzi, filtrowanie tabel, puste odpowiedzi — [modules/ekonomia/tests/test_currency_rates.py](../modules/ekonomia/tests/test_currency_rates.py) | ✅ |
+| UT-07 | Unit        | Fetch NBP (dane historyczne) | Parsowanie JSON, usuwanie duplikatów, filtrowanie starych dat — [modules/ekonomia/tests/test_fetch_nbp.py](../modules/ekonomia/tests/test_fetch_nbp.py) | ✅ |
+| IT-01 | Integration | Widok główny `/ekonomia` (HTML) | `GET /ekonomia` → status 200, content-type HTML, zawiera elementy modułu — [modules/ekonomia/tests/test_ekonomia.py](../modules/ekonomia/tests/test_ekonomia.py) | ✅ |
+| IT-02 | Integration | API kursów `/ekonomia/api/exchange-rates` | `GET` → status 200, `application/json`, struktura listy {code, rate} i obecność EUR/USD — [modules/ekonomia/tests/test_ekonomia.py](../modules/ekonomia/tests/test_ekonomia.py) | ✅ |
+| IT-03 | Integration | Endpoint wykresu `/ekonomia/chart/<code>` | `GET /ekonomia/chart/EUR` → status 200, JSON z kluczem `chart` zawierającym base64 PNG — [modules/ekonomia/tests/test_ekonomia.py](../modules/ekonomia/tests/test_ekonomia.py) | ✅ |
+| IT-04 | Integration | Ulubione waluty API (autoryzacja) | `GET/POST/DELETE /ekonomia/api/favorite-currencies` → statusy 401/200/201/409, struktura odpowiedzi; testy z sesją użytkownika i DB testową — [modules/ekonomia/tests/test_ekonomia.py](../modules/ekonomia/tests/test_ekonomia.py) | ✅ |
+| IT-05 | Integration | Mockowanie zewnętrznych API | Przy integracyjnych endpointach mockować `Manager`/`APIClient` aby izolować logikę i sprawdzić format odpowiedzi — [modules/ekonomia/tests/test_ekonomia.py](../modules/ekonomia/tests/test_ekonomia.py) | ✅ |
+| E2E-01 | E2E | User Story: widok dziennych kursów | Niezalogowany użytkownik otwiera `/ekonomia`, widzi USD/EUR/GBP w kaflach i w tabeli — [tests/e2e/test_daily_exchange_rates.py](../tests/e2e/test_daily_exchange_rates.py) | ✅ |
+| E2E-02 | E2E | User Story: wykresy kursów walut | Użytkownik widzi wykres (base64 PNG/canvas), zmienia walutę w selektorze → wykres się aktualizuje — [tests/e2e/test_currency_charts.py](../tests/e2e/test_currency_charts.py) | ✅ |
+| E2E-03 | E2E | User Story: zarządzanie ulubionymi walutami | Zalogowany użytkownik: dodaje/usuwa ulubione → interfejs i API odzwierciedlają zmiany (end-to-end) — [tests/e2e/test_logged_user_favorite_currencies.py](../tests/e2e/test_logged_user_favorite_currencies.py) | ✅ |
 
 ---
 

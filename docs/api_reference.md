@@ -53,6 +53,20 @@
 > Poniższa tabela jest **pełnym spisem endpointów aplikacji**.  
 > Każdy endpoint wymieniony tutaj **musi** być opisany szczegółowo w dalszej części dokumentu.
 
+| Metoda | Endpoint                                   | Typ  | Krótki opis              | Moduł    |
+| -----: | ------------------------------------------ | ---- | ------------------------ | -------- |
+|    GET | `/`                                        | HTML | Strona główna aplikacji  | Home     |
+|    GET | `/weather/pogoda`                    | HTML | Widok bieżącej pogody    | Weather  |
+|    GET | `/api/weather/forecast`                    | JSON | Dane pogodowe            | Weather  |
+|   POST | `/api/weather/favorites`                   | JSON | Zapis ulubionych miast   | Weather  |
+|    GET | `/ekonomia`                                | HTML | Kursy walut i ceny złota | Ekonomia |
+|    GET | `/ekonomia/chart/<code>`                   | JSON | Wykres kursu waluty      | Ekonomia |
+|    GET | `/ekonomia/api/exchange-rates`             | JSON | Lista dostępnych walut   | Ekonomia |
+|    GET | `/ekonomia/api/favorite-currencies`        | JSON | Moje ulubione waluty     | Ekonomia |
+|   POST | `/ekonomia/api/favorite-currencies`        | JSON | Dodaj ulubioną walutę    | Ekonomia |
+| DELETE | `/ekonomia/api/favorite-currencies/<code>` | JSON | Usuń ulubioną walutę     | Ekonomia |
+|    GET | `/news`                                    | HTML | Lista wiadomości         | News     |
+|    GET | `/api/news/latest`                         | JSON | Najnowsze wiadomości     | News     |
 | Metoda | Endpoint | Typ | Krótki opis | Moduł |
 |------:|----------|-----|-------------|-------|
 | GET | `/` | HTML | Strona główna aplikacji | Home |
@@ -331,91 +345,202 @@ curl "http://localhost:5000/weather/api/geocode?q=Warszawa"
 ```
 
 **Kody odpowiedzi:**
-- `200` – OK, wyniki wyszukiwania zwrócone  
-- `400` – brak parametru `q`  
-- `502` – błąd OpenWeather API  
 
-**Powiązana User Story:** Wyszukiwanie miast
+-   `200` – OK
+-   `500` – błąd serwera (np. brak dostępu do danych)
+
+**Powiązane User Stories:** SCRUM-32, SCRUM-42
 
 ---
 
-### 5.6 GET `/weather/api/hourly`
+### 5.4 GET `/ekonomia/chart/<currency_code>`
 
-**Moduł:** Weather  
+**Moduł:** Ekonomia
 
 **Opis:**  
-Zwraca godzinową prognozę pogody dla wykresu (temperatury, opady). Dane zwrócone są w strefie czasowej miasta. Domyślną lokalizacją jest Kraków.
+Generuje wykres zmian kursu wybranej waluty za ostatni rok. Zwraca obraz w formacie PNG zakodowany w base64.
 
-**Parametry (query):**
-- `lat` (float, opcjonalny) – szerokość geograficzna; domyślnie 50.0647 (Kraków)
-- `lon` (float, opcjonalny) – długość geograficzna; domyślnie 19.9450 (Kraków)
-- `day` (int, opcjonalny) – numer dnia (0 = dziś, 1 = jutro, maks. 4); domyślnie 0
+**Parametry (path):**
+
+-   `currency_code` (string, wymagany) – kod waluty (np. EUR, USD, CHF)
 
 **Przykład zapytania:**
+
 ```bash
-curl "http://localhost:5000/weather/api/hourly?lat=50.0647&lon=19.9450&day=0"
+curl "http://localhost:5000/ekonomia/chart/EUR"
 ```
 
 **Przykład odpowiedzi:**
+
 ```json
 {
-  "points": [
-    {
-      "dt": "2025-01-16T08:00:00+01:00",
-      "temp": 2.5,
-      "precip_mm": 0.0
-    },
-    {
-      "dt": "2025-01-16T09:00:00+01:00",
-      "temp": 3.1,
-      "precip_mm": 0.0
-    }
-  ],
-  "tz_offset": 3600
+    "success": true,
+    "message": "Wykres dla EUR wygenerowany",
+    "chart": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
 }
 ```
 
 **Kody odpowiedzi:**
-- `200` – OK, dane zwrócone  
-- `400` – błędne parametry lat/lon  
-- `502` – błąd OpenWeather API  
-- `500` – błąd backendu  
 
-**Powiązana User Story:** Wyświetlenie wykresu godzinowej prognozy pogody
+-   `200` – OK
+-   `400` – kod waluty nie znaleziony
+
+**Powiązana User Story:** SCRUM-41
 
 ---
 
-### 5.7 GET `/weather/plot.png`
+### 5.5 GET `/ekonomia/api/favorite-currencies`
 
-**Moduł:** Weather  
+**Moduł:** Ekonomia
 
 **Opis:**  
-Generuje i zwraca wykres PNG prognozy godzinowej (temperatury i opady) dla wybranego dnia. Domyślną lokalizacją jest Kraków.
+Zwraca listę ulubionych walut zalogowanego użytkownika. Wymaga autoryzacji (sesji).
 
-**Parametry (query):**
-- `lat` (float, opcjonalny) – szerokość geograficzna; domyślnie 50.0647 (Kraków)
-- `lon` (float, opcjonalny) – długość geograficzna; domyślnie 19.9450 (Kraków)
-- `day` (int, opcjonalny) – numer dnia (0-4); domyślnie 0
+**Parametry:** brak
+
+**Autoryzacja:** Wymagana sesja zalogowanego użytkownika
 
 **Przykład zapytania:**
+
 ```bash
-curl "http://localhost:5000/weather/plot.png?lat=50.0647&lon=19.9450&day=0" > chart.png
+curl -b "session=xxx" "http://localhost:5000/ekonomia/api/favorite-currencies"
 ```
 
-**Odpowiedź:** Plik PNG z wykresem
+**Przykład odpowiedzi:**
+
+```json
+{
+    "favorite_currencies": [
+        { "currency_code": "EUR", "order": 1 },
+        { "currency_code": "GBP", "order": 2 },
+        { "currency_code": "JPY", "order": 3 }
+    ]
+}
+```
 
 **Kody odpowiedzi:**
-- `200` – OK, obraz zwrócony  
-- `400` – błędne parametry  
-- `404` – brak danych dla wybranego okresu  
-- `500` – błąd generowania wykresu  
 
-**Powiązana User Story:** Wyświetlenie wizualizacji prognozy pogody
+-   `200` – OK
+-   `401` – brak autoryzacji (użytkownik nie zalogowany)
+
+**Powiązana User Story:** SCRUM-36
+
+---
+
+### 5.6 POST `/ekonomia/api/favorite-currencies`
+
+**Moduł:** Ekonomia
+
+**Opis:**  
+Dodaje nową ulubioną walutę do listy zalogowanego użytkownika. Maksymalnie 3 waluty na użytkownika. Wymaga autoryzacji.
+
+**Autoryzacja:** Wymagana sesja zalogowanego użytkownika
+
+**Body (JSON):**
+
+```json
+{
+    "currency_code": "CHF"
+}
+```
+
+**Przykład zapytania:**
+
+```bash
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"currency_code": "CHF"}' \
+  -b "session=xxx" \
+  "http://localhost:5000/ekonomia/api/favorite-currencies"
+```
+
+**Przykład odpowiedzi (sukces):**
+
+```json
+{
+    "favorite_currencies": [
+        { "currency_code": "EUR", "order": 1 },
+        { "currency_code": "GBP", "order": 2 },
+        { "currency_code": "CHF", "order": 3 }
+    ]
+}
+```
+
+**Kody odpowiedzi:**
+
+-   `201` – Created (waluta dodana)
+-   `400` – brak lub niepoprawny kod waluty
+-   `401` – brak autoryzacji
+-   `409` – osiągnięty limit 3 ulubionych walut
+
+**Powiązana User Story:** SCRUM-36
+
+---
+
+### 5.7 DELETE `/ekonomia/api/favorite-currencies/<currency_code>`
+
+**Moduł:** Ekonomia
+
+**Opis:**  
+Usuwa ulubioną walutę z listy zalogowanego użytkownika. Wymaga autoryzacji.
+
+**Parametry (path):**
+
+-   `currency_code` (string, wymagany) – kod waluty do usunięcia
+
+**Autoryzacja:** Wymagana sesja zalogowanego użytkownika
+
+**Przykład zapytania:**
+
+```bash
+curl -X DELETE -b "session=xxx" \
+  "http://localhost:5000/ekonomia/api/favorite-currencies/EUR"
+```
+
+**Przykład odpowiedzi:**
+
+```json
+{
+    "favorite_currencies": [
+        { "currency_code": "GBP", "order": 1 },
+        { "currency_code": "CHF", "order": 2 }
+    ]
+}
+```
+
+**Kody odpowiedzi:**
+
+-   `200` – OK
+-   `401` – brak autoryzacji
+-   `404` – waluta nie znaleziona na liście ulubionych
+
+**Powiązana User Story:** SCRUM-36
 
 ---
 
 ## 6. Uwierzytelnianie i autoryzacja
 
+> **Instrukcja:**  
+> Opisz, które endpointy wymagają uwierzytelnienia oraz w jaki sposób
+> (np. sesja, token, nagłówki HTTP).
+
+**Ekonomia**
+**Mechanizm:** Sesja HTTP (cookie)
+
+**Endpointy wymagające autoryzacji (Ekonomia):**
+
+-   `GET /ekonomia/api/favorite-currencies` – zwraca ulubione waluty zalogowanego użytkownika
+-   `POST /ekonomia/api/favorite-currencies` – dodawanie ulubionych walut
+-   `DELETE /ekonomia/api/favorite-currencies/<currency_code>` – usuwanie ulubionych walut
+
+**Endpointy dostępne dla wszystkich (bez autoryzacji):**
+
+-   `GET /ekonomia` – główny widok (anonimowi użytkownicy widzą domyślne kursy i tabelę walut)
+-   `GET /ekonomia/api/exchange-rates` – lista dostępnych walut
+-   `GET /ekonomia/chart/<currency_code>` – wykresy walut
+
+**Obsługa błędów autoryzacji:**
+
+-   `401 Unauthorized` – brak ważnej sesji lub użytkownik nie zalogowany
 ### 6.1 Moduł Weather
 
 **Typ autentykacji:** Sesja (session-based authentication)
@@ -450,6 +575,55 @@ curl "http://localhost:5000/weather/plot.png?lat=50.0647&lon=19.9450&day=0" > ch
 
 > **Instrukcja:**  
 > Każdy endpoint opisany w tym pliku:
+>
+> -   musi mieć **co najmniej jeden test integracyjny**,
+> -   powinien być jednoznacznie testowalny na podstawie tej dokumentacji.
+
+**TU UZUPEŁNIĆ (opcjonalnie):**
+
+-   mapowanie endpoint → test integracyjny,
+-   informacje o mockowaniu zewnętrznych API.
+
+### 7.1 Moduł Ekonomia
+
+Wszystkie endpointy modułu ekonomia są pokryte testami integracyjnymi w pliku `tests/integration/test_ekonomia_integration.py`.
+
+**Mapowanie endpoint → test integracyjny:**
+
+| Endpoint                                            | Metoda | Test integracyjny                                                                                                                                              | Zakres weryfikacji                                                                                    |
+| --------------------------------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `/ekonomia`                                         | GET    | `test_ekonomia_main_page_returns_html`                                                                                                                         | Zwraca HTML z odpowiednim content-type, zawiera elementy modułu                                       |
+| `/ekonomia/api/exchange-rates`                      | GET    | `test_ekonomia_api_exchange_rates_returns_json`                                                                                                                | Zwraca JSON z listą walut, weryfikacja struktury (`code`, `rate`), obecność głównych walut (EUR, USD) |
+| `/ekonomia/chart/<currency_code>`                   | GET    | `test_ekonomia_chart_endpoint_returns_image`                                                                                                                   | Zwraca JSON ze strukturą `{'success': bool, 'message': str, 'chart': str}`, wykres w base64 PNG       |
+| `/ekonomia/api/favorite-currencies`                 | GET    | `test_favorite_currencies_get_requires_authentication`                                                                                                         | Zwraca 401 dla niezalogowanych, zwraca JSON z listą dla zalogowanych                                  |
+| `/ekonomia/api/favorite-currencies`                 | POST   | `test_favorite_currencies_post_requires_authentication`<br/>`test_favorite_currencies_post_validates_input`<br/>`test_favorite_currencies_post_enforces_limit` | Zwraca 401 dla niezalogowanych, 201 po dodaniu, 409 przy limicie (max 3), 400 dla błędnych danych     |
+| `/ekonomia/api/favorite-currencies/<currency_code>` | DELETE | `test_favorite_currencies_delete_requires_authentication`<br/>`test_favorite_currencies_delete_removes_currency`                                               | Zwraca 401 dla niezalogowanych, 200 po usunięciu, 404 dla nieistniejącej waluty                       |
+
+**Mockowanie zewnętrznych API:**
+
+Wszystkie testy integracyjne modułu ekonomia **mockują** klasę `Manager` z `modules.ekonomia.ekonomia`, która jest odpowiedzialna za komunikację z NBP API. Dzięki temu:
+
+-   Testy są szybkie i nie zależą od dostępności zewnętrznego API
+-   Możemy symulować różne scenariusze (sukces, błędy, brak danych)
+-   Testujemy logikę aplikacji bez testowania NBP API
+
+Przykład mockowania:
+
+```python
+with patch('modules.ekonomia.ekonomia.Manager') as mock_manager:
+    mock_manager.return_value.currencies.get_current_rates.return_value = {
+        'eur': 4.32, 'usd': 4.05, 'gbp': 5.15
+    }
+    response = client.get('/ekonomia/api/exchange-rates')
+```
+
+**Obsługa bazy danych:**
+
+Testy integracyjne używają fixture `client` z Flask, który automatycznie konfiguruje testową bazę danych (SQLite in-memory lub osobna instancja). Model `FavoriteCurrency` i jego relacje z `User` są testowane z rzeczywistą bazą danych, co pozwala weryfikować:
+
+-   Autoryzację (sesje użytkowników)
+-   Ograniczenia bazodanowe (limit 3 ulubionych walut)
+-   Operacje CRUD na ulubionych walutach
 > - musi mieć **co najmniej jeden test integracyjny**,
 > - powinien być jednoznacznie testowalny na podstawie tej dokumentacji.
 
