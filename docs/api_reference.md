@@ -80,8 +80,15 @@
 | GET | `/weather/plot.png` | PNG | Wykres prognozy pogody | Weather |
 | GET | `/economy` | HTML | Widok danych ekonomicznych | Economy |
 | GET | `/api/economy/rates` | JSON | Kursy walut | Economy |
-| GET | `/news` | HTML | Lista wiadomości | News |
-| GET | `/api/news/latest` | JSON | Najnowsze wiadomości | News |
+| GET | `/news` | HTML | Lista wiadomości z filtrami | News |
+| GET | `/news_sport` | HTML | Wiadomości sportowe | News |
+| GET | `/tables` | HTML | Tabele ligowe i rankingi | News |
+| GET | `/history/view` | HTML | Historia kliknięć (wymaga logowania) | News |
+| GET | `/history/api` | JSON | Historia kliknięć API | News |
+| POST | `/history/log` | JSON | Logowanie kliknięcia w artykuł | News |
+| POST | `/history/clear` | JSON | Czyszczenie historii | News |
+| POST | `/history/delete/<int:entry_id>` | JSON | Usunięcie wpisu historii | News |
+| GET | `/image_proxy` | PROXY | Proxy dla obrazków z policji | News |
 
 ---
 
@@ -633,7 +640,368 @@ Testy integracyjne używają fixture `client` z Flask, który automatycznie konf
 
 ---
 
-## 8. Uwagi końcowe
+## 8. Moduł News - Endpointy HTML
+
+### 8.1 GET `/news`
+
+**Moduł:** News
+
+**Opis:**  
+Wyświetla wszystkie wiadomości z różnych źródeł (kryminalki, sport, policja) z możliwością filtrowania po tagach. Obsługuje zapisywanie ulubionych tagów dla zalogowanych użytkowników.
+
+**Parametry (query):**
+- `tags` (string, opcjonalny) – lista tagów oddzielonych przecinkami do filtrowania wiadomości (np. `tags=piłka-nożna,tenis`)
+
+**Przykład zapytania:**
+```bash
+curl "http://localhost:5000/news?tags=piłka-nożna,kryminalne"
+```
+
+**Odpowiedź:**  
+Renderowany widok HTML `news/news.html` z wiadomościami spełniającymi kryteria filtrowania.
+
+**Kontekst szablonu:**
+- `news_list` – lista wiadomości (posortowana po timestamp)
+- `selected_tags` – lista aktualnie wybranych tagów
+
+**Powiązane User Stories:** SCRUM-10, SCRUM-11, SCRUM-12, SCRUM-13
+
+---
+
+### 8.2 GET `/news_sport`
+
+**Moduł:** News
+
+**Opis:**  
+Wyświetla wiadomości sportowe z Przeglądu Sportowego. Jeśli brak danych w cache, pobiera świeże dane jako fallback.
+
+**Parametry:** brak
+
+**Odpowiedź:**  
+Renderowany widok HTML `news/news_sport.html`
+
+**Kontekst szablonu:**
+- `news_list` – lista wiadomości sportowych
+- `updated_at` – czas ostatniej aktualizacji
+
+**Powiązane User Stories:** SCRUM-10, SCRUM-11
+
+---
+
+### 8.3 GET `/tables`
+
+**Moduł:** News
+
+**Opis:**  
+Wyświetla tabele ligowe dla różnych sportów (piłka nożna, tenis ATP/WTA, koszykówka NBA, MLS). Obsługuje wybór ligi i sezonu.
+
+**Parametry (query):**
+- `competition` (string, opcjonalny) – kod ligi/rozgrywek (np. 'PL', 'CL', 'EKS', 'ATP', 'WTA', 'NBA', 'MLS'); domyślnie 'EKS'
+- `season` (string, opcjonalny) – rok sezonu (np. '2025', '2024'); domyślnie '2025'
+
+**Przykład zapytania:**
+```bash
+curl "http://localhost:5000/tables?competition=PL&season=2025"
+```
+
+**Odpowiedź:**  
+Renderowany widok HTML `news/tables.html` z tabelą wybranej ligi.
+
+**Kontekst szablonu (zmienia się w zależności od typu sportu):**
+
+**Dla piłki nożnej:**
+- `is_football` = True
+- `standings` – lista drużyn z pozycjami
+- `competition_name` – nazwa rozgrywek (zlokalizowana)
+- `competition_emblem` – URL logo ligi
+- `season_info` – informacje o sezonie
+- `available_seasons` – dostępne sezony
+- `updated_at` – czas aktualizacji
+- `error` – komunikat błędu (jeśli wystąpił)
+
+**Dla tenisa (ATP/WTA):**
+- `is_tennis` = True
+- `tennis_rankings` – słownik z kluczami 'atp' i/lub 'wta'
+- `competition_name` – 'Ranking ATP' lub 'Ranking WTA'
+
+**Dla NBA:**
+- `is_nba` = True
+- `nba_conferences` – słownik konferencji z drużynami
+- `competition_name` – 'NBA'
+
+**Dla MLS:**
+- `is_mls` = True
+- `mls_conferences` – słownik konferencji z drużynami
+- `competition_name` – 'MLS - Major League Soccer'
+
+**Powiązane User Stories:** SCRUM-21
+
+---
+
+### 8.4 GET `/history/view`
+
+**Moduł:** News
+
+**Opis:**  
+Wyświetla historię kliknięć w artykuły dla zalogowanego użytkownika wraz ze statystykami według źródeł.
+
+**Autentykacja:** Wymagana – sesja użytkownika (dekorator `@login_required`)
+
+**Parametry (query):**
+- `limit` (int, opcjonalny) – maksymalna liczba wpisów do wyświetlenia; domyślnie 200
+
+**Przykład zapytania:**
+```bash
+curl "http://localhost:5000/history/view?limit=50" -H "Cookie: session=..."
+```
+
+**Odpowiedź:**  
+Renderowany widok HTML `news/history.html`
+
+**Kontekst szablonu:**
+- `history` – lista obiektów historii (id, url, title, clicked_at, source)
+- `stats` – statystyki kliknięć według źródeł
+- `total_clicks` – łączna liczba kliknięć
+
+**Kody odpowiedzi:**
+- `200` – OK
+- `302` – redirect do logowania (użytkownik niezalogowany)
+
+**Powiązana User Story:** SCRUM-44
+
+---
+
+## 9. Moduł News - Endpointy API (JSON)
+
+### 9.1 GET `/history/api`
+
+**Moduł:** News
+
+**Opis:**  
+Zwraca historię kliknięć w artykuły dla zalogowanego użytkownika w formacie JSON.
+
+**Autentykacja:** Wymagana – sesja użytkownika (dekorator `@login_required`)
+
+**Parametry (query):**
+- `limit` (int, opcjonalny) – maksymalna liczba wpisów; domyślnie 50
+
+**Przykład zapytania:**
+```bash
+curl "http://localhost:5000/history/api?limit=10" -H "Cookie: session=..."
+```
+
+**Przykład odpowiedzi:**
+```json
+{
+  "status": "ok",
+  "total": 10,
+  "history": [
+    {
+      "id": 123,
+      "url": "https://kryminalki.pl/artykul/123",
+      "title": "Wypadek na A4",
+      "clicked_at": "2026-01-19T10:30:00",
+      "source": "kryminalki"
+    }
+  ]
+}
+```
+
+**Kody odpowiedzi:**
+- `200` – OK
+- `401` – użytkownik nie zalogowany
+
+**Powiązana User Story:** SCRUM-44
+
+---
+
+### 9.2 POST `/history/log`
+
+**Moduł:** News
+
+**Opis:**  
+Loguje kliknięcie w link wiadomości do bazy danych. Endpoint wywoływany automatycznie przez JavaScript (`news-history.js`) przy każdym kliknięciu w artykuł.
+
+**Autentykacja:** Wymagana – sesja użytkownika
+
+**Body (JSON):**
+```json
+{
+  "url": "https://kryminalki.pl/artykul/123",
+  "title": "Wypadek na A4",
+  "source": "kryminalki"
+}
+```
+
+**Parametry Body:**
+- `url` (string, wymagany) – URL artykułu
+- `title` (string, opcjonalny) – tytuł artykułu
+- `source` (string, opcjonalny) – źródło wiadomości (np. 'kryminalki', 'przegladsportowy', 'minut')
+
+**Przykład zapytania:**
+```bash
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"url": "https://kryminalki.pl/artykul/123", "title": "Wypadek na A4", "source": "kryminalki"}' \
+  -b "session=xxx" \
+  "http://localhost:5000/history/log"
+```
+
+**Przykład odpowiedzi:**
+```json
+{
+  "status": "ok"
+}
+```
+
+**Kody odpowiedzi:**
+- `200` – OK, kliknięcie zalogowane
+- `400` – brak wymaganego pola `url`
+- `401` – użytkownik nie zalogowany
+- `500` – błąd serwera
+
+**Powiązana User Story:** SCRUM-44
+
+---
+
+### 9.3 POST `/history/clear`
+
+**Moduł:** News
+
+**Opis:**  
+Usuwa całą historię kliknięć dla zalogowanego użytkownika.
+
+**Autentykacja:** Wymagana – sesja użytkownika (dekorator `@login_required`)
+
+**Parametry:** brak
+
+**Przykład zapytania:**
+```bash
+curl -X POST -b "session=xxx" "http://localhost:5000/history/clear"
+```
+
+**Przykład odpowiedzi:**
+```json
+{
+  "status": "ok"
+}
+```
+
+**Kody odpowiedzi:**
+- `200` – OK, historia wyczyszczona
+- `401` – użytkownik nie zalogowany
+- `500` – błąd serwera
+
+**Powiązana User Story:** SCRUM-44
+
+---
+
+### 9.4 POST `/history/delete/<int:entry_id>`
+
+**Moduł:** News
+
+**Opis:**  
+Usuwa pojedynczy wpis z historii kliknięć. Użytkownik może usunąć tylko własne wpisy.
+
+**Autentykacja:** Wymagana – sesja użytkownika (dekorator `@login_required`)
+
+**Parametry (path):**
+- `entry_id` (int, wymagany) – ID wpisu do usunięcia
+
+**Przykład zapytania:**
+```bash
+curl -X POST -b "session=xxx" "http://localhost:5000/history/delete/123"
+```
+
+**Przykład odpowiedzi (sukces):**
+```json
+{
+  "status": "ok"
+}
+```
+
+**Przykład odpowiedzi (błąd):**
+```json
+{
+  "status": "error",
+  "message": "not found or forbidden"
+}
+```
+
+**Kody odpowiedzi:**
+- `200` – OK, wpis usunięty
+- `401` – użytkownik nie zalogowany
+- `404` – wpis nie znaleziony lub nie należy do użytkownika
+
+**Powiązana User Story:** SCRUM-44
+
+---
+
+### 9.5 GET `/image_proxy`
+
+**Moduł:** News
+
+**Opis:**  
+Proxy dla obrazków ze stron policji (krakow.policja.gov.pl, malopolska.policja.gov.pl). Omija blokadę CORS/Referer, która uniemożliwia bezpośrednie wyświetlanie obrazków na naszej stronie.
+
+**Parametry (query):**
+- `url` (string, wymagany) – pełny URL obrazka do pobrania
+
+**Przykład zapytania:**
+```bash
+curl "http://localhost:5000/image_proxy?url=https://krakow.policja.gov.pl/dokumenty/zalaczniki/1/1-123456.jpg"
+```
+
+**Odpowiedź:**  
+Binarny content obrazka z odpowiednim Content-Type (np. `image/jpeg`)
+
+**Kody odpowiedzi:**
+- `200` – OK, obrazek zwrócony
+- `400` – brak parametru `url`
+- `403` – domena nie jest na liście dozwolonych
+- `404` – obrazek nie znaleziony
+- `500` – błąd pobierania obrazka
+
+**Bezpieczeństwo:**  
+Endpoint akceptuje tylko URL-e z dozwolonych domen:
+- `krakow.policja.gov.pl`
+- `malopolska.policja.gov.pl`
+
+**Powiązane User Stories:** SCRUM-10, SCRUM-12
+
+---
+
+## 10. Moduł News - Uwierzytelnianie
+
+**Typ autentykacji:** Sesja (session-based authentication)
+
+**Endpointy wymagające uwierzytelnienia:**
+
+| Endpoint | Metoda | Wymagane | Opis |
+|----------|--------|----------|------|
+| `/history/view` | GET | Tak | Widok historii kliknięć |
+| `/history/api` | GET | Tak | Historia kliknięć (JSON) |
+| `/history/log` | POST | Tak | Logowanie kliknięcia |
+| `/history/clear` | POST | Tak | Czyszczenie historii |
+| `/history/delete/<id>` | POST | Tak | Usunięcie wpisu historii |
+
+**Endpointy publiczne (brak wymaganej autentykacji):**
+
+| Endpoint | Metoda | Opis |
+|----------|--------|------|
+| `/news` | GET | Lista wiadomości (dostosowana do stanu logowania) |
+| `/news_sport` | GET | Wiadomości sportowe |
+| `/tables` | GET | Tabele ligowe |
+| `/image_proxy` | GET | Proxy obrazków |
+
+**Obsługa sesji:**
+- Sesja przechowywana w ciasteczku `session`
+- Identyfikator użytkownika w `session['user_id']`
+- Dla endpointów wymagających autentykacji: kod `401` jeśli brak `session['user_id']`
+- Dla widoków HTML z `@login_required`: redirect do strony logowania
+
+---
+
+## 11. Uwagi końcowe
 
 - `api_reference.md` jest **jedynym miejscem**, gdzie opisuje się szczegóły requestów i response’ów.
 - Dokumentacja modułów (`doc/architecture/<module>.md`) zawiera wyłącznie:
