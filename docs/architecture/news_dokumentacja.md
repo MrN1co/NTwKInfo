@@ -1,6 +1,7 @@
 # Dokumentacja modułu News
 
 ## Spis treści
+- [User stories](#user-stories)
 - [Opis ogólny](#opis-ogólny)
 - [Architektura modułu](#architektura-modułu)
 - [Struktura katalogów](#struktura-katalogów)
@@ -13,6 +14,16 @@
 - [Konfiguracja](#konfiguracja)
 - [API Endpoints](#api-endpoints)
 ---
+
+## User stories
+
+- **SCRUM 10:** Jako użytkownik chcę widzieć nagłówki wiadomości z zachęcającym mnie obrazkiem.  
+- **SCRUM 11:** Jako użytkownik chcę przeczytać artykuł w oryginalnym serwisie, ponieważ na nasze stronie znajduje się odnośnik.  
+- **SCRUM 12:** Jako niezalogowany użytkownik chcę widzieć wiadomości ze wszystkich kategorii w równych proporcjach.  
+- **SCRUM 13:** Jako użytkownik chcę wybrać swoje zainteresowania (np. siatkówkę), aby widzieć wiadomości z wybranych kategorii.  
+- **SCRUM 21:** Jako użytkownik chcę przeglądać tabele wybranych lig sportowych.  
+- **SCRUM 44:** Jako zalogowany użytkownik chcę przejrzeć historię przeczytanych artykułów, aby nie szukać ich ponownie.  
+
 
 ## Opis ogólny
 
