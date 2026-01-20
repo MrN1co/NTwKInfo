@@ -1,14 +1,8 @@
-# Architektura modułu: Moduł `nazwa_modułu`
+# Architektura modułu: Moduł Ekonomiczny
 
 > **Cel dokumentu:**  
 > Ten dokument odpowiada na pytanie: **„Jak ten konkretny moduł działa i na jakich danych operuje?”**
 
-> **Instrukcja:**  
-> Uzupełnij wszystkie miejsca oznaczone **TU UZUPEŁNIĆ**.  
-> Ten plik opisuje architekturę **konkretnego modułu**, za który odpowiada dany zespół.  
-> Architektura wspólna całej aplikacji: [`doc/architecture.md`](../architecture.md)
-
----
 
 ## 1. Cel modułu
 
