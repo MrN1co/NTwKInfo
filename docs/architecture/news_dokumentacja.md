@@ -1,7 +1,9 @@
 # Dokumentacja modułu News
 
 ## Spis treści
+- [User stories](#user-stories)
 - [Opis ogólny](#opis-ogólny)
+- [Źródła danych](#źródła-danych)
 - [Architektura modułu](#architektura-modułu)
 - [Struktura katalogów](#struktura-katalogów)
 - [Komponenty główne](#komponenty-główne)
@@ -14,6 +16,16 @@
 - [API Endpoints](#api-endpoints)
 ---
 
+## User stories
+
+- **SCRUM 10:** Jako użytkownik chcę widzieć nagłówki wiadomości z zachęcającym mnie obrazkiem.  
+- **SCRUM 11:** Jako użytkownik chcę przeczytać artykuł w oryginalnym serwisie, ponieważ na nasze stronie znajduje się odnośnik.  
+- **SCRUM 12:** Jako niezalogowany użytkownik chcę widzieć wiadomości ze wszystkich kategorii w równych proporcjach.  
+- **SCRUM 13:** Jako użytkownik chcę wybrać swoje zainteresowania (np. siatkówkę), aby widzieć wiadomości z wybranych kategorii.  
+- **SCRUM 21:** Jako użytkownik chcę przeglądać tabele wybranych lig sportowych.  
+- **SCRUM 44:** Jako zalogowany użytkownik chcę przejrzeć historię przeczytanych artykułów, aby nie szukać ich ponownie.  
+
+
 ## Opis ogólny
 
 Moduł `news` to kompleksowy system agregacji wiadomości i wyników sportowych.  Moduł składa się z: 
@@ -22,6 +34,108 @@ Moduł `news` to kompleksowy system agregacji wiadomości i wyników sportowych.
 - **Systemu routingu** Flask Blueprint
 - **Historii kliknięć** użytkownika
 - **Interfejsu webowego** do przeglądania wiadomości i tabel
+
+## Źródła danych
+
+### API
+
+#### 1. Football-Data.org API
+
+| Właściwość | Wartość |
+|------------|---------|
+| **Dokumentacja** | https://www.football-data.org/documentation/quickstart |
+| **Base URL** | `https://api.football-data.org/v4` |
+| **Autentykacja** | Header: `X-Auth-Token: YOUR_API_KEY` |
+| **Przykładowe zapytanie** | `GET https://api.football-data.org/v4/competitions/PL/standings` |
+| **Dane** | Tabele ligowe: Liga Mistrzów (CL), Premier League (PL), Bundesliga (BL1), Serie A (SA), La Liga (PD), Ligue 1 (FL1), Eredivisie (DED), Primeira Liga (PPL), Championship (ELC), Brasileiro Série A (BSA) |
+| **Limit zapytań** | 10 zapytań/minutę (warstwa darmowa) |
+| **Format odpowiedzi** | JSON |
+| **Zmienna środowiskowa** | `FOOTBALL_API_KEY` |
+
+#### 2. ESPN API
+
+| Właściwość | Wartość |
+|------------|---------|
+| **Dokumentacja** | Brak oficjalnej (publiczne API) |
+| **Base URL** | `https://site.api.espn.com/apis/v2/sports` |
+| **Autentykacja** | Brak (publiczne) |
+| **Przykładowe zapytanie NBA** | `GET https://site.api.espn.com/apis/v2/sports/basketball/nba/standings` |
+| **Dane** | Tabele NBA (konferencje Eastern/Western), tabele MLS (konferencje) |
+| **Limit zapytań** | Brak |
+| **Format odpowiedzi** | JSON |
+| **Zmienna środowiskowa** | Brak (nie wymaga klucza) |
+
+#### 3. Tennis API (RapidAPI)
+
+| Właściwość | Wartość |
+|------------|---------|
+| **Dokumentacja** | https://rapidapi.com/fluis.lacasse/api/tennisapi1/ |
+| **Base URL** | `https://tennisapi1.p.rapidapi.com/api/tennis` |
+| **Autentykacja** | Headers: `X-RapidAPI-Key`, `X-RapidAPI-Host: tennisapi1.p.rapidapi.com` |
+| **Przykładowe zapytanie** | `GET https://tennisapi1.p.rapidapi.com/api/tennis/rankings/atp` |
+| **Dane** | Rankingi ATP (mężczyźni), rankingi WTA (kobiety) - top 20 zawodników |
+| **Limit zapytań** | Zależny od planu RapidAPI (podstawowy: 500/dzień) |
+| **Format odpowiedzi** | JSON |
+| **Zmienna środowiskowa** | `RAPIDAPI_KEY` |
+
+### Scrapowane serwisy
+
+#### 1. Kryminalki.pl
+
+| Właściwość | Wartość |
+|------------|---------|
+| **URL** | https://www.kryminalki.pl |
+| **Typ danych** | Wiadomości kryminalne |
+| **Metoda** | Web scraping (BeautifulSoup) |
+| **Elementy** | `<main>` → `<a>` z artykułami |
+| **Pobierane dane** | Tytuł, link, obrazek, data, lokalizacja |
+
+#### 2. Przegląd Sportowy (Onet.pl)
+
+| Właściwość | Wartość |
+|------------|---------|
+| **URL** | https://przegladsportowy.onet.pl |
+| **Typ danych** | Wiadomości sportowe (wielokategoriowe) |
+| **Metoda** | Web scraping (BeautifulSoup) |
+| **Kategorie** | piłka-nożna, tenis, siatkówka, żużel, lekkoatletyka |
+| **Struktura URL** | `/kategoria/{kategoria}/` |
+| **Pobierane dane** | Tytuł, link, obrazek, data (polska), tagi |
+
+#### 3. 90minut.pl
+
+| Właściwość | Wartość |
+|------------|---------|
+| **URL wiadomości** | http://www.90minut.pl |
+| **URL tabel** | `http://www.90minut.pl/liga/liga.php?id_liga={1,2,3}` |
+| **Typ danych** | Wiadomości piłkarskie + tabele polskich lig |
+| **Metoda** | Web scraping (BeautifulSoup) |
+| **Elementy wiadomości** | `<a class="new">` |
+| **Elementy tabel** | `<table>` z klasą tabelki ligowej |
+| **Tabele** | Ekstraklasa (id: 14072), I Liga (id: 14073), II Liga (id: 14074) |
+| **Pobierane dane wiadomości** | Tytuł, link, obrazek, data (z osobnej strony artykułu) |
+| **Pobierane dane tabel** | Pozycja, nazwa drużyny, emblem, mecze, wygrane, remisy, przegrane, punkty |
+
+#### 4. Policja Kraków
+
+| Właściwość | Wartość |
+|------------|---------|
+| **URL** | https://krakow.policja.gov.pl |
+| **Typ danych** | Komunikaty policji Krakowa |
+| **Metoda** | Web scraping (BeautifulSoup) |
+| **Struktura** | `<div id="content">` → `<ul>` → `<li class="news">` |
+| **Pobierane dane** | Tytuł (`<strong>`), obrazek (`<img>`), data (`<span class="data">`) |
+| **Tagi** | `['kryminalne', 'Kraków']` |
+
+#### 5. Policja Małopolska
+
+| Właściwość | Wartość |
+|------------|---------|
+| **URL** | https://malopolska.policja.gov.pl |
+| **Typ danych** | Komunikaty policji Małopolskiej |
+| **Metoda** | Web scraping (BeautifulSoup) |
+| **Struktura** | `<div id="content">` → `<ul>` → `<li class="news">` |
+| **Pobierane dane** | Tytuł (`<strong>`), obrazek (`<img>`), data (`<span class="data">`) |
+| **Tagi** | `['kryminalne', 'Małopolska']` |
 
 ### Główne funkcje
 - Agregacja wiadomości sportowych z wielu źródeł
@@ -492,36 +606,13 @@ thread.start()
 
 ### Trasy Blueprint `tables_bp`
 
-#### 1. Strona główna wiadomości
-**Trasa:** `/news` (lub cokolwiek skonfigurowane w głównej aplikacji)  
-**Nazwa:** `tables. news`  
-**Metoda:** GET
-
-**Funkcjonalność:**
-- Wyświetla jedną wiadomość z kryminalek i jedną sportową
-- Dane pobierane z JSON
-
-**Szablon:** `news/news_main.html`
-
-**Kontekst:**
-```python
-{
-    'crime_item': {... },        # Wiadomość kryminalna
-    'sport_item': {...},        # Wiadomość sportowa
-    'crime_updated': str,       # Czas aktualizacji
-    'sport_updated': str
-}
-```
-
----
-
-#### 2. Wszystkie wiadomości
-**Trasa:** `/news/all`  
-**Nazwa:** `tables.news_all`  
+#### 1. Wszystkie wiadomości z filtrami
+**Trasa:** `/news`  
+**Nazwa:** `tables.news`  
 **Metoda:** GET
 
 **Parametry query:**
-- `tags` (opcjonalnie) - JSON array tagów do filtrowania
+- `tags` (opcjonalnie) - string z tagami oddzielonymi przecinkami (np. "piłka-nożna,kryminalne")
 
 **Funkcjonalność:**
 - Wyświetla wszystkie wiadomości z wielu źródeł
@@ -530,29 +621,47 @@ thread.start()
 - Sortowanie po dacie (timestamp)
 
 **Źródła:**
-- Kryminalki. pl
+- Kryminalki.pl
 - Przegląd Sportowy
 - 90minut.pl
 - Policja Kraków
 - Policja Małopolska
 
-**Szablon:** `news/news_all.html`
+**Szablon:** `news/news.html`
 
 **Kontekst:**
 ```python
 {
-    'news': [... ],              # Posortowane wiadomości
-    'all_tags': [...],          # Wszystkie dostępne tagi
-    'selected_tags': [...],     # Wybrane tagi (z query lub zapisane)
-    'crime_updated': str,
-    'sport_updated': str
+    'news_list': [...],          # Posortowane wiadomości
+    'selected_tags': [...]       # Wybrane tagi (z query)
+}
+```
+
+---
+
+#### 2. Wiadomości sportowe
+**Trasa:** `/news_sport`  
+**Nazwa:** `tables.news_sport`  
+**Metoda:** GET
+
+**Funkcjonalność:**
+- Wyświetla wiadomości sportowe z Przeglądu Sportowego
+- Fallback do świeżych danych jeśli brak cache
+
+**Szablon:** `news/news_sport.html`
+
+**Kontekst:**
+```python
+{
+    'news_list': [...],         # Lista wiadomości sportowych
+    'updated_at': str          # Czas aktualizacji
 }
 ```
 
 ---
 
 #### 3. Tabele ligowe
-**Trasa:** `/news/tables`  
+**Trasa:** `/tables`  
 **Nazwa:** `tables.tables`  
 **Metoda:** GET
 
@@ -588,33 +697,67 @@ thread.start()
 
 ---
 
-#### 4. Historia kliknięć
-**Trasa:** `/news/history`  
+#### 4. Historia kliknięć - widok HTML
+**Trasa:** `/history/view`  
 **Nazwa:** `tables.history_view`  
 **Metoda:** GET  
 **Wymaga:** `@login_required`
 
+**Parametry query:**
+- `limit` (opcjonalnie) - maksymalna liczba wpisów (domyślnie 200)
+
 **Funkcjonalność:**
-- Wyświetla historię kliknięć użytkownika (ostatnie 200)
+- Wyświetla historię kliknięć użytkownika
 - Statystyki według źródeł
+- Całkowita liczba kliknięć
 
 **Szablon:** `news/history.html`
 
 **Kontekst:**
 ```python
 {
-    'history': [...],           # Lista NewsLinkHistory
-    'stats': [...]              # Statystyki po źródłach
+    'history': [...],           # Lista obiektów historii (z polami: id, url, title, clicked_at, source)
+    'stats': [...],             # Statystyki po źródłach
+    'total_clicks': int         # Całkowita liczba kliknięć
 }
 ```
 
 ---
 
-#### 5. API - Logowanie kliknięcia
-**Trasa:** `/news/history/log`  
-**Nazwa:** `tables.log_link_click`  
+#### 5. Historia kliknięć - API JSON
+**Trasa:** `/history/api`  
+**Nazwa:** `tables.history_api`  
+**Metoda:** GET  
+**Wymaga:** `@login_required`
+
+**Parametry query:**
+- `limit` (opcjonalnie) - maksymalna liczba wpisów (domyślnie 50)
+
+**Odpowiedź:**
+```json
+{
+    "status": "ok",
+    "total": 10,
+    "history": [
+        {
+            "id": 123,
+            "url": "https://...",
+            "title": "Tytuł artykułu",
+            "clicked_at": "2026-01-19T10:30:00",
+            "source": "kryminalki"
+        }
+    ]
+}
+```
+
+---
+
+#### 6. API - Logowanie kliknięcia
+**Trasa:** `/history/log`  
+**Nazwa:** `tables.history_log`  
 **Metoda:** POST  
 **Content-Type:** application/json
+**Wymaga:** Sesja użytkownika (sprawdzenie `session['user_id']`)
 
 **Body:**
 ```json
@@ -628,44 +771,92 @@ thread.start()
 **Odpowiedź:**
 ```json
 {
-    "success": true
+    "status": "ok"
 }
 ```
+
+**Kody odpowiedzi:**
+- `200` - sukces
+- `400` - brak pola `url`
+- `401` - użytkownik nie zalogowany
+- `500` - błąd serwera
 
 **Funkcjonalność:**
 - Loguje kliknięcie linku do bazy danych
 - Działa tylko dla zalogowanych użytkowników
-- Wywoływane automatycznie przez `news-history. js`
+- Wywoływane automatycznie przez `news-history.js`
 
 ---
 
-#### 6. API - Usuwanie wpisu historii
-**Trasa:** `/news/history/delete/<int:entry_id>`  
-**Nazwa:** `tables.delete_history_entry`  
+#### 7. API - Usuwanie wpisu historii
+**Trasa:** `/history/delete/<int:entry_id>`  
+**Nazwa:** `tables.history_delete`  
+**Metoda:** POST  
+**Wymaga:** `@login_required`
+
+**Odpowiedź (sukces):**
+```json
+{
+    "status": "ok"
+}
+```
+
+**Odpowiedź (błąd):**
+```json
+{
+    "status": "error",
+    "message": "not found or forbidden"
+}
+```
+
+**Kody odpowiedzi:**
+- `200` - wpis usunięty
+- `401` - użytkownik nie zalogowany
+- `404` - wpis nie znaleziony lub nie należy do użytkownika
+
+---
+
+#### 8. API - Czyszczenie historii
+**Trasa:** `/history/clear`  
+**Nazwa:** `tables.history_clear`  
 **Metoda:** POST  
 **Wymaga:** `@login_required`
 
 **Odpowiedź:**
 ```json
 {
-    "success": true
+    "status": "ok"
 }
 ```
+
+**Kody odpowiedzi:**
+- `200` - historia wyczyszczona
+- `401` - użytkownik nie zalogowany
+- `500` - błąd serwera
 
 ---
 
-#### 7. API - Czyszczenie historii
-**Trasa:** `/news/history/clear`  
-**Nazwa:** `tables.clear_history`  
-**Metoda:** POST  
-**Wymaga:** `@login_required`
+#### 9. Image Proxy
+**Trasa:** `/image_proxy`  
+**Nazwa:** `tables.image_proxy`  
+**Metoda:** GET
+
+**Parametry query:**
+- `url` (wymagany) - pełny URL obrazka do pobrania
+
+**Funkcjonalność:**
+- Proxy dla obrazków z policji (omija blokadę CORS/Referer)
+- Akceptuje tylko domeny: `krakow.policja.gov.pl`, `malopolska.policja.gov.pl`
 
 **Odpowiedź:**
-```json
-{
-    "success": true
-}
-```
+Binarny content obrazka (MIME type: image/jpeg lub inny)
+
+**Kody odpowiedzi:**
+- `200` - obrazek zwrócony
+- `400` - brak parametru `url`
+- `403` - domena nie jest dozwolona
+- `404` - obrazek nie znaleziony
+- `500` - błąd pobierania obrazka
 
 ---
 
