@@ -5,22 +5,24 @@
 > (zarówno HTML, jak i API JSON).  
 > Jest podstawą do **testów integracyjnych** oraz formalnym **kontraktem API** dla całego projektu.
 
-> **Instrukcja:**  
-> - Opisz **wszystkie endpointy aplikacji** (HTML i JSON).  
-> - Każdy endpoint musi mieć **kompletny i jednoznaczny opis**.  
-> - **Nie opisuj tutaj architektury modułów** – do tego służą pliki w `doc/architecture/<module>.md`.  
-> - Dokument ten powinien umożliwić napisanie **testów integracyjnych bez zaglądania do kodu**.
+> **Instrukcja:**
+>
+> -   Opisz **wszystkie endpointy aplikacji** (HTML i JSON).
+> -   Każdy endpoint musi mieć **kompletny i jednoznaczny opis**.
+> -   **Nie opisuj tutaj architektury modułów** – do tego służą pliki w `doc/architecture/<module>.md`.
+> -   Dokument ten powinien umożliwić napisanie **testów integracyjnych bez zaglądania do kodu**.
 
 ---
 
 ## 1. Informacje ogólne
 
 **TU UZUPEŁNIĆ (jeśli dotyczy):**
-- **Base URL (lokalnie):** `http://localhost:5000`
-- **Base URL (produkcyjnie):** **TU UZUPEŁNIĆ**
-- **Format danych (API):** JSON
-- **Kodowanie:** UTF-8
-- **Framework:** Flask
+
+-   **Base URL (lokalnie):** `http://localhost:5000`
+-   **Base URL (produkcyjnie):** `http://18.184.92.43`
+-   **Format danych (API):** JSON
+-   **Kodowanie:** UTF-8
+-   **Framework:** Flask
 
 ---
 
@@ -30,18 +32,20 @@
 > Jeśli w projekcie stosujecie jednolity format odpowiedzi API, opiszcie go tutaj.
 
 ### 2.1 Sukces (przykład)
+
 ```json
 {
-  "status": "success",
-  "data": {}
+    "status": "success",
+    "data": {}
 }
 ```
 
 ### 2.2 Błąd (przykład)
+
 ```json
 {
-  "status": "error",
-  "message": "Opis błędu"
+    "status": "error",
+    "message": "Opis błędu"
 }
 ```
 
@@ -53,42 +57,42 @@
 > Poniższa tabela jest **pełnym spisem endpointów aplikacji**.  
 > Każdy endpoint wymieniony tutaj **musi** być opisany szczegółowo w dalszej części dokumentu.
 
-| Metoda | Endpoint                                   | Typ  | Krótki opis              | Moduł    |
-| -----: | ------------------------------------------ | ---- | ------------------------ | -------- |
-|    GET | `/`                                        | HTML | Strona główna aplikacji  | Home     |
-|    GET | `/weather/pogoda`                    | HTML | Widok bieżącej pogody    | Weather  |
-|    GET | `/api/weather/forecast`                    | JSON | Dane pogodowe            | Weather  |
-|   POST | `/api/weather/favorites`                   | JSON | Zapis ulubionych miast   | Weather  |
-|    GET | `/ekonomia`                                | HTML | Kursy walut i ceny złota | Ekonomia |
-|    GET | `/ekonomia/chart/<code>`                   | JSON | Wykres kursu waluty      | Ekonomia |
-|    GET | `/ekonomia/api/exchange-rates`             | JSON | Lista dostępnych walut   | Ekonomia |
-|    GET | `/ekonomia/api/favorite-currencies`        | JSON | Moje ulubione waluty     | Ekonomia |
-|   POST | `/ekonomia/api/favorite-currencies`        | JSON | Dodaj ulubioną walutę    | Ekonomia |
-| DELETE | `/ekonomia/api/favorite-currencies/<code>` | JSON | Usuń ulubioną walutę     | Ekonomia |
-|    GET | `/news`                                    | HTML | Lista wiadomości         | News     |
-|    GET | `/api/news/latest`                         | JSON | Najnowsze wiadomości     | News     |
-| Metoda | Endpoint | Typ | Krótki opis | Moduł |
-|------:|----------|-----|-------------|-------|
-| GET | `/` | HTML | Strona główna aplikacji | Home |
-| GET | `/weather/pogoda` | HTML | Widok bieżącej pogody | Weather |
-| GET | `/weather/api/forecast` | JSON | 7-dniowa prognoza pogody | Weather |
-| GET | `/weather/api/favorites` | JSON | Lista ulubionych miast | Weather |
-| POST | `/weather/api/favorites` | JSON | Dodanie ulubionego miasta | Weather |
-| DELETE | `/weather/api/favorites` | JSON | Usunięcie ulubionego miasta | Weather |
-| GET | `/weather/api/geocode` | JSON | Wyszukiwanie miast | Weather |
-| GET | `/weather/api/hourly` | JSON | Godzinowa prognoza pogody | Weather |
-| GET | `/weather/plot.png` | PNG | Wykres prognozy pogody | Weather |
-| GET | `/economy` | HTML | Widok danych ekonomicznych | Economy |
-| GET | `/api/economy/rates` | JSON | Kursy walut | Economy |
-| GET | `/news` | HTML | Lista wiadomości z filtrami | News |
-| GET | `/news_sport` | HTML | Wiadomości sportowe | News |
-| GET | `/tables` | HTML | Tabele ligowe i rankingi | News |
-| GET | `/history/view` | HTML | Historia kliknięć (wymaga logowania) | News |
-| GET | `/history/api` | JSON | Historia kliknięć API | News |
-| POST | `/history/log` | JSON | Logowanie kliknięcia w artykuł | News |
-| POST | `/history/clear` | JSON | Czyszczenie historii | News |
-| POST | `/history/delete/<int:entry_id>` | JSON | Usunięcie wpisu historii | News |
-| GET | `/image_proxy` | PROXY | Proxy dla obrazków z policji | News |
+|  Metoda | Endpoint                                   | Typ   | Krótki opis                          | Moduł    |
+| ------: | ------------------------------------------ | ----- | ------------------------------------ | -------- |
+|     GET | `/`                                        | HTML  | Strona główna aplikacji              | Home     |
+|     GET | `/weather/pogoda`                          | HTML  | Widok bieżącej pogody                | Weather  |
+|     GET | `/api/weather/forecast`                    | JSON  | Dane pogodowe                        | Weather  |
+|    POST | `/api/weather/favorites`                   | JSON  | Zapis ulubionych miast               | Weather  |
+|     GET | `/ekonomia`                                | HTML  | Kursy walut i ceny złota             | Ekonomia |
+|     GET | `/ekonomia/chart/<code>`                   | JSON  | Wykres kursu waluty                  | Ekonomia |
+|     GET | `/ekonomia/api/exchange-rates`             | JSON  | Lista dostępnych walut               | Ekonomia |
+|     GET | `/ekonomia/api/favorite-currencies`        | JSON  | Moje ulubione waluty                 | Ekonomia |
+|    POST | `/ekonomia/api/favorite-currencies`        | JSON  | Dodaj ulubioną walutę                | Ekonomia |
+|  DELETE | `/ekonomia/api/favorite-currencies/<code>` | JSON  | Usuń ulubioną walutę                 | Ekonomia |
+|     GET | `/news`                                    | HTML  | Lista wiadomości                     | News     |
+|     GET | `/api/news/latest`                         | JSON  | Najnowsze wiadomości                 | News     |
+|  Metoda | Endpoint                                   | Typ   | Krótki opis                          | Moduł    |
+| ------: | ----------                                 | ----- | -------------                        | -------  |
+|     GET | `/`                                        | HTML  | Strona główna aplikacji              | Home     |
+|     GET | `/weather/pogoda`                          | HTML  | Widok bieżącej pogody                | Weather  |
+|     GET | `/weather/api/forecast`                    | JSON  | 7-dniowa prognoza pogody             | Weather  |
+|     GET | `/weather/api/favorites`                   | JSON  | Lista ulubionych miast               | Weather  |
+|    POST | `/weather/api/favorites`                   | JSON  | Dodanie ulubionego miasta            | Weather  |
+|  DELETE | `/weather/api/favorites`                   | JSON  | Usunięcie ulubionego miasta          | Weather  |
+|     GET | `/weather/api/geocode`                     | JSON  | Wyszukiwanie miast                   | Weather  |
+|     GET | `/weather/api/hourly`                      | JSON  | Godzinowa prognoza pogody            | Weather  |
+|     GET | `/weather/plot.png`                        | PNG   | Wykres prognozy pogody               | Weather  |
+|     GET | `/economy`                                 | HTML  | Widok danych ekonomicznych           | Economy  |
+|     GET | `/api/economy/rates`                       | JSON  | Kursy walut                          | Economy  |
+|     GET | `/news`                                    | HTML  | Lista wiadomości z filtrami          | News     |
+|     GET | `/news_sport`                              | HTML  | Wiadomości sportowe                  | News     |
+|     GET | `/tables`                                  | HTML  | Tabele ligowe i rankingi             | News     |
+|     GET | `/history/view`                            | HTML  | Historia kliknięć (wymaga logowania) | News     |
+|     GET | `/history/api`                             | JSON  | Historia kliknięć API                | News     |
+|    POST | `/history/log`                             | JSON  | Logowanie kliknięcia w artykuł       | News     |
+|    POST | `/history/clear`                           | JSON  | Czyszczenie historii                 | News     |
+|    POST | `/history/delete/<int:entry_id>`           | JSON  | Usunięcie wpisu historii             | News     |
+|     GET | `/image_proxy`                             | PROXY | Proxy dla obrazków z policji         | News     |
 
 ---
 
@@ -102,12 +106,12 @@
 
 ### 4.1 GET `/`
 
-**Moduł:** Home  
+**Moduł:** Home
 
 **Opis:**  
 **TU UZUPEŁNIĆ** – krótki opis celu widoku.
 
-**Parametry:** brak  
+**Parametry:** brak
 
 **Odpowiedź:**  
 Renderowany widok HTML.
@@ -118,19 +122,58 @@ Renderowany widok HTML.
 
 ### 4.2 GET `/weather/pogoda`
 
-**Moduł:** Weather  
+**Moduł:** Weather
 
 **Opis:**  
 Widok pogodowy dostosowany do stanu autentykacji użytkownika. Dla zalogowanych użytkowników pokazuje dedykowany widok z sekcją ulubionych miast. Dla użytkowników anonimowych wyświetla standardowy widok pogodowy.
 
 **Parametry (query):**
-- brak
 
-**Odpowiedź:**  
-- Dla zalogowanych użytkowników: HTML `weather-login.html` (zawiera sekcję ulubionych miast)
-- Dla użytkowników anonimowych: HTML `weather.html` (widok podstawowy)
+-   brak
+
+**Odpowiedź:**
+
+-   Dla zalogowanych użytkowników: HTML `weather-login.html` (zawiera sekcję ulubionych miast)
+-   Dla użytkowników anonimowych: HTML `weather.html` (widok podstawowy)
 
 **Powiązana User Story:** Wyświetlenie prognozy pogody, zarządzanie ulubionymi miastami dla zalogowanych użytkowników
+
+---
+
+### 4.3 GET `/ekonomia`
+
+**Moduł:** Ekonomia
+
+**Opis:**  
+Główny widok modułu ekonomii. Wyświetla bieżące kursy walut (EUR, USD, CHF), ceny złota oraz interaktywny kalkulator walutowy. Dla zalogowanych użytkowników dodatkowo dostępna sekcja zarządzania ulubionymi walutami. Dla użytkowników anonimowych wyświetlane są domyślne kursy i pełna tabela dostępnych walut.
+
+**Parametry (query):**
+
+-   brak
+
+**Odpowiedź:**  
+HTML `ekonomia/exchange.html` zawierające:
+
+-   Kafelki z aktualnymi kursami walut (EUR, USD, CHF z danych JSON)
+-   Wykresy historyczne kursów walut
+-   Cenę złota z wykresem historycznym
+-   Kalkulator walutowy
+-   Dla zalogowanych użytkowników: sekcja ulubionych walut (max 3)
+-   Tabelę wszystkich dostępnych walut (z kursami z API)
+
+**Dane renderowane:**
+
+-   `kurs_walut` – słownik bieżących kursów walut: `{"EUR": 4.25, "USD": 4.10, "CHF": 4.80}`
+-   `cena_zlota` – bieżąca cena złota (uncja w PLN)
+-   `cena_zlota_formatted` – cena złota sformatowana polskim formatem (np. "2 345,67")
+-   `wykres_waluty` – wykres EUR w formacie base64 PNG
+-   `wykres_zlota` – wykres ceny złota w formacie base64 PNG
+-   `currency_codes` – lista dostępnych kodów walut
+-   `currency_rates` – słownik wszystkich kursów walut z API
+-   `all_currencies_for_tiles` – wszystkie waluty do wyświetlenia w tabelach
+-   `is_authenticated` – boolean, czy użytkownik jest zalogowany
+
+**Powiązana User Story:** Wyświetlenie kursów walut, cen złota i zarządzanie ulubionymi walutami dla zalogowanych użytkowników
 
 ---
 
@@ -138,53 +181,58 @@ Widok pogodowy dostosowany do stanu autentykacji użytkownika. Dla zalogowanych 
 
 > **Instrukcja:**  
 > Każdy endpoint API musi być opisany w sposób umożliwiający:
-> - przygotowanie testów integracyjnych,
-> - przygotowanie klienta API,
-> - weryfikację zgodności implementacji z dokumentacją.
+>
+> -   przygotowanie testów integracyjnych,
+> -   przygotowanie klienta API,
+> -   weryfikację zgodności implementacji z dokumentacją.
 
 ---
 
 ### 5.1 GET `/weather/api/forecast`
 
-**Moduł:** Weather  
+**Moduł:** Weather
 
 **Opis:**  
 Zwraca 7-dniową prognozę pogody w postaci kafelków dziennych. Dane pobierane są z OpenWeather API. Domyślną lokalizacją jest Kraków (50.0647°N, 19.9450°E). Endpoint zawiera wbudowaną cache na 1 minutę.
 
 **Parametry (query):**
-- `lat` (float, opcjonalny) – szerokość geograficzna; domyślnie 50.0647 (Kraków)
-- `lon` (float, opcjonalny) – długość geograficzna; domyślnie 19.9450 (Kraków)
-- `label` (string, opcjonalny) – nazwa miasta do wyświetlenia; jeśli nie podana, przy domyślnych współrzędnych używa się "Kraków"
+
+-   `lat` (float, opcjonalny) – szerokość geograficzna; domyślnie 50.0647 (Kraków)
+-   `lon` (float, opcjonalny) – długość geograficzna; domyślnie 19.9450 (Kraków)
+-   `label` (string, opcjonalny) – nazwa miasta do wyświetlenia; jeśli nie podana, przy domyślnych współrzędnych używa się "Kraków"
 
 **Przykład zapytania:**
+
 ```bash
 curl "http://localhost:5000/weather/api/forecast?lat=52.2297&lon=21.0122&label=Warszawa"
 ```
 
 **Przykład odpowiedzi:**
+
 ```json
 {
-  "city": "Warszawa",
-  "days": [
-    {
-      "day_name": "Czwartek",
-      "date": "2025-01-16",
-      "temp_min": -2.5,
-      "temp_max": 3.2,
-      "condition": "Pochmurnie",
-      "condition_code": "04d",
-      "precip_mm": 0.5,
-      "wind_kmh": 12.0
-    }
-  ]
+    "city": "Warszawa",
+    "days": [
+        {
+            "day_name": "Czwartek",
+            "date": "2025-01-16",
+            "temp_min": -2.5,
+            "temp_max": 3.2,
+            "condition": "Pochmurnie",
+            "condition_code": "04d",
+            "precip_mm": 0.5,
+            "wind_kmh": 12.0
+        }
+    ]
 }
 ```
 
 **Kody odpowiedzi:**
-- `200` – OK, prognoza zwrócona  
-- `400` – błędne parametry lat/lon  
-- `502` – błąd OpenWeather API  
-- `500` – błąd backendu  
+
+-   `200` – OK, prognoza zwrócona
+-   `400` – błędne parametry lat/lon
+-   `502` – błąd OpenWeather API
+-   `500` – błąd backendu
 
 **Powiązana User Story:** Wyświetlenie 7-dniowej prognozy pogody
 
@@ -192,7 +240,7 @@ curl "http://localhost:5000/weather/api/forecast?lat=52.2297&lon=21.0122&label=W
 
 ### 5.2 GET `/weather/api/favorites`
 
-**Moduł:** Weather  
+**Moduł:** Weather
 
 **Opis:**  
 Zwraca listę ulubionych miast dla zalogowanego użytkownika. Endpoint wymaga autentykacji sesji.
@@ -200,36 +248,40 @@ Zwraca listę ulubionych miast dla zalogowanego użytkownika. Endpoint wymaga au
 **Autentykacja:** Wymagana – sesja użytkownika
 
 **Parametry (query):**
-- brak
+
+-   brak
 
 **Przykład zapytania:**
+
 ```bash
 curl "http://localhost:5000/weather/api/favorites" -H "Cookie: session=..."
 ```
 
 **Przykład odpowiedzi:**
+
 ```json
 {
-  "favorites": [
-    {
-      "id": 1,
-      "city": "Kraków",
-      "lat": 50.0647,
-      "lon": 19.9450
-    },
-    {
-      "id": 2,
-      "city": "Warszawa",
-      "lat": 52.2297,
-      "lon": 21.0122
-    }
-  ]
+    "favorites": [
+        {
+            "id": 1,
+            "city": "Kraków",
+            "lat": 50.0647,
+            "lon": 19.945
+        },
+        {
+            "id": 2,
+            "city": "Warszawa",
+            "lat": 52.2297,
+            "lon": 21.0122
+        }
+    ]
 }
 ```
 
 **Kody odpowiedzi:**
-- `200` – OK, lista ulubionych zwrócona  
-- `401` – użytkownik nie zalogowany  
+
+-   `200` – OK, lista ulubionych zwrócona
+-   `401` – użytkownik nie zalogowany
 
 **Powiązana User Story:** Wyświetlenie listy ulubionych miast
 
@@ -237,7 +289,7 @@ curl "http://localhost:5000/weather/api/favorites" -H "Cookie: session=..."
 
 ### 5.3 POST `/weather/api/favorites`
 
-**Moduł:** Weather  
+**Moduł:** Weather
 
 **Opis:**  
 Dodaje nowe ulubione miasto dla zalogowanego użytkownika. Endpoint uniemożliwia dodanie duplikatów miasta dla tego samego użytkownika.
@@ -245,34 +297,38 @@ Dodaje nowe ulubione miasto dla zalogowanego użytkownika. Endpoint uniemożliwi
 **Autentykacja:** Wymagana – sesja użytkownika (dekorator `@api_login_required`)
 
 **Body (JSON):**
+
 ```json
 {
-  "city": "Gdańsk",
-  "lat": 54.3520,
-  "lon": 18.6466
+    "city": "Gdańsk",
+    "lat": 54.352,
+    "lon": 18.6466
 }
 ```
 
 **Parametry Body:**
-- `city` (string, wymagany) – nazwa miasta
-- `lat` (float, opcjonalny) – szerokość geograficzna
-- `lon` (float, opcjonalny) – długość geograficzna
+
+-   `city` (string, wymagany) – nazwa miasta
+-   `lat` (float, opcjonalny) – szerokość geograficzna
+-   `lon` (float, opcjonalny) – długość geograficzna
 
 **Przykład odpowiedzi (sukces):**
+
 ```json
 {
-  "id": 3,
-  "city": "Gdańsk",
-  "lat": 54.3520,
-  "lon": 18.6466
+    "id": 3,
+    "city": "Gdańsk",
+    "lat": 54.352,
+    "lon": 18.6466
 }
 ```
 
 **Kody odpowiedzi:**
-- `201` – Created, miasto dodane
-- `400` – brak pola `city` w body  
-- `401` – użytkownik nie zalogowany  
-- `409` – miasto już istnieje w ulubionych tego użytkownika
+
+-   `201` – Created, miasto dodane
+-   `400` – brak pola `city` w body
+-   `401` – użytkownik nie zalogowany
+-   `409` – miasto już istnieje w ulubionych tego użytkownika
 
 **Powiązana User Story:** Dodanie miasta do ulubionych
 
@@ -280,7 +336,7 @@ Dodaje nowe ulubione miasto dla zalogowanego użytkownika. Endpoint uniemożliwi
 
 ### 5.4 DELETE `/weather/api/favorites`
 
-**Moduł:** Weather  
+**Moduł:** Weather
 
 **Opis:**  
 Usuwa ulubione miasto dla zalogowanego użytkownika. Można usunąć po ID lub nazwie miasta.
@@ -288,37 +344,42 @@ Usuwa ulubione miasto dla zalogowanego użytkownika. Można usunąć po ID lub n
 **Autentykacja:** Wymagana – sesja użytkownika (dekorator `@api_login_required`)
 
 **Body (JSON):**
+
 ```json
 {
-  "id": 3
+    "id": 3
 }
 ```
 
 Lub:
+
 ```json
 {
-  "city": "Gdańsk"
+    "city": "Gdańsk"
 }
 ```
 
 **Parametry Body:**
-- `id` (int, opcjonalny) – ID ulubionego miasta
-- `city` (string, opcjonalny) – nazwa miasta
+
+-   `id` (int, opcjonalny) – ID ulubionego miasta
+-   `city` (string, opcjonalny) – nazwa miasta
 
 (Wymagany co najmniej jeden z parametrów)
 
 **Przykład odpowiedzi (sukces):**
+
 ```json
 {
-  "ok": true
+    "ok": true
 }
 ```
 
 **Kody odpowiedzi:**
-- `200` – OK, miasto usunięte
-- `400` – brak pola `id` i `city`  
-- `401` – użytkownik nie zalogowany  
-- `404` – miasto nie znalezione
+
+-   `200` – OK, miasto usunięte
+-   `400` – brak pola `id` i `city`
+-   `401` – użytkownik nie zalogowany
+-   `404` – miasto nie znalezione
 
 **Powiązana User Story:** Usunięcie miasta z ulubionych
 
@@ -326,28 +387,31 @@ Lub:
 
 ### 5.5 GET `/weather/api/geocode`
 
-**Moduł:** Weather  
+**Moduł:** Weather
 
 **Opis:**  
 Wyszukuje miasta po nazwie. Zwraca listę lokalizacji ze współrzędnymi geograficznymi. Dane pobierane z OpenWeather Geocoding API. Maksymalnie 5 wyników.
 
 **Parametry (query):**
-- `q` (string, wymagany) – nazwa miasta do wyszukania
+
+-   `q` (string, wymagany) – nazwa miasta do wyszukania
 
 **Przykład zapytania:**
+
 ```bash
 curl "http://localhost:5000/weather/api/geocode?q=Warszawa"
 ```
 
 **Przykład odpowiedzi:**
+
 ```json
 [
-  {
-    "name": "Warszawa",
-    "lat": 52.2297,
-    "lon": 21.0122,
-    "country": "PL"
-  }
+    {
+        "name": "Warszawa",
+        "lat": 52.2297,
+        "lon": 21.0122,
+        "country": "PL"
+    }
 ]
 ```
 
@@ -360,7 +424,7 @@ curl "http://localhost:5000/weather/api/geocode?q=Warszawa"
 
 ---
 
-### 5.4 GET `/ekonomia/chart/<currency_code>`
+### 5.6 GET `/ekonomia/chart/<currency_code>`
 
 **Moduł:** Ekonomia
 
@@ -396,7 +460,52 @@ curl "http://localhost:5000/ekonomia/chart/EUR"
 
 ---
 
-### 5.5 GET `/ekonomia/api/favorite-currencies`
+### 5.7 GET `/ekonomia/api/exchange-rates`
+
+**Moduł:** Ekonomia
+
+**Opis:**  
+Zwraca listę dostępnych walut z ich bieżącymi kursami w stosunku do PLN. Dane pobierane z NBP API. Brak wymaganej autoryzacji – endpoint dostępny dla wszystkich użytkowników.
+
+**Parametry (query):**
+
+-   brak
+
+**Autoryzacja:** Brak wymagań
+
+**Przykład zapytania:**
+
+```bash
+curl "http://localhost:5000/ekonomia/api/exchange-rates"
+```
+
+**Przykład odpowiedzi:**
+
+```json
+[
+    { "code": "EUR", "rate": 4.25 },
+    { "code": "USD", "rate": 4.1 },
+    { "code": "CHF", "rate": 4.8 },
+    { "code": "GBP", "rate": 5.12 },
+    { "code": "JPY", "rate": 0.028 },
+    { "code": "AUD", "rate": 2.75 },
+    { "code": "CAD", "rate": 2.95 },
+    { "code": "NOK", "rate": 0.38 },
+    { "code": "SEK", "rate": 0.39 },
+    { "code": "DKK", "rate": 0.57 }
+]
+```
+
+**Kody odpowiedzi:**
+
+-   `200` – OK, lista walut zwrócona
+-   `500` – błąd serwera (np. brak dostępu do NBP API)
+
+**Powiązana User Story:** SCRUM-41
+
+---
+
+### 5.8 GET `/ekonomia/api/favorite-currencies`
 
 **Moduł:** Ekonomia
 
@@ -434,7 +543,7 @@ curl -b "session=xxx" "http://localhost:5000/ekonomia/api/favorite-currencies"
 
 ---
 
-### 5.6 POST `/ekonomia/api/favorite-currencies`
+### 5.9 POST `/ekonomia/api/favorite-currencies`
 
 **Moduł:** Ekonomia
 
@@ -483,7 +592,7 @@ curl -X POST -H "Content-Type: application/json" \
 
 ---
 
-### 5.7 DELETE `/ekonomia/api/favorite-currencies/<currency_code>`
+### 5.10 DELETE `/ekonomia/api/favorite-currencies/<currency_code>`
 
 **Moduł:** Ekonomia
 
@@ -530,7 +639,8 @@ curl -X DELETE -b "session=xxx" \
 > Opisz, które endpointy wymagają uwierzytelnienia oraz w jaki sposób
 > (np. sesja, token, nagłówki HTTP).
 
-**Ekonomia**
+### 6.1 Moduł Ekonomii
+
 **Mechanizm:** Sesja HTTP (cookie)
 
 **Endpointy wymagające autoryzacji (Ekonomia):**
@@ -548,33 +658,35 @@ curl -X DELETE -b "session=xxx" \
 **Obsługa błędów autoryzacji:**
 
 -   `401 Unauthorized` – brak ważnej sesji lub użytkownik nie zalogowany
-### 6.1 Moduł Weather
+
+### 6.2 Moduł Weather
 
 **Typ autentykacji:** Sesja (session-based authentication)
 
 **Endpointy wymagające uwierzytelnienia:**
 
-| Endpoint | Metoda | Wymagane | Opis |
-|----------|--------|----------|-------|
-| `/weather/api/favorites` | GET | Tak | Pobieranie ulubionych miast użytkownika |
-| `/weather/api/favorites` | POST | Tak | Dodawanie ulubionego miasta |
-| `/weather/api/favorites` | DELETE | Tak | Usuwanie ulubionego miasta |
+| Endpoint                 | Metoda | Wymagane | Opis                                    |
+| ------------------------ | ------ | -------- | --------------------------------------- |
+| `/weather/api/favorites` | GET    | Tak      | Pobieranie ulubionych miast użytkownika |
+| `/weather/api/favorites` | POST   | Tak      | Dodawanie ulubionego miasta             |
+| `/weather/api/favorites` | DELETE | Tak      | Usuwanie ulubionego miasta              |
 
 **Endpointy publiczne (brak wymaganej autentykacji):**
 
-| Endpoint | Metoda | Opis |
-|----------|--------|-------|
-| `/weather/pogoda` | GET | Widok pogodowy (dostosowany do stanu autentykacji) |
-| `/weather/api/forecast` | GET | Prognoza pogody |
-| `/weather/api/geocode` | GET | Wyszukiwanie miast |
-| `/weather/api/hourly` | GET | Prognoza godzinowa |
-| `/weather/plot.png` | GET | Wykres pogody |
+| Endpoint                | Metoda | Opis                                               |
+| ----------------------- | ------ | -------------------------------------------------- |
+| `/weather/pogoda`       | GET    | Widok pogodowy (dostosowany do stanu autentykacji) |
+| `/weather/api/forecast` | GET    | Prognoza pogody                                    |
+| `/weather/api/geocode`  | GET    | Wyszukiwanie miast                                 |
+| `/weather/api/hourly`   | GET    | Prognoza godzinowa                                 |
+| `/weather/plot.png`     | GET    | Wykres pogody                                      |
 
 **Obsługa sesji:**
-- Sesja jest przechowywana w ciasteczku `session`
-- Identyfikator użytkownika dostępny w obiekcie `session['user_id']`
-- Dla endpointów wymagających autentykacji zwracany jest kod `401` jeśli `session['user_id']` nie istnieje
-- Uwierzytelnianie jest obsługiwane przez dekorator `@api_login_required`
+
+-   Sesja jest przechowywana w ciasteczku `session`
+-   Identyfikator użytkownika dostępny w obiekcie `session['user_id']`
+-   Dla endpointów wymagających autentykacji zwracany jest kod `401` jeśli `session['user_id']` nie istnieje
+-   Uwierzytelnianie jest obsługiwane przez dekorator `@api_login_required`
 
 ---
 
@@ -631,12 +743,13 @@ Testy integracyjne używają fixture `client` z Flask, który automatycznie konf
 -   Autoryzację (sesje użytkowników)
 -   Ograniczenia bazodanowe (limit 3 ulubionych walut)
 -   Operacje CRUD na ulubionych walutach
-> - musi mieć **co najmniej jeden test integracyjny**,
-> - powinien być jednoznacznie testowalny na podstawie tej dokumentacji.
+    > -   musi mieć **co najmniej jeden test integracyjny**,
+    > -   powinien być jednoznacznie testowalny na podstawie tej dokumentacji.
 
 **TU UZUPEŁNIĆ (opcjonalnie):**
-- mapowanie endpoint → test integracyjny,
-- informacje o mockowaniu zewnętrznych API.
+
+-   mapowanie endpoint → test integracyjny,
+-   informacje o mockowaniu zewnętrznych API.
 
 ---
 
@@ -650,9 +763,11 @@ Testy integracyjne używają fixture `client` z Flask, który automatycznie konf
 Wyświetla wszystkie wiadomości z różnych źródeł (kryminalki, sport, policja) z możliwością filtrowania po tagach. Obsługuje zapisywanie ulubionych tagów dla zalogowanych użytkowników.
 
 **Parametry (query):**
-- `tags` (string, opcjonalny) – lista tagów oddzielonych przecinkami do filtrowania wiadomości (np. `tags=piłka-nożna,tenis`)
+
+-   `tags` (string, opcjonalny) – lista tagów oddzielonych przecinkami do filtrowania wiadomości (np. `tags=piłka-nożna,tenis`)
 
 **Przykład zapytania:**
+
 ```bash
 curl "http://localhost:5000/news?tags=piłka-nożna,kryminalne"
 ```
@@ -661,8 +776,9 @@ curl "http://localhost:5000/news?tags=piłka-nożna,kryminalne"
 Renderowany widok HTML `news/news.html` z wiadomościami spełniającymi kryteria filtrowania.
 
 **Kontekst szablonu:**
-- `news_list` – lista wiadomości (posortowana po timestamp)
-- `selected_tags` – lista aktualnie wybranych tagów
+
+-   `news_list` – lista wiadomości (posortowana po timestamp)
+-   `selected_tags` – lista aktualnie wybranych tagów
 
 **Powiązane User Stories:** SCRUM-10, SCRUM-11, SCRUM-12, SCRUM-13
 
@@ -681,8 +797,9 @@ Wyświetla wiadomości sportowe z Przeglądu Sportowego. Jeśli brak danych w ca
 Renderowany widok HTML `news/news_sport.html`
 
 **Kontekst szablonu:**
-- `news_list` – lista wiadomości sportowych
-- `updated_at` – czas ostatniej aktualizacji
+
+-   `news_list` – lista wiadomości sportowych
+-   `updated_at` – czas ostatniej aktualizacji
 
 **Powiązane User Stories:** SCRUM-10, SCRUM-11
 
@@ -696,10 +813,12 @@ Renderowany widok HTML `news/news_sport.html`
 Wyświetla tabele ligowe dla różnych sportów (piłka nożna, tenis ATP/WTA, koszykówka NBA, MLS). Obsługuje wybór ligi i sezonu.
 
 **Parametry (query):**
-- `competition` (string, opcjonalny) – kod ligi/rozgrywek (np. 'PL', 'CL', 'EKS', 'ATP', 'WTA', 'NBA', 'MLS'); domyślnie 'EKS'
-- `season` (string, opcjonalny) – rok sezonu (np. '2025', '2024'); domyślnie '2025'
+
+-   `competition` (string, opcjonalny) – kod ligi/rozgrywek (np. 'PL', 'CL', 'EKS', 'ATP', 'WTA', 'NBA', 'MLS'); domyślnie 'EKS'
+-   `season` (string, opcjonalny) – rok sezonu (np. '2025', '2024'); domyślnie '2025'
 
 **Przykład zapytania:**
+
 ```bash
 curl "http://localhost:5000/tables?competition=PL&season=2025"
 ```
@@ -710,29 +829,33 @@ Renderowany widok HTML `news/tables.html` z tabelą wybranej ligi.
 **Kontekst szablonu (zmienia się w zależności od typu sportu):**
 
 **Dla piłki nożnej:**
-- `is_football` = True
-- `standings` – lista drużyn z pozycjami
-- `competition_name` – nazwa rozgrywek (zlokalizowana)
-- `competition_emblem` – URL logo ligi
-- `season_info` – informacje o sezonie
-- `available_seasons` – dostępne sezony
-- `updated_at` – czas aktualizacji
-- `error` – komunikat błędu (jeśli wystąpił)
+
+-   `is_football` = True
+-   `standings` – lista drużyn z pozycjami
+-   `competition_name` – nazwa rozgrywek (zlokalizowana)
+-   `competition_emblem` – URL logo ligi
+-   `season_info` – informacje o sezonie
+-   `available_seasons` – dostępne sezony
+-   `updated_at` – czas aktualizacji
+-   `error` – komunikat błędu (jeśli wystąpił)
 
 **Dla tenisa (ATP/WTA):**
-- `is_tennis` = True
-- `tennis_rankings` – słownik z kluczami 'atp' i/lub 'wta'
-- `competition_name` – 'Ranking ATP' lub 'Ranking WTA'
+
+-   `is_tennis` = True
+-   `tennis_rankings` – słownik z kluczami 'atp' i/lub 'wta'
+-   `competition_name` – 'Ranking ATP' lub 'Ranking WTA'
 
 **Dla NBA:**
-- `is_nba` = True
-- `nba_conferences` – słownik konferencji z drużynami
-- `competition_name` – 'NBA'
+
+-   `is_nba` = True
+-   `nba_conferences` – słownik konferencji z drużynami
+-   `competition_name` – 'NBA'
 
 **Dla MLS:**
-- `is_mls` = True
-- `mls_conferences` – słownik konferencji z drużynami
-- `competition_name` – 'MLS - Major League Soccer'
+
+-   `is_mls` = True
+-   `mls_conferences` – słownik konferencji z drużynami
+-   `competition_name` – 'MLS - Major League Soccer'
 
 **Powiązane User Stories:** SCRUM-21
 
@@ -748,9 +871,11 @@ Wyświetla historię kliknięć w artykuły dla zalogowanego użytkownika wraz z
 **Autentykacja:** Wymagana – sesja użytkownika (dekorator `@login_required`)
 
 **Parametry (query):**
-- `limit` (int, opcjonalny) – maksymalna liczba wpisów do wyświetlenia; domyślnie 200
+
+-   `limit` (int, opcjonalny) – maksymalna liczba wpisów do wyświetlenia; domyślnie 200
 
 **Przykład zapytania:**
+
 ```bash
 curl "http://localhost:5000/history/view?limit=50" -H "Cookie: session=..."
 ```
@@ -759,13 +884,15 @@ curl "http://localhost:5000/history/view?limit=50" -H "Cookie: session=..."
 Renderowany widok HTML `news/history.html`
 
 **Kontekst szablonu:**
-- `history` – lista obiektów historii (id, url, title, clicked_at, source)
-- `stats` – statystyki kliknięć według źródeł
-- `total_clicks` – łączna liczba kliknięć
+
+-   `history` – lista obiektów historii (id, url, title, clicked_at, source)
+-   `stats` – statystyki kliknięć według źródeł
+-   `total_clicks` – łączna liczba kliknięć
 
 **Kody odpowiedzi:**
-- `200` – OK
-- `302` – redirect do logowania (użytkownik niezalogowany)
+
+-   `200` – OK
+-   `302` – redirect do logowania (użytkownik niezalogowany)
 
 **Powiązana User Story:** SCRUM-44
 
@@ -783,33 +910,37 @@ Zwraca historię kliknięć w artykuły dla zalogowanego użytkownika w formacie
 **Autentykacja:** Wymagana – sesja użytkownika (dekorator `@login_required`)
 
 **Parametry (query):**
-- `limit` (int, opcjonalny) – maksymalna liczba wpisów; domyślnie 50
+
+-   `limit` (int, opcjonalny) – maksymalna liczba wpisów; domyślnie 50
 
 **Przykład zapytania:**
+
 ```bash
 curl "http://localhost:5000/history/api?limit=10" -H "Cookie: session=..."
 ```
 
 **Przykład odpowiedzi:**
+
 ```json
 {
-  "status": "ok",
-  "total": 10,
-  "history": [
-    {
-      "id": 123,
-      "url": "https://kryminalki.pl/artykul/123",
-      "title": "Wypadek na A4",
-      "clicked_at": "2026-01-19T10:30:00",
-      "source": "kryminalki"
-    }
-  ]
+    "status": "ok",
+    "total": 10,
+    "history": [
+        {
+            "id": 123,
+            "url": "https://kryminalki.pl/artykul/123",
+            "title": "Wypadek na A4",
+            "clicked_at": "2026-01-19T10:30:00",
+            "source": "kryminalki"
+        }
+    ]
 }
 ```
 
 **Kody odpowiedzi:**
-- `200` – OK
-- `401` – użytkownik nie zalogowany
+
+-   `200` – OK
+-   `401` – użytkownik nie zalogowany
 
 **Powiązana User Story:** SCRUM-44
 
@@ -825,20 +956,23 @@ Loguje kliknięcie w link wiadomości do bazy danych. Endpoint wywoływany autom
 **Autentykacja:** Wymagana – sesja użytkownika
 
 **Body (JSON):**
+
 ```json
 {
-  "url": "https://kryminalki.pl/artykul/123",
-  "title": "Wypadek na A4",
-  "source": "kryminalki"
+    "url": "https://kryminalki.pl/artykul/123",
+    "title": "Wypadek na A4",
+    "source": "kryminalki"
 }
 ```
 
 **Parametry Body:**
-- `url` (string, wymagany) – URL artykułu
-- `title` (string, opcjonalny) – tytuł artykułu
-- `source` (string, opcjonalny) – źródło wiadomości (np. 'kryminalki', 'przegladsportowy', 'minut')
+
+-   `url` (string, wymagany) – URL artykułu
+-   `title` (string, opcjonalny) – tytuł artykułu
+-   `source` (string, opcjonalny) – źródło wiadomości (np. 'kryminalki', 'przegladsportowy', 'minut')
 
 **Przykład zapytania:**
+
 ```bash
 curl -X POST -H "Content-Type: application/json" \
   -d '{"url": "https://kryminalki.pl/artykul/123", "title": "Wypadek na A4", "source": "kryminalki"}' \
@@ -847,17 +981,19 @@ curl -X POST -H "Content-Type: application/json" \
 ```
 
 **Przykład odpowiedzi:**
+
 ```json
 {
-  "status": "ok"
+    "status": "ok"
 }
 ```
 
 **Kody odpowiedzi:**
-- `200` – OK, kliknięcie zalogowane
-- `400` – brak wymaganego pola `url`
-- `401` – użytkownik nie zalogowany
-- `500` – błąd serwera
+
+-   `200` – OK, kliknięcie zalogowane
+-   `400` – brak wymaganego pola `url`
+-   `401` – użytkownik nie zalogowany
+-   `500` – błąd serwera
 
 **Powiązana User Story:** SCRUM-44
 
@@ -875,21 +1011,24 @@ Usuwa całą historię kliknięć dla zalogowanego użytkownika.
 **Parametry:** brak
 
 **Przykład zapytania:**
+
 ```bash
 curl -X POST -b "session=xxx" "http://localhost:5000/history/clear"
 ```
 
 **Przykład odpowiedzi:**
+
 ```json
 {
-  "status": "ok"
+    "status": "ok"
 }
 ```
 
 **Kody odpowiedzi:**
-- `200` – OK, historia wyczyszczona
-- `401` – użytkownik nie zalogowany
-- `500` – błąd serwera
+
+-   `200` – OK, historia wyczyszczona
+-   `401` – użytkownik nie zalogowany
+-   `500` – błąd serwera
 
 **Powiązana User Story:** SCRUM-44
 
@@ -905,32 +1044,37 @@ Usuwa pojedynczy wpis z historii kliknięć. Użytkownik może usunąć tylko w�
 **Autentykacja:** Wymagana – sesja użytkownika (dekorator `@login_required`)
 
 **Parametry (path):**
-- `entry_id` (int, wymagany) – ID wpisu do usunięcia
+
+-   `entry_id` (int, wymagany) – ID wpisu do usunięcia
 
 **Przykład zapytania:**
+
 ```bash
 curl -X POST -b "session=xxx" "http://localhost:5000/history/delete/123"
 ```
 
 **Przykład odpowiedzi (sukces):**
+
 ```json
 {
-  "status": "ok"
+    "status": "ok"
 }
 ```
 
 **Przykład odpowiedzi (błąd):**
+
 ```json
 {
-  "status": "error",
-  "message": "not found or forbidden"
+    "status": "error",
+    "message": "not found or forbidden"
 }
 ```
 
 **Kody odpowiedzi:**
-- `200` – OK, wpis usunięty
-- `401` – użytkownik nie zalogowany
-- `404` – wpis nie znaleziony lub nie należy do użytkownika
+
+-   `200` – OK, wpis usunięty
+-   `401` – użytkownik nie zalogowany
+-   `404` – wpis nie znaleziony lub nie należy do użytkownika
 
 **Powiązana User Story:** SCRUM-44
 
@@ -944,9 +1088,11 @@ curl -X POST -b "session=xxx" "http://localhost:5000/history/delete/123"
 Proxy dla obrazków ze stron policji (krakow.policja.gov.pl, malopolska.policja.gov.pl). Omija blokadę CORS/Referer, która uniemożliwia bezpośrednie wyświetlanie obrazków na naszej stronie.
 
 **Parametry (query):**
-- `url` (string, wymagany) – pełny URL obrazka do pobrania
+
+-   `url` (string, wymagany) – pełny URL obrazka do pobrania
 
 **Przykład zapytania:**
+
 ```bash
 curl "http://localhost:5000/image_proxy?url=https://krakow.policja.gov.pl/dokumenty/zalaczniki/1/1-123456.jpg"
 ```
@@ -955,16 +1101,18 @@ curl "http://localhost:5000/image_proxy?url=https://krakow.policja.gov.pl/dokume
 Binarny content obrazka z odpowiednim Content-Type (np. `image/jpeg`)
 
 **Kody odpowiedzi:**
-- `200` – OK, obrazek zwrócony
-- `400` – brak parametru `url`
-- `403` – domena nie jest na liście dozwolonych
-- `404` – obrazek nie znaleziony
-- `500` – błąd pobierania obrazka
+
+-   `200` – OK, obrazek zwrócony
+-   `400` – brak parametru `url`
+-   `403` – domena nie jest na liście dozwolonych
+-   `404` – obrazek nie znaleziony
+-   `500` – błąd pobierania obrazka
 
 **Bezpieczeństwo:**  
 Endpoint akceptuje tylko URL-e z dozwolonych domen:
-- `krakow.policja.gov.pl`
-- `malopolska.policja.gov.pl`
+
+-   `krakow.policja.gov.pl`
+-   `malopolska.policja.gov.pl`
 
 **Powiązane User Stories:** SCRUM-10, SCRUM-12
 
@@ -976,38 +1124,39 @@ Endpoint akceptuje tylko URL-e z dozwolonych domen:
 
 **Endpointy wymagające uwierzytelnienia:**
 
-| Endpoint | Metoda | Wymagane | Opis |
-|----------|--------|----------|------|
-| `/history/view` | GET | Tak | Widok historii kliknięć |
-| `/history/api` | GET | Tak | Historia kliknięć (JSON) |
-| `/history/log` | POST | Tak | Logowanie kliknięcia |
-| `/history/clear` | POST | Tak | Czyszczenie historii |
-| `/history/delete/<id>` | POST | Tak | Usunięcie wpisu historii |
+| Endpoint               | Metoda | Wymagane | Opis                     |
+| ---------------------- | ------ | -------- | ------------------------ |
+| `/history/view`        | GET    | Tak      | Widok historii kliknięć  |
+| `/history/api`         | GET    | Tak      | Historia kliknięć (JSON) |
+| `/history/log`         | POST   | Tak      | Logowanie kliknięcia     |
+| `/history/clear`       | POST   | Tak      | Czyszczenie historii     |
+| `/history/delete/<id>` | POST   | Tak      | Usunięcie wpisu historii |
 
 **Endpointy publiczne (brak wymaganej autentykacji):**
 
-| Endpoint | Metoda | Opis |
-|----------|--------|------|
-| `/news` | GET | Lista wiadomości (dostosowana do stanu logowania) |
-| `/news_sport` | GET | Wiadomości sportowe |
-| `/tables` | GET | Tabele ligowe |
-| `/image_proxy` | GET | Proxy obrazków |
+| Endpoint       | Metoda | Opis                                              |
+| -------------- | ------ | ------------------------------------------------- |
+| `/news`        | GET    | Lista wiadomości (dostosowana do stanu logowania) |
+| `/news_sport`  | GET    | Wiadomości sportowe                               |
+| `/tables`      | GET    | Tabele ligowe                                     |
+| `/image_proxy` | GET    | Proxy obrazków                                    |
 
 **Obsługa sesji:**
-- Sesja przechowywana w ciasteczku `session`
-- Identyfikator użytkownika w `session['user_id']`
-- Dla endpointów wymagających autentykacji: kod `401` jeśli brak `session['user_id']`
-- Dla widoków HTML z `@login_required`: redirect do strony logowania
+
+-   Sesja przechowywana w ciasteczku `session`
+-   Identyfikator użytkownika w `session['user_id']`
+-   Dla endpointów wymagających autentykacji: kod `401` jeśli brak `session['user_id']`
+-   Dla widoków HTML z `@login_required`: redirect do strony logowania
 
 ---
 
 ## 11. Uwagi końcowe
 
-- `api_reference.md` jest **jedynym miejscem**, gdzie opisuje się szczegóły requestów i response’ów.
-- Dokumentacja modułów (`doc/architecture/<module>.md`) zawiera wyłącznie:
-  - kontekst,
-  - rolę endpointów,
-  - powiązanie z User Stories.
-- Zmiana w API **wymaga aktualizacji tego pliku**.
+-   `api_reference.md` jest **jedynym miejscem**, gdzie opisuje się szczegóły requestów i response’ów.
+-   Dokumentacja modułów (`doc/architecture/<module>.md`) zawiera wyłącznie:
+    -   kontekst,
+    -   rolę endpointów,
+    -   powiązanie z User Stories.
+-   Zmiana w API **wymaga aktualizacji tego pliku**.
 
 ---
