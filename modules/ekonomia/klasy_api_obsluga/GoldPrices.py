@@ -5,19 +5,21 @@ class GoldPrices:
         self.client = client
 
     def get_current_price(self):
-        """Get current gold price in t oz"""
+        """Get current gold price in PLN/oz (troy ounce)"""
         url = f"{self.client.base_url}/cenyzlota/"
         data = self.client.get_json(url, {"format": "json"})
         if data and len(data) > 0:
-            return data[0]["cena"]
+            # NBP returns price per gram, convert to troy ounce (1 oz = 31.1035 g)
+            return round(data[0]["cena"] * 31.1035, 2)
         return None
     
     def update(self):
-        """Aktualizuje aktualną cenę złota w self.gold_price"""
+        """Updates gold price in PLN/oz (troy ounce)"""
         url = f"{self.client.base_url}/cenyzlota/"
         data = self.client.get_json(url, {"format": "json"})
         if data and len(data) > 0:
-            self.gold_price = data[0]["cena"]
+            # NBP returns price per gram, convert to troy ounce (1 oz = 31.1035 g)
+            self.gold_price = round(data[0]["cena"] * 31.1035, 2)
         else:
             self.gold_price = None
         return self.gold_price

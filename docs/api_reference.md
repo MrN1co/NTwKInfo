@@ -164,10 +164,10 @@ HTML `ekonomia/exchange.html` zawierające:
 **Dane renderowane:**
 
 -   `kurs_walut` – słownik bieżących kursów walut: `{"EUR": 4.25, "USD": 4.10, "CHF": 4.80}`
--   `cena_zlota` – bieżąca cena złota (uncja w PLN)
+-   `cena_zlota` – bieżąca cena złota w PLN/oz (uncja troy)
 -   `cena_zlota_formatted` – cena złota sformatowana polskim formatem (np. "2 345,67")
--   `wykres_waluty` – wykres EUR w formacie base64 PNG
--   `wykres_zlota` – wykres ceny złota w formacie base64 PNG
+-   `wykres_waluty` – wykres EUR w formacie base64 PNG (oś Y: kursu w PLN)
+-   `wykres_zlota` – wykres ceny złota w formacie base64 PNG (oś Y: cena w PLN/oz)
 -   `currency_codes` – lista dostępnych kodów walut
 -   `currency_rates` – słownik wszystkich kursów walut z API
 -   `all_currencies_for_tiles` – wszystkie waluty do wyświetlenia w tabelach

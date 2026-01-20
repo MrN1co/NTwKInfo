@@ -1,40 +1,5 @@
 [
     {
-<<<<<<< HEAD
-=======
-        "no": "007/A/NBP/2025",
-        "effectiveDate": "2025-01-13",
-        "mid": 2.9028
-    },
-    {
->>>>>>> main
-        "no": "008/A/NBP/2025",
-        "effectiveDate": "2025-01-14",
-        "mid": 2.8977
-    },
-    {
-=======
->>>>>>> Stashed changes
-        "no": "009/A/NBP/2025",
-        "effectiveDate": "2025-01-15",
-        "mid": 2.8808
-    },
-    {
-        "no": "010/A/NBP/2025",
-        "effectiveDate": "2025-01-16",
-        "mid": 2.8834
-    },
-    {
-        "no": "011/A/NBP/2025",
-        "effectiveDate": "2025-01-17",
-        "mid": 2.8768
-    },
-    {
-        "no": "012/A/NBP/2025",
-        "effectiveDate": "2025-01-20",
-        "mid": 2.8542
-    },
-    {
         "no": "013/A/NBP/2025",
         "effectiveDate": "2025-01-21",
         "mid": 2.8496
@@ -1258,13 +1223,35 @@
         "no": "006/A/NBP/2026",
         "effectiveDate": "2026-01-12",
         "mid": 2.5963
-<<<<<<< HEAD
     },
     {
         "no": "007/A/NBP/2026",
         "effectiveDate": "2026-01-13",
         "mid": 2.6006
-=======
->>>>>>> main
+    },
+    {
+        "no": "008/A/NBP/2026",
+        "effectiveDate": "2026-01-14",
+        "mid": 2.6016
+    },
+    {
+        "no": "009/A/NBP/2026",
+        "effectiveDate": "2026-01-15",
+        "mid": 2.6005
+    },
+    {
+        "no": "010/A/NBP/2026",
+        "effectiveDate": "2026-01-16",
+        "mid": 2.6157
+    },
+    {
+        "no": "011/A/NBP/2026",
+        "effectiveDate": "2026-01-19",
+        "mid": 2.6163
+    },
+    {
+        "no": "012/A/NBP/2026",
+        "effectiveDate": "2026-01-20",
+        "mid": 2.6075
     }
 ]
