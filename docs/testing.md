@@ -1,8 +1,6 @@
 # Plan testowania (`testing.md`)
 
 > Dokument opisuje **plan testów dla aplikacji webowej** realizowanej w ramach projektu.  
-> Plan testowania jest **obowiązkowy** i stanowi część dokumentacji technicznej projektu.
-
 ---
 
 ## 1. Organizacja testów
