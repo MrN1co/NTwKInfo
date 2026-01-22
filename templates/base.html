@@ -6,20 +6,26 @@
   <title>{% block title %}NTWKInfo - Bądź na czasie{% endblock %}</title>
   <link rel="icon" href="{{ url_for('static', filename='images/NTWK_icon.ico') }}" type="image/x-icon" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <!-- Importowanie czcionek z Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
   {% block head %}{% endblock %}
 </head>
-<!-- --- MODAL LOGOWANIA / REJESTRACJI --- -->
+
+<!-- SEKCJA MODALI LOGOWANIA I REJESTRACJI -->
+<!-- Overlay (tło zaciemniające) dla modali -->
 <div id="authOverlay" class="auth-overlay hidden"></div>
 
+<!-- Główny kontener modala -->
 <div id="authModal" class="auth-modal hidden">
 
-  <!-- LOGOWANIE -->
+  <!-- FORMULARZ LOGOWANIA -->
   <div id="loginForm" class="auth-box">
     <form method="post" action="{{ url_for('auth.login') }}">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <!-- Przycisk zamknięcia modala -->
       <button type="button" class="auth-close">×</button>
       <h2>Zaloguj się</h2>
+      <!-- Link do przejścia do formularza rejestracji -->
       <p class="auth-switch">Nie masz konta?
         <a href="#" id="showRegister">Zarejestruj się</a>
       </p>
@@ -34,12 +40,14 @@
     </form>
   </div>
 
-  <!-- REJESTRACJA -->
+  <!-- FORMULARZ REJESTRACJI -->
   <div id="registerForm" class="auth-box hidden">
     <form method="post" action="{{ url_for('auth.register') }}">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <!-- Przycisk zamknięcia modala -->
       <button type="button" class="auth-close">×</button>
       <h2>Zarejestruj się</h2>
+      <!-- Link do przejścia do formularza logowania -->
       <p class="auth-switch">Masz konto?
         <a href="#" id="showLogin">Zaloguj się</a>
       </p>
@@ -62,6 +70,7 @@
 
 </div>
 
+<!-- MODAL WYLOGOWANIA (potwierdzenie pomyślnego wylogowania) -->
 <div id="logoutModal" class="auth-overlay hidden">
   <div class="auth-modal">
     <div class="auth-box logout-modal">
@@ -74,15 +83,21 @@
 
 <body{% if request.path.startswith('/news/') %} class="news-page"{% endif %}>
     
+  <!-- NAGŁÓWEK STRONY Z NAWIGACJĄ -->
   <header class="header">
     <div class="header__top-bar container-padding">
+      <!-- Logo aplikacji -->
       <div class="header__logo">NTWKInfo</div>
+      
+      <!-- Główna nawigacja -->
       <nav class="header__nav">
         <a href="{{ url_for('main.index') }}" class="{% if request.path == '/' %}active{% endif %}">Strona główna</a>
         <a href="{{ url_for('main.news') }}" class="{% if request.path == '/wiadomosci' %}active{% endif %}">Wiadomości</a>
         <a href="{{ url_for('main.weather') }}" class="{% if request.path == '/pogoda' %}active{% endif %}">Pogoda</a>
         <a href="{{ url_for('main.economy') }}" class="{% if request.path == '/ekonomia' %}active{% endif %}">Ekonomia</a>
       </nav>
+      
+      <!-- Przycisk profilu użytkownika lub logowania -->
       {% if session.user_id %}
         <a href="{{ url_for('main.dashboard') }}" class="header__user-button">{{ current_user.username }}</a>
       {% else %}
@@ -91,7 +106,9 @@
     </div>
   </header>
 
+  <!-- GŁÓWNA ZAWARTOŚĆ STRONY -->
   <main class="main-content container-padding">
+    <!-- Wyświetlanie komunikatów flash (błędy, powiadomienia) -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -103,13 +120,19 @@
         {% endif %}
     {% endwith %}
 
+    <!-- Blok zawartości rozszerzany przez poszczególne strony -->
     {% block content %}{% endblock %}
   </main>
 
+<!-- STOPKA STRONY -->
 <footer class="footer container-padding"><span>NTWKInfo 2025 © Wszystkie prawa zastrzeżone</span></footer>
-</script>
- <script src="{{ url_for('static', filename='js/script-auth.js') }}"></script>
- <script src="{{ url_for('static', filename='js/auth-modal.js') }}"></script>
- {% block scripts %}{% endblock %}
+
+<!-- SKRYPTY -->
+<!-- Skrypt obsługujący logowanie/rejestrację (musi być przed auth-modal.js) -->
+<script src="{{ url_for('static', filename='js/script-auth.js') }}"></script>
+<!-- Skrypt obsługujący modal logowania -->
+<script src="{{ url_for('static', filename='js/auth-modal.js') }}"></script>
+<!-- Blok skryptów rozszerzany przez poszczególne strony -->
+{% block scripts %}{% endblock %}
 </body>
 </html>

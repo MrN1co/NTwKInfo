@@ -8,6 +8,20 @@ import modules.main as main_module
 
 @pytest.fixture
 def app():
+    """
+    Fixture-a tworząca aplikację Flask dla testów integracyjnych modułu homepage.
+    
+    Funkcja:
+    - Tworzy nową instancję aplikacji Flask
+    - Konfiguruje ścieżkę do szablonów
+    - Ustawia tryb TESTING
+    - Rejestruje blueprint main_bp (testowany moduł)
+    - Rejestruje blueprint auth_bp (wymagany przez szablony)
+    - Zwraca aplikację w kontekście
+    
+    Returns:
+        Flask: Aplikacja Flask skonfigurowana dla testów integracyjnych
+    """
     flask_app = Flask(__name__, template_folder=os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..', 'templates')))
     flask_app.config['TESTING'] = True
 
@@ -23,18 +37,47 @@ def app():
 
 @pytest.fixture
 def client(app):
+    """
+    Fixture-a dostarczająca test client dla aplikacji.
+    
+    Funkcja:
+    - Tworzy testowego klienta Flask na podstawie fixture-y app
+    - Umożliwia wykonywanie żądań HTTP w testach
+    
+    Args:
+        app (Flask): Aplikacja Flask z fixture-y app()
+        
+    Returns:
+        FlaskClient: Test client do wykonywania żądań HTTP
+    """
     return app.test_client()
 
 
 def test_index_renders_with_news_and_rates(monkeypatch, client):
+    """
+    Test integracyjny weryfikujący renderowanie strony głównej z wiadomościami i kursami.
+    
+    Funkcja:
+    - Mock'uje funkcję get_kryminalki_news aby zwracała testowe wiadomości
+    - Mock'uje funkcję get_homepage_rates aby zwracała testowe kursy walut
+    - Wykonuje żądanie GET do / (strona główna)
+    - Weryfikuje status 200
+    - Weryfikuje obecność testowych danych w HTML'u odpowiedzi
+    
+    Args:
+        monkeypatch: Fixture pytest do mock'owania funkcji
+        client: Test client Flask z fixture-y
+    """
     # Prepare fake data
     def fake_news(limit=3):
+        """Testowe wiadomości dla testu"""
         return [
             {'title': 'News 1', 'link': 'http://example.com/1', 'image': None, 'summary': 'S1', 'published': '2024-01-01'},
             {'title': 'News 2', 'link': 'http://example.com/2', 'image': None, 'summary': 'S2', 'published': '2024-01-02'},
         ]
 
     def fake_rates():
+        """Testowe kursy walut dla testu"""
         return [{'code': 'USD', 'rate': 4.0}, {'code': 'EUR', 'rate': 4.5}]
 
     monkeypatch.setattr(main_module, 'get_kryminalki_news', fake_news)
@@ -48,6 +91,19 @@ def test_index_renders_with_news_and_rates(monkeypatch, client):
 
 
 def test_index_renders_empty_news(monkeypatch, client):
+    """
+    Test integracyjny weryfikujący renderowanie strony głównej bez wiadomości.
+    
+    Funkcja:
+    - Mock'uje funkcje aby zwracały puste listy (brak wiadomości i kursów)
+    - Wykonuje żądanie GET do / (strona główna)
+    - Weryfikuje status 200
+    - Weryfikuje obecność komunikatu o braku wiadomości
+    
+    Args:
+        monkeypatch: Fixture pytest do mock'owania funkcji
+        client: Test client Flask z fixture-y
+    """
     monkeypatch.setattr(main_module, 'get_kryminalki_news', lambda limit=3: [])
     monkeypatch.setattr(main_module, 'get_homepage_rates', lambda: [])
 
@@ -58,6 +114,18 @@ def test_index_renders_empty_news(monkeypatch, client):
 
 
 def test_helper_redirects():
+    """
+    Test integracyjny weryfikujący dostępność endpointów i tras blueprintu main.
+    
+    Funkcja:
+    - Tworzy aplikację Flask i rejestruje blueprint main_bp
+    - Weryfikuje że endpoint 'main.index' istnieje (strona główna)
+    - Weryfikuje że endpoint 'main.news' istnieje (strona wiadomości)
+    - Weryfikuje że endpoint 'main.weather' istnieje (strona pogody)
+    - Używa test_request_context aby uzyskać dostęp do URL buildingu
+    
+    Testuje strukturę blueprint'u bez rzeczywistego wykonywania żądań HTTP.
+    """
     # Simple check of other endpoints
     # create flask app for URL building
     app = Flask(__name__)

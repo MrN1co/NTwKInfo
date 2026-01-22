@@ -14,10 +14,20 @@ from config import TestingConfig
 @pytest.fixture(scope="function")
 def app():
     """
-    Tworzy aplikację Flask w trybie TESTING
-    z testową bazą danych.
-    scope="function" oznacza, że fixture będzie tworzona
-    osobno dla każdego testu (zalecane przy bazie danych).
+    Fixture-a tworząca aplikację Flask w trybie TESTING z testową bazą danych.
+    
+    Funkcja:
+    - Inicjalizuje aplikację Flask z konfiguracją testową (TestingConfig)
+    - Czyści i tworzy nową bazę danych dla każdego testu (scope="function")
+    - Dodaje testowego użytkownika (testuser/testpass) do bazy
+    - Zwraca kontekst aplikacji dla testu
+    - Po teście czyści bazę danych
+    
+    Parametr scope="function" zapewnia izolację testów poprzez osobną bazę 
+    danych dla każdego testu.
+    
+    Yields:
+        Flask: Aplikacja Flask skonfigurowana dla testów
     """
     from app import create_app
     app = create_app(TestingConfig)
@@ -40,8 +50,16 @@ def app():
 @pytest.fixture()
 def client(app):
     """
-    Flask test client – do testów unit/integration.
-    test_client() tworzy testowego klienta, który działa bez uruchamiania serwera HTTP.
+    Fixture-a dostarczająca Flask test client do testów unit i integracyjnych.
+    
+    Funkcja:
+    - Tworzy testowego klienta Flask bez uruchamiania rzeczywistego serwera HTTP
+    - Umożliwia wykonywanie żądań HTTP (GET, POST, etc.) w testach
+    - Jest szybsza niż uruchamianie pełnego serwera (używana w testach unit/integration)
+    - Zależy od fixture-y app() dla kontekstu aplikacji
+    
+    Returns:
+        FlaskClient: Test client do wykonywania żądań HTTP
     """
     return app.test_client()
 
@@ -52,8 +70,18 @@ def client(app):
 @pytest.fixture(scope="function")
 def e2e_server(app):
     """
-    Uruchamia prawdziwy serwer HTTP dla testów E2E (Playwright).
-    Zwraca URL serwera, np. http://127.0.0.1:52341
+    Fixture-a uruchamiająca prawdziwy serwer HTTP dla testów E2E z Playwright.
+    
+    Funkcja:
+    - Uruchamia pełny serwer Flask w wątku w tle na losowo wybranym wolnym porcie
+    - Udostępnia URL serwera (np. http://127.0.0.1:52341) dla testów przeglądarki
+    - Gwarantuje, że serwer jest gotów do obsługi żądań przez wybrany czas
+    - Po teście czyści zasoby (wyłącza serwer, czeka na wątek)
+    
+    Parametr scope="function" zapewnia osobny serwer dla każdego testu E2E.
+    
+    Yields:
+        str: URL serwera w postaci http://host:port
     """
 
     # 0 = wybierz losowy wolny port
@@ -78,9 +106,17 @@ def e2e_server(app):
 # ========================= 
 @pytest.fixture(autouse=True)
 def clear_weather_cache():
-    '''
-    Czyści cache pogody przed i po każdym teście.
-    '''
+    """
+    Fixture-a automatycznie czyszcząca cache pogody przed i po każdym teście.
+    
+    Funkcja:
+    - Czyszcza globalny cache pogody (_OW_CACHE) PRZED wykonaniem testu
+    - Czyszcza globalny cache pogody PO wykonaniu testu
+    - Parametr autouse=True powoduje automatyczne uruchamianie dla każdego testu
+    - Zapobiega przeciekaniu danych między testami
+    
+    Jest to krityczne dla testów pogody, aby każdy test miał czysty stan cache.
+    """
     weather_app._OW_CACHE.clear()
     yield
     weather_app._OW_CACHE.clear()
@@ -90,9 +126,19 @@ def clear_weather_cache():
 # =========================
 @pytest.fixture(autouse=True)
 def clear_sent_emails():
-    '''
-    Czyści listę wysłanych e-maili przed każdym testem.
-    '''
+    """
+    Fixture-a automatycznie czyszcząca listę wysłanych e-maili przed każdym testem.
+    
+    Funkcja:
+    - Czyszcza listę sent_emails PRZED wykonaniem testu
+    - Czyszcza listę sent_emails PO wykonaniu testu
+    - Parametr autouse=True powoduje automatyczne uruchamianie dla każdego testu
+    - Zapobiega falszywym pozytywnym wyników gdy e-mail z poprzedniego testu 
+      wpłynie na wynik bieżącego testu
+    
+    Jest to krityczne dla testów powiadomień e-mail, aby każdy test miał 
+    czystą listę wysłanych wiadomości.
+    """
     weather_app.sent_emails.clear()
     yield
     weather_app.sent_emails.clear()

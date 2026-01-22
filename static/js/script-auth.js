@@ -1,21 +1,37 @@
-// LOGIKA LOGOWANIA I REJESTRACJI
-const loginBtn = document.querySelector(".header__cta-button");
-const userBtn = document.querySelector(".header__user-button");
-const overlay = document.getElementById("authOverlay");
-const modal = document.getElementById("authModal");
+/**
+ * OBSŁUGA MODALU LOGOWANIA I REJESTRACJI
+ * 
+ * Funkcjonalność:
+ * - Otwarcie/zamknięcie modalu logowania i rejestracji
+ * - Przełączanie pomiędzy formularzem logowania a rejestracją
+ * - Obsługa klikania w overlay (tło) do zamknięcia modalu
+ */
 
-const loginForm = document.getElementById("loginForm");
-const registerForm = document.getElementById("registerForm");
+// ========== POBRANIE ELEMENTÓW DOM ==========
+const loginBtn = document.querySelector(".header__cta-button");          // Przycisk "Zaloguj się"
+const userBtn = document.querySelector(".header__user-button");          // Przycisk profilu użytkownika
+const overlay = document.getElementById("authOverlay");                  // Overlay (tło zaciemniające)
+const modal = document.getElementById("authModal");                      // Główny modal
 
-const closeButtons = document.querySelectorAll(".auth-close");
+const loginForm = document.getElementById("loginForm");                  // Formularz logowania
+const registerForm = document.getElementById("registerForm");            // Formularz rejestracji
 
-const showRegister = document.getElementById("showRegister");
-const showLogin = document.getElementById("showLogin");
+const closeButtons = document.querySelectorAll(".auth-close");           // Wszystkie przyciski zamknięcia (×)
 
-// Helper function to open modal
+const showRegister = document.getElementById("showRegister");            // Link "Zarejestruj się"
+const showLogin = document.getElementById("showLogin");                  // Link "Zaloguj się"
+
+// ========== FUNKCJE POMOCNICZE ==========
+
+/**
+ * Otwiera modal logowania lub rejestracji
+ * @param {string} form - 'login' lub 'register' - określa który formularz pokazać
+ */
 function openModal(form = 'login') {
-  overlay.classList.remove("hidden");
-  modal.classList.remove("hidden");
+  overlay.classList.remove("hidden");    // Pokaż overlay
+  modal.classList.remove("hidden");      // Pokaż modal
+  
+  // Ukryj/pokaż odpowiedni formularz
   if (form === 'register') {
     loginForm.classList.add("hidden");
     registerForm.classList.remove("hidden");
@@ -25,34 +41,32 @@ function openModal(form = 'login') {
   }
 }
 
-// Helper function to close modal
+/**
+ * Zamyka modal logowania/rejestracji
+ */
 function closeModal() {
-  overlay.classList.add("hidden");
-  modal.classList.add("hidden");
+  overlay.classList.add("hidden");       // Ukryj overlay
+  modal.classList.add("hidden");         // Ukryj modal
 }
 
-// Disabled auto-opening modal on page load - only open when button clicked
-// function checkAuthParam() {
-//   const params = new URLSearchParams(window.location.search);
-//   const authParam = params.get('auth');
-//   if (authParam === 'login' || authParam === 'register') {
-//     openModal(authParam);
-//   }
-// }
+// ========== OBSŁUGA ZDARZEŃ ==========
 
-// No auto-opening on page load
-// document.addEventListener('DOMContentLoaded', checkAuthParam);
-
-// Handle login button (shows modal when not logged in)
+// Obsługa przycisku logowania (jeśli użytkownik nie jest zalogowany)
 if (loginBtn && overlay && modal) {
+  // Klik w przycisk "Zaloguj się" - otwarcie modalu
   loginBtn.addEventListener("click", () => {
     openModal('login');
   });
 
+  // Klik w przycisk zamknięcia (×) - zamknięcie modalu
   closeButtons.forEach(btn => btn.addEventListener("click", closeModal));
+  
+  // Klik w overlay (tło) - zamknięcie modalu
   overlay.addEventListener("click", closeModal); 
 
-  // Przejście do rejestracji
+  // ===== PRZEŁĄCZANIE MIĘDZY FORMULARZAMI =====
+  
+  // Link "Zarejestruj się" - przejście do formularza rejestracji
   if (showRegister) {
     showRegister.addEventListener("click", (e) => {
       e.preventDefault();
@@ -60,7 +74,7 @@ if (loginBtn && overlay && modal) {
     });
   }
 
-  // Przejście do logowania
+  // Link "Zaloguj się" - powrót do formularza logowania
   if (showLogin) {
     showLogin.addEventListener("click", (e) => {
       e.preventDefault();

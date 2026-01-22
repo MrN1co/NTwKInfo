@@ -1,207 +1,299 @@
-/* === LAYOUT WRAPPER === */
+/* ============================================================
+   ARKUSZ STYLÓW DLA DASHBOARDU UŻYTKOWNIKA
+   ============================================================ */
+
+/* --- KONTENER GŁÓWNY DASHBOARDU --- */
 .dashboard-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: clamp(16px, 4vw, 32px);
-  width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: clamp(16px, 4vw, 32px);
+    width: 100%;
 }
 
-/* === HEADER === */
+/* --- NAGŁÓWEK DASHBOARDU --- */
 .dashboard-header {
-  text-align: center;
-  margin-bottom: clamp(24px, 5vw, 48px);
+    text-align: center;
+    margin-bottom: clamp(24px, 5vw, 48px);
 }
 
 .dashboard-header h1 {
-  font-size: clamp(24px, 4vw, 40px);
-  color: var(--color-primary);
-  margin-bottom: 8px;
+    font-size: clamp(24px, 4vw, 40px);
+    color: var(--color-primary);
+    margin-bottom: 8px;
+    font-weight: 700;
 }
 
 .dashboard-subtitle {
-  color: var(--color-text-secondary);
-  font-size: clamp(14px, 2vw, 18px);
+    color: var(--color-text-secondary);
+    font-size: clamp(14px, 2vw, 18px);
+    margin: 0;
 }
 
-/* === GRID: super responsywny === */
+/* --- RESPONSYWNY GRID Z KARTAMI --- */
+/* Grid automatycznie przystosowuje się do rozmiaru ekranu */
 .dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: clamp(16px, 3vw, 32px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: clamp(16px, 3vw, 32px);
 }
 
-/* === CARD === */
+/* --- KARTY INFORMACYJNE --- */
 .dashboard-card {
-  background: white;
-  border: 1px solid var(--color-border);
-  border-radius: 20px;
-  padding: clamp(16px, 3vw, 28px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-  display: flex;
-  flex-direction: column;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    padding: clamp(16px, 3vw, 28px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.dashboard-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
 }
 
 .dashboard-card h2 {
-  color: var(--color-primary);
-  font-size: clamp(18px, 2.4vw, 22px);
-  margin-bottom: 16px;
-  font-weight: 600;
-  border-bottom: 2px solid var(--color-accent);
-  padding-bottom: 12px;
+    color: var(--color-primary);
+    font-size: clamp(18px, 2.4vw, 22px);
+    margin-bottom: 16px;
+    margin-top: 0;
+    font-weight: 600;
+    border-bottom: 2px solid var(--color-accent);
+    padding-bottom: 12px;
 }
 
-/* === ACCOUNT INFO === */
+/* --- INFORMACJE O KONCIE --- */
+.account-info {
+    display: flex;
+    flex-direction: column;
+}
+
 .info-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--color-accent);
-  gap: 8px;
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--color-accent);
+    gap: 8px;
 }
 
 .info-row:last-child {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 .label {
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    font-size: 15px;
 }
 
 .value {
-  color: var(--color-black);
-  font-weight: 600;
-  font-size: 15px;
+    color: var(--color-black);
+    font-weight: 600;
+    font-size: 15px;
+    text-align: right;
 }
 
 .status-active {
-  color: #28a745;
-  font-weight: 700;
+    color: #28a745;
+    font-weight: 700;
 }
 
-/* === BUTTONS === */
+/* --- PRZYCISKI AKCJI --- */
 .dashboard-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: auto;
 }
 
 .action-btn {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 20px;
-  border: none;
-  border-radius: 14px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
+/* Przycisk główny (kolor zielony) */
 .action-btn.primary {
-  background: var(--color-primary);
-  color: white;
+    background: var(--color-primary);
+    color: white;
 }
 
+.action-btn.primary:hover {
+    background: var(--color-secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(72, 92, 17, 0.3);
+}
+
+/* Przycisk drugorzędny (kolor beż) */
 .action-btn.secondary {
-  background: var(--color-accent);
-  color: var(--color-primary);
+    background: var(--color-accent);
+    color: var(--color-primary);
+    border: 1px solid var(--color-border);
 }
 
-.action-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+.action-btn.secondary:hover {
+    background: var(--color-secondary);
+    color: var(--color-white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(142, 156, 120, 0.3);
 }
 
-/* === QUICK LINKS === */
+.action-btn:active {
+    transform: translateY(0);
+}
+
+/* --- SZYBKIE LINKI --- */
 .quick-links {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .quick-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 18px;
-  border-radius: 12px;
-  text-decoration: none;
-  color: var(--color-black);
-  font-size: 15px;
-  transition: background 0.25s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--color-black);
+    font-size: 15px;
+    transition: background 0.2s;
+    font-weight: 500;
 }
 
 .quick-link:hover {
-  background: var(--color-accent);
+    background: var(--color-accent);
 }
 
+/* Specjalny styl dla przycisku wylogowania */
 .quick-link.logout {
-  color: #d3232f;
+    color: #d3232f;
 }
 
 .quick-link.logout:hover {
-  background: #ffe3e5;
+    background: #ffe3e5;
+    color: #d3232f;
 }
 
-/* === ICONS === */
+/* --- IKONY --- */
 .icon {
-  font-size: 20px;
+    font-size: 20px;
+    flex-shrink: 0;
 }
 
-/* === MODAL FULLY RESPONSIVE === */
+/* --- MODAL RESPONSYWNY --- */
 .auth-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 24px;
-  z-index: 999;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    z-index: 999;
 }
 
 .hidden {
-  display: none !important;
+    display: none !important;
 }
 
 .auth-modal {
-  background: white;
-  width: min(420px, 100%);
-  border-radius: 20px;
-  padding: 24px;
-  position: relative;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    background: var(--color-white);
+    width: min(420px, 100%);
+    border-radius: 20px;
+    padding: 24px;
+    position: relative;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .auth-box form {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
 }
 
 .auth-close {
-  position: absolute;
-  right: 16px;
-  top: 16px;
-  background: none;
-  border: none;
-  font-size: 28px;
-  cursor: pointer;
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    transition: color 0.2s;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* === MOBILE TWEAKS === */
-@media (max-width: 600px) {
-  .info-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.auth-close:hover {
+    color: var(--color-primary);
+}
 
-  .action-btn {
-    padding: 16px;
-    font-size: 17px;
-  }
+/* --- MOBILE OPTIMIZATIONS --- */
+@media (max-width: 600px) {
+    /* Pojedynczy wers dla małych ekranów */
+    .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .label {
+        font-size: 13px;
+    }
+
+    .value {
+        text-align: left;
+        font-size: 14px;
+    }
+
+    /* Większe przyciski akcji na mobile */
+    .action-btn {
+        padding: 16px;
+        font-size: 17px;
+        gap: 10px;
+    }
+
+    .dashboard-card {
+        border-radius: 16px;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: clamp(12px, 3vw, 20px);
+    }
+
+    .action-btn .icon {
+        font-size: 24px;
+    }
+}
+
+/* --- TABLET & DESKTOP OPTIMIZATIONS --- */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1025px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }

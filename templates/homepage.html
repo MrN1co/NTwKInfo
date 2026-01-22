@@ -3,23 +3,34 @@
 {% block title %}NTWKInfo - Bądź na czasie{% endblock %}
 
 {% block head %}
-  {# Additional head elements (fonts are included in base.html) #}
+  {# Dodatkowe elementy head (czcionki są zawarte w base.html) #}
 {% endblock %}
 
 {% block content %}
+  <!-- Główna zawartość strony domowej -->
   <main class="main-content container-padding">
+    <!-- Główny grid (2 kolumny: artykuł + pogoda/kursy) -->
     <section class="content-grid">
+      <!-- LEWA KOLUMNA: Karuzela artykułów/wiadomości -->
       <div class="left-column">
         <section class="main-article-carousel">
+          <!-- Kontener z przyciskami nawigacji karuzeli -->
           <div class="carousel-container">
             {% if news_list %}
+              <!-- Pętla po listcie wiadomości - wyświetlenie każdego artykułu jako slajdu karuzeli -->
               {% for item in news_list %}
               <article class="carousel-slide {% if loop.first %}active{% endif %}">
+                <!-- Nagłówek artykułu z datą publikacji -->
                 <div class="main-article__header"><span>{{ item.published or item.date or '' }}</span></div>
+                
+                <!-- Tytuł artykułu ze linkiem do źródła -->
                 <h1 class="main-article__title"><a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">{{ item.title }}</a></h1>
+                
+                <!-- Kontener na zdjęcie artykułu -->
                 <div class="main-article__image-container">
                 <div class="image-placeholder">
                   {% if item.image %}
+                    <!-- Jeśli zdjęcie istnieje, wyświetl je (z fallbackiem na brak zdjęcia) -->
                     {% if item.link %}
                       <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">
                         <img src="{{ item.image }}" 
@@ -36,10 +47,12 @@
                       <div class="image-placeholder" style="display:none;">Brak zdjęcia</div>
                     {% endif %}
                   {% else %}
+                    <!-- Fallback gdy brak zdjęcia -->
                     Brak zdjęcia
                   {% endif %}
                 </div>
                 
+                <!-- Streszczenie/opis artykułu -->
                 <div class="main-article__caption">
                   {{ item.summary or item.excerpt or '' }}
                 </div>
@@ -47,6 +60,7 @@
               </article>
               {% endfor %}
             {% else %}
+              <!-- Komunikat gdy brak wiadomości -->
               <article class="carousel-slide active">
                 <div class="main-article__header"><span>brak aktualnych wiadomości</span></div>
                 <h1 class="main-article__title">Brak wiadomości</h1>
@@ -56,12 +70,17 @@
                 </div>
               </article>
             {% endif %}
+            
+            <!-- Przyciski nawigacji karuzeli (poprzednia/następna) -->
             <button class="carousel-button prev">‹</button>
             <button class="carousel-button next">›</button>
           </div>
         </section>
       </div>
+
+      <!-- PRAWA KOLUMNA: Pogoda i kursy walut -->
       <div class="right-column">
+        <!-- SEKCJA POGODY -->
         <section class="weather-box">
           <div>
             <div class="weather-box__city">Kraków</div>
@@ -70,12 +89,16 @@
           </div>
           <div class="weather-box__icon">🌧️</div>
         </section>
+
+        <!-- SEKCJA KURSÓW WALUT -->
         <section class="exchange-rates">
           <h2 class="exchange-rates__title">Aktualne kursy walut:</h2>
           <div class="exchange-rates__table">
+            <!-- Nagłówek tabeli z kolumnami -->
             <div class="exchange-rates__header">
               <span class="cell">Waluta</span><span class="cell">Kupno</span><span class="cell">Sprzedaż</span>
             </div>
+            <!-- Listy kursów walut (4 główne waluty) -->
             <div class="rate-list">
               <div class="rate-item"><span class="cell">USD</span><span class="cell">4.10</span><span class="cell">4.25</span></div>
               <div class="rate-item"><span class="cell">EUR</span><span class="cell">4.45</span><span class="cell">4.60</span></div>
@@ -90,6 +113,8 @@
 {% endblock %}
 
 {% block scripts %}
+  <!-- Skrypt obsługujący karuzelę artykułów -->
   <script src="{{ url_for('static', filename='js/script-carousel.js') }}"></script>
+  <!-- Skrypt obsługujący logowanie i rejestrację -->
   <script src="{{ url_for('static', filename='js/script-auth.js') }}"></script>
 {% endblock %}

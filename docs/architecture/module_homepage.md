@@ -51,6 +51,65 @@ Najważniejsze pliki i katalogi:
 
 ---
 
+## 4a. Rejestr plików modułu (dokładne lokalizacje i komponenty)
+
+### 4a.1 Pliki HTML (szablony)
+
+| Plik | Lokalizacja | Linie | Kluczowe komponenty | Przeznaczenie |
+|---:|---|---|---|---|
+| **Homepage** | `templates/homepage.html` | 1-128 | `.carousel-slide` (L22, L64) · `.main-article-carousel` (L21) · `.weather-box` (L84-92) · `.exchange-rates` (L94-107) | Strona główna: karuzela artykułów, pogoda statyczna (Kraków), tabela kursów walut (USD/EUR/GBP/CHF) |
+| **Base Layout** | `templates/base.html` | 1-120 | `#authOverlay` (L16) · `#authModal` (L19) · `#loginForm` (L22-42) · `#registerForm` (L44-68) · `.header` (L73-92) · `.footer` (L110-120) | Master template: modal autoryzacji (login/rejestracja), nagłówek z nawigacją, stopka; `{% block content %}` dla stron potomnych |
+| **Dashboard** | `templates/auth/dashboard.html` | 1-100 | `.dashboard-grid` (L15) · `.dashboard-card` (L17, L39, L66) · `.action-btn.primary` (L43) · `.action-btn.secondary` (L48, L53, L58) · `.quick-link` (L74-79) | Pulpit użytkownika zalogowanego: 3 karty (Info konta, Akcje, Szybkie linki) |
+
+### 4a.2 Pliki CSS (arkusze stylów)
+
+| Plik | Lokalizacja | Linie | Kluczowe klasy | Przeznaczenie |
+|---:|---|---|---|---|
+| **Main Styles** | `static/css/style.css` | 1-1046 | `:root` (L6-51) · `.header` (L54-198) · `.carousel-container` (L198-280) · `.auth-modal` (L580-680) · `.content-grid` (L230-275) · Media queries (L330-500) | Główny arkusz: zmienne CSS (kolory), styl nagłówka/nawigacji, animacje karuzeli, modal autoryzacji, layout responsywny (mobile/tablet/desktop) |
+| **Dashboard Styles** | `static/css/dashboard.css` | 1-300 | `.dashboard-grid` (L34-39) · `.dashboard-card` (L41-60) · `.action-btn.primary` (L125-135) · `.action-btn.secondary` (L137-149) · Media queries (L260-300) | Styl pulpitu: grid responsywny (auto-fit minmax), karty z efektem hover (lift), przyciski (primary/secondary), breakpointy (600px, 1024px) |
+
+### 4a.3 Pliki JavaScript (skrypty interaktywne)
+
+| Plik | Lokalizacja | Linie | Kluczowe funkcje | Przeznaczenie |
+|---:|---|---|---|---|
+| **Carousel** | `static/js/script-carousel.js` | 1-70 | `showSlide(index)` (L20-26) · `restartTimer()` (L28-38) · `.carousel-button.next` listener (L47-55) · `.carousel-button.prev` listener (L57-65) | Automatyczna karuzela artykułów: zmiana slajdu co 7 sekund (setInterval L35), modulo wrapping L36, restart przy kliknięciu |
+| **Calendar** | `static/js/script-calendar.js` | 1-74 | `polishMonths[]` (L24-31) · `polishMonthsShort[]` (L33) · `fetch(https://pniedzwiedzinski.github.io/...)` (L50-70) | Pobieranie i wyświetlanie daty + faktów z API: formatting datę (DD Miesiąc YYYY), obsługa błędów, fallback "Brak świąt" |
+| **Auth Modal** | `static/js/script-auth.js` | 1-77 | `openModal(form)` (L30-44) · `closeModal()` (L47-51) · Event listeners (L53-77) | Obsługa modalu logowania: pokazanie/ukrycie formularzy (login/register), przełączanie między formularzami |
+
+### 4a.4 Pliki testów (testy automatyczne)
+
+| Plik | Lokalizacja | Linie | Klasa/Funkcje | Liczba testów | Testuje |
+|---:|---|---|---|---|---|
+| **Unit Tests** | `tests/unit/main/test_helpers.py` | 1-109 | `TestHelpers` (L8) · `test_select_featured_with_items` (L21) · `test_select_featured_empty` (L34) · `test_summarize_short` (L46) · `test_summarize_trim` (L59) · `test_format_published_iso` (L74) · `test_format_published_simple` (L86) · `test_format_published_invalid` (L98) | 7 | Funkcje pomocnicze: wybór artykułu wyróżnionego, streszczanie tekstu, formatowanie dat |
+| **Integration Tests** | `tests/integration/main/test_main_integration.py` | 1-140 | `test_index_renders_with_news_and_rates` (L56) · `test_index_renders_empty_news` (L93) · `test_helper_redirects` (L116) | 3 | Renderowanie strony głównej (GET /), fallback braku wiadomości, redirecty (/news, /ekonomia) |
+| **E2E Tests** | `tests/e2e/test_homepage_user_stories.py` | 1-274 | `TestHomepageUserStories` (L4) · `test_register_and_login` (L19) · `test_personalization_and_saved_tags` (L81) · `test_calendar_date_and_facts` (L148) · `test_responsiveness` (L186) · `test_anonymous_access` (L219) · `test_ui_consistency` (L243) | 6 | Scenariusze użytkownika (E2E Playwright): rejestracja, login, personalizacja, kalendarz, responsywność, spójność UI |
+
+### 4a.5 Pliki dokumentacji
+
+| Plik | Lokalizacja | Linie | Zawartość | Rola |
+|---:|---|---|---|---|
+| **Test Plan** | `docs/tests/TEST_PLAN_homepage.md` | 1-76 | Przegląd testów jednostkowych (U1-U3), integracyjnych (I1-I3), E2E (S1-S8) | Plan testowania modułu homepagem (mapowanie User Stories ↔ testy) |
+| **Module Architecture** | `docs/architecture/module_homepage.md` | 1-207 (ten plik) | Cel, zakres, granice, struktura, interfejs API, zewnętrzne API, model danych, przepływ danych, diagramy, testy, ograniczenia | Główny dokument architektury (kompleksowe wyjaśnienie jak moduł działa) |
+
+### 4a.6 Macierz pokrycia testów (Test Coverage Matrix)
+
+Poniższa tabela pokazuje, które testy pokrywają które komponenty implementation:
+
+| Komponent Implementation | Unit Tests | Integration Tests | E2E Tests |
+|---|---|---|---|
+| `templates/homepage.html` (carousel, weather, rates) | — | `test_index_renders_*` (I1, I2) | `test_anonymous_access` (S8) · `test_ui_consistency` (S8) |
+| `templates/base.html` (auth modal) | — | — | `test_register_and_login` (S3) · `test_personalization_*` (S2) |
+| `templates/auth/dashboard.html` | — | — | `test_personalization_and_saved_tags` (S2) |
+| `static/css/style.css` (layout, modal) | — | — | `test_ui_consistency` (S8) · `test_responsiveness` (S7) |
+| `static/css/dashboard.css` (grid, buttons) | — | — | `test_responsiveness` (S7) |
+| `static/js/script-carousel.js` | — | — | `test_ui_consistency` (S8) - carousel automatics |
+| `static/js/script-calendar.js` | — | — | `test_calendar_date_and_facts` (S5, S6) |
+| `static/js/script-auth.js` | — | — | `test_register_and_login` (S3) · `test_personalization_*` (S2) |
+| `modules/main/helpers.py` | `test_select_featured_*` (U1) · `test_summarize_*` (U2) · `test_format_published_*` (U3) | — | — |
+| `modules/main/__init__.py` (GET /) | — | `test_index_renders_*` (I1, I2) | `test_anonymous_access` (S8) · `test_ui_consistency` (S8) |
+
+---
+
 ## 5. Interfejs modułu
 
 | Metoda | Ścieżka | Typ | Rola w module | Powiązane US | Szczegóły |

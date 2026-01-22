@@ -3,25 +3,31 @@
 {% block title %}Dashboard - NTWKInfo{% endblock %}
 
 {% block content %}
+<!-- Główny kontener dashboardu -->
 <div class="dashboard-container">
+  <!-- Nagłówek dashboardu z powitaniem -->
   <header class="dashboard-header">
     <h1>Witaj, {{ user.username }}!</h1>
     <p class="dashboard-subtitle">Zarządzaj swoim kontem NTWKInfo</p>
   </header>
 
+  <!-- Responsywny grid z kartami informacyjnymi i akcjami -->
   <div class="dashboard-grid">
-    <!-- Account Information -->
+    <!-- KARTA 1: Informacje o koncie użytkownika -->
     <section class="dashboard-card">
       <h2>Informacje o koncie</h2>
       <div class="account-info">
+        <!-- Nazwa użytkownika -->
         <div class="info-row">
           <span class="label">Nazwa użytkownika:</span>
           <span class="value">{{ user.username }}</span>
         </div>
+        <!-- Email użytkownika -->
         <div class="info-row">
           <span class="label">Email:</span>
           <span class="value">{{ user.email }}</span>
         </div>
+        <!-- Status konta -->
         <div class="info-row">
           <span class="label">Status:</span>
           <span class="value status-active">Aktywne</span>
@@ -29,22 +35,26 @@
       </div>
     </section>
 
-    <!-- Account Actions -->
+    <!-- KARTA 2: Akcje zarządzania kontem -->
     <section class="dashboard-card">
       <h2>Zarządzanie kontem</h2>
       <div class="dashboard-actions">
+        <!-- Przycisk: Zmiana hasła -->
         <button class="action-btn primary" onclick="showChangePasswordModal()">
           <span class="icon">🔒</span>
           Zmień hasło
         </button>
+        <!-- Przycisk: Edycja profilu -->
         <button class="action-btn secondary" onclick="showEditProfileModal()">
           <span class="icon">✏️</span>
           Edytuj profil
         </button>
+        <!-- Przycisk: Preferencje -->
         <button class="action-btn secondary" onclick="showPreferencesModal()">
           <span class="icon">⚙️</span>
           Preferencje
         </button>
+        <!-- Przycisk: Testowanie alertów pogodowych (wysłanie testowego e-maila) -->
         <button class="action-btn secondary" id="testWeatherAlertsBtn" onclick="testWeatherAlerts()">
           <span class="icon">📧</span>
           Testuj alerty pogodowe
@@ -52,22 +62,26 @@
       </div>
     </section>
 
-    <!-- Quick Links -->
+    <!-- KARTA 3: Szybkie linki do głównych sekcji aplikacji -->
     <section class="dashboard-card">
       <h2>Szybkie linki</h2>
       <div class="quick-links">
+        <!-- Link do strony głównej -->
         <a href="{{ url_for('main.index') }}" class="quick-link">
           <span class="icon">🏠</span>
           Strona główna
         </a>
+        <!-- Link do sekcji wiadomości -->
         <a href="{{ url_for('main.news') }}" class="quick-link">
           <span class="icon">📰</span>
           Wiadomości
         </a>
+        <!-- Link do sekcji pogody -->
         <a href="{{ url_for('main.weather') }}" class="quick-link">
           <span class="icon">🌤️</span>
           Pogoda
         </a>
+        <!-- Link do wylogowania -->
         <a href="{{ url_for('auth.logout') }}" class="quick-link logout">
           <span class="icon">🚪</span>
           Wyloguj się
@@ -77,20 +91,24 @@
   </div>
 </div>
 
-<!-- Change Password Modal -->
+<!-- MODAL: Zmiana hasła -->
 <div id="changePasswordModal" class="auth-overlay hidden">
   <div class="auth-modal">
     <div class="auth-box">
       <form id="changePasswordForm">
+        <!-- Przycisk zamknięcia modala -->
         <button type="button" class="auth-close" onclick="closeChangePasswordModal()">×</button>
         <h2>Zmień hasło</h2>
 
+        <!-- Pole na obecne hasło -->
         <label>Obecne hasło</label>
         <input name="current_password" type="password" placeholder="Wpisz obecne hasło" required>
 
+        <!-- Pole na nowe hasło -->
         <label>Nowe hasło</label>
         <input name="new_password" type="password" placeholder="Wpisz nowe hasło" required>
 
+        <!-- Pole na potwierdzenie nowego hasła -->
         <label>Powtórz nowe hasło</label>
         <input name="confirm_password" type="password" placeholder="Powtórz nowe hasło" required>
 
@@ -100,8 +118,9 @@
   </div>
 </div>
 
-<!-- Załaduj oddzielne pliki -->
+<!-- Załaduj plik CSS dedykowany dla dashboardu -->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<!-- Załaduj skrypt obsługujący interakcje dashboardu -->
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 
 {% endblock %}

@@ -1,9 +1,82 @@
+<!--
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │ RAPORT TESTÓW - MODUŁ HOMEPAGE (RAPORT STANDARDOWY)                 │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │ Plik: homepage_report.html                                          │
+  │ Generator: pytest-html v4.1.1                                       │
+  │ Cel: Interaktywny raport HTML z podsumowaniem testów homepage        │
+  │                                                                      │
+  │ STRUKTURA RAPORTU:                                                  │
+  │ 1. METADANE: Python version, Platform, Pytest plugins               │
+  │ 2. PODSUMOWANIE: Liczba testów, wyniki (Failed/Passed/Skipped)       │
+  │ 3. TABELA WYNIKÓW: Lista testów z czasami, statusami                │
+  │ 4. SZCZEGÓŁY: Logi stdout/stderr, stacktrace'i dla błędów            │
+  │ 5. FILTRY & KONTROLKI: Filtrowanie, pokazywanie/ukrywanie szczegółów│
+  │                                                                      │
+  │ RÓŻNICA OD homepage_full_report.html:                               │
+  │ - homepage_full_report = ALL testy (unit+integration+e2e=16 total)  │
+  │ - homepage_report = Standardowy raport (zazwyczaj bez E2E media)     │
+  │ - Oba zawierają te same 16 testów ale różna prezentacja/filtracja   │
+  │                                                                      │
+  │ ZAWARTOŚĆ:                                                          │
+  │ • 7 testów jednostkowych + 3 integracyjne + 6 E2E = 16 testów       │
+  │ • Wszystkie statusy: PASSED (zielony), brak FAILED (czerwony)       │
+  │ • Logi wykonania z czasami dla każdego testu                        │
+  │ • Szczegóły dla E2E: np. "test_register_and_login[chromium]" 23sec  │
+  │                                                                      │
+  │ FUNKCJONALNOŚĆ:                                                     │
+  │ - Kliknięcie wiersza = rozwinięcie szczegółów + logi                │
+  │ - Checkbox filtry dla statusów (passed/failed/skipped/error)        │
+  │ - "Show all details" / "Hide all details" - globalna kontrolka       │
+  │ - Sortowanie po: Result, Test ID, Duration                          │
+  │ - Responsywny design (min-width: 800px)                             │
+  │                                                                      │
+  │ DANE EMBEDDING:                                                     │
+  │ - Wszystkie dane raportu w <div id="data-container">               │
+  │ - data-jsonblob: JSON ze wszystkimi testami, environment, wynikami  │
+  │ - Dane renderują dynamicznie za pomocą JavaScript (module.js)       │
+  │ - Możliwość przeładowania bez ponownego uruchamiania testów         │
+  │                                                                      │
+  │ UŻYCIE:                                                             │
+  │ 1. Generowanie: pytest --html=reports/homepage_report.html          │
+  │ 2. Przeglądanie: Otwórz w przeglądarce (Chrome, Firefox, Safari)    │
+  │ 3. Export: Wyślij zespołowi jako samodzielny plik HTML              │
+  │ 4. CI/CD: Załącz do artefaktów build'u (Jenkins, GitHub Actions)   │
+  └─────────────────────────────────────────────────────────────────────┘
+-->
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8"/>
     <title id="head-title">homepage_report.html</title>
-      <style type="text/css">body {
+    <!-- SEKCJA STYLÓW CSS: Kompletne formatowanie interaktywnego raportu -->
+    <!-- Obejmuje stylizację:
+         - Tabele wyników z kolorami statusów (green=pass, orange=skip, red=fail)
+         - Modale i sekcje rozwijane (collapsible)
+         - Filtry checkboxów
+         - Media viewer dla screenów/video z nawigacją
+         - Logi z scroll i expandable container
+         - Responsive breakpoints
+    -->
+      <style type="text/css">/* 
+        ═══════════════════════════════════════════════════════════════════
+        STYLE CSS - Raport pytest-html homepage_report
+        ═══════════════════════════════════════════════════════════════════
+        Pełna stylizacja interaktywnego raportu testów - zawiera:
+        
+        SEKCJE:
+        1. Reset & Global - body, headings, links (font, kolory)
+        2. Environment table - metadata (Python, Platform, Plugins)
+        3. Test result colors - zielony (passed), pomarańcz (skipped/xfailed), 
+           czerwony (failed/error/xpassed)
+        4. Results table - grid wyników z sort/filter (th, td padding, borders)
+        5. Log wrapper - scrollable container dla stdout/stderr (max-height: 230px)
+        6. Media container - gallery dla zdjęć/video (grid 3 kolumny)
+        7. Collapsible rows - klikalne wiersze do rozwinięcia szczegółów
+        8. Buttons - filtry i collapse (style, hover effects)
+        9. Responsive design - layout dla narrow/wide ekranów
+      */
+      body {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 12px;
   /* do not increase min-width as some may use split screens */
@@ -327,42 +400,59 @@ div.media {
     
   </head>
   <body>
+    <!-- TYTUŁ I METADATA RAPORTU -->
     <h1 id="title">homepage_report.html</h1>
+    <!-- Data wygenerowania raportu i informacja o narzędziu (pytest-html v4.1.1) -->
     <p>Report generated on 12-Jan-2026 at 18:09:17 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a>
         v4.1.1</p>
+    
+    <!-- SEKCJA ŚRODOWISKA (ENVIRONMENT): Metadane systemu, Python, pluginy -->
     <div id="environment-header">
       <h2>Environment</h2>
     </div>
+    <!-- Tabela z informacjami o środowisku: Python 3.11.9, Platform Windows-10, Pytest 9.0.1, pluginy -->
     <table id="environment"></table>
-    <!-- TEMPLATES -->
+    <!-- TEMPLATES DLA DYNAMICZNEGO RENDEROWANIA -->
+    <!-- Template dla wierszy environment (klucz-wartość pary) -->
       <template id="template_environment_row">
       <tr>
         <td></td>
         <td></td>
       </tr>
     </template>
+    
+    <!-- Template dla pustego stanu tabeli wyników (brak pasujących testów po filtrowaniu) -->
     <template id="template_results-table__body--empty">
       <tbody class="results-table-row">
         <tr id="not-found-message">
           <td colspan="4">No results found. Check the filters.</th>
         </tr>
     </template>
+    
+    <!-- Template dla każdego wiersza wyników testu + szczegóły rozwijane -->
     <template id="template_results-table__tbody">
       <tbody class="results-table-row">
+        <!-- Główny wiersz testu (klikable - pokazuje/ukrywa szczegóły) -->
         <tr class="collapsible">
         </tr>
+        <!-- Wierz rozwijany ze szczegółami: logi, media (screenshoty), HTML -->
         <tr class="extras-row">
           <td class="extra" colspan="4">
+            <!-- Dodatkowy HTML z stdout/stderr z testu -->
             <div class="extraHTML"></div>
+            <!-- Media gallery (screenshoty, video z przycikami nawigacji) -->
             <div class="media">
               <div class="media-container">
+                  <!-- Przycisk nawigacji lewy (poprzednie media) -->
                   <div class="media-container__nav--left"><</div>
+                  <!-- Viewport do wyświetlenia aktualnego media (img/video) -->
                   <div class="media-container__viewport">
                     <img src="" />
                     <video controls>
                       <source src="" type="video/mp4">
                     </video>
                   </div>
+                  <!-- Przycisk nawigacji prawy (następne media) -->
                   <div class="media-container__nav--right">></div>
                 </div>
                 <div class="media__name"></div>

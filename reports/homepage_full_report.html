@@ -1,9 +1,55 @@
+<!--
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │ RAPORT TESTÓW - MODUŁ HOMEPAGE (PEŁNY RAPORT)                       │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │ Plik: homepage_full_report.html                                     │
+  │ Generator: pytest-html v4.1.1                                       │
+  │ Cel: Interaktywny raport HTML ze WSZYSTKIMI TESTAMI (unit, int, e2e)│
+  │                                                                      │
+  │ STRUKTURA RAPORTU:                                                  │
+  │ 1. METADANE: Python version, Platform, Pytest plugins               │
+  │ 2. PODSUMOWANIE: Liczba testów, wyniki (0 Failed, 16 Passed)        │
+  │ 3. TABELA WYNIKÓW: Lista wszystkich 16 testów z czasami wykonania   │
+  │ 4. SZCZEGÓŁY: Logi, stacktrace'i, media (screenshoty, video)        │
+  │ 5. FILTRY: Możliwość filtrowania wyników po statusie (passed/failed) │
+  │                                                                      │
+  │ CO ZAWIERA:                                                         │
+  │ • 7 testów jednostkowych (Unit) - helpers.py functions              │
+  │ • 3 testy integracyjne (Integration) - renderowanie strony GET /     │
+  │ • 6 testów E2E (End-to-End) - Playwright, scenariusze użytkownika    │
+  │ • RAZEM: 16 testów (wszystkie PASSED - zielone)                     │
+  │ • Czas wykonania: 69 sekund (1 min 9 sec)                           │
+  │                                                                      │
+  │ FUNKCJONALNOŚĆ INTERAKTYWNA:                                        │
+  │ - Kliknięcie na wiersz testu pokazuje logi i szczegóły              │
+  │ - Filtry pozwalają ukryć/pokazać testy po statusie                  │
+  │ - Sortowanie kolumn (Result, Test, Duration)                        │
+  │ - Pełnowymiarowy przegląd (data-jsonblob w footer zawiera JSON)      │
+  │                                                                      │
+  │ UŻYCIE: Otwórz w przeglądarce lub udostępnij zespołowi do review    │
+  └─────────────────────────────────────────────────────────────────────┘
+-->
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8"/>
     <title id="head-title">homepage_full_report.html</title>
-      <style type="text/css">body {
+    <!-- SEKCJA STYLÓW CSS: Formatowanie interaktywnego raportu HTML -->
+    <!-- Obejmuje: kolory statusów (zielony=passed, pomarańcz=skipped, czerwony=failed),
+         tabele, przyciski, media (zdjęcia/video), logi z scrollowaniem, responsive layout -->
+      <style type="text/css">/* 
+        ═══════════════════════════════════════════════════════════════════
+        STYLE.CSS dla raportu pytest-html
+        ═══════════════════════════════════════════════════════════════════
+        Zawiera wszystkie style dla:
+        - Body & typografia (font Helvetica, rozmiar 12px)
+        - Tabele wyników (#environment, #results-table)
+        - Kolory statusów testów (zielony=passed, pomarańcz=skipped, czerwony=error/failed)
+        - Komponenty interaktywne (filtry, ekspandery dla logów)
+        - Media (obrazki, video z nawigacją)
+        - Responsywne layouty
+      */
+      body {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 12px;
   /* do not increase min-width as some may use split screens */
@@ -377,13 +423,21 @@ div.media {
       </tbody>
     </template>
     <!-- END TEMPLATES -->
+    <!-- PODSUMOWANIE TABELI WYNIKÓW (SUMMARY SECTION) -->
+    <!-- Lewy blok: dane podsumowania + filtry statusów testów -->
     <div class="summary">
+      <!-- Lewy blok: dane podsumowania (liczba testów, czasy) -->
       <div class="summary__data">
+        <!-- Nagłówek "Summary" -->
         <h2>Summary</h2>
+        <!-- Miejsce na dodatkowe podsumowanie (wbudowany hook do plugin'ów) -->
         <div class="additional-summary prefix">
         </div>
+        <!-- LICZBA TESTÓW I CZAS WYKONANIA: 16 testów, 69 sekund -->
         <p class="run-count">16 tests took 00:01:09.</p>
+        <!-- INSTRUKCJA DLA UŻYTKOWNIKA: Możliwość filtrowania checkboxami -->
         <p class="filter">(Un)check the boxes to filter the results.</p>
+        <!-- Przycisk RELOAD - pojawia się jeśli testy są nadal uruchomiane -->
         <div class="summary__reload">
           <div class="summary__reload__button hidden" onclick="location.reload()">
             <div>There are still tests running. <br />Reload this page to get the latest results!</div>
